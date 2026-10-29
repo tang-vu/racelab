@@ -1,0 +1,87 @@
+{
+  "format": "racelab-demo-v1",
+  "title": "RaceLab — It breaks together",
+  "owner": "Tang Vu",
+  "durationSeconds": 180,
+  "disclosures": [
+    "Actual application screenshots paced as stills, not a continuous screen recording",
+    "Recorded Meta outputs recomputed locally; API waiting time omitted",
+    "Three authored simulated-store cases; no production or held-out benchmark claim",
+    "Generic synthetic English narration",
+    "New RaceLab code reuses earlier event Meta transport, budget and local infrastructure"
+  ],
+  "scenes": [
+    {
+      "id": "01-overview",
+      "seconds": 24,
+      "source": "01-overview.png",
+      "kind": "ui",
+      "heading": "It passes alone. It breaks together.",
+      "caption": "New RaceLab work by Tang Vu; reuses earlier event Meta infrastructure. Actual UI stills; recorded Meta replay.",
+      "narration": "RaceLab is new hackathon work by Tang Vu. It reuses the Meta integration and local infrastructure from the earlier event prototype, LiveWorld. A handler passes its sequential test. Two requests overlap, and it breaks. RaceLab makes that order executable, visible, and repeatable."
+    },
+    {
+      "id": "02-overlap",
+      "seconds": 24,
+      "source": "02-both-read.png",
+      "kind": "ui",
+      "heading": "Two buyers. One remaining seat.",
+      "caption": "Actual replay at step 2: both requests have read stock = 1.",
+      "narration": "Here is the reservation handler. It reads stock, checks availability, writes the new value, and records an order. Every operation runs in QuickJS against an asynchronous simulated store. The scheduler pauses at store operations. At this step, both buyers have read the same last seat."
+    },
+    {
+      "id": "03-failure",
+      "seconds": 24,
+      "source": "03-oversold.png",
+      "kind": "ui",
+      "heading": "The same code. A failing order.",
+      "caption": "Exact schedule re-executed from initial state: two orders against one seat; independent checks fail.",
+      "narration": "Advance the recorded order. Buyer A commits an order. Buyer B writes from its earlier read and commits another. There are now two orders against one seat. The independent checks reject the execution. Re-execute starts from the initial store and reproduces the same failure, without asking the model."
+    },
+    {
+      "id": "04-patch",
+      "seconds": 26,
+      "source": "04-candidate.png",
+      "kind": "ui",
+      "heading": "Meta writes a candidate. Code gives the verdict.",
+      "caption": "Recorded Muse Spark proposal, executed again locally. No supplied answer patch; no new model calls during replay.",
+      "narration": "Muse Spark receives the original source, contract, and serial trace. It proposes the overlapping schedule, reads the execution feedback, and writes this replacement handler. In this retained run, it uses an exclusive lock around the check, update, and receipt. The acceptance contract stays outside the submitted module. A confident explanation cannot turn a failed check green."
+    },
+    {
+      "id": "05-evidence",
+      "seconds": 22,
+      "source": "05-evidence.png",
+      "kind": "ui",
+      "heading": "A green result has a boundary.",
+      "caption": "Inventory candidate: 11 distinct schedules across 4 input cases. These finite store-operation choices completed.",
+      "narration": "The candidate passes eleven distinct schedules across four input cases, including additional capacity and request counts. The display distinguishes a completed finite sweep from a search that reached its cap. Export carries the source and schedules. Opening a report recomputes the checks and treats imported model attribution as unverified."
+    },
+    {
+      "id": "06-webhook",
+      "seconds": 20,
+      "source": "06-webhook.png",
+      "kind": "ui",
+      "heading": "Three authored cases. Every attempt retained.",
+      "caption": "One declared investigation per case: inventory 11/4, webhook 29/4, counter 11/4. Not a held-out benchmark.",
+      "narration": "The same loop repairs duplicate webhook notifications and a shared counter in the other two authored cases. The three retained investigations used six Meta requests in total. Simple round-robin scheduling also exposes these bugs. The demonstrated Meta contribution is the executed hypothesis and generated repair, with independent feedback."
+    },
+    {
+      "id": "07-counter",
+      "seconds": 20,
+      "source": "07-counter.png",
+      "kind": "ui",
+      "heading": "Editable source. Live tools. Portable evidence.",
+      "caption": "Counter recording recomputed locally. A separate edited-source live browser check also completed; results retained.",
+      "narration": "Changing the source clears stale results. A separate live browser investigation on an edited handler completed the probe, patch, and check loop. Recorded replay works without an API key. Timeline steps expose committed state. Both original and candidate source remain inspectable."
+    },
+    {
+      "id": "08-scope",
+      "seconds": 20,
+      "source": "08-scope.png",
+      "kind": "ui",
+      "heading": "Control the overlap. Keep the evidence.",
+      "caption": "Simulated asynchronous store only. No real DB, network or OS scheduling; no production correctness claim.",
+      "narration": "This prototype covers JavaScript handlers using a simulated store. Real databases, networks, operating-system threads, and arbitrary repositories are outside its scope. New workloads need explicit semantics and independent contracts. RaceLab makes an agent repair an experiment you can replay and challenge."
+    }
+  ]
+}

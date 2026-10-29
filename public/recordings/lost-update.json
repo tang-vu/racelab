@@ -1,0 +1,6534 @@
+{
+  "version": 1,
+  "engine": "racelab-quickjs-v1",
+  "runId": "faaf2db6-7ad2-4db5-af22-3204671ccbbf",
+  "createdAt": "2026-10-29T13:36:34.994Z",
+  "caseId": "lost-update",
+  "startingSource": "export async function handle(db, request) {\n  const before = await db.get(\"count\");\n  await db.set(\"count\", before + request.delta);\n  await db.append(\"applied\", {\n    requestId: request.id,\n    delta: request.delta\n  });\n  return { applied: true };\n}",
+  "startingSourceHash": "bc1c563e1849341e4bb5babd398e7294cbf4384ffd766d8574c365673db798c5",
+  "contract": "The final count must equal initial count plus every requested delta, with exactly one matching receipt per request.",
+  "scenario": {
+    "initial": {
+      "count": 10,
+      "applied": [],
+      "auditVersion": 4
+    },
+    "requests": [
+      {
+        "id": "job-ada",
+        "delta": 3
+      },
+      {
+        "id": "job-ben",
+        "delta": 5
+      }
+    ]
+  },
+  "model": "muse-spark-1.3",
+  "baseline": {
+    "engine": "racelab-quickjs-v1",
+    "sourceHash": "bc1c563e1849341e4bb5babd398e7294cbf4384ffd766d8574c365673db798c5",
+    "status": "completed",
+    "error": null,
+    "state": {
+      "count": 18,
+      "applied": [
+        {
+          "requestId": "job-ada",
+          "delta": 3
+        },
+        {
+          "requestId": "job-ben",
+          "delta": 5
+        }
+      ],
+      "auditVersion": 4
+    },
+    "results": [
+      {
+        "applied": true
+      },
+      {
+        "applied": true
+      }
+    ],
+    "trace": [
+      {
+        "step": 1,
+        "actor": 0,
+        "method": "get",
+        "key": "count",
+        "args": ["count"],
+        "result": 10,
+        "before": {
+          "count": 10,
+          "applied": [],
+          "auditVersion": 4
+        },
+        "after": {
+          "count": 10,
+          "applied": [],
+          "auditVersion": 4
+        }
+      },
+      {
+        "step": 2,
+        "actor": 0,
+        "method": "set",
+        "key": "count",
+        "args": ["count", 13],
+        "result": true,
+        "before": {
+          "count": 10,
+          "applied": [],
+          "auditVersion": 4
+        },
+        "after": {
+          "count": 13,
+          "applied": [],
+          "auditVersion": 4
+        }
+      },
+      {
+        "step": 3,
+        "actor": 0,
+        "method": "append",
+        "key": "applied",
+        "args": [
+          "applied",
+          {
+            "requestId": "job-ada",
+            "delta": 3
+          }
+        ],
+        "result": 1,
+        "before": {
+          "count": 13,
+          "applied": [],
+          "auditVersion": 4
+        },
+        "after": {
+          "count": 13,
+          "applied": [
+            {
+              "requestId": "job-ada",
+              "delta": 3
+            }
+          ],
+          "auditVersion": 4
+        }
+      },
+      {
+        "step": 4,
+        "actor": 1,
+        "method": "get",
+        "key": "count",
+        "args": ["count"],
+        "result": 13,
+        "before": {
+          "count": 13,
+          "applied": [
+            {
+              "requestId": "job-ada",
+              "delta": 3
+            }
+          ],
+          "auditVersion": 4
+        },
+        "after": {
+          "count": 13,
+          "applied": [
+            {
+              "requestId": "job-ada",
+              "delta": 3
+            }
+          ],
+          "auditVersion": 4
+        }
+      },
+      {
+        "step": 5,
+        "actor": 1,
+        "method": "set",
+        "key": "count",
+        "args": ["count", 18],
+        "result": true,
+        "before": {
+          "count": 13,
+          "applied": [
+            {
+              "requestId": "job-ada",
+              "delta": 3
+            }
+          ],
+          "auditVersion": 4
+        },
+        "after": {
+          "count": 18,
+          "applied": [
+            {
+              "requestId": "job-ada",
+              "delta": 3
+            }
+          ],
+          "auditVersion": 4
+        }
+      },
+      {
+        "step": 6,
+        "actor": 1,
+        "method": "append",
+        "key": "applied",
+        "args": [
+          "applied",
+          {
+            "requestId": "job-ben",
+            "delta": 5
+          }
+        ],
+        "result": 2,
+        "before": {
+          "count": 18,
+          "applied": [
+            {
+              "requestId": "job-ada",
+              "delta": 3
+            }
+          ],
+          "auditVersion": 4
+        },
+        "after": {
+          "count": 18,
+          "applied": [
+            {
+              "requestId": "job-ada",
+              "delta": 3
+            },
+            {
+              "requestId": "job-ben",
+              "delta": 5
+            }
+          ],
+          "auditVersion": 4
+        }
+      }
+    ],
+    "decisions": [
+      {
+        "actor": 0,
+        "eligible": [0, 1]
+      },
+      {
+        "actor": 0,
+        "eligible": [0, 1]
+      },
+      {
+        "actor": 0,
+        "eligible": [0, 1]
+      },
+      {
+        "actor": 1,
+        "eligible": [1]
+      },
+      {
+        "actor": 1,
+        "eligible": [1]
+      },
+      {
+        "actor": 1,
+        "eligible": [1]
+      }
+    ],
+    "schedule": [0, 0, 0, 1, 1, 1],
+    "verdict": {
+      "passed": true,
+      "checks": [
+        {
+          "name": "All requests finish",
+          "passed": true,
+          "actual": "completed",
+          "expected": "completed"
+        },
+        {
+          "name": "No update is lost",
+          "passed": true,
+          "actual": 18,
+          "expected": 18
+        },
+        {
+          "name": "Every request has one matching receipt",
+          "passed": true,
+          "actual": 2,
+          "expected": 2
+        },
+        {
+          "name": "Responses confirm completion",
+          "passed": true,
+          "actual": [
+            {
+              "applied": true
+            },
+            {
+              "applied": true
+            }
+          ],
+          "expected": "all applied"
+        },
+        {
+          "name": "Unrelated state is preserved",
+          "passed": true,
+          "actual": ["auditVersion"],
+          "expected": "unchanged; no unrelated keys"
+        }
+      ],
+      "violations": []
+    }
+  },
+  "probes": [
+    {
+      "hypothesis": "Both jobs read count=10 before either writes; second set overwrites first (10+5=15 not 18).",
+      "run": {
+        "engine": "racelab-quickjs-v1",
+        "sourceHash": "bc1c563e1849341e4bb5babd398e7294cbf4384ffd766d8574c365673db798c5",
+        "status": "completed",
+        "error": null,
+        "state": {
+          "count": 15,
+          "applied": [
+            {
+              "requestId": "job-ada",
+              "delta": 3
+            },
+            {
+              "requestId": "job-ben",
+              "delta": 5
+            }
+          ],
+          "auditVersion": 4
+        },
+        "results": [
+          {
+            "applied": true
+          },
+          {
+            "applied": true
+          }
+        ],
+        "trace": [
+          {
+            "step": 1,
+            "actor": 0,
+            "method": "get",
+            "key": "count",
+            "args": ["count"],
+            "result": 10,
+            "before": {
+              "count": 10,
+              "applied": [],
+              "auditVersion": 4
+            },
+            "after": {
+              "count": 10,
+              "applied": [],
+              "auditVersion": 4
+            }
+          },
+          {
+            "step": 2,
+            "actor": 1,
+            "method": "get",
+            "key": "count",
+            "args": ["count"],
+            "result": 10,
+            "before": {
+              "count": 10,
+              "applied": [],
+              "auditVersion": 4
+            },
+            "after": {
+              "count": 10,
+              "applied": [],
+              "auditVersion": 4
+            }
+          },
+          {
+            "step": 3,
+            "actor": 0,
+            "method": "set",
+            "key": "count",
+            "args": ["count", 13],
+            "result": true,
+            "before": {
+              "count": 10,
+              "applied": [],
+              "auditVersion": 4
+            },
+            "after": {
+              "count": 13,
+              "applied": [],
+              "auditVersion": 4
+            }
+          },
+          {
+            "step": 4,
+            "actor": 0,
+            "method": "append",
+            "key": "applied",
+            "args": [
+              "applied",
+              {
+                "requestId": "job-ada",
+                "delta": 3
+              }
+            ],
+            "result": 1,
+            "before": {
+              "count": 13,
+              "applied": [],
+              "auditVersion": 4
+            },
+            "after": {
+              "count": 13,
+              "applied": [
+                {
+                  "requestId": "job-ada",
+                  "delta": 3
+                }
+              ],
+              "auditVersion": 4
+            }
+          },
+          {
+            "step": 5,
+            "actor": 1,
+            "method": "set",
+            "key": "count",
+            "args": ["count", 15],
+            "result": true,
+            "before": {
+              "count": 13,
+              "applied": [
+                {
+                  "requestId": "job-ada",
+                  "delta": 3
+                }
+              ],
+              "auditVersion": 4
+            },
+            "after": {
+              "count": 15,
+              "applied": [
+                {
+                  "requestId": "job-ada",
+                  "delta": 3
+                }
+              ],
+              "auditVersion": 4
+            }
+          },
+          {
+            "step": 6,
+            "actor": 1,
+            "method": "append",
+            "key": "applied",
+            "args": [
+              "applied",
+              {
+                "requestId": "job-ben",
+                "delta": 5
+              }
+            ],
+            "result": 2,
+            "before": {
+              "count": 15,
+              "applied": [
+                {
+                  "requestId": "job-ada",
+                  "delta": 3
+                }
+              ],
+              "auditVersion": 4
+            },
+            "after": {
+              "count": 15,
+              "applied": [
+                {
+                  "requestId": "job-ada",
+                  "delta": 3
+                },
+                {
+                  "requestId": "job-ben",
+                  "delta": 5
+                }
+              ],
+              "auditVersion": 4
+            }
+          }
+        ],
+        "decisions": [
+          {
+            "actor": 0,
+            "eligible": [0, 1]
+          },
+          {
+            "actor": 1,
+            "eligible": [0, 1]
+          },
+          {
+            "actor": 0,
+            "eligible": [0, 1]
+          },
+          {
+            "actor": 0,
+            "eligible": [0, 1]
+          },
+          {
+            "actor": 1,
+            "eligible": [1]
+          },
+          {
+            "actor": 1,
+            "eligible": [1]
+          }
+        ],
+        "schedule": [0, 1, 0, 0, 1, 1],
+        "verdict": {
+          "passed": false,
+          "checks": [
+            {
+              "name": "All requests finish",
+              "passed": true,
+              "actual": "completed",
+              "expected": "completed"
+            },
+            {
+              "name": "No update is lost",
+              "passed": false,
+              "actual": 15,
+              "expected": 18
+            },
+            {
+              "name": "Every request has one matching receipt",
+              "passed": true,
+              "actual": 2,
+              "expected": 2
+            },
+            {
+              "name": "Responses confirm completion",
+              "passed": true,
+              "actual": [
+                {
+                  "applied": true
+                },
+                {
+                  "applied": true
+                }
+              ],
+              "expected": "all applied"
+            },
+            {
+              "name": "Unrelated state is preserved",
+              "passed": true,
+              "actual": ["auditVersion"],
+              "expected": "unchanged; no unrelated keys"
+            }
+          ],
+          "violations": ["No update is lost"]
+        }
+      }
+    }
+  ],
+  "patches": [
+    {
+      "source": "export async function handle(db, request) {\n  await db.lock(\"count-lock\");\n  try {\n    const before = await db.get(\"count\");\n    await db.set(\"count\", before + request.delta);\n    await db.append(\"applied\", { requestId: request.id, delta: request.delta });\n    return { applied: true };\n  } finally {\n    await db.unlock(\"count-lock\");\n  }\n}",
+      "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+      "explanation": "Observed read-read-write-write lost update (10->13 overwritten to 15). Fix serializes read-modify-write+receipt with a mutex, preserving response and unrelated keys.",
+      "verification": {
+        "passed": true,
+        "exhaustive": true,
+        "tested": 11,
+        "failures": 0,
+        "cases": [
+          {
+            "index": 0,
+            "scenario": {
+              "initial": {
+                "count": 10,
+                "applied": [],
+                "auditVersion": 4
+              },
+              "requests": [
+                {
+                  "id": "job-ada",
+                  "delta": 3
+                },
+                {
+                  "id": "job-ben",
+                  "delta": 5
+                }
+              ]
+            },
+            "engine": "racelab-quickjs-v1",
+            "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+            "strategy": "dfs",
+            "tested": 2,
+            "attempts": 3,
+            "exhaustive": true,
+            "passed": 2,
+            "failed": 0,
+            "firstFailure": null,
+            "firstPass": {
+              "engine": "racelab-quickjs-v1",
+              "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+              "status": "completed",
+              "error": null,
+              "state": {
+                "count": 18,
+                "applied": [
+                  {
+                    "requestId": "job-ada",
+                    "delta": 3
+                  },
+                  {
+                    "requestId": "job-ben",
+                    "delta": 5
+                  }
+                ],
+                "auditVersion": 4
+              },
+              "results": [
+                {
+                  "applied": true
+                },
+                {
+                  "applied": true
+                }
+              ],
+              "trace": [
+                {
+                  "step": 1,
+                  "actor": 0,
+                  "method": "lock",
+                  "key": "count-lock",
+                  "args": ["count-lock"],
+                  "result": true,
+                  "before": {
+                    "count": 10,
+                    "applied": [],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 10,
+                    "applied": [],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 2,
+                  "actor": 0,
+                  "method": "get",
+                  "key": "count",
+                  "args": ["count"],
+                  "result": 10,
+                  "before": {
+                    "count": 10,
+                    "applied": [],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 10,
+                    "applied": [],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 3,
+                  "actor": 0,
+                  "method": "set",
+                  "key": "count",
+                  "args": ["count", 13],
+                  "result": true,
+                  "before": {
+                    "count": 10,
+                    "applied": [],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 13,
+                    "applied": [],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 4,
+                  "actor": 0,
+                  "method": "append",
+                  "key": "applied",
+                  "args": [
+                    "applied",
+                    {
+                      "requestId": "job-ada",
+                      "delta": 3
+                    }
+                  ],
+                  "result": 1,
+                  "before": {
+                    "count": 13,
+                    "applied": [],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 13,
+                    "applied": [
+                      {
+                        "requestId": "job-ada",
+                        "delta": 3
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 5,
+                  "actor": 0,
+                  "method": "unlock",
+                  "key": "count-lock",
+                  "args": ["count-lock"],
+                  "result": true,
+                  "before": {
+                    "count": 13,
+                    "applied": [
+                      {
+                        "requestId": "job-ada",
+                        "delta": 3
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 13,
+                    "applied": [
+                      {
+                        "requestId": "job-ada",
+                        "delta": 3
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 6,
+                  "actor": 1,
+                  "method": "lock",
+                  "key": "count-lock",
+                  "args": ["count-lock"],
+                  "result": true,
+                  "before": {
+                    "count": 13,
+                    "applied": [
+                      {
+                        "requestId": "job-ada",
+                        "delta": 3
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 13,
+                    "applied": [
+                      {
+                        "requestId": "job-ada",
+                        "delta": 3
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 7,
+                  "actor": 1,
+                  "method": "get",
+                  "key": "count",
+                  "args": ["count"],
+                  "result": 13,
+                  "before": {
+                    "count": 13,
+                    "applied": [
+                      {
+                        "requestId": "job-ada",
+                        "delta": 3
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 13,
+                    "applied": [
+                      {
+                        "requestId": "job-ada",
+                        "delta": 3
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 8,
+                  "actor": 1,
+                  "method": "set",
+                  "key": "count",
+                  "args": ["count", 18],
+                  "result": true,
+                  "before": {
+                    "count": 13,
+                    "applied": [
+                      {
+                        "requestId": "job-ada",
+                        "delta": 3
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 18,
+                    "applied": [
+                      {
+                        "requestId": "job-ada",
+                        "delta": 3
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 9,
+                  "actor": 1,
+                  "method": "append",
+                  "key": "applied",
+                  "args": [
+                    "applied",
+                    {
+                      "requestId": "job-ben",
+                      "delta": 5
+                    }
+                  ],
+                  "result": 2,
+                  "before": {
+                    "count": 18,
+                    "applied": [
+                      {
+                        "requestId": "job-ada",
+                        "delta": 3
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 18,
+                    "applied": [
+                      {
+                        "requestId": "job-ada",
+                        "delta": 3
+                      },
+                      {
+                        "requestId": "job-ben",
+                        "delta": 5
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 10,
+                  "actor": 1,
+                  "method": "unlock",
+                  "key": "count-lock",
+                  "args": ["count-lock"],
+                  "result": true,
+                  "before": {
+                    "count": 18,
+                    "applied": [
+                      {
+                        "requestId": "job-ada",
+                        "delta": 3
+                      },
+                      {
+                        "requestId": "job-ben",
+                        "delta": 5
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 18,
+                    "applied": [
+                      {
+                        "requestId": "job-ada",
+                        "delta": 3
+                      },
+                      {
+                        "requestId": "job-ben",
+                        "delta": 5
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                }
+              ],
+              "decisions": [
+                {
+                  "actor": 0,
+                  "eligible": [0, 1]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0]
+                },
+                {
+                  "actor": 1,
+                  "eligible": [1]
+                },
+                {
+                  "actor": 1,
+                  "eligible": [1]
+                },
+                {
+                  "actor": 1,
+                  "eligible": [1]
+                },
+                {
+                  "actor": 1,
+                  "eligible": [1]
+                },
+                {
+                  "actor": 1,
+                  "eligible": [1]
+                }
+              ],
+              "schedule": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+              "verdict": {
+                "passed": true,
+                "checks": [
+                  {
+                    "name": "All requests finish",
+                    "passed": true,
+                    "actual": "completed",
+                    "expected": "completed"
+                  },
+                  {
+                    "name": "No update is lost",
+                    "passed": true,
+                    "actual": 18,
+                    "expected": 18
+                  },
+                  {
+                    "name": "Every request has one matching receipt",
+                    "passed": true,
+                    "actual": 2,
+                    "expected": 2
+                  },
+                  {
+                    "name": "Responses confirm completion",
+                    "passed": true,
+                    "actual": [
+                      {
+                        "applied": true
+                      },
+                      {
+                        "applied": true
+                      }
+                    ],
+                    "expected": "all applied"
+                  },
+                  {
+                    "name": "Unrelated state is preserved",
+                    "passed": true,
+                    "actual": ["auditVersion"],
+                    "expected": "unchanged; no unrelated keys"
+                  }
+                ],
+                "violations": []
+              }
+            },
+            "schedules": [
+              {
+                "schedule": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+                "passed": true,
+                "violations": [],
+                "error": null
+              }
+            ]
+          },
+          {
+            "index": 1,
+            "scenario": {
+              "initial": {
+                "count": 0,
+                "applied": [],
+                "auditVersion": 4
+              },
+              "requests": [
+                {
+                  "id": "negative",
+                  "delta": -2
+                }
+              ]
+            },
+            "engine": "racelab-quickjs-v1",
+            "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+            "strategy": "dfs",
+            "tested": 1,
+            "attempts": 1,
+            "exhaustive": true,
+            "passed": 1,
+            "failed": 0,
+            "firstFailure": null,
+            "firstPass": {
+              "engine": "racelab-quickjs-v1",
+              "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+              "status": "completed",
+              "error": null,
+              "state": {
+                "count": -2,
+                "applied": [
+                  {
+                    "requestId": "negative",
+                    "delta": -2
+                  }
+                ],
+                "auditVersion": 4
+              },
+              "results": [
+                {
+                  "applied": true
+                }
+              ],
+              "trace": [
+                {
+                  "step": 1,
+                  "actor": 0,
+                  "method": "lock",
+                  "key": "count-lock",
+                  "args": ["count-lock"],
+                  "result": true,
+                  "before": {
+                    "count": 0,
+                    "applied": [],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 0,
+                    "applied": [],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 2,
+                  "actor": 0,
+                  "method": "get",
+                  "key": "count",
+                  "args": ["count"],
+                  "result": 0,
+                  "before": {
+                    "count": 0,
+                    "applied": [],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 0,
+                    "applied": [],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 3,
+                  "actor": 0,
+                  "method": "set",
+                  "key": "count",
+                  "args": ["count", -2],
+                  "result": true,
+                  "before": {
+                    "count": 0,
+                    "applied": [],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": -2,
+                    "applied": [],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 4,
+                  "actor": 0,
+                  "method": "append",
+                  "key": "applied",
+                  "args": [
+                    "applied",
+                    {
+                      "requestId": "negative",
+                      "delta": -2
+                    }
+                  ],
+                  "result": 1,
+                  "before": {
+                    "count": -2,
+                    "applied": [],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": -2,
+                    "applied": [
+                      {
+                        "requestId": "negative",
+                        "delta": -2
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 5,
+                  "actor": 0,
+                  "method": "unlock",
+                  "key": "count-lock",
+                  "args": ["count-lock"],
+                  "result": true,
+                  "before": {
+                    "count": -2,
+                    "applied": [
+                      {
+                        "requestId": "negative",
+                        "delta": -2
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": -2,
+                    "applied": [
+                      {
+                        "requestId": "negative",
+                        "delta": -2
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                }
+              ],
+              "decisions": [
+                {
+                  "actor": 0,
+                  "eligible": [0]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0]
+                }
+              ],
+              "schedule": [0, 0, 0, 0, 0],
+              "verdict": {
+                "passed": true,
+                "checks": [
+                  {
+                    "name": "All requests finish",
+                    "passed": true,
+                    "actual": "completed",
+                    "expected": "completed"
+                  },
+                  {
+                    "name": "No update is lost",
+                    "passed": true,
+                    "actual": -2,
+                    "expected": -2
+                  },
+                  {
+                    "name": "Every request has one matching receipt",
+                    "passed": true,
+                    "actual": 1,
+                    "expected": 1
+                  },
+                  {
+                    "name": "Responses confirm completion",
+                    "passed": true,
+                    "actual": [
+                      {
+                        "applied": true
+                      }
+                    ],
+                    "expected": "all applied"
+                  },
+                  {
+                    "name": "Unrelated state is preserved",
+                    "passed": true,
+                    "actual": ["auditVersion"],
+                    "expected": "unchanged; no unrelated keys"
+                  }
+                ],
+                "violations": []
+              }
+            },
+            "schedules": [
+              {
+                "schedule": [0, 0, 0, 0, 0],
+                "passed": true,
+                "violations": [],
+                "error": null
+              }
+            ]
+          },
+          {
+            "index": 2,
+            "scenario": {
+              "initial": {
+                "count": 30,
+                "applied": [],
+                "auditVersion": 4
+              },
+              "requests": [
+                {
+                  "id": "a",
+                  "delta": -4
+                },
+                {
+                  "id": "b",
+                  "delta": 9
+                }
+              ]
+            },
+            "engine": "racelab-quickjs-v1",
+            "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+            "strategy": "dfs",
+            "tested": 2,
+            "attempts": 3,
+            "exhaustive": true,
+            "passed": 2,
+            "failed": 0,
+            "firstFailure": null,
+            "firstPass": {
+              "engine": "racelab-quickjs-v1",
+              "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+              "status": "completed",
+              "error": null,
+              "state": {
+                "count": 35,
+                "applied": [
+                  {
+                    "requestId": "a",
+                    "delta": -4
+                  },
+                  {
+                    "requestId": "b",
+                    "delta": 9
+                  }
+                ],
+                "auditVersion": 4
+              },
+              "results": [
+                {
+                  "applied": true
+                },
+                {
+                  "applied": true
+                }
+              ],
+              "trace": [
+                {
+                  "step": 1,
+                  "actor": 0,
+                  "method": "lock",
+                  "key": "count-lock",
+                  "args": ["count-lock"],
+                  "result": true,
+                  "before": {
+                    "count": 30,
+                    "applied": [],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 30,
+                    "applied": [],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 2,
+                  "actor": 0,
+                  "method": "get",
+                  "key": "count",
+                  "args": ["count"],
+                  "result": 30,
+                  "before": {
+                    "count": 30,
+                    "applied": [],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 30,
+                    "applied": [],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 3,
+                  "actor": 0,
+                  "method": "set",
+                  "key": "count",
+                  "args": ["count", 26],
+                  "result": true,
+                  "before": {
+                    "count": 30,
+                    "applied": [],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 26,
+                    "applied": [],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 4,
+                  "actor": 0,
+                  "method": "append",
+                  "key": "applied",
+                  "args": [
+                    "applied",
+                    {
+                      "requestId": "a",
+                      "delta": -4
+                    }
+                  ],
+                  "result": 1,
+                  "before": {
+                    "count": 26,
+                    "applied": [],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 26,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": -4
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 5,
+                  "actor": 0,
+                  "method": "unlock",
+                  "key": "count-lock",
+                  "args": ["count-lock"],
+                  "result": true,
+                  "before": {
+                    "count": 26,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": -4
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 26,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": -4
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 6,
+                  "actor": 1,
+                  "method": "lock",
+                  "key": "count-lock",
+                  "args": ["count-lock"],
+                  "result": true,
+                  "before": {
+                    "count": 26,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": -4
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 26,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": -4
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 7,
+                  "actor": 1,
+                  "method": "get",
+                  "key": "count",
+                  "args": ["count"],
+                  "result": 26,
+                  "before": {
+                    "count": 26,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": -4
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 26,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": -4
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 8,
+                  "actor": 1,
+                  "method": "set",
+                  "key": "count",
+                  "args": ["count", 35],
+                  "result": true,
+                  "before": {
+                    "count": 26,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": -4
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 35,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": -4
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 9,
+                  "actor": 1,
+                  "method": "append",
+                  "key": "applied",
+                  "args": [
+                    "applied",
+                    {
+                      "requestId": "b",
+                      "delta": 9
+                    }
+                  ],
+                  "result": 2,
+                  "before": {
+                    "count": 35,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": -4
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 35,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": -4
+                      },
+                      {
+                        "requestId": "b",
+                        "delta": 9
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 10,
+                  "actor": 1,
+                  "method": "unlock",
+                  "key": "count-lock",
+                  "args": ["count-lock"],
+                  "result": true,
+                  "before": {
+                    "count": 35,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": -4
+                      },
+                      {
+                        "requestId": "b",
+                        "delta": 9
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 35,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": -4
+                      },
+                      {
+                        "requestId": "b",
+                        "delta": 9
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                }
+              ],
+              "decisions": [
+                {
+                  "actor": 0,
+                  "eligible": [0, 1]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0]
+                },
+                {
+                  "actor": 1,
+                  "eligible": [1]
+                },
+                {
+                  "actor": 1,
+                  "eligible": [1]
+                },
+                {
+                  "actor": 1,
+                  "eligible": [1]
+                },
+                {
+                  "actor": 1,
+                  "eligible": [1]
+                },
+                {
+                  "actor": 1,
+                  "eligible": [1]
+                }
+              ],
+              "schedule": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+              "verdict": {
+                "passed": true,
+                "checks": [
+                  {
+                    "name": "All requests finish",
+                    "passed": true,
+                    "actual": "completed",
+                    "expected": "completed"
+                  },
+                  {
+                    "name": "No update is lost",
+                    "passed": true,
+                    "actual": 35,
+                    "expected": 35
+                  },
+                  {
+                    "name": "Every request has one matching receipt",
+                    "passed": true,
+                    "actual": 2,
+                    "expected": 2
+                  },
+                  {
+                    "name": "Responses confirm completion",
+                    "passed": true,
+                    "actual": [
+                      {
+                        "applied": true
+                      },
+                      {
+                        "applied": true
+                      }
+                    ],
+                    "expected": "all applied"
+                  },
+                  {
+                    "name": "Unrelated state is preserved",
+                    "passed": true,
+                    "actual": ["auditVersion"],
+                    "expected": "unchanged; no unrelated keys"
+                  }
+                ],
+                "violations": []
+              }
+            },
+            "schedules": [
+              {
+                "schedule": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+                "passed": true,
+                "violations": [],
+                "error": null
+              }
+            ]
+          },
+          {
+            "index": 3,
+            "scenario": {
+              "initial": {
+                "count": 5,
+                "applied": [],
+                "auditVersion": 4
+              },
+              "requests": [
+                {
+                  "id": "a",
+                  "delta": 2
+                },
+                {
+                  "id": "b",
+                  "delta": -1
+                },
+                {
+                  "id": "c",
+                  "delta": 7
+                }
+              ]
+            },
+            "engine": "racelab-quickjs-v1",
+            "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+            "strategy": "dfs",
+            "tested": 6,
+            "attempts": 10,
+            "exhaustive": true,
+            "passed": 6,
+            "failed": 0,
+            "firstFailure": null,
+            "firstPass": {
+              "engine": "racelab-quickjs-v1",
+              "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+              "status": "completed",
+              "error": null,
+              "state": {
+                "count": 13,
+                "applied": [
+                  {
+                    "requestId": "a",
+                    "delta": 2
+                  },
+                  {
+                    "requestId": "b",
+                    "delta": -1
+                  },
+                  {
+                    "requestId": "c",
+                    "delta": 7
+                  }
+                ],
+                "auditVersion": 4
+              },
+              "results": [
+                {
+                  "applied": true
+                },
+                {
+                  "applied": true
+                },
+                {
+                  "applied": true
+                }
+              ],
+              "trace": [
+                {
+                  "step": 1,
+                  "actor": 0,
+                  "method": "lock",
+                  "key": "count-lock",
+                  "args": ["count-lock"],
+                  "result": true,
+                  "before": {
+                    "count": 5,
+                    "applied": [],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 5,
+                    "applied": [],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 2,
+                  "actor": 0,
+                  "method": "get",
+                  "key": "count",
+                  "args": ["count"],
+                  "result": 5,
+                  "before": {
+                    "count": 5,
+                    "applied": [],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 5,
+                    "applied": [],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 3,
+                  "actor": 0,
+                  "method": "set",
+                  "key": "count",
+                  "args": ["count", 7],
+                  "result": true,
+                  "before": {
+                    "count": 5,
+                    "applied": [],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 7,
+                    "applied": [],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 4,
+                  "actor": 0,
+                  "method": "append",
+                  "key": "applied",
+                  "args": [
+                    "applied",
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    }
+                  ],
+                  "result": 1,
+                  "before": {
+                    "count": 7,
+                    "applied": [],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 7,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 5,
+                  "actor": 0,
+                  "method": "unlock",
+                  "key": "count-lock",
+                  "args": ["count-lock"],
+                  "result": true,
+                  "before": {
+                    "count": 7,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 7,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 6,
+                  "actor": 1,
+                  "method": "lock",
+                  "key": "count-lock",
+                  "args": ["count-lock"],
+                  "result": true,
+                  "before": {
+                    "count": 7,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 7,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 7,
+                  "actor": 1,
+                  "method": "get",
+                  "key": "count",
+                  "args": ["count"],
+                  "result": 7,
+                  "before": {
+                    "count": 7,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 7,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 8,
+                  "actor": 1,
+                  "method": "set",
+                  "key": "count",
+                  "args": ["count", 6],
+                  "result": true,
+                  "before": {
+                    "count": 7,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 6,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 9,
+                  "actor": 1,
+                  "method": "append",
+                  "key": "applied",
+                  "args": [
+                    "applied",
+                    {
+                      "requestId": "b",
+                      "delta": -1
+                    }
+                  ],
+                  "result": 2,
+                  "before": {
+                    "count": 6,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 6,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      },
+                      {
+                        "requestId": "b",
+                        "delta": -1
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 10,
+                  "actor": 1,
+                  "method": "unlock",
+                  "key": "count-lock",
+                  "args": ["count-lock"],
+                  "result": true,
+                  "before": {
+                    "count": 6,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      },
+                      {
+                        "requestId": "b",
+                        "delta": -1
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 6,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      },
+                      {
+                        "requestId": "b",
+                        "delta": -1
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 11,
+                  "actor": 2,
+                  "method": "lock",
+                  "key": "count-lock",
+                  "args": ["count-lock"],
+                  "result": true,
+                  "before": {
+                    "count": 6,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      },
+                      {
+                        "requestId": "b",
+                        "delta": -1
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 6,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      },
+                      {
+                        "requestId": "b",
+                        "delta": -1
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 12,
+                  "actor": 2,
+                  "method": "get",
+                  "key": "count",
+                  "args": ["count"],
+                  "result": 6,
+                  "before": {
+                    "count": 6,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      },
+                      {
+                        "requestId": "b",
+                        "delta": -1
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 6,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      },
+                      {
+                        "requestId": "b",
+                        "delta": -1
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 13,
+                  "actor": 2,
+                  "method": "set",
+                  "key": "count",
+                  "args": ["count", 13],
+                  "result": true,
+                  "before": {
+                    "count": 6,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      },
+                      {
+                        "requestId": "b",
+                        "delta": -1
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 13,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      },
+                      {
+                        "requestId": "b",
+                        "delta": -1
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 14,
+                  "actor": 2,
+                  "method": "append",
+                  "key": "applied",
+                  "args": [
+                    "applied",
+                    {
+                      "requestId": "c",
+                      "delta": 7
+                    }
+                  ],
+                  "result": 3,
+                  "before": {
+                    "count": 13,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      },
+                      {
+                        "requestId": "b",
+                        "delta": -1
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 13,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      },
+                      {
+                        "requestId": "b",
+                        "delta": -1
+                      },
+                      {
+                        "requestId": "c",
+                        "delta": 7
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                },
+                {
+                  "step": 15,
+                  "actor": 2,
+                  "method": "unlock",
+                  "key": "count-lock",
+                  "args": ["count-lock"],
+                  "result": true,
+                  "before": {
+                    "count": 13,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      },
+                      {
+                        "requestId": "b",
+                        "delta": -1
+                      },
+                      {
+                        "requestId": "c",
+                        "delta": 7
+                      }
+                    ],
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "count": 13,
+                    "applied": [
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      },
+                      {
+                        "requestId": "b",
+                        "delta": -1
+                      },
+                      {
+                        "requestId": "c",
+                        "delta": 7
+                      }
+                    ],
+                    "auditVersion": 4
+                  }
+                }
+              ],
+              "decisions": [
+                {
+                  "actor": 0,
+                  "eligible": [0, 1, 2]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0]
+                },
+                {
+                  "actor": 1,
+                  "eligible": [1, 2]
+                },
+                {
+                  "actor": 1,
+                  "eligible": [1]
+                },
+                {
+                  "actor": 1,
+                  "eligible": [1]
+                },
+                {
+                  "actor": 1,
+                  "eligible": [1]
+                },
+                {
+                  "actor": 1,
+                  "eligible": [1]
+                },
+                {
+                  "actor": 2,
+                  "eligible": [2]
+                },
+                {
+                  "actor": 2,
+                  "eligible": [2]
+                },
+                {
+                  "actor": 2,
+                  "eligible": [2]
+                },
+                {
+                  "actor": 2,
+                  "eligible": [2]
+                },
+                {
+                  "actor": 2,
+                  "eligible": [2]
+                }
+              ],
+              "schedule": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+              "verdict": {
+                "passed": true,
+                "checks": [
+                  {
+                    "name": "All requests finish",
+                    "passed": true,
+                    "actual": "completed",
+                    "expected": "completed"
+                  },
+                  {
+                    "name": "No update is lost",
+                    "passed": true,
+                    "actual": 13,
+                    "expected": 13
+                  },
+                  {
+                    "name": "Every request has one matching receipt",
+                    "passed": true,
+                    "actual": 3,
+                    "expected": 3
+                  },
+                  {
+                    "name": "Responses confirm completion",
+                    "passed": true,
+                    "actual": [
+                      {
+                        "applied": true
+                      },
+                      {
+                        "applied": true
+                      },
+                      {
+                        "applied": true
+                      }
+                    ],
+                    "expected": "all applied"
+                  },
+                  {
+                    "name": "Unrelated state is preserved",
+                    "passed": true,
+                    "actual": ["auditVersion"],
+                    "expected": "unchanged; no unrelated keys"
+                  }
+                ],
+                "violations": []
+              }
+            },
+            "schedules": [
+              {
+                "schedule": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1],
+                "passed": true,
+                "violations": [],
+                "error": null
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "best": {
+    "source": "export async function handle(db, request) {\n  await db.lock(\"count-lock\");\n  try {\n    const before = await db.get(\"count\");\n    await db.set(\"count\", before + request.delta);\n    await db.append(\"applied\", { requestId: request.id, delta: request.delta });\n    return { applied: true };\n  } finally {\n    await db.unlock(\"count-lock\");\n  }\n}",
+    "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+    "explanation": "Observed read-read-write-write lost update (10->13 overwritten to 15). Fix serializes read-modify-write+receipt with a mutex, preserving response and unrelated keys.",
+    "verification": {
+      "passed": true,
+      "exhaustive": true,
+      "tested": 11,
+      "failures": 0,
+      "cases": [
+        {
+          "index": 0,
+          "scenario": {
+            "initial": {
+              "count": 10,
+              "applied": [],
+              "auditVersion": 4
+            },
+            "requests": [
+              {
+                "id": "job-ada",
+                "delta": 3
+              },
+              {
+                "id": "job-ben",
+                "delta": 5
+              }
+            ]
+          },
+          "engine": "racelab-quickjs-v1",
+          "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+          "strategy": "dfs",
+          "tested": 2,
+          "attempts": 3,
+          "exhaustive": true,
+          "passed": 2,
+          "failed": 0,
+          "firstFailure": null,
+          "firstPass": {
+            "engine": "racelab-quickjs-v1",
+            "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+            "status": "completed",
+            "error": null,
+            "state": {
+              "count": 18,
+              "applied": [
+                {
+                  "requestId": "job-ada",
+                  "delta": 3
+                },
+                {
+                  "requestId": "job-ben",
+                  "delta": 5
+                }
+              ],
+              "auditVersion": 4
+            },
+            "results": [
+              {
+                "applied": true
+              },
+              {
+                "applied": true
+              }
+            ],
+            "trace": [
+              {
+                "step": 1,
+                "actor": 0,
+                "method": "lock",
+                "key": "count-lock",
+                "args": ["count-lock"],
+                "result": true,
+                "before": {
+                  "count": 10,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 10,
+                  "applied": [],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 2,
+                "actor": 0,
+                "method": "get",
+                "key": "count",
+                "args": ["count"],
+                "result": 10,
+                "before": {
+                  "count": 10,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 10,
+                  "applied": [],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 3,
+                "actor": 0,
+                "method": "set",
+                "key": "count",
+                "args": ["count", 13],
+                "result": true,
+                "before": {
+                  "count": 10,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 13,
+                  "applied": [],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 4,
+                "actor": 0,
+                "method": "append",
+                "key": "applied",
+                "args": [
+                  "applied",
+                  {
+                    "requestId": "job-ada",
+                    "delta": 3
+                  }
+                ],
+                "result": 1,
+                "before": {
+                  "count": 13,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 13,
+                  "applied": [
+                    {
+                      "requestId": "job-ada",
+                      "delta": 3
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 5,
+                "actor": 0,
+                "method": "unlock",
+                "key": "count-lock",
+                "args": ["count-lock"],
+                "result": true,
+                "before": {
+                  "count": 13,
+                  "applied": [
+                    {
+                      "requestId": "job-ada",
+                      "delta": 3
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 13,
+                  "applied": [
+                    {
+                      "requestId": "job-ada",
+                      "delta": 3
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 6,
+                "actor": 1,
+                "method": "lock",
+                "key": "count-lock",
+                "args": ["count-lock"],
+                "result": true,
+                "before": {
+                  "count": 13,
+                  "applied": [
+                    {
+                      "requestId": "job-ada",
+                      "delta": 3
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 13,
+                  "applied": [
+                    {
+                      "requestId": "job-ada",
+                      "delta": 3
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 7,
+                "actor": 1,
+                "method": "get",
+                "key": "count",
+                "args": ["count"],
+                "result": 13,
+                "before": {
+                  "count": 13,
+                  "applied": [
+                    {
+                      "requestId": "job-ada",
+                      "delta": 3
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 13,
+                  "applied": [
+                    {
+                      "requestId": "job-ada",
+                      "delta": 3
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 8,
+                "actor": 1,
+                "method": "set",
+                "key": "count",
+                "args": ["count", 18],
+                "result": true,
+                "before": {
+                  "count": 13,
+                  "applied": [
+                    {
+                      "requestId": "job-ada",
+                      "delta": 3
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 18,
+                  "applied": [
+                    {
+                      "requestId": "job-ada",
+                      "delta": 3
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 9,
+                "actor": 1,
+                "method": "append",
+                "key": "applied",
+                "args": [
+                  "applied",
+                  {
+                    "requestId": "job-ben",
+                    "delta": 5
+                  }
+                ],
+                "result": 2,
+                "before": {
+                  "count": 18,
+                  "applied": [
+                    {
+                      "requestId": "job-ada",
+                      "delta": 3
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 18,
+                  "applied": [
+                    {
+                      "requestId": "job-ada",
+                      "delta": 3
+                    },
+                    {
+                      "requestId": "job-ben",
+                      "delta": 5
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 10,
+                "actor": 1,
+                "method": "unlock",
+                "key": "count-lock",
+                "args": ["count-lock"],
+                "result": true,
+                "before": {
+                  "count": 18,
+                  "applied": [
+                    {
+                      "requestId": "job-ada",
+                      "delta": 3
+                    },
+                    {
+                      "requestId": "job-ben",
+                      "delta": 5
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 18,
+                  "applied": [
+                    {
+                      "requestId": "job-ada",
+                      "delta": 3
+                    },
+                    {
+                      "requestId": "job-ben",
+                      "delta": 5
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              }
+            ],
+            "decisions": [
+              {
+                "actor": 0,
+                "eligible": [0, 1]
+              },
+              {
+                "actor": 0,
+                "eligible": [0]
+              },
+              {
+                "actor": 0,
+                "eligible": [0]
+              },
+              {
+                "actor": 0,
+                "eligible": [0]
+              },
+              {
+                "actor": 0,
+                "eligible": [0]
+              },
+              {
+                "actor": 1,
+                "eligible": [1]
+              },
+              {
+                "actor": 1,
+                "eligible": [1]
+              },
+              {
+                "actor": 1,
+                "eligible": [1]
+              },
+              {
+                "actor": 1,
+                "eligible": [1]
+              },
+              {
+                "actor": 1,
+                "eligible": [1]
+              }
+            ],
+            "schedule": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+            "verdict": {
+              "passed": true,
+              "checks": [
+                {
+                  "name": "All requests finish",
+                  "passed": true,
+                  "actual": "completed",
+                  "expected": "completed"
+                },
+                {
+                  "name": "No update is lost",
+                  "passed": true,
+                  "actual": 18,
+                  "expected": 18
+                },
+                {
+                  "name": "Every request has one matching receipt",
+                  "passed": true,
+                  "actual": 2,
+                  "expected": 2
+                },
+                {
+                  "name": "Responses confirm completion",
+                  "passed": true,
+                  "actual": [
+                    {
+                      "applied": true
+                    },
+                    {
+                      "applied": true
+                    }
+                  ],
+                  "expected": "all applied"
+                },
+                {
+                  "name": "Unrelated state is preserved",
+                  "passed": true,
+                  "actual": ["auditVersion"],
+                  "expected": "unchanged; no unrelated keys"
+                }
+              ],
+              "violations": []
+            }
+          },
+          "schedules": [
+            {
+              "schedule": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+              "passed": true,
+              "violations": [],
+              "error": null
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "scenario": {
+            "initial": {
+              "count": 0,
+              "applied": [],
+              "auditVersion": 4
+            },
+            "requests": [
+              {
+                "id": "negative",
+                "delta": -2
+              }
+            ]
+          },
+          "engine": "racelab-quickjs-v1",
+          "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+          "strategy": "dfs",
+          "tested": 1,
+          "attempts": 1,
+          "exhaustive": true,
+          "passed": 1,
+          "failed": 0,
+          "firstFailure": null,
+          "firstPass": {
+            "engine": "racelab-quickjs-v1",
+            "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+            "status": "completed",
+            "error": null,
+            "state": {
+              "count": -2,
+              "applied": [
+                {
+                  "requestId": "negative",
+                  "delta": -2
+                }
+              ],
+              "auditVersion": 4
+            },
+            "results": [
+              {
+                "applied": true
+              }
+            ],
+            "trace": [
+              {
+                "step": 1,
+                "actor": 0,
+                "method": "lock",
+                "key": "count-lock",
+                "args": ["count-lock"],
+                "result": true,
+                "before": {
+                  "count": 0,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 0,
+                  "applied": [],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 2,
+                "actor": 0,
+                "method": "get",
+                "key": "count",
+                "args": ["count"],
+                "result": 0,
+                "before": {
+                  "count": 0,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 0,
+                  "applied": [],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 3,
+                "actor": 0,
+                "method": "set",
+                "key": "count",
+                "args": ["count", -2],
+                "result": true,
+                "before": {
+                  "count": 0,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": -2,
+                  "applied": [],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 4,
+                "actor": 0,
+                "method": "append",
+                "key": "applied",
+                "args": [
+                  "applied",
+                  {
+                    "requestId": "negative",
+                    "delta": -2
+                  }
+                ],
+                "result": 1,
+                "before": {
+                  "count": -2,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": -2,
+                  "applied": [
+                    {
+                      "requestId": "negative",
+                      "delta": -2
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 5,
+                "actor": 0,
+                "method": "unlock",
+                "key": "count-lock",
+                "args": ["count-lock"],
+                "result": true,
+                "before": {
+                  "count": -2,
+                  "applied": [
+                    {
+                      "requestId": "negative",
+                      "delta": -2
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": -2,
+                  "applied": [
+                    {
+                      "requestId": "negative",
+                      "delta": -2
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              }
+            ],
+            "decisions": [
+              {
+                "actor": 0,
+                "eligible": [0]
+              },
+              {
+                "actor": 0,
+                "eligible": [0]
+              },
+              {
+                "actor": 0,
+                "eligible": [0]
+              },
+              {
+                "actor": 0,
+                "eligible": [0]
+              },
+              {
+                "actor": 0,
+                "eligible": [0]
+              }
+            ],
+            "schedule": [0, 0, 0, 0, 0],
+            "verdict": {
+              "passed": true,
+              "checks": [
+                {
+                  "name": "All requests finish",
+                  "passed": true,
+                  "actual": "completed",
+                  "expected": "completed"
+                },
+                {
+                  "name": "No update is lost",
+                  "passed": true,
+                  "actual": -2,
+                  "expected": -2
+                },
+                {
+                  "name": "Every request has one matching receipt",
+                  "passed": true,
+                  "actual": 1,
+                  "expected": 1
+                },
+                {
+                  "name": "Responses confirm completion",
+                  "passed": true,
+                  "actual": [
+                    {
+                      "applied": true
+                    }
+                  ],
+                  "expected": "all applied"
+                },
+                {
+                  "name": "Unrelated state is preserved",
+                  "passed": true,
+                  "actual": ["auditVersion"],
+                  "expected": "unchanged; no unrelated keys"
+                }
+              ],
+              "violations": []
+            }
+          },
+          "schedules": [
+            {
+              "schedule": [0, 0, 0, 0, 0],
+              "passed": true,
+              "violations": [],
+              "error": null
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "scenario": {
+            "initial": {
+              "count": 30,
+              "applied": [],
+              "auditVersion": 4
+            },
+            "requests": [
+              {
+                "id": "a",
+                "delta": -4
+              },
+              {
+                "id": "b",
+                "delta": 9
+              }
+            ]
+          },
+          "engine": "racelab-quickjs-v1",
+          "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+          "strategy": "dfs",
+          "tested": 2,
+          "attempts": 3,
+          "exhaustive": true,
+          "passed": 2,
+          "failed": 0,
+          "firstFailure": null,
+          "firstPass": {
+            "engine": "racelab-quickjs-v1",
+            "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+            "status": "completed",
+            "error": null,
+            "state": {
+              "count": 35,
+              "applied": [
+                {
+                  "requestId": "a",
+                  "delta": -4
+                },
+                {
+                  "requestId": "b",
+                  "delta": 9
+                }
+              ],
+              "auditVersion": 4
+            },
+            "results": [
+              {
+                "applied": true
+              },
+              {
+                "applied": true
+              }
+            ],
+            "trace": [
+              {
+                "step": 1,
+                "actor": 0,
+                "method": "lock",
+                "key": "count-lock",
+                "args": ["count-lock"],
+                "result": true,
+                "before": {
+                  "count": 30,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 30,
+                  "applied": [],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 2,
+                "actor": 0,
+                "method": "get",
+                "key": "count",
+                "args": ["count"],
+                "result": 30,
+                "before": {
+                  "count": 30,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 30,
+                  "applied": [],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 3,
+                "actor": 0,
+                "method": "set",
+                "key": "count",
+                "args": ["count", 26],
+                "result": true,
+                "before": {
+                  "count": 30,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 26,
+                  "applied": [],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 4,
+                "actor": 0,
+                "method": "append",
+                "key": "applied",
+                "args": [
+                  "applied",
+                  {
+                    "requestId": "a",
+                    "delta": -4
+                  }
+                ],
+                "result": 1,
+                "before": {
+                  "count": 26,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 26,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": -4
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 5,
+                "actor": 0,
+                "method": "unlock",
+                "key": "count-lock",
+                "args": ["count-lock"],
+                "result": true,
+                "before": {
+                  "count": 26,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": -4
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 26,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": -4
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 6,
+                "actor": 1,
+                "method": "lock",
+                "key": "count-lock",
+                "args": ["count-lock"],
+                "result": true,
+                "before": {
+                  "count": 26,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": -4
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 26,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": -4
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 7,
+                "actor": 1,
+                "method": "get",
+                "key": "count",
+                "args": ["count"],
+                "result": 26,
+                "before": {
+                  "count": 26,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": -4
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 26,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": -4
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 8,
+                "actor": 1,
+                "method": "set",
+                "key": "count",
+                "args": ["count", 35],
+                "result": true,
+                "before": {
+                  "count": 26,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": -4
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 35,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": -4
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 9,
+                "actor": 1,
+                "method": "append",
+                "key": "applied",
+                "args": [
+                  "applied",
+                  {
+                    "requestId": "b",
+                    "delta": 9
+                  }
+                ],
+                "result": 2,
+                "before": {
+                  "count": 35,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": -4
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 35,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": -4
+                    },
+                    {
+                      "requestId": "b",
+                      "delta": 9
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 10,
+                "actor": 1,
+                "method": "unlock",
+                "key": "count-lock",
+                "args": ["count-lock"],
+                "result": true,
+                "before": {
+                  "count": 35,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": -4
+                    },
+                    {
+                      "requestId": "b",
+                      "delta": 9
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 35,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": -4
+                    },
+                    {
+                      "requestId": "b",
+                      "delta": 9
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              }
+            ],
+            "decisions": [
+              {
+                "actor": 0,
+                "eligible": [0, 1]
+              },
+              {
+                "actor": 0,
+                "eligible": [0]
+              },
+              {
+                "actor": 0,
+                "eligible": [0]
+              },
+              {
+                "actor": 0,
+                "eligible": [0]
+              },
+              {
+                "actor": 0,
+                "eligible": [0]
+              },
+              {
+                "actor": 1,
+                "eligible": [1]
+              },
+              {
+                "actor": 1,
+                "eligible": [1]
+              },
+              {
+                "actor": 1,
+                "eligible": [1]
+              },
+              {
+                "actor": 1,
+                "eligible": [1]
+              },
+              {
+                "actor": 1,
+                "eligible": [1]
+              }
+            ],
+            "schedule": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+            "verdict": {
+              "passed": true,
+              "checks": [
+                {
+                  "name": "All requests finish",
+                  "passed": true,
+                  "actual": "completed",
+                  "expected": "completed"
+                },
+                {
+                  "name": "No update is lost",
+                  "passed": true,
+                  "actual": 35,
+                  "expected": 35
+                },
+                {
+                  "name": "Every request has one matching receipt",
+                  "passed": true,
+                  "actual": 2,
+                  "expected": 2
+                },
+                {
+                  "name": "Responses confirm completion",
+                  "passed": true,
+                  "actual": [
+                    {
+                      "applied": true
+                    },
+                    {
+                      "applied": true
+                    }
+                  ],
+                  "expected": "all applied"
+                },
+                {
+                  "name": "Unrelated state is preserved",
+                  "passed": true,
+                  "actual": ["auditVersion"],
+                  "expected": "unchanged; no unrelated keys"
+                }
+              ],
+              "violations": []
+            }
+          },
+          "schedules": [
+            {
+              "schedule": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+              "passed": true,
+              "violations": [],
+              "error": null
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "scenario": {
+            "initial": {
+              "count": 5,
+              "applied": [],
+              "auditVersion": 4
+            },
+            "requests": [
+              {
+                "id": "a",
+                "delta": 2
+              },
+              {
+                "id": "b",
+                "delta": -1
+              },
+              {
+                "id": "c",
+                "delta": 7
+              }
+            ]
+          },
+          "engine": "racelab-quickjs-v1",
+          "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+          "strategy": "dfs",
+          "tested": 6,
+          "attempts": 10,
+          "exhaustive": true,
+          "passed": 6,
+          "failed": 0,
+          "firstFailure": null,
+          "firstPass": {
+            "engine": "racelab-quickjs-v1",
+            "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+            "status": "completed",
+            "error": null,
+            "state": {
+              "count": 13,
+              "applied": [
+                {
+                  "requestId": "a",
+                  "delta": 2
+                },
+                {
+                  "requestId": "b",
+                  "delta": -1
+                },
+                {
+                  "requestId": "c",
+                  "delta": 7
+                }
+              ],
+              "auditVersion": 4
+            },
+            "results": [
+              {
+                "applied": true
+              },
+              {
+                "applied": true
+              },
+              {
+                "applied": true
+              }
+            ],
+            "trace": [
+              {
+                "step": 1,
+                "actor": 0,
+                "method": "lock",
+                "key": "count-lock",
+                "args": ["count-lock"],
+                "result": true,
+                "before": {
+                  "count": 5,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 5,
+                  "applied": [],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 2,
+                "actor": 0,
+                "method": "get",
+                "key": "count",
+                "args": ["count"],
+                "result": 5,
+                "before": {
+                  "count": 5,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 5,
+                  "applied": [],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 3,
+                "actor": 0,
+                "method": "set",
+                "key": "count",
+                "args": ["count", 7],
+                "result": true,
+                "before": {
+                  "count": 5,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 7,
+                  "applied": [],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 4,
+                "actor": 0,
+                "method": "append",
+                "key": "applied",
+                "args": [
+                  "applied",
+                  {
+                    "requestId": "a",
+                    "delta": 2
+                  }
+                ],
+                "result": 1,
+                "before": {
+                  "count": 7,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 7,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 5,
+                "actor": 0,
+                "method": "unlock",
+                "key": "count-lock",
+                "args": ["count-lock"],
+                "result": true,
+                "before": {
+                  "count": 7,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 7,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 6,
+                "actor": 1,
+                "method": "lock",
+                "key": "count-lock",
+                "args": ["count-lock"],
+                "result": true,
+                "before": {
+                  "count": 7,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 7,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 7,
+                "actor": 1,
+                "method": "get",
+                "key": "count",
+                "args": ["count"],
+                "result": 7,
+                "before": {
+                  "count": 7,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 7,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 8,
+                "actor": 1,
+                "method": "set",
+                "key": "count",
+                "args": ["count", 6],
+                "result": true,
+                "before": {
+                  "count": 7,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 6,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 9,
+                "actor": 1,
+                "method": "append",
+                "key": "applied",
+                "args": [
+                  "applied",
+                  {
+                    "requestId": "b",
+                    "delta": -1
+                  }
+                ],
+                "result": 2,
+                "before": {
+                  "count": 6,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 6,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    },
+                    {
+                      "requestId": "b",
+                      "delta": -1
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 10,
+                "actor": 1,
+                "method": "unlock",
+                "key": "count-lock",
+                "args": ["count-lock"],
+                "result": true,
+                "before": {
+                  "count": 6,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    },
+                    {
+                      "requestId": "b",
+                      "delta": -1
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 6,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    },
+                    {
+                      "requestId": "b",
+                      "delta": -1
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 11,
+                "actor": 2,
+                "method": "lock",
+                "key": "count-lock",
+                "args": ["count-lock"],
+                "result": true,
+                "before": {
+                  "count": 6,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    },
+                    {
+                      "requestId": "b",
+                      "delta": -1
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 6,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    },
+                    {
+                      "requestId": "b",
+                      "delta": -1
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 12,
+                "actor": 2,
+                "method": "get",
+                "key": "count",
+                "args": ["count"],
+                "result": 6,
+                "before": {
+                  "count": 6,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    },
+                    {
+                      "requestId": "b",
+                      "delta": -1
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 6,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    },
+                    {
+                      "requestId": "b",
+                      "delta": -1
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 13,
+                "actor": 2,
+                "method": "set",
+                "key": "count",
+                "args": ["count", 13],
+                "result": true,
+                "before": {
+                  "count": 6,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    },
+                    {
+                      "requestId": "b",
+                      "delta": -1
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 13,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    },
+                    {
+                      "requestId": "b",
+                      "delta": -1
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 14,
+                "actor": 2,
+                "method": "append",
+                "key": "applied",
+                "args": [
+                  "applied",
+                  {
+                    "requestId": "c",
+                    "delta": 7
+                  }
+                ],
+                "result": 3,
+                "before": {
+                  "count": 13,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    },
+                    {
+                      "requestId": "b",
+                      "delta": -1
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 13,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    },
+                    {
+                      "requestId": "b",
+                      "delta": -1
+                    },
+                    {
+                      "requestId": "c",
+                      "delta": 7
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              },
+              {
+                "step": 15,
+                "actor": 2,
+                "method": "unlock",
+                "key": "count-lock",
+                "args": ["count-lock"],
+                "result": true,
+                "before": {
+                  "count": 13,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    },
+                    {
+                      "requestId": "b",
+                      "delta": -1
+                    },
+                    {
+                      "requestId": "c",
+                      "delta": 7
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "after": {
+                  "count": 13,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    },
+                    {
+                      "requestId": "b",
+                      "delta": -1
+                    },
+                    {
+                      "requestId": "c",
+                      "delta": 7
+                    }
+                  ],
+                  "auditVersion": 4
+                }
+              }
+            ],
+            "decisions": [
+              {
+                "actor": 0,
+                "eligible": [0, 1, 2]
+              },
+              {
+                "actor": 0,
+                "eligible": [0]
+              },
+              {
+                "actor": 0,
+                "eligible": [0]
+              },
+              {
+                "actor": 0,
+                "eligible": [0]
+              },
+              {
+                "actor": 0,
+                "eligible": [0]
+              },
+              {
+                "actor": 1,
+                "eligible": [1, 2]
+              },
+              {
+                "actor": 1,
+                "eligible": [1]
+              },
+              {
+                "actor": 1,
+                "eligible": [1]
+              },
+              {
+                "actor": 1,
+                "eligible": [1]
+              },
+              {
+                "actor": 1,
+                "eligible": [1]
+              },
+              {
+                "actor": 2,
+                "eligible": [2]
+              },
+              {
+                "actor": 2,
+                "eligible": [2]
+              },
+              {
+                "actor": 2,
+                "eligible": [2]
+              },
+              {
+                "actor": 2,
+                "eligible": [2]
+              },
+              {
+                "actor": 2,
+                "eligible": [2]
+              }
+            ],
+            "schedule": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            "verdict": {
+              "passed": true,
+              "checks": [
+                {
+                  "name": "All requests finish",
+                  "passed": true,
+                  "actual": "completed",
+                  "expected": "completed"
+                },
+                {
+                  "name": "No update is lost",
+                  "passed": true,
+                  "actual": 13,
+                  "expected": 13
+                },
+                {
+                  "name": "Every request has one matching receipt",
+                  "passed": true,
+                  "actual": 3,
+                  "expected": 3
+                },
+                {
+                  "name": "Responses confirm completion",
+                  "passed": true,
+                  "actual": [
+                    {
+                      "applied": true
+                    },
+                    {
+                      "applied": true
+                    },
+                    {
+                      "applied": true
+                    }
+                  ],
+                  "expected": "all applied"
+                },
+                {
+                  "name": "Unrelated state is preserved",
+                  "passed": true,
+                  "actual": ["auditVersion"],
+                  "expected": "unchanged; no unrelated keys"
+                }
+              ],
+              "violations": []
+            }
+          },
+          "schedules": [
+            {
+              "schedule": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1],
+              "passed": true,
+              "violations": [],
+              "error": null
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "summary": "",
+  "requests": 2,
+  "costUsd": 0.01136,
+  "error": null,
+  "outcome": "repaired_in_checked_schedules",
+  "scope": "Authored handlers with a simulated asynchronous store. Bounded controlled schedules and additional inputs, not a production or general correctness claim.",
+  "events": [
+    {
+      "type": "baseline",
+      "message": "The sequential execution has been checked.",
+      "run": {
+        "engine": "racelab-quickjs-v1",
+        "sourceHash": "bc1c563e1849341e4bb5babd398e7294cbf4384ffd766d8574c365673db798c5",
+        "status": "completed",
+        "error": null,
+        "state": {
+          "count": 18,
+          "applied": [
+            {
+              "requestId": "job-ada",
+              "delta": 3
+            },
+            {
+              "requestId": "job-ben",
+              "delta": 5
+            }
+          ],
+          "auditVersion": 4
+        },
+        "results": [
+          {
+            "applied": true
+          },
+          {
+            "applied": true
+          }
+        ],
+        "trace": [
+          {
+            "step": 1,
+            "actor": 0,
+            "method": "get",
+            "key": "count",
+            "args": ["count"],
+            "result": 10,
+            "before": {
+              "count": 10,
+              "applied": [],
+              "auditVersion": 4
+            },
+            "after": {
+              "count": 10,
+              "applied": [],
+              "auditVersion": 4
+            }
+          },
+          {
+            "step": 2,
+            "actor": 0,
+            "method": "set",
+            "key": "count",
+            "args": ["count", 13],
+            "result": true,
+            "before": {
+              "count": 10,
+              "applied": [],
+              "auditVersion": 4
+            },
+            "after": {
+              "count": 13,
+              "applied": [],
+              "auditVersion": 4
+            }
+          },
+          {
+            "step": 3,
+            "actor": 0,
+            "method": "append",
+            "key": "applied",
+            "args": [
+              "applied",
+              {
+                "requestId": "job-ada",
+                "delta": 3
+              }
+            ],
+            "result": 1,
+            "before": {
+              "count": 13,
+              "applied": [],
+              "auditVersion": 4
+            },
+            "after": {
+              "count": 13,
+              "applied": [
+                {
+                  "requestId": "job-ada",
+                  "delta": 3
+                }
+              ],
+              "auditVersion": 4
+            }
+          },
+          {
+            "step": 4,
+            "actor": 1,
+            "method": "get",
+            "key": "count",
+            "args": ["count"],
+            "result": 13,
+            "before": {
+              "count": 13,
+              "applied": [
+                {
+                  "requestId": "job-ada",
+                  "delta": 3
+                }
+              ],
+              "auditVersion": 4
+            },
+            "after": {
+              "count": 13,
+              "applied": [
+                {
+                  "requestId": "job-ada",
+                  "delta": 3
+                }
+              ],
+              "auditVersion": 4
+            }
+          },
+          {
+            "step": 5,
+            "actor": 1,
+            "method": "set",
+            "key": "count",
+            "args": ["count", 18],
+            "result": true,
+            "before": {
+              "count": 13,
+              "applied": [
+                {
+                  "requestId": "job-ada",
+                  "delta": 3
+                }
+              ],
+              "auditVersion": 4
+            },
+            "after": {
+              "count": 18,
+              "applied": [
+                {
+                  "requestId": "job-ada",
+                  "delta": 3
+                }
+              ],
+              "auditVersion": 4
+            }
+          },
+          {
+            "step": 6,
+            "actor": 1,
+            "method": "append",
+            "key": "applied",
+            "args": [
+              "applied",
+              {
+                "requestId": "job-ben",
+                "delta": 5
+              }
+            ],
+            "result": 2,
+            "before": {
+              "count": 18,
+              "applied": [
+                {
+                  "requestId": "job-ada",
+                  "delta": 3
+                }
+              ],
+              "auditVersion": 4
+            },
+            "after": {
+              "count": 18,
+              "applied": [
+                {
+                  "requestId": "job-ada",
+                  "delta": 3
+                },
+                {
+                  "requestId": "job-ben",
+                  "delta": 5
+                }
+              ],
+              "auditVersion": 4
+            }
+          }
+        ],
+        "decisions": [
+          {
+            "actor": 0,
+            "eligible": [0, 1]
+          },
+          {
+            "actor": 0,
+            "eligible": [0, 1]
+          },
+          {
+            "actor": 0,
+            "eligible": [0, 1]
+          },
+          {
+            "actor": 1,
+            "eligible": [1]
+          },
+          {
+            "actor": 1,
+            "eligible": [1]
+          },
+          {
+            "actor": 1,
+            "eligible": [1]
+          }
+        ],
+        "schedule": [0, 0, 0, 1, 1, 1],
+        "verdict": {
+          "passed": true,
+          "checks": [
+            {
+              "name": "All requests finish",
+              "passed": true,
+              "actual": "completed",
+              "expected": "completed"
+            },
+            {
+              "name": "No update is lost",
+              "passed": true,
+              "actual": 18,
+              "expected": 18
+            },
+            {
+              "name": "Every request has one matching receipt",
+              "passed": true,
+              "actual": 2,
+              "expected": 2
+            },
+            {
+              "name": "Responses confirm completion",
+              "passed": true,
+              "actual": [
+                {
+                  "applied": true
+                },
+                {
+                  "applied": true
+                }
+              ],
+              "expected": "all applied"
+            },
+            {
+              "name": "Unrelated state is preserved",
+              "passed": true,
+              "actual": ["auditVersion"],
+              "expected": "unchanged; no unrelated keys"
+            }
+          ],
+          "violations": []
+        }
+      },
+      "sequence": 1
+    },
+    {
+      "type": "model",
+      "message": "Muse Spark is investigating · turn 1/6",
+      "sequence": 2
+    },
+    {
+      "type": "probe",
+      "message": "Both jobs read count=10 before either writes; second set overwrites first (10+5=15 not 18).",
+      "probe": {
+        "hypothesis": "Both jobs read count=10 before either writes; second set overwrites first (10+5=15 not 18).",
+        "run": {
+          "engine": "racelab-quickjs-v1",
+          "sourceHash": "bc1c563e1849341e4bb5babd398e7294cbf4384ffd766d8574c365673db798c5",
+          "status": "completed",
+          "error": null,
+          "state": {
+            "count": 15,
+            "applied": [
+              {
+                "requestId": "job-ada",
+                "delta": 3
+              },
+              {
+                "requestId": "job-ben",
+                "delta": 5
+              }
+            ],
+            "auditVersion": 4
+          },
+          "results": [
+            {
+              "applied": true
+            },
+            {
+              "applied": true
+            }
+          ],
+          "trace": [
+            {
+              "step": 1,
+              "actor": 0,
+              "method": "get",
+              "key": "count",
+              "args": ["count"],
+              "result": 10,
+              "before": {
+                "count": 10,
+                "applied": [],
+                "auditVersion": 4
+              },
+              "after": {
+                "count": 10,
+                "applied": [],
+                "auditVersion": 4
+              }
+            },
+            {
+              "step": 2,
+              "actor": 1,
+              "method": "get",
+              "key": "count",
+              "args": ["count"],
+              "result": 10,
+              "before": {
+                "count": 10,
+                "applied": [],
+                "auditVersion": 4
+              },
+              "after": {
+                "count": 10,
+                "applied": [],
+                "auditVersion": 4
+              }
+            },
+            {
+              "step": 3,
+              "actor": 0,
+              "method": "set",
+              "key": "count",
+              "args": ["count", 13],
+              "result": true,
+              "before": {
+                "count": 10,
+                "applied": [],
+                "auditVersion": 4
+              },
+              "after": {
+                "count": 13,
+                "applied": [],
+                "auditVersion": 4
+              }
+            },
+            {
+              "step": 4,
+              "actor": 0,
+              "method": "append",
+              "key": "applied",
+              "args": [
+                "applied",
+                {
+                  "requestId": "job-ada",
+                  "delta": 3
+                }
+              ],
+              "result": 1,
+              "before": {
+                "count": 13,
+                "applied": [],
+                "auditVersion": 4
+              },
+              "after": {
+                "count": 13,
+                "applied": [
+                  {
+                    "requestId": "job-ada",
+                    "delta": 3
+                  }
+                ],
+                "auditVersion": 4
+              }
+            },
+            {
+              "step": 5,
+              "actor": 1,
+              "method": "set",
+              "key": "count",
+              "args": ["count", 15],
+              "result": true,
+              "before": {
+                "count": 13,
+                "applied": [
+                  {
+                    "requestId": "job-ada",
+                    "delta": 3
+                  }
+                ],
+                "auditVersion": 4
+              },
+              "after": {
+                "count": 15,
+                "applied": [
+                  {
+                    "requestId": "job-ada",
+                    "delta": 3
+                  }
+                ],
+                "auditVersion": 4
+              }
+            },
+            {
+              "step": 6,
+              "actor": 1,
+              "method": "append",
+              "key": "applied",
+              "args": [
+                "applied",
+                {
+                  "requestId": "job-ben",
+                  "delta": 5
+                }
+              ],
+              "result": 2,
+              "before": {
+                "count": 15,
+                "applied": [
+                  {
+                    "requestId": "job-ada",
+                    "delta": 3
+                  }
+                ],
+                "auditVersion": 4
+              },
+              "after": {
+                "count": 15,
+                "applied": [
+                  {
+                    "requestId": "job-ada",
+                    "delta": 3
+                  },
+                  {
+                    "requestId": "job-ben",
+                    "delta": 5
+                  }
+                ],
+                "auditVersion": 4
+              }
+            }
+          ],
+          "decisions": [
+            {
+              "actor": 0,
+              "eligible": [0, 1]
+            },
+            {
+              "actor": 1,
+              "eligible": [0, 1]
+            },
+            {
+              "actor": 0,
+              "eligible": [0, 1]
+            },
+            {
+              "actor": 0,
+              "eligible": [0, 1]
+            },
+            {
+              "actor": 1,
+              "eligible": [1]
+            },
+            {
+              "actor": 1,
+              "eligible": [1]
+            }
+          ],
+          "schedule": [0, 1, 0, 0, 1, 1],
+          "verdict": {
+            "passed": false,
+            "checks": [
+              {
+                "name": "All requests finish",
+                "passed": true,
+                "actual": "completed",
+                "expected": "completed"
+              },
+              {
+                "name": "No update is lost",
+                "passed": false,
+                "actual": 15,
+                "expected": 18
+              },
+              {
+                "name": "Every request has one matching receipt",
+                "passed": true,
+                "actual": 2,
+                "expected": 2
+              },
+              {
+                "name": "Responses confirm completion",
+                "passed": true,
+                "actual": [
+                  {
+                    "applied": true
+                  },
+                  {
+                    "applied": true
+                  }
+                ],
+                "expected": "all applied"
+              },
+              {
+                "name": "Unrelated state is preserved",
+                "passed": true,
+                "actual": ["auditVersion"],
+                "expected": "unchanged; no unrelated keys"
+              }
+            ],
+            "violations": ["No update is lost"]
+          }
+        }
+      },
+      "sequence": 3
+    },
+    {
+      "type": "model",
+      "message": "Muse Spark is investigating · turn 2/6",
+      "sequence": 4
+    },
+    {
+      "type": "checking",
+      "message": "Executing the proposed source against the locked contract and additional inputs…",
+      "sequence": 5
+    },
+    {
+      "type": "patch",
+      "message": "Observed read-read-write-write lost update (10->13 overwritten to 15). Fix serializes read-modify-write+receipt with a mutex, preserving response and unrelated keys.",
+      "patch": {
+        "source": "export async function handle(db, request) {\n  await db.lock(\"count-lock\");\n  try {\n    const before = await db.get(\"count\");\n    await db.set(\"count\", before + request.delta);\n    await db.append(\"applied\", { requestId: request.id, delta: request.delta });\n    return { applied: true };\n  } finally {\n    await db.unlock(\"count-lock\");\n  }\n}",
+        "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+        "explanation": "Observed read-read-write-write lost update (10->13 overwritten to 15). Fix serializes read-modify-write+receipt with a mutex, preserving response and unrelated keys.",
+        "verification": {
+          "passed": true,
+          "exhaustive": true,
+          "tested": 11,
+          "failures": 0,
+          "cases": [
+            {
+              "index": 0,
+              "scenario": {
+                "initial": {
+                  "count": 10,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "requests": [
+                  {
+                    "id": "job-ada",
+                    "delta": 3
+                  },
+                  {
+                    "id": "job-ben",
+                    "delta": 5
+                  }
+                ]
+              },
+              "engine": "racelab-quickjs-v1",
+              "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+              "strategy": "dfs",
+              "tested": 2,
+              "attempts": 3,
+              "exhaustive": true,
+              "passed": 2,
+              "failed": 0,
+              "firstFailure": null,
+              "firstPass": {
+                "engine": "racelab-quickjs-v1",
+                "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+                "status": "completed",
+                "error": null,
+                "state": {
+                  "count": 18,
+                  "applied": [
+                    {
+                      "requestId": "job-ada",
+                      "delta": 3
+                    },
+                    {
+                      "requestId": "job-ben",
+                      "delta": 5
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "results": [
+                  {
+                    "applied": true
+                  },
+                  {
+                    "applied": true
+                  }
+                ],
+                "trace": [
+                  {
+                    "step": 1,
+                    "actor": 0,
+                    "method": "lock",
+                    "key": "count-lock",
+                    "args": ["count-lock"],
+                    "result": true,
+                    "before": {
+                      "count": 10,
+                      "applied": [],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 10,
+                      "applied": [],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 2,
+                    "actor": 0,
+                    "method": "get",
+                    "key": "count",
+                    "args": ["count"],
+                    "result": 10,
+                    "before": {
+                      "count": 10,
+                      "applied": [],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 10,
+                      "applied": [],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 3,
+                    "actor": 0,
+                    "method": "set",
+                    "key": "count",
+                    "args": ["count", 13],
+                    "result": true,
+                    "before": {
+                      "count": 10,
+                      "applied": [],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 13,
+                      "applied": [],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 4,
+                    "actor": 0,
+                    "method": "append",
+                    "key": "applied",
+                    "args": [
+                      "applied",
+                      {
+                        "requestId": "job-ada",
+                        "delta": 3
+                      }
+                    ],
+                    "result": 1,
+                    "before": {
+                      "count": 13,
+                      "applied": [],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 13,
+                      "applied": [
+                        {
+                          "requestId": "job-ada",
+                          "delta": 3
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 5,
+                    "actor": 0,
+                    "method": "unlock",
+                    "key": "count-lock",
+                    "args": ["count-lock"],
+                    "result": true,
+                    "before": {
+                      "count": 13,
+                      "applied": [
+                        {
+                          "requestId": "job-ada",
+                          "delta": 3
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 13,
+                      "applied": [
+                        {
+                          "requestId": "job-ada",
+                          "delta": 3
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 6,
+                    "actor": 1,
+                    "method": "lock",
+                    "key": "count-lock",
+                    "args": ["count-lock"],
+                    "result": true,
+                    "before": {
+                      "count": 13,
+                      "applied": [
+                        {
+                          "requestId": "job-ada",
+                          "delta": 3
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 13,
+                      "applied": [
+                        {
+                          "requestId": "job-ada",
+                          "delta": 3
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 7,
+                    "actor": 1,
+                    "method": "get",
+                    "key": "count",
+                    "args": ["count"],
+                    "result": 13,
+                    "before": {
+                      "count": 13,
+                      "applied": [
+                        {
+                          "requestId": "job-ada",
+                          "delta": 3
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 13,
+                      "applied": [
+                        {
+                          "requestId": "job-ada",
+                          "delta": 3
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 8,
+                    "actor": 1,
+                    "method": "set",
+                    "key": "count",
+                    "args": ["count", 18],
+                    "result": true,
+                    "before": {
+                      "count": 13,
+                      "applied": [
+                        {
+                          "requestId": "job-ada",
+                          "delta": 3
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 18,
+                      "applied": [
+                        {
+                          "requestId": "job-ada",
+                          "delta": 3
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 9,
+                    "actor": 1,
+                    "method": "append",
+                    "key": "applied",
+                    "args": [
+                      "applied",
+                      {
+                        "requestId": "job-ben",
+                        "delta": 5
+                      }
+                    ],
+                    "result": 2,
+                    "before": {
+                      "count": 18,
+                      "applied": [
+                        {
+                          "requestId": "job-ada",
+                          "delta": 3
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 18,
+                      "applied": [
+                        {
+                          "requestId": "job-ada",
+                          "delta": 3
+                        },
+                        {
+                          "requestId": "job-ben",
+                          "delta": 5
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 10,
+                    "actor": 1,
+                    "method": "unlock",
+                    "key": "count-lock",
+                    "args": ["count-lock"],
+                    "result": true,
+                    "before": {
+                      "count": 18,
+                      "applied": [
+                        {
+                          "requestId": "job-ada",
+                          "delta": 3
+                        },
+                        {
+                          "requestId": "job-ben",
+                          "delta": 5
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 18,
+                      "applied": [
+                        {
+                          "requestId": "job-ada",
+                          "delta": 3
+                        },
+                        {
+                          "requestId": "job-ben",
+                          "delta": 5
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  }
+                ],
+                "decisions": [
+                  {
+                    "actor": 0,
+                    "eligible": [0, 1]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0]
+                  },
+                  {
+                    "actor": 1,
+                    "eligible": [1]
+                  },
+                  {
+                    "actor": 1,
+                    "eligible": [1]
+                  },
+                  {
+                    "actor": 1,
+                    "eligible": [1]
+                  },
+                  {
+                    "actor": 1,
+                    "eligible": [1]
+                  },
+                  {
+                    "actor": 1,
+                    "eligible": [1]
+                  }
+                ],
+                "schedule": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+                "verdict": {
+                  "passed": true,
+                  "checks": [
+                    {
+                      "name": "All requests finish",
+                      "passed": true,
+                      "actual": "completed",
+                      "expected": "completed"
+                    },
+                    {
+                      "name": "No update is lost",
+                      "passed": true,
+                      "actual": 18,
+                      "expected": 18
+                    },
+                    {
+                      "name": "Every request has one matching receipt",
+                      "passed": true,
+                      "actual": 2,
+                      "expected": 2
+                    },
+                    {
+                      "name": "Responses confirm completion",
+                      "passed": true,
+                      "actual": [
+                        {
+                          "applied": true
+                        },
+                        {
+                          "applied": true
+                        }
+                      ],
+                      "expected": "all applied"
+                    },
+                    {
+                      "name": "Unrelated state is preserved",
+                      "passed": true,
+                      "actual": ["auditVersion"],
+                      "expected": "unchanged; no unrelated keys"
+                    }
+                  ],
+                  "violations": []
+                }
+              },
+              "schedules": [
+                {
+                  "schedule": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "scenario": {
+                "initial": {
+                  "count": 0,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "requests": [
+                  {
+                    "id": "negative",
+                    "delta": -2
+                  }
+                ]
+              },
+              "engine": "racelab-quickjs-v1",
+              "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+              "strategy": "dfs",
+              "tested": 1,
+              "attempts": 1,
+              "exhaustive": true,
+              "passed": 1,
+              "failed": 0,
+              "firstFailure": null,
+              "firstPass": {
+                "engine": "racelab-quickjs-v1",
+                "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+                "status": "completed",
+                "error": null,
+                "state": {
+                  "count": -2,
+                  "applied": [
+                    {
+                      "requestId": "negative",
+                      "delta": -2
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "results": [
+                  {
+                    "applied": true
+                  }
+                ],
+                "trace": [
+                  {
+                    "step": 1,
+                    "actor": 0,
+                    "method": "lock",
+                    "key": "count-lock",
+                    "args": ["count-lock"],
+                    "result": true,
+                    "before": {
+                      "count": 0,
+                      "applied": [],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 0,
+                      "applied": [],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 2,
+                    "actor": 0,
+                    "method": "get",
+                    "key": "count",
+                    "args": ["count"],
+                    "result": 0,
+                    "before": {
+                      "count": 0,
+                      "applied": [],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 0,
+                      "applied": [],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 3,
+                    "actor": 0,
+                    "method": "set",
+                    "key": "count",
+                    "args": ["count", -2],
+                    "result": true,
+                    "before": {
+                      "count": 0,
+                      "applied": [],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": -2,
+                      "applied": [],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 4,
+                    "actor": 0,
+                    "method": "append",
+                    "key": "applied",
+                    "args": [
+                      "applied",
+                      {
+                        "requestId": "negative",
+                        "delta": -2
+                      }
+                    ],
+                    "result": 1,
+                    "before": {
+                      "count": -2,
+                      "applied": [],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": -2,
+                      "applied": [
+                        {
+                          "requestId": "negative",
+                          "delta": -2
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 5,
+                    "actor": 0,
+                    "method": "unlock",
+                    "key": "count-lock",
+                    "args": ["count-lock"],
+                    "result": true,
+                    "before": {
+                      "count": -2,
+                      "applied": [
+                        {
+                          "requestId": "negative",
+                          "delta": -2
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": -2,
+                      "applied": [
+                        {
+                          "requestId": "negative",
+                          "delta": -2
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  }
+                ],
+                "decisions": [
+                  {
+                    "actor": 0,
+                    "eligible": [0]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0]
+                  }
+                ],
+                "schedule": [0, 0, 0, 0, 0],
+                "verdict": {
+                  "passed": true,
+                  "checks": [
+                    {
+                      "name": "All requests finish",
+                      "passed": true,
+                      "actual": "completed",
+                      "expected": "completed"
+                    },
+                    {
+                      "name": "No update is lost",
+                      "passed": true,
+                      "actual": -2,
+                      "expected": -2
+                    },
+                    {
+                      "name": "Every request has one matching receipt",
+                      "passed": true,
+                      "actual": 1,
+                      "expected": 1
+                    },
+                    {
+                      "name": "Responses confirm completion",
+                      "passed": true,
+                      "actual": [
+                        {
+                          "applied": true
+                        }
+                      ],
+                      "expected": "all applied"
+                    },
+                    {
+                      "name": "Unrelated state is preserved",
+                      "passed": true,
+                      "actual": ["auditVersion"],
+                      "expected": "unchanged; no unrelated keys"
+                    }
+                  ],
+                  "violations": []
+                }
+              },
+              "schedules": [
+                {
+                  "schedule": [0, 0, 0, 0, 0],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "scenario": {
+                "initial": {
+                  "count": 30,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "requests": [
+                  {
+                    "id": "a",
+                    "delta": -4
+                  },
+                  {
+                    "id": "b",
+                    "delta": 9
+                  }
+                ]
+              },
+              "engine": "racelab-quickjs-v1",
+              "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+              "strategy": "dfs",
+              "tested": 2,
+              "attempts": 3,
+              "exhaustive": true,
+              "passed": 2,
+              "failed": 0,
+              "firstFailure": null,
+              "firstPass": {
+                "engine": "racelab-quickjs-v1",
+                "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+                "status": "completed",
+                "error": null,
+                "state": {
+                  "count": 35,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": -4
+                    },
+                    {
+                      "requestId": "b",
+                      "delta": 9
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "results": [
+                  {
+                    "applied": true
+                  },
+                  {
+                    "applied": true
+                  }
+                ],
+                "trace": [
+                  {
+                    "step": 1,
+                    "actor": 0,
+                    "method": "lock",
+                    "key": "count-lock",
+                    "args": ["count-lock"],
+                    "result": true,
+                    "before": {
+                      "count": 30,
+                      "applied": [],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 30,
+                      "applied": [],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 2,
+                    "actor": 0,
+                    "method": "get",
+                    "key": "count",
+                    "args": ["count"],
+                    "result": 30,
+                    "before": {
+                      "count": 30,
+                      "applied": [],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 30,
+                      "applied": [],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 3,
+                    "actor": 0,
+                    "method": "set",
+                    "key": "count",
+                    "args": ["count", 26],
+                    "result": true,
+                    "before": {
+                      "count": 30,
+                      "applied": [],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 26,
+                      "applied": [],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 4,
+                    "actor": 0,
+                    "method": "append",
+                    "key": "applied",
+                    "args": [
+                      "applied",
+                      {
+                        "requestId": "a",
+                        "delta": -4
+                      }
+                    ],
+                    "result": 1,
+                    "before": {
+                      "count": 26,
+                      "applied": [],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 26,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": -4
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 5,
+                    "actor": 0,
+                    "method": "unlock",
+                    "key": "count-lock",
+                    "args": ["count-lock"],
+                    "result": true,
+                    "before": {
+                      "count": 26,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": -4
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 26,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": -4
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 6,
+                    "actor": 1,
+                    "method": "lock",
+                    "key": "count-lock",
+                    "args": ["count-lock"],
+                    "result": true,
+                    "before": {
+                      "count": 26,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": -4
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 26,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": -4
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 7,
+                    "actor": 1,
+                    "method": "get",
+                    "key": "count",
+                    "args": ["count"],
+                    "result": 26,
+                    "before": {
+                      "count": 26,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": -4
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 26,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": -4
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 8,
+                    "actor": 1,
+                    "method": "set",
+                    "key": "count",
+                    "args": ["count", 35],
+                    "result": true,
+                    "before": {
+                      "count": 26,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": -4
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 35,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": -4
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 9,
+                    "actor": 1,
+                    "method": "append",
+                    "key": "applied",
+                    "args": [
+                      "applied",
+                      {
+                        "requestId": "b",
+                        "delta": 9
+                      }
+                    ],
+                    "result": 2,
+                    "before": {
+                      "count": 35,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": -4
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 35,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": -4
+                        },
+                        {
+                          "requestId": "b",
+                          "delta": 9
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 10,
+                    "actor": 1,
+                    "method": "unlock",
+                    "key": "count-lock",
+                    "args": ["count-lock"],
+                    "result": true,
+                    "before": {
+                      "count": 35,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": -4
+                        },
+                        {
+                          "requestId": "b",
+                          "delta": 9
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 35,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": -4
+                        },
+                        {
+                          "requestId": "b",
+                          "delta": 9
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  }
+                ],
+                "decisions": [
+                  {
+                    "actor": 0,
+                    "eligible": [0, 1]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0]
+                  },
+                  {
+                    "actor": 1,
+                    "eligible": [1]
+                  },
+                  {
+                    "actor": 1,
+                    "eligible": [1]
+                  },
+                  {
+                    "actor": 1,
+                    "eligible": [1]
+                  },
+                  {
+                    "actor": 1,
+                    "eligible": [1]
+                  },
+                  {
+                    "actor": 1,
+                    "eligible": [1]
+                  }
+                ],
+                "schedule": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+                "verdict": {
+                  "passed": true,
+                  "checks": [
+                    {
+                      "name": "All requests finish",
+                      "passed": true,
+                      "actual": "completed",
+                      "expected": "completed"
+                    },
+                    {
+                      "name": "No update is lost",
+                      "passed": true,
+                      "actual": 35,
+                      "expected": 35
+                    },
+                    {
+                      "name": "Every request has one matching receipt",
+                      "passed": true,
+                      "actual": 2,
+                      "expected": 2
+                    },
+                    {
+                      "name": "Responses confirm completion",
+                      "passed": true,
+                      "actual": [
+                        {
+                          "applied": true
+                        },
+                        {
+                          "applied": true
+                        }
+                      ],
+                      "expected": "all applied"
+                    },
+                    {
+                      "name": "Unrelated state is preserved",
+                      "passed": true,
+                      "actual": ["auditVersion"],
+                      "expected": "unchanged; no unrelated keys"
+                    }
+                  ],
+                  "violations": []
+                }
+              },
+              "schedules": [
+                {
+                  "schedule": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                }
+              ]
+            },
+            {
+              "index": 3,
+              "scenario": {
+                "initial": {
+                  "count": 5,
+                  "applied": [],
+                  "auditVersion": 4
+                },
+                "requests": [
+                  {
+                    "id": "a",
+                    "delta": 2
+                  },
+                  {
+                    "id": "b",
+                    "delta": -1
+                  },
+                  {
+                    "id": "c",
+                    "delta": 7
+                  }
+                ]
+              },
+              "engine": "racelab-quickjs-v1",
+              "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+              "strategy": "dfs",
+              "tested": 6,
+              "attempts": 10,
+              "exhaustive": true,
+              "passed": 6,
+              "failed": 0,
+              "firstFailure": null,
+              "firstPass": {
+                "engine": "racelab-quickjs-v1",
+                "sourceHash": "38aa96602bfa747792c64ce0153b8424746b2664d2c81d6d0b7dcfdd069e2f75",
+                "status": "completed",
+                "error": null,
+                "state": {
+                  "count": 13,
+                  "applied": [
+                    {
+                      "requestId": "a",
+                      "delta": 2
+                    },
+                    {
+                      "requestId": "b",
+                      "delta": -1
+                    },
+                    {
+                      "requestId": "c",
+                      "delta": 7
+                    }
+                  ],
+                  "auditVersion": 4
+                },
+                "results": [
+                  {
+                    "applied": true
+                  },
+                  {
+                    "applied": true
+                  },
+                  {
+                    "applied": true
+                  }
+                ],
+                "trace": [
+                  {
+                    "step": 1,
+                    "actor": 0,
+                    "method": "lock",
+                    "key": "count-lock",
+                    "args": ["count-lock"],
+                    "result": true,
+                    "before": {
+                      "count": 5,
+                      "applied": [],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 5,
+                      "applied": [],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 2,
+                    "actor": 0,
+                    "method": "get",
+                    "key": "count",
+                    "args": ["count"],
+                    "result": 5,
+                    "before": {
+                      "count": 5,
+                      "applied": [],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 5,
+                      "applied": [],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 3,
+                    "actor": 0,
+                    "method": "set",
+                    "key": "count",
+                    "args": ["count", 7],
+                    "result": true,
+                    "before": {
+                      "count": 5,
+                      "applied": [],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 7,
+                      "applied": [],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 4,
+                    "actor": 0,
+                    "method": "append",
+                    "key": "applied",
+                    "args": [
+                      "applied",
+                      {
+                        "requestId": "a",
+                        "delta": 2
+                      }
+                    ],
+                    "result": 1,
+                    "before": {
+                      "count": 7,
+                      "applied": [],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 7,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 5,
+                    "actor": 0,
+                    "method": "unlock",
+                    "key": "count-lock",
+                    "args": ["count-lock"],
+                    "result": true,
+                    "before": {
+                      "count": 7,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 7,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 6,
+                    "actor": 1,
+                    "method": "lock",
+                    "key": "count-lock",
+                    "args": ["count-lock"],
+                    "result": true,
+                    "before": {
+                      "count": 7,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 7,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 7,
+                    "actor": 1,
+                    "method": "get",
+                    "key": "count",
+                    "args": ["count"],
+                    "result": 7,
+                    "before": {
+                      "count": 7,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 7,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 8,
+                    "actor": 1,
+                    "method": "set",
+                    "key": "count",
+                    "args": ["count", 6],
+                    "result": true,
+                    "before": {
+                      "count": 7,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 6,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 9,
+                    "actor": 1,
+                    "method": "append",
+                    "key": "applied",
+                    "args": [
+                      "applied",
+                      {
+                        "requestId": "b",
+                        "delta": -1
+                      }
+                    ],
+                    "result": 2,
+                    "before": {
+                      "count": 6,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 6,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        },
+                        {
+                          "requestId": "b",
+                          "delta": -1
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 10,
+                    "actor": 1,
+                    "method": "unlock",
+                    "key": "count-lock",
+                    "args": ["count-lock"],
+                    "result": true,
+                    "before": {
+                      "count": 6,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        },
+                        {
+                          "requestId": "b",
+                          "delta": -1
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 6,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        },
+                        {
+                          "requestId": "b",
+                          "delta": -1
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 11,
+                    "actor": 2,
+                    "method": "lock",
+                    "key": "count-lock",
+                    "args": ["count-lock"],
+                    "result": true,
+                    "before": {
+                      "count": 6,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        },
+                        {
+                          "requestId": "b",
+                          "delta": -1
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 6,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        },
+                        {
+                          "requestId": "b",
+                          "delta": -1
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 12,
+                    "actor": 2,
+                    "method": "get",
+                    "key": "count",
+                    "args": ["count"],
+                    "result": 6,
+                    "before": {
+                      "count": 6,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        },
+                        {
+                          "requestId": "b",
+                          "delta": -1
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 6,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        },
+                        {
+                          "requestId": "b",
+                          "delta": -1
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 13,
+                    "actor": 2,
+                    "method": "set",
+                    "key": "count",
+                    "args": ["count", 13],
+                    "result": true,
+                    "before": {
+                      "count": 6,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        },
+                        {
+                          "requestId": "b",
+                          "delta": -1
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 13,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        },
+                        {
+                          "requestId": "b",
+                          "delta": -1
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 14,
+                    "actor": 2,
+                    "method": "append",
+                    "key": "applied",
+                    "args": [
+                      "applied",
+                      {
+                        "requestId": "c",
+                        "delta": 7
+                      }
+                    ],
+                    "result": 3,
+                    "before": {
+                      "count": 13,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        },
+                        {
+                          "requestId": "b",
+                          "delta": -1
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 13,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        },
+                        {
+                          "requestId": "b",
+                          "delta": -1
+                        },
+                        {
+                          "requestId": "c",
+                          "delta": 7
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  },
+                  {
+                    "step": 15,
+                    "actor": 2,
+                    "method": "unlock",
+                    "key": "count-lock",
+                    "args": ["count-lock"],
+                    "result": true,
+                    "before": {
+                      "count": 13,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        },
+                        {
+                          "requestId": "b",
+                          "delta": -1
+                        },
+                        {
+                          "requestId": "c",
+                          "delta": 7
+                        }
+                      ],
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "count": 13,
+                      "applied": [
+                        {
+                          "requestId": "a",
+                          "delta": 2
+                        },
+                        {
+                          "requestId": "b",
+                          "delta": -1
+                        },
+                        {
+                          "requestId": "c",
+                          "delta": 7
+                        }
+                      ],
+                      "auditVersion": 4
+                    }
+                  }
+                ],
+                "decisions": [
+                  {
+                    "actor": 0,
+                    "eligible": [0, 1, 2]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0]
+                  },
+                  {
+                    "actor": 1,
+                    "eligible": [1, 2]
+                  },
+                  {
+                    "actor": 1,
+                    "eligible": [1]
+                  },
+                  {
+                    "actor": 1,
+                    "eligible": [1]
+                  },
+                  {
+                    "actor": 1,
+                    "eligible": [1]
+                  },
+                  {
+                    "actor": 1,
+                    "eligible": [1]
+                  },
+                  {
+                    "actor": 2,
+                    "eligible": [2]
+                  },
+                  {
+                    "actor": 2,
+                    "eligible": [2]
+                  },
+                  {
+                    "actor": 2,
+                    "eligible": [2]
+                  },
+                  {
+                    "actor": 2,
+                    "eligible": [2]
+                  },
+                  {
+                    "actor": 2,
+                    "eligible": [2]
+                  }
+                ],
+                "schedule": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                "verdict": {
+                  "passed": true,
+                  "checks": [
+                    {
+                      "name": "All requests finish",
+                      "passed": true,
+                      "actual": "completed",
+                      "expected": "completed"
+                    },
+                    {
+                      "name": "No update is lost",
+                      "passed": true,
+                      "actual": 13,
+                      "expected": 13
+                    },
+                    {
+                      "name": "Every request has one matching receipt",
+                      "passed": true,
+                      "actual": 3,
+                      "expected": 3
+                    },
+                    {
+                      "name": "Responses confirm completion",
+                      "passed": true,
+                      "actual": [
+                        {
+                          "applied": true
+                        },
+                        {
+                          "applied": true
+                        },
+                        {
+                          "applied": true
+                        }
+                      ],
+                      "expected": "all applied"
+                    },
+                    {
+                      "name": "Unrelated state is preserved",
+                      "passed": true,
+                      "actual": ["auditVersion"],
+                      "expected": "unchanged; no unrelated keys"
+                    }
+                  ],
+                  "violations": []
+                }
+              },
+              "schedules": [
+                {
+                  "schedule": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "sequence": 6
+    }
+  ],
+  "comparison": {
+    "serial": {
+      "passed": true,
+      "checks": [
+        {
+          "name": "All requests finish",
+          "passed": true,
+          "actual": "completed",
+          "expected": "completed"
+        },
+        {
+          "name": "No update is lost",
+          "passed": true,
+          "actual": 18,
+          "expected": 18
+        },
+        {
+          "name": "Every request has one matching receipt",
+          "passed": true,
+          "actual": 2,
+          "expected": 2
+        },
+        {
+          "name": "Responses confirm completion",
+          "passed": true,
+          "actual": [
+            {
+              "applied": true
+            },
+            {
+              "applied": true
+            }
+          ],
+          "expected": "all applied"
+        },
+        {
+          "name": "Unrelated state is preserved",
+          "passed": true,
+          "actual": ["auditVersion"],
+          "expected": "unchanged; no unrelated keys"
+        }
+      ],
+      "violations": []
+    },
+    "roundRobin": {
+      "passed": false,
+      "checks": [
+        {
+          "name": "All requests finish",
+          "passed": true,
+          "actual": "completed",
+          "expected": "completed"
+        },
+        {
+          "name": "No update is lost",
+          "passed": false,
+          "actual": 15,
+          "expected": 18
+        },
+        {
+          "name": "Every request has one matching receipt",
+          "passed": true,
+          "actual": 2,
+          "expected": 2
+        },
+        {
+          "name": "Responses confirm completion",
+          "passed": true,
+          "actual": [
+            {
+              "applied": true
+            },
+            {
+              "applied": true
+            }
+          ],
+          "expected": "all applied"
+        },
+        {
+          "name": "Unrelated state is preserved",
+          "passed": true,
+          "actual": ["auditVersion"],
+          "expected": "unchanged; no unrelated keys"
+        }
+      ],
+      "violations": ["No update is lost"]
+    },
+    "seededRandom": {
+      "tested": 1,
+      "failed": 0
+    },
+    "note": "Simple scheduling baselines may also expose these authored bugs. Meta's patch is generated during the recorded investigation."
+  }
+}

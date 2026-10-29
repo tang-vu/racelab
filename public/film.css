@@ -1,0 +1,47 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: #f7f6f2;
+  color: #172d3e;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+main {
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 44px 24px 70px;
+}
+a {
+  color: #b94124;
+  text-underline-offset: 4px;
+}
+h1 {
+  font-size: clamp(38px, 6vw, 70px);
+  letter-spacing: -2px;
+  line-height: 1.05;
+  margin: 22px 0 32px;
+}
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #637780;
+  margin-top: 40px;
+}
+video {
+  display: block;
+  width: 100%;
+  border-radius: 12px;
+  background: #172d3e;
+  box-shadow: 0 12px 40px #172d3e15;
+}
+p {
+  max-width: 900px;
+  line-height: 1.75;
+  font-size: 14px;
+}
+a:focus-visible,
+video:focus-visible {
+  outline: 3px solid #e85b35;
+  outline-offset: 5px;
+}

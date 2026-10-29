@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "declaredBeforeLiveRuns": "2026-10-29",
+  "scope": "Three authored handlers and predeclared additional input cases. No production bug, held-out bug-discovery or general correctness claim.",
+  "cases": ["last-seat", "webhook", "lost-update"],
+  "perCase": {
+    "investigations": 1,
+    "maximumModelTurns": 6,
+    "maximumProbeCalls": 3,
+    "maximumPatchProposals": 2,
+    "verificationSchedulesPerInput": 40,
+    "inputCases": 4
+  },
+  "baseline": "Run the same original handler serially, round-robin and with one seeded random schedule. Report their actual verdicts; do not attribute scheduler enumeration to Meta.",
+  "success": "At least one completed original-code probe violates the fixed contract, and a model-generated patch has no violation on the checked input/schedule set.",
+  "retention": "Retain incomplete and failed investigations, including invalid probes and failed patches. No automatic paid transport retry; no repeated investigation to select a nicer result.",
+  "limits": "QuickJS JavaScript with a simulated asynchronous store. No real HTTP/database/OS scheduling, network faults, arbitrary Node modules or universal concurrency verification. A finite passed sweep proves only the recorded conditions."
+}

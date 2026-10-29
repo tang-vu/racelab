@@ -1,0 +1,13 @@
+.env
+.env.*
+!.env.example
+.racelab/
+node_modules/
+captures/
+dist/
+coverage/
+*.key
+*.pem
+*.log
+.DS_Store
+Thumbs.db

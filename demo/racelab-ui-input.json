@@ -1,0 +1,5 @@
+{
+  "caseId": "lost-update",
+  "purpose": "One additional live browser integration check on edited source, outside the three retained reference investigations. No answer patch is supplied. Not a held-out bug benchmark.",
+  "source": "export async function handle(db, request) {\n  const snapshot = await db.get(\"count\");\n  const receipts = await db.get(\"applied\");\n  if (receipts.some(row => row.requestId === request.id)) {\n    return { applied: true };\n  }\n  await db.set(\"count\", snapshot + request.delta);\n  await db.append(\"applied\", {\n    requestId: request.id,\n    delta: request.delta\n  });\n  return { applied: true };\n}"
+}

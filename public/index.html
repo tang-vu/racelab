@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Find the overlap your sequential tests missed. Execute JavaScript, replay a race, and check a Meta-generated repair."
+    />
+    <title>RaceLab — it breaks together</title>
+    <link rel="icon" href="/mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/racelab.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="RaceLab home"
+        ><img src="/mark.svg" alt="" width="30" height="30" />RaceLab<span
+          class="edition"
+          >LAB / 01</span
+        ></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="#workspace" class="current">Workbench</a
+        ><button id="focus-button" class="text-button" aria-pressed="false">
+          Focus</button
+        ><button id="about-button" class="text-button">Scope & sources</button
+        ><a href="/film.html">3-minute demo ↗</a>
+      </nav>
+      <span class="connection" id="connection"
+        ><i></i>Connecting to local runner</span
+      >
+    </header>
+    <div class="shell">
+      <aside class="sidebar">
+        <p class="eyebrow">THE EXPERIMENTS</p>
+        <div
+          id="case-list"
+          class="case-list"
+          aria-label="Example handlers"
+        ></div>
+        <div class="sidebar-note">
+          <span class="small-mark">↳</span>
+          <p>
+            One handler.<br />More than one request.<br /><strong
+              >A different outcome.</strong
+            >
+          </p>
+        </div>
+        <div class="sidebar-bottom">
+          <p>BUILT BY TANG VU</p>
+          <span>Meta Global AI Developer<br />Hackathon · 2026</span>
+        </div>
+      </aside>
+      <main id="workspace">
+        <section class="hero">
+          <div>
+            <p class="eyebrow">
+              <span class="orange-dot"></span> CONTROL THE OVERLAP. KEEP THE
+              EVIDENCE.
+            </p>
+            <h1>It passes alone.<br />It breaks <em>together.</em></h1>
+            <p class="hero-copy">
+              Put your handler under pressure. Replay the exact race.<br
+                class="desktop-break"
+              />
+              Let Meta propose a repair that code has to check.
+            </p>
+          </div>
+          <div class="hero-seal" aria-hidden="true">
+            <span>read A</span
+            ><svg viewBox="0 0 120 90">
+              <path
+                d="M8 15H40Q60 15 60 45T80 75H112M8 75H40Q60 75 60 45T80 15H112"
+              />
+              <circle cx="8" cy="15" r="4" />
+              <circle cx="112" cy="75" r="4" />
+              <circle cx="8" cy="75" r="4" />
+              <circle cx="112" cy="15" r="4" /></svg
+            ><span>write B</span>
+          </div>
+        </section>
+        <section class="result-strip" aria-label="Execution results">
+          <div>
+            <span class="result-number">01</span>
+            <div>
+              <p>SEQUENTIAL</p>
+              <strong id="serial-verdict">Ready to run</strong>
+            </div>
+            <span class="result-detail" id="serial-detail"
+              >One request at a time</span
+            >
+          </div>
+          <div>
+            <span class="result-number">02</span>
+            <div>
+              <p>OVERLAPPED</p>
+              <strong id="race-verdict">Not tested</strong>
+            </div>
+            <span class="result-detail" id="race-detail"
+              >Same code. Same inputs.</span
+            >
+          </div>
+          <div>
+            <span class="result-number">03</span>
+            <div>
+              <p>META CANDIDATE</p>
+              <strong id="patch-verdict">Awaiting a proposal</strong>
+            </div>
+            <span class="result-detail" id="patch-detail"
+              >The contract stays locked</span
+            >
+          </div>
+        </section>
+        <div class="workbench">
+          <section class="source-panel panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow" id="case-category">HANDLER</p>
+                <h2 id="case-title">Loading…</h2>
+              </div>
+              <span class="language">JS</span>
+            </div>
+            <div class="source-tabs" role="tablist" aria-label="Source version">
+              <button id="original-tab" role="tab" aria-selected="true">
+                Original <span>A</span></button
+              ><button
+                id="candidate-tab"
+                role="tab"
+                aria-selected="false"
+                disabled
+              >
+                Candidate <span>B</span></button
+              ><button
+                id="reset-source"
+                class="reset-source"
+                title="Restore the authored source"
+              >
+                ↺ Reset
+              </button>
+            </div>
+            <div class="editor">
+              <pre id="line-numbers" aria-hidden="true"></pre>
+              <textarea
+                id="source"
+                aria-label="JavaScript handler source"
+                spellcheck="false"
+                autocapitalize="off"
+                autocomplete="off"
+                wrap="off"
+              ></textarea>
+            </div>
+            <div class="source-footer">
+              <span id="source-label">Editable original · A</span
+              ><span id="source-size"></span>
+            </div>
+            <div class="contract">
+              <span class="lock-icon" aria-hidden="true">◇</span>
+              <div>
+                <p class="eyebrow">LOCKED ACCEPTANCE CONTRACT</p>
+                <p id="contract-text"></p>
+              </div>
+            </div>
+            <details class="store-api">
+              <summary>The controlled store API <span>+</span></summary>
+              <p>
+                Every awaited operation is one atomic scheduling boundary. Reads
+                return copies. Receipt collections are append-only.
+              </p>
+              <code
+                >get · set · append<br />compareAndSwap · insertOnce<br />lock ·
+                unlock</code
+              >
+              <p>
+                JavaScript runs in QuickJS/WebAssembly. The asynchronous store
+                is simulated. Node modules, network and filesystem are
+                unavailable.
+              </p>
+            </details>
+          </section>
+          <div class="right-column">
+            <section class="execution-panel panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">THE SAME INPUTS, IN A DIFFERENT ORDER</p>
+                  <h2 id="run-title">Find the moment they overlap.</h2>
+                </div>
+                <span id="run-badge" class="badge neutral">READY</span>
+              </div>
+              <div class="run-toolbar">
+                <button id="serial-button" class="button secondary">
+                  Run sequentially</button
+                ><button id="race-button" class="button primary">
+                  <span>↗</span> Find the race</button
+                ><span class="local-label">Local · no model calls</span>
+              </div>
+              <div
+                id="timeline"
+                class="timeline"
+                aria-label="Execution timeline"
+              >
+                <div class="timeline-empty">
+                  <span> A ──── read ──── write ──── finish</span
+                  ><span> B ──── read ──── write ──── finish</span>
+                  <p>
+                    The scheduler chooses which request advances at each store
+                    operation.
+                  </p>
+                </div>
+              </div>
+              <div class="replay-controls">
+                <button
+                  id="play-button"
+                  class="icon-button"
+                  aria-label="Play execution"
+                  disabled
+                >
+                  ▶</button
+                ><input
+                  id="scrubber"
+                  type="range"
+                  min="0"
+                  max="0"
+                  value="0"
+                  aria-label="Execution step"
+                  disabled
+                /><span id="step-label">STEP — / —</span
+                ><button id="replay-button" class="text-button" disabled>
+                  ↺ Re-execute
+                </button>
+              </div>
+              <div class="observation">
+                <span class="observation-label">OBSERVED</span>
+                <p id="observation-text">
+                  Execute the handler to inspect committed state at every step.
+                </p>
+              </div>
+            </section>
+            <section class="state-row">
+              <div class="panel state-panel">
+                <div class="mini-heading">
+                  <span class="eyebrow">COMMITTED STORE</span
+                  ><span id="state-step">Initial state</span>
+                </div>
+                <div id="state-view" class="state-view"></div>
+              </div>
+              <div class="panel checks-panel">
+                <div class="mini-heading">
+                  <span class="eyebrow">INDEPENDENT CHECKS</span
+                  ><span id="checks-count">—</span>
+                </div>
+                <div id="checks-view">
+                  <p class="muted">
+                    Checks evaluate the full execution, independently of the
+                    selected replay step.
+                  </p>
+                </div>
+              </div>
+            </section>
+            <section class="agent-panel panel">
+              <div class="agent-intro">
+                <div class="spark-mark" aria-hidden="true">✳</div>
+                <div>
+                  <p class="eyebrow">MUSE SPARK · EXPERIMENT → PATCH → CHECK</p>
+                  <h2>Give the repair a test it can fail.</h2>
+                  <p>
+                    Meta chooses an interleaving, reads its trace and proposes
+                    JavaScript. The runner checks additional inputs and
+                    schedules.
+                  </p>
+                </div>
+              </div>
+              <div class="agent-actions">
+                <button id="recorded-button" class="button secondary">
+                  Replay recorded Meta run</button
+                ><button id="agent-button" class="button ink" disabled>
+                  Run a new Meta investigation <span>↗</span>
+                </button>
+              </div>
+              <p id="agent-note" class="agent-note">
+                Recorded replay recomputes results locally. A new investigation
+                sends the handler to Meta and uses your configured API budget.
+              </p>
+              <div
+                id="agent-events"
+                class="agent-events"
+                aria-live="polite"
+              ></div>
+              <div id="verification" class="verification" hidden></div>
+            </section>
+          </div>
+        </div>
+        <section class="artifact-bar">
+          <div>
+            <strong>Keep the experiment.</strong
+            ><span
+              >Original, schedule, candidate and recomputed checks travel
+              together.</span
+            >
+          </div>
+          <div>
+            <button id="import-button" class="button subtle">Open report</button
+            ><button id="export-button" class="button secondary" disabled>
+              Export evidence ↗
+            </button>
+          </div>
+        </section>
+        <footer>
+          <span
+            >Authored reference cases · Executed JavaScript · Simulated
+            asynchronous store</span
+          ><button id="scope-footer" class="text-button">
+            Read the scope ↗
+          </button>
+        </footer>
+      </main>
+    </div>
+    <div class="status-bar" id="status" role="status" aria-live="polite">
+      Loading the workbench…
+    </div>
+    <dialog id="about-dialog">
+      <button
+        class="dialog-close"
+        data-close="about-dialog"
+        aria-label="Close scope"
+      >
+        ×
+      </button>
+      <p class="eyebrow">WHAT THIS LAB ESTABLISHES</p>
+      <h2>Every green result has a boundary.</h2>
+      <p>
+        RaceLab executes the submitted JavaScript handler in isolated
+        QuickJS/WebAssembly. It controls the order of asynchronous operations
+        against a simulated store. It does not run arbitrary Node.js
+        repositories, real database transactions, HTTP timing or
+        operating-system threads.
+      </p>
+      <p>
+        The examples are authored fixtures. The recorded repairs come from
+        actual Meta API investigations. A finite sweep reports only the input
+        cases and schedules it checked; it does not prove universal correctness
+        or production safety.
+      </p>
+      <p>
+        Sequential, round-robin and seeded random baselines can also expose
+        these simple races. The scheduler's work is explicit. Meta supplies
+        experiment proposals and candidate source; code supplies the verdict.
+      </p>
+      <p>
+        Related work includes
+        <a
+          href="https://arxiv.org/abs/2610.13421"
+          target="_blank"
+          rel="noreferrer"
+          >REINS</a
+        >
+        and
+        <a
+          href="https://antithesis.com/docs/resources/deterministic_simulation_testing/"
+          target="_blank"
+          rel="noreferrer"
+          >deterministic simulation testing</a
+        >. RaceLab claims a focused implementation, not invention of these
+        methods.
+      </p>
+      <p>
+        Built by Tang Vu during the hackathon. Meta provides Muse Spark. QuickJS
+        and quickjs-emscripten provide the JavaScript runtime. This standalone
+        repository reuses Meta transport and accounting code from Tang Vu's
+        earlier hackathon prototype, LiveWorld.
+      </p>
+    </dialog>
+    <dialog id="import-dialog">
+      <button
+        class="dialog-close"
+        data-close="import-dialog"
+        aria-label="Close import"
+      >
+        ×
+      </button>
+      <p class="eyebrow">OPEN A PORTABLE EXPERIMENT</p>
+      <h2>Recompute, then inspect.</h2>
+      <p>
+        Choose an exported JSON report or paste it below. Imported pass flags
+        are discarded. Imported model attribution remains unverified.
+      </p>
+      <input
+        id="import-file"
+        type="file"
+        accept=".json,application/json"
+        aria-label="Choose a RaceLab report"
+      /><textarea
+        id="import-json"
+        aria-label="Paste a RaceLab report"
+        placeholder="Paste the exported JSON here…"
+        spellcheck="false"
+      ></textarea
+      ><button id="import-confirm" class="button primary">
+        Open & recompute
+      </button>
+    </dialog>
+    <script type="module" src="/racelab.js"></script>
+  </body>
+</html>

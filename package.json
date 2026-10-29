@@ -1,0 +1,27 @@
+{
+  "name": "racelab",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Reproduce asynchronous store races and independently check Meta-generated repairs.",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check:config": "node scripts/check-meta-config.mjs",
+    "evaluate": "node scripts/record-racelab.mjs",
+    "check:local": "node scripts/check-racelab.mjs",
+    "check:film": "node scripts/check-racelab-film.mjs",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check"
+  },
+  "dependencies": {
+    "quickjs-emscripten": "0.32.0"
+  },
+  "devDependencies": {
+    "prettier": "3.9.10"
+  }
+}

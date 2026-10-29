@@ -1,0 +1,4325 @@
+{
+  "version": 1,
+  "engine": "racelab-quickjs-v1",
+  "runId": "ad17f340-f8e1-4aa9-b4d7-d90bbb6e2928",
+  "createdAt": "2026-10-29T13:34:20.973Z",
+  "caseId": "webhook",
+  "startingSource": "export async function handle(db, request) {\n  const key = \"seen:\" + request.id;\n  if (await db.get(key)) {\n    return { sent: false };\n  }\n  await db.append(\"notifications\", {\n    eventId: request.id,\n    to: request.to,\n    body: request.body\n  });\n  await db.set(key, true);\n  return { sent: true };\n}",
+  "startingSourceHash": "828640b58c62232291fe0823413dea34f14afa7f87854fc53f6596a7dd4410ab",
+  "contract": "Exactly one notification per distinct event ID, with its original recipient and body. Preserve unrelated records.",
+  "scenario": {
+    "initial": {
+      "notifications": [],
+      "seen:older": true,
+      "auditVersion": 4
+    },
+    "requests": [
+      {
+        "id": "delivery-42",
+        "to": "ada@example.test",
+        "body": "Your parcel is ready."
+      },
+      {
+        "id": "delivery-42",
+        "to": "ada@example.test",
+        "body": "Your parcel is ready."
+      }
+    ]
+  },
+  "model": "muse-spark-1.3",
+  "baseline": {
+    "engine": "racelab-quickjs-v1",
+    "sourceHash": "828640b58c62232291fe0823413dea34f14afa7f87854fc53f6596a7dd4410ab",
+    "status": "completed",
+    "error": null,
+    "state": {
+      "notifications": [
+        {
+          "eventId": "delivery-42",
+          "to": "ada@example.test",
+          "body": "Your parcel is ready."
+        }
+      ],
+      "seen:older": true,
+      "auditVersion": 4,
+      "seen:delivery-42": true
+    },
+    "results": [
+      {
+        "sent": true
+      },
+      {
+        "sent": false
+      }
+    ],
+    "trace": [
+      {
+        "step": 1,
+        "actor": 0,
+        "method": "get",
+        "key": "seen:delivery-42",
+        "args": ["seen:delivery-42"],
+        "result": null,
+        "before": {
+          "notifications": [],
+          "seen:older": true,
+          "auditVersion": 4
+        },
+        "after": {
+          "notifications": [],
+          "seen:older": true,
+          "auditVersion": 4
+        }
+      },
+      {
+        "step": 2,
+        "actor": 0,
+        "method": "append",
+        "key": "notifications",
+        "args": [
+          "notifications",
+          {
+            "eventId": "delivery-42",
+            "to": "ada@example.test",
+            "body": "Your parcel is ready."
+          }
+        ],
+        "result": 1,
+        "before": {
+          "notifications": [],
+          "seen:older": true,
+          "auditVersion": 4
+        },
+        "after": {
+          "notifications": [
+            {
+              "eventId": "delivery-42",
+              "to": "ada@example.test",
+              "body": "Your parcel is ready."
+            }
+          ],
+          "seen:older": true,
+          "auditVersion": 4
+        }
+      },
+      {
+        "step": 3,
+        "actor": 0,
+        "method": "set",
+        "key": "seen:delivery-42",
+        "args": ["seen:delivery-42", true],
+        "result": true,
+        "before": {
+          "notifications": [
+            {
+              "eventId": "delivery-42",
+              "to": "ada@example.test",
+              "body": "Your parcel is ready."
+            }
+          ],
+          "seen:older": true,
+          "auditVersion": 4
+        },
+        "after": {
+          "notifications": [
+            {
+              "eventId": "delivery-42",
+              "to": "ada@example.test",
+              "body": "Your parcel is ready."
+            }
+          ],
+          "seen:older": true,
+          "auditVersion": 4,
+          "seen:delivery-42": true
+        }
+      },
+      {
+        "step": 4,
+        "actor": 1,
+        "method": "get",
+        "key": "seen:delivery-42",
+        "args": ["seen:delivery-42"],
+        "result": true,
+        "before": {
+          "notifications": [
+            {
+              "eventId": "delivery-42",
+              "to": "ada@example.test",
+              "body": "Your parcel is ready."
+            }
+          ],
+          "seen:older": true,
+          "auditVersion": 4,
+          "seen:delivery-42": true
+        },
+        "after": {
+          "notifications": [
+            {
+              "eventId": "delivery-42",
+              "to": "ada@example.test",
+              "body": "Your parcel is ready."
+            }
+          ],
+          "seen:older": true,
+          "auditVersion": 4,
+          "seen:delivery-42": true
+        }
+      }
+    ],
+    "decisions": [
+      {
+        "actor": 0,
+        "eligible": [0, 1]
+      },
+      {
+        "actor": 0,
+        "eligible": [0, 1]
+      },
+      {
+        "actor": 0,
+        "eligible": [0, 1]
+      },
+      {
+        "actor": 1,
+        "eligible": [1]
+      }
+    ],
+    "schedule": [0, 0, 0, 1],
+    "verdict": {
+      "passed": true,
+      "checks": [
+        {
+          "name": "All requests finish",
+          "passed": true,
+          "actual": "completed",
+          "expected": "completed"
+        },
+        {
+          "name": "Exactly one message per fresh event",
+          "passed": true,
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "name": "Event IDs are recorded",
+          "passed": true,
+          "actual": [true, true],
+          "expected": "all true"
+        },
+        {
+          "name": "Responses match sent messages",
+          "passed": true,
+          "actual": [
+            {
+              "sent": true
+            },
+            {
+              "sent": false
+            }
+          ],
+          "expected": "1 sent response(s)"
+        },
+        {
+          "name": "Unrelated state is preserved",
+          "passed": true,
+          "actual": ["seen:older", "auditVersion"],
+          "expected": "unchanged; no unrelated keys"
+        }
+      ],
+      "violations": []
+    }
+  },
+  "probes": [
+    {
+      "hypothesis": "Both workers get seen:null before either sets, so both append -> duplicate notification",
+      "run": {
+        "engine": "racelab-quickjs-v1",
+        "sourceHash": "828640b58c62232291fe0823413dea34f14afa7f87854fc53f6596a7dd4410ab",
+        "status": "completed",
+        "error": null,
+        "state": {
+          "notifications": [
+            {
+              "eventId": "delivery-42",
+              "to": "ada@example.test",
+              "body": "Your parcel is ready."
+            },
+            {
+              "eventId": "delivery-42",
+              "to": "ada@example.test",
+              "body": "Your parcel is ready."
+            }
+          ],
+          "seen:older": true,
+          "auditVersion": 4,
+          "seen:delivery-42": true
+        },
+        "results": [
+          {
+            "sent": true
+          },
+          {
+            "sent": true
+          }
+        ],
+        "trace": [
+          {
+            "step": 1,
+            "actor": 0,
+            "method": "get",
+            "key": "seen:delivery-42",
+            "args": ["seen:delivery-42"],
+            "result": null,
+            "before": {
+              "notifications": [],
+              "seen:older": true,
+              "auditVersion": 4
+            },
+            "after": {
+              "notifications": [],
+              "seen:older": true,
+              "auditVersion": 4
+            }
+          },
+          {
+            "step": 2,
+            "actor": 1,
+            "method": "get",
+            "key": "seen:delivery-42",
+            "args": ["seen:delivery-42"],
+            "result": null,
+            "before": {
+              "notifications": [],
+              "seen:older": true,
+              "auditVersion": 4
+            },
+            "after": {
+              "notifications": [],
+              "seen:older": true,
+              "auditVersion": 4
+            }
+          },
+          {
+            "step": 3,
+            "actor": 0,
+            "method": "append",
+            "key": "notifications",
+            "args": [
+              "notifications",
+              {
+                "eventId": "delivery-42",
+                "to": "ada@example.test",
+                "body": "Your parcel is ready."
+              }
+            ],
+            "result": 1,
+            "before": {
+              "notifications": [],
+              "seen:older": true,
+              "auditVersion": 4
+            },
+            "after": {
+              "notifications": [
+                {
+                  "eventId": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                }
+              ],
+              "seen:older": true,
+              "auditVersion": 4
+            }
+          },
+          {
+            "step": 4,
+            "actor": 0,
+            "method": "set",
+            "key": "seen:delivery-42",
+            "args": ["seen:delivery-42", true],
+            "result": true,
+            "before": {
+              "notifications": [
+                {
+                  "eventId": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                }
+              ],
+              "seen:older": true,
+              "auditVersion": 4
+            },
+            "after": {
+              "notifications": [
+                {
+                  "eventId": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                }
+              ],
+              "seen:older": true,
+              "auditVersion": 4,
+              "seen:delivery-42": true
+            }
+          },
+          {
+            "step": 5,
+            "actor": 1,
+            "method": "append",
+            "key": "notifications",
+            "args": [
+              "notifications",
+              {
+                "eventId": "delivery-42",
+                "to": "ada@example.test",
+                "body": "Your parcel is ready."
+              }
+            ],
+            "result": 2,
+            "before": {
+              "notifications": [
+                {
+                  "eventId": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                }
+              ],
+              "seen:older": true,
+              "auditVersion": 4,
+              "seen:delivery-42": true
+            },
+            "after": {
+              "notifications": [
+                {
+                  "eventId": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                },
+                {
+                  "eventId": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                }
+              ],
+              "seen:older": true,
+              "auditVersion": 4,
+              "seen:delivery-42": true
+            }
+          },
+          {
+            "step": 6,
+            "actor": 1,
+            "method": "set",
+            "key": "seen:delivery-42",
+            "args": ["seen:delivery-42", true],
+            "result": true,
+            "before": {
+              "notifications": [
+                {
+                  "eventId": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                },
+                {
+                  "eventId": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                }
+              ],
+              "seen:older": true,
+              "auditVersion": 4,
+              "seen:delivery-42": true
+            },
+            "after": {
+              "notifications": [
+                {
+                  "eventId": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                },
+                {
+                  "eventId": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                }
+              ],
+              "seen:older": true,
+              "auditVersion": 4,
+              "seen:delivery-42": true
+            }
+          }
+        ],
+        "decisions": [
+          {
+            "actor": 0,
+            "eligible": [0, 1]
+          },
+          {
+            "actor": 1,
+            "eligible": [0, 1]
+          },
+          {
+            "actor": 0,
+            "eligible": [0, 1]
+          },
+          {
+            "actor": 0,
+            "eligible": [0, 1]
+          },
+          {
+            "actor": 1,
+            "eligible": [1]
+          },
+          {
+            "actor": 1,
+            "eligible": [1]
+          }
+        ],
+        "schedule": [0, 1, 0, 0, 1, 1],
+        "verdict": {
+          "passed": false,
+          "checks": [
+            {
+              "name": "All requests finish",
+              "passed": true,
+              "actual": "completed",
+              "expected": "completed"
+            },
+            {
+              "name": "Exactly one message per fresh event",
+              "passed": false,
+              "actual": 2,
+              "expected": 1
+            },
+            {
+              "name": "Event IDs are recorded",
+              "passed": true,
+              "actual": [true, true],
+              "expected": "all true"
+            },
+            {
+              "name": "Responses match sent messages",
+              "passed": false,
+              "actual": [
+                {
+                  "sent": true
+                },
+                {
+                  "sent": true
+                }
+              ],
+              "expected": "1 sent response(s)"
+            },
+            {
+              "name": "Unrelated state is preserved",
+              "passed": true,
+              "actual": ["seen:older", "auditVersion"],
+              "expected": "unchanged; no unrelated keys"
+            }
+          ],
+          "violations": [
+            "Exactly one message per fresh event",
+            "Responses match sent messages"
+          ]
+        }
+      }
+    }
+  ],
+  "patches": [
+    {
+      "source": "export async function handle(db, request) {\n  const key = \"seen:\" + request.id;\n  const claimed = await db.insertOnce(key, true);\n  if (!claimed) {\n    return { sent: false };\n  }\n  await db.append(\"notifications\", {\n    eventId: request.id,\n    to: request.to,\n    body: request.body\n  });\n  return { sent: true };\n}",
+      "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+      "explanation": "Race was check-then-act get+set allowing both to append. Fix uses atomic insertOnce to claim seen key; only winner appends notification.",
+      "verification": {
+        "passed": true,
+        "exhaustive": true,
+        "tested": 29,
+        "failures": 0,
+        "cases": [
+          {
+            "index": 0,
+            "scenario": {
+              "initial": {
+                "notifications": [],
+                "seen:older": true,
+                "auditVersion": 4
+              },
+              "requests": [
+                {
+                  "id": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                },
+                {
+                  "id": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                }
+              ]
+            },
+            "engine": "racelab-quickjs-v1",
+            "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+            "strategy": "dfs",
+            "tested": 4,
+            "attempts": 7,
+            "exhaustive": true,
+            "passed": 4,
+            "failed": 0,
+            "firstFailure": null,
+            "firstPass": {
+              "engine": "racelab-quickjs-v1",
+              "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+              "status": "completed",
+              "error": null,
+              "state": {
+                "notifications": [
+                  {
+                    "eventId": "delivery-42",
+                    "to": "ada@example.test",
+                    "body": "Your parcel is ready."
+                  }
+                ],
+                "seen:older": true,
+                "auditVersion": 4,
+                "seen:delivery-42": true
+              },
+              "results": [
+                {
+                  "sent": true
+                },
+                {
+                  "sent": false
+                }
+              ],
+              "trace": [
+                {
+                  "step": 1,
+                  "actor": 0,
+                  "method": "insertOnce",
+                  "key": "seen:delivery-42",
+                  "args": ["seen:delivery-42", true],
+                  "result": true,
+                  "before": {
+                    "notifications": [],
+                    "seen:older": true,
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "notifications": [],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:delivery-42": true
+                  }
+                },
+                {
+                  "step": 2,
+                  "actor": 0,
+                  "method": "append",
+                  "key": "notifications",
+                  "args": [
+                    "notifications",
+                    {
+                      "eventId": "delivery-42",
+                      "to": "ada@example.test",
+                      "body": "Your parcel is ready."
+                    }
+                  ],
+                  "result": 1,
+                  "before": {
+                    "notifications": [],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:delivery-42": true
+                  },
+                  "after": {
+                    "notifications": [
+                      {
+                        "eventId": "delivery-42",
+                        "to": "ada@example.test",
+                        "body": "Your parcel is ready."
+                      }
+                    ],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:delivery-42": true
+                  }
+                },
+                {
+                  "step": 3,
+                  "actor": 1,
+                  "method": "insertOnce",
+                  "key": "seen:delivery-42",
+                  "args": ["seen:delivery-42", true],
+                  "result": false,
+                  "before": {
+                    "notifications": [
+                      {
+                        "eventId": "delivery-42",
+                        "to": "ada@example.test",
+                        "body": "Your parcel is ready."
+                      }
+                    ],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:delivery-42": true
+                  },
+                  "after": {
+                    "notifications": [
+                      {
+                        "eventId": "delivery-42",
+                        "to": "ada@example.test",
+                        "body": "Your parcel is ready."
+                      }
+                    ],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:delivery-42": true
+                  }
+                }
+              ],
+              "decisions": [
+                {
+                  "actor": 0,
+                  "eligible": [0, 1]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0, 1]
+                },
+                {
+                  "actor": 1,
+                  "eligible": [1]
+                }
+              ],
+              "schedule": [0, 0, 1],
+              "verdict": {
+                "passed": true,
+                "checks": [
+                  {
+                    "name": "All requests finish",
+                    "passed": true,
+                    "actual": "completed",
+                    "expected": "completed"
+                  },
+                  {
+                    "name": "Exactly one message per fresh event",
+                    "passed": true,
+                    "actual": 1,
+                    "expected": 1
+                  },
+                  {
+                    "name": "Event IDs are recorded",
+                    "passed": true,
+                    "actual": [true, true],
+                    "expected": "all true"
+                  },
+                  {
+                    "name": "Responses match sent messages",
+                    "passed": true,
+                    "actual": [
+                      {
+                        "sent": true
+                      },
+                      {
+                        "sent": false
+                      }
+                    ],
+                    "expected": "1 sent response(s)"
+                  },
+                  {
+                    "name": "Unrelated state is preserved",
+                    "passed": true,
+                    "actual": ["seen:older", "auditVersion"],
+                    "expected": "unchanged; no unrelated keys"
+                  }
+                ],
+                "violations": []
+              }
+            },
+            "schedules": [
+              {
+                "schedule": [0, 0, 1],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [1, 0, 1],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [1, 1, 0],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [0, 1, 0],
+                "passed": true,
+                "violations": [],
+                "error": null
+              }
+            ]
+          },
+          {
+            "index": 1,
+            "scenario": {
+              "initial": {
+                "notifications": [],
+                "seen:older": true,
+                "auditVersion": 4
+              },
+              "requests": [
+                {
+                  "id": "fresh",
+                  "to": "b@example.test",
+                  "body": "Ready B"
+                }
+              ]
+            },
+            "engine": "racelab-quickjs-v1",
+            "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+            "strategy": "dfs",
+            "tested": 1,
+            "attempts": 1,
+            "exhaustive": true,
+            "passed": 1,
+            "failed": 0,
+            "firstFailure": null,
+            "firstPass": {
+              "engine": "racelab-quickjs-v1",
+              "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+              "status": "completed",
+              "error": null,
+              "state": {
+                "notifications": [
+                  {
+                    "eventId": "fresh",
+                    "to": "b@example.test",
+                    "body": "Ready B"
+                  }
+                ],
+                "seen:older": true,
+                "auditVersion": 4,
+                "seen:fresh": true
+              },
+              "results": [
+                {
+                  "sent": true
+                }
+              ],
+              "trace": [
+                {
+                  "step": 1,
+                  "actor": 0,
+                  "method": "insertOnce",
+                  "key": "seen:fresh",
+                  "args": ["seen:fresh", true],
+                  "result": true,
+                  "before": {
+                    "notifications": [],
+                    "seen:older": true,
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "notifications": [],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:fresh": true
+                  }
+                },
+                {
+                  "step": 2,
+                  "actor": 0,
+                  "method": "append",
+                  "key": "notifications",
+                  "args": [
+                    "notifications",
+                    {
+                      "eventId": "fresh",
+                      "to": "b@example.test",
+                      "body": "Ready B"
+                    }
+                  ],
+                  "result": 1,
+                  "before": {
+                    "notifications": [],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:fresh": true
+                  },
+                  "after": {
+                    "notifications": [
+                      {
+                        "eventId": "fresh",
+                        "to": "b@example.test",
+                        "body": "Ready B"
+                      }
+                    ],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:fresh": true
+                  }
+                }
+              ],
+              "decisions": [
+                {
+                  "actor": 0,
+                  "eligible": [0]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0]
+                }
+              ],
+              "schedule": [0, 0],
+              "verdict": {
+                "passed": true,
+                "checks": [
+                  {
+                    "name": "All requests finish",
+                    "passed": true,
+                    "actual": "completed",
+                    "expected": "completed"
+                  },
+                  {
+                    "name": "Exactly one message per fresh event",
+                    "passed": true,
+                    "actual": 1,
+                    "expected": 1
+                  },
+                  {
+                    "name": "Event IDs are recorded",
+                    "passed": true,
+                    "actual": [true],
+                    "expected": "all true"
+                  },
+                  {
+                    "name": "Responses match sent messages",
+                    "passed": true,
+                    "actual": [
+                      {
+                        "sent": true
+                      }
+                    ],
+                    "expected": "1 sent response(s)"
+                  },
+                  {
+                    "name": "Unrelated state is preserved",
+                    "passed": true,
+                    "actual": ["seen:older", "auditVersion"],
+                    "expected": "unchanged; no unrelated keys"
+                  }
+                ],
+                "violations": []
+              }
+            },
+            "schedules": [
+              {
+                "schedule": [0, 0],
+                "passed": true,
+                "violations": [],
+                "error": null
+              }
+            ]
+          },
+          {
+            "index": 2,
+            "scenario": {
+              "initial": {
+                "notifications": [],
+                "seen:older": true,
+                "auditVersion": 4
+              },
+              "requests": [
+                {
+                  "id": "first",
+                  "to": "a@example.test",
+                  "body": "A"
+                },
+                {
+                  "id": "second",
+                  "to": "b@example.test",
+                  "body": "B"
+                }
+              ]
+            },
+            "engine": "racelab-quickjs-v1",
+            "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+            "strategy": "dfs",
+            "tested": 6,
+            "attempts": 11,
+            "exhaustive": true,
+            "passed": 6,
+            "failed": 0,
+            "firstFailure": null,
+            "firstPass": {
+              "engine": "racelab-quickjs-v1",
+              "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+              "status": "completed",
+              "error": null,
+              "state": {
+                "notifications": [
+                  {
+                    "eventId": "first",
+                    "to": "a@example.test",
+                    "body": "A"
+                  },
+                  {
+                    "eventId": "second",
+                    "to": "b@example.test",
+                    "body": "B"
+                  }
+                ],
+                "seen:older": true,
+                "auditVersion": 4,
+                "seen:first": true,
+                "seen:second": true
+              },
+              "results": [
+                {
+                  "sent": true
+                },
+                {
+                  "sent": true
+                }
+              ],
+              "trace": [
+                {
+                  "step": 1,
+                  "actor": 0,
+                  "method": "insertOnce",
+                  "key": "seen:first",
+                  "args": ["seen:first", true],
+                  "result": true,
+                  "before": {
+                    "notifications": [],
+                    "seen:older": true,
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "notifications": [],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:first": true
+                  }
+                },
+                {
+                  "step": 2,
+                  "actor": 0,
+                  "method": "append",
+                  "key": "notifications",
+                  "args": [
+                    "notifications",
+                    {
+                      "eventId": "first",
+                      "to": "a@example.test",
+                      "body": "A"
+                    }
+                  ],
+                  "result": 1,
+                  "before": {
+                    "notifications": [],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:first": true
+                  },
+                  "after": {
+                    "notifications": [
+                      {
+                        "eventId": "first",
+                        "to": "a@example.test",
+                        "body": "A"
+                      }
+                    ],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:first": true
+                  }
+                },
+                {
+                  "step": 3,
+                  "actor": 1,
+                  "method": "insertOnce",
+                  "key": "seen:second",
+                  "args": ["seen:second", true],
+                  "result": true,
+                  "before": {
+                    "notifications": [
+                      {
+                        "eventId": "first",
+                        "to": "a@example.test",
+                        "body": "A"
+                      }
+                    ],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:first": true
+                  },
+                  "after": {
+                    "notifications": [
+                      {
+                        "eventId": "first",
+                        "to": "a@example.test",
+                        "body": "A"
+                      }
+                    ],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:first": true,
+                    "seen:second": true
+                  }
+                },
+                {
+                  "step": 4,
+                  "actor": 1,
+                  "method": "append",
+                  "key": "notifications",
+                  "args": [
+                    "notifications",
+                    {
+                      "eventId": "second",
+                      "to": "b@example.test",
+                      "body": "B"
+                    }
+                  ],
+                  "result": 2,
+                  "before": {
+                    "notifications": [
+                      {
+                        "eventId": "first",
+                        "to": "a@example.test",
+                        "body": "A"
+                      }
+                    ],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:first": true,
+                    "seen:second": true
+                  },
+                  "after": {
+                    "notifications": [
+                      {
+                        "eventId": "first",
+                        "to": "a@example.test",
+                        "body": "A"
+                      },
+                      {
+                        "eventId": "second",
+                        "to": "b@example.test",
+                        "body": "B"
+                      }
+                    ],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:first": true,
+                    "seen:second": true
+                  }
+                }
+              ],
+              "decisions": [
+                {
+                  "actor": 0,
+                  "eligible": [0, 1]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0, 1]
+                },
+                {
+                  "actor": 1,
+                  "eligible": [1]
+                },
+                {
+                  "actor": 1,
+                  "eligible": [1]
+                }
+              ],
+              "schedule": [0, 0, 1, 1],
+              "verdict": {
+                "passed": true,
+                "checks": [
+                  {
+                    "name": "All requests finish",
+                    "passed": true,
+                    "actual": "completed",
+                    "expected": "completed"
+                  },
+                  {
+                    "name": "Exactly one message per fresh event",
+                    "passed": true,
+                    "actual": 2,
+                    "expected": 2
+                  },
+                  {
+                    "name": "Event IDs are recorded",
+                    "passed": true,
+                    "actual": [true, true],
+                    "expected": "all true"
+                  },
+                  {
+                    "name": "Responses match sent messages",
+                    "passed": true,
+                    "actual": [
+                      {
+                        "sent": true
+                      },
+                      {
+                        "sent": true
+                      }
+                    ],
+                    "expected": "2 sent response(s)"
+                  },
+                  {
+                    "name": "Unrelated state is preserved",
+                    "passed": true,
+                    "actual": ["seen:older", "auditVersion"],
+                    "expected": "unchanged; no unrelated keys"
+                  }
+                ],
+                "violations": []
+              }
+            },
+            "schedules": [
+              {
+                "schedule": [0, 0, 1, 1],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [1, 0, 0, 1],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [1, 1, 0, 0],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [1, 0, 1, 0],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [0, 1, 0, 1],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [0, 1, 1, 0],
+                "passed": true,
+                "violations": [],
+                "error": null
+              }
+            ]
+          },
+          {
+            "index": 3,
+            "scenario": {
+              "initial": {
+                "notifications": [],
+                "seen:older": true,
+                "auditVersion": 4
+              },
+              "requests": [
+                {
+                  "id": "retry",
+                  "to": "c@example.test",
+                  "body": "C"
+                },
+                {
+                  "id": "retry",
+                  "to": "c@example.test",
+                  "body": "C"
+                },
+                {
+                  "id": "retry",
+                  "to": "c@example.test",
+                  "body": "C"
+                }
+              ]
+            },
+            "engine": "racelab-quickjs-v1",
+            "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+            "strategy": "dfs",
+            "tested": 18,
+            "attempts": 31,
+            "exhaustive": true,
+            "passed": 18,
+            "failed": 0,
+            "firstFailure": null,
+            "firstPass": {
+              "engine": "racelab-quickjs-v1",
+              "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+              "status": "completed",
+              "error": null,
+              "state": {
+                "notifications": [
+                  {
+                    "eventId": "retry",
+                    "to": "c@example.test",
+                    "body": "C"
+                  }
+                ],
+                "seen:older": true,
+                "auditVersion": 4,
+                "seen:retry": true
+              },
+              "results": [
+                {
+                  "sent": true
+                },
+                {
+                  "sent": false
+                },
+                {
+                  "sent": false
+                }
+              ],
+              "trace": [
+                {
+                  "step": 1,
+                  "actor": 0,
+                  "method": "insertOnce",
+                  "key": "seen:retry",
+                  "args": ["seen:retry", true],
+                  "result": true,
+                  "before": {
+                    "notifications": [],
+                    "seen:older": true,
+                    "auditVersion": 4
+                  },
+                  "after": {
+                    "notifications": [],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:retry": true
+                  }
+                },
+                {
+                  "step": 2,
+                  "actor": 0,
+                  "method": "append",
+                  "key": "notifications",
+                  "args": [
+                    "notifications",
+                    {
+                      "eventId": "retry",
+                      "to": "c@example.test",
+                      "body": "C"
+                    }
+                  ],
+                  "result": 1,
+                  "before": {
+                    "notifications": [],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:retry": true
+                  },
+                  "after": {
+                    "notifications": [
+                      {
+                        "eventId": "retry",
+                        "to": "c@example.test",
+                        "body": "C"
+                      }
+                    ],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:retry": true
+                  }
+                },
+                {
+                  "step": 3,
+                  "actor": 1,
+                  "method": "insertOnce",
+                  "key": "seen:retry",
+                  "args": ["seen:retry", true],
+                  "result": false,
+                  "before": {
+                    "notifications": [
+                      {
+                        "eventId": "retry",
+                        "to": "c@example.test",
+                        "body": "C"
+                      }
+                    ],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:retry": true
+                  },
+                  "after": {
+                    "notifications": [
+                      {
+                        "eventId": "retry",
+                        "to": "c@example.test",
+                        "body": "C"
+                      }
+                    ],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:retry": true
+                  }
+                },
+                {
+                  "step": 4,
+                  "actor": 2,
+                  "method": "insertOnce",
+                  "key": "seen:retry",
+                  "args": ["seen:retry", true],
+                  "result": false,
+                  "before": {
+                    "notifications": [
+                      {
+                        "eventId": "retry",
+                        "to": "c@example.test",
+                        "body": "C"
+                      }
+                    ],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:retry": true
+                  },
+                  "after": {
+                    "notifications": [
+                      {
+                        "eventId": "retry",
+                        "to": "c@example.test",
+                        "body": "C"
+                      }
+                    ],
+                    "seen:older": true,
+                    "auditVersion": 4,
+                    "seen:retry": true
+                  }
+                }
+              ],
+              "decisions": [
+                {
+                  "actor": 0,
+                  "eligible": [0, 1, 2]
+                },
+                {
+                  "actor": 0,
+                  "eligible": [0, 1, 2]
+                },
+                {
+                  "actor": 1,
+                  "eligible": [1, 2]
+                },
+                {
+                  "actor": 2,
+                  "eligible": [2]
+                }
+              ],
+              "schedule": [0, 0, 1, 2],
+              "verdict": {
+                "passed": true,
+                "checks": [
+                  {
+                    "name": "All requests finish",
+                    "passed": true,
+                    "actual": "completed",
+                    "expected": "completed"
+                  },
+                  {
+                    "name": "Exactly one message per fresh event",
+                    "passed": true,
+                    "actual": 1,
+                    "expected": 1
+                  },
+                  {
+                    "name": "Event IDs are recorded",
+                    "passed": true,
+                    "actual": [true, true, true],
+                    "expected": "all true"
+                  },
+                  {
+                    "name": "Responses match sent messages",
+                    "passed": true,
+                    "actual": [
+                      {
+                        "sent": true
+                      },
+                      {
+                        "sent": false
+                      },
+                      {
+                        "sent": false
+                      }
+                    ],
+                    "expected": "1 sent response(s)"
+                  },
+                  {
+                    "name": "Unrelated state is preserved",
+                    "passed": true,
+                    "actual": ["seen:older", "auditVersion"],
+                    "expected": "unchanged; no unrelated keys"
+                  }
+                ],
+                "violations": []
+              }
+            },
+            "schedules": [
+              {
+                "schedule": [0, 0, 1, 2],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [1, 0, 1, 2],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [1, 1, 0, 2],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [1, 1, 2, 0],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [1, 2, 0, 1],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [1, 2, 1, 0],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [1, 0, 2, 1],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [2, 0, 1, 2],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [2, 1, 0, 2],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [2, 1, 2, 0],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [2, 2, 0, 1],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [2, 2, 1, 0],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [2, 0, 2, 1],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [0, 1, 0, 2],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [0, 1, 2, 0],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [0, 2, 0, 1],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [0, 2, 1, 0],
+                "passed": true,
+                "violations": [],
+                "error": null
+              },
+              {
+                "schedule": [0, 0, 2, 1],
+                "passed": true,
+                "violations": [],
+                "error": null
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "best": {
+    "source": "export async function handle(db, request) {\n  const key = \"seen:\" + request.id;\n  const claimed = await db.insertOnce(key, true);\n  if (!claimed) {\n    return { sent: false };\n  }\n  await db.append(\"notifications\", {\n    eventId: request.id,\n    to: request.to,\n    body: request.body\n  });\n  return { sent: true };\n}",
+    "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+    "explanation": "Race was check-then-act get+set allowing both to append. Fix uses atomic insertOnce to claim seen key; only winner appends notification.",
+    "verification": {
+      "passed": true,
+      "exhaustive": true,
+      "tested": 29,
+      "failures": 0,
+      "cases": [
+        {
+          "index": 0,
+          "scenario": {
+            "initial": {
+              "notifications": [],
+              "seen:older": true,
+              "auditVersion": 4
+            },
+            "requests": [
+              {
+                "id": "delivery-42",
+                "to": "ada@example.test",
+                "body": "Your parcel is ready."
+              },
+              {
+                "id": "delivery-42",
+                "to": "ada@example.test",
+                "body": "Your parcel is ready."
+              }
+            ]
+          },
+          "engine": "racelab-quickjs-v1",
+          "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+          "strategy": "dfs",
+          "tested": 4,
+          "attempts": 7,
+          "exhaustive": true,
+          "passed": 4,
+          "failed": 0,
+          "firstFailure": null,
+          "firstPass": {
+            "engine": "racelab-quickjs-v1",
+            "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+            "status": "completed",
+            "error": null,
+            "state": {
+              "notifications": [
+                {
+                  "eventId": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                }
+              ],
+              "seen:older": true,
+              "auditVersion": 4,
+              "seen:delivery-42": true
+            },
+            "results": [
+              {
+                "sent": true
+              },
+              {
+                "sent": false
+              }
+            ],
+            "trace": [
+              {
+                "step": 1,
+                "actor": 0,
+                "method": "insertOnce",
+                "key": "seen:delivery-42",
+                "args": ["seen:delivery-42", true],
+                "result": true,
+                "before": {
+                  "notifications": [],
+                  "seen:older": true,
+                  "auditVersion": 4
+                },
+                "after": {
+                  "notifications": [],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:delivery-42": true
+                }
+              },
+              {
+                "step": 2,
+                "actor": 0,
+                "method": "append",
+                "key": "notifications",
+                "args": [
+                  "notifications",
+                  {
+                    "eventId": "delivery-42",
+                    "to": "ada@example.test",
+                    "body": "Your parcel is ready."
+                  }
+                ],
+                "result": 1,
+                "before": {
+                  "notifications": [],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:delivery-42": true
+                },
+                "after": {
+                  "notifications": [
+                    {
+                      "eventId": "delivery-42",
+                      "to": "ada@example.test",
+                      "body": "Your parcel is ready."
+                    }
+                  ],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:delivery-42": true
+                }
+              },
+              {
+                "step": 3,
+                "actor": 1,
+                "method": "insertOnce",
+                "key": "seen:delivery-42",
+                "args": ["seen:delivery-42", true],
+                "result": false,
+                "before": {
+                  "notifications": [
+                    {
+                      "eventId": "delivery-42",
+                      "to": "ada@example.test",
+                      "body": "Your parcel is ready."
+                    }
+                  ],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:delivery-42": true
+                },
+                "after": {
+                  "notifications": [
+                    {
+                      "eventId": "delivery-42",
+                      "to": "ada@example.test",
+                      "body": "Your parcel is ready."
+                    }
+                  ],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:delivery-42": true
+                }
+              }
+            ],
+            "decisions": [
+              {
+                "actor": 0,
+                "eligible": [0, 1]
+              },
+              {
+                "actor": 0,
+                "eligible": [0, 1]
+              },
+              {
+                "actor": 1,
+                "eligible": [1]
+              }
+            ],
+            "schedule": [0, 0, 1],
+            "verdict": {
+              "passed": true,
+              "checks": [
+                {
+                  "name": "All requests finish",
+                  "passed": true,
+                  "actual": "completed",
+                  "expected": "completed"
+                },
+                {
+                  "name": "Exactly one message per fresh event",
+                  "passed": true,
+                  "actual": 1,
+                  "expected": 1
+                },
+                {
+                  "name": "Event IDs are recorded",
+                  "passed": true,
+                  "actual": [true, true],
+                  "expected": "all true"
+                },
+                {
+                  "name": "Responses match sent messages",
+                  "passed": true,
+                  "actual": [
+                    {
+                      "sent": true
+                    },
+                    {
+                      "sent": false
+                    }
+                  ],
+                  "expected": "1 sent response(s)"
+                },
+                {
+                  "name": "Unrelated state is preserved",
+                  "passed": true,
+                  "actual": ["seen:older", "auditVersion"],
+                  "expected": "unchanged; no unrelated keys"
+                }
+              ],
+              "violations": []
+            }
+          },
+          "schedules": [
+            {
+              "schedule": [0, 0, 1],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [1, 0, 1],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [1, 1, 0],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [0, 1, 0],
+              "passed": true,
+              "violations": [],
+              "error": null
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "scenario": {
+            "initial": {
+              "notifications": [],
+              "seen:older": true,
+              "auditVersion": 4
+            },
+            "requests": [
+              {
+                "id": "fresh",
+                "to": "b@example.test",
+                "body": "Ready B"
+              }
+            ]
+          },
+          "engine": "racelab-quickjs-v1",
+          "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+          "strategy": "dfs",
+          "tested": 1,
+          "attempts": 1,
+          "exhaustive": true,
+          "passed": 1,
+          "failed": 0,
+          "firstFailure": null,
+          "firstPass": {
+            "engine": "racelab-quickjs-v1",
+            "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+            "status": "completed",
+            "error": null,
+            "state": {
+              "notifications": [
+                {
+                  "eventId": "fresh",
+                  "to": "b@example.test",
+                  "body": "Ready B"
+                }
+              ],
+              "seen:older": true,
+              "auditVersion": 4,
+              "seen:fresh": true
+            },
+            "results": [
+              {
+                "sent": true
+              }
+            ],
+            "trace": [
+              {
+                "step": 1,
+                "actor": 0,
+                "method": "insertOnce",
+                "key": "seen:fresh",
+                "args": ["seen:fresh", true],
+                "result": true,
+                "before": {
+                  "notifications": [],
+                  "seen:older": true,
+                  "auditVersion": 4
+                },
+                "after": {
+                  "notifications": [],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:fresh": true
+                }
+              },
+              {
+                "step": 2,
+                "actor": 0,
+                "method": "append",
+                "key": "notifications",
+                "args": [
+                  "notifications",
+                  {
+                    "eventId": "fresh",
+                    "to": "b@example.test",
+                    "body": "Ready B"
+                  }
+                ],
+                "result": 1,
+                "before": {
+                  "notifications": [],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:fresh": true
+                },
+                "after": {
+                  "notifications": [
+                    {
+                      "eventId": "fresh",
+                      "to": "b@example.test",
+                      "body": "Ready B"
+                    }
+                  ],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:fresh": true
+                }
+              }
+            ],
+            "decisions": [
+              {
+                "actor": 0,
+                "eligible": [0]
+              },
+              {
+                "actor": 0,
+                "eligible": [0]
+              }
+            ],
+            "schedule": [0, 0],
+            "verdict": {
+              "passed": true,
+              "checks": [
+                {
+                  "name": "All requests finish",
+                  "passed": true,
+                  "actual": "completed",
+                  "expected": "completed"
+                },
+                {
+                  "name": "Exactly one message per fresh event",
+                  "passed": true,
+                  "actual": 1,
+                  "expected": 1
+                },
+                {
+                  "name": "Event IDs are recorded",
+                  "passed": true,
+                  "actual": [true],
+                  "expected": "all true"
+                },
+                {
+                  "name": "Responses match sent messages",
+                  "passed": true,
+                  "actual": [
+                    {
+                      "sent": true
+                    }
+                  ],
+                  "expected": "1 sent response(s)"
+                },
+                {
+                  "name": "Unrelated state is preserved",
+                  "passed": true,
+                  "actual": ["seen:older", "auditVersion"],
+                  "expected": "unchanged; no unrelated keys"
+                }
+              ],
+              "violations": []
+            }
+          },
+          "schedules": [
+            {
+              "schedule": [0, 0],
+              "passed": true,
+              "violations": [],
+              "error": null
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "scenario": {
+            "initial": {
+              "notifications": [],
+              "seen:older": true,
+              "auditVersion": 4
+            },
+            "requests": [
+              {
+                "id": "first",
+                "to": "a@example.test",
+                "body": "A"
+              },
+              {
+                "id": "second",
+                "to": "b@example.test",
+                "body": "B"
+              }
+            ]
+          },
+          "engine": "racelab-quickjs-v1",
+          "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+          "strategy": "dfs",
+          "tested": 6,
+          "attempts": 11,
+          "exhaustive": true,
+          "passed": 6,
+          "failed": 0,
+          "firstFailure": null,
+          "firstPass": {
+            "engine": "racelab-quickjs-v1",
+            "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+            "status": "completed",
+            "error": null,
+            "state": {
+              "notifications": [
+                {
+                  "eventId": "first",
+                  "to": "a@example.test",
+                  "body": "A"
+                },
+                {
+                  "eventId": "second",
+                  "to": "b@example.test",
+                  "body": "B"
+                }
+              ],
+              "seen:older": true,
+              "auditVersion": 4,
+              "seen:first": true,
+              "seen:second": true
+            },
+            "results": [
+              {
+                "sent": true
+              },
+              {
+                "sent": true
+              }
+            ],
+            "trace": [
+              {
+                "step": 1,
+                "actor": 0,
+                "method": "insertOnce",
+                "key": "seen:first",
+                "args": ["seen:first", true],
+                "result": true,
+                "before": {
+                  "notifications": [],
+                  "seen:older": true,
+                  "auditVersion": 4
+                },
+                "after": {
+                  "notifications": [],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:first": true
+                }
+              },
+              {
+                "step": 2,
+                "actor": 0,
+                "method": "append",
+                "key": "notifications",
+                "args": [
+                  "notifications",
+                  {
+                    "eventId": "first",
+                    "to": "a@example.test",
+                    "body": "A"
+                  }
+                ],
+                "result": 1,
+                "before": {
+                  "notifications": [],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:first": true
+                },
+                "after": {
+                  "notifications": [
+                    {
+                      "eventId": "first",
+                      "to": "a@example.test",
+                      "body": "A"
+                    }
+                  ],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:first": true
+                }
+              },
+              {
+                "step": 3,
+                "actor": 1,
+                "method": "insertOnce",
+                "key": "seen:second",
+                "args": ["seen:second", true],
+                "result": true,
+                "before": {
+                  "notifications": [
+                    {
+                      "eventId": "first",
+                      "to": "a@example.test",
+                      "body": "A"
+                    }
+                  ],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:first": true
+                },
+                "after": {
+                  "notifications": [
+                    {
+                      "eventId": "first",
+                      "to": "a@example.test",
+                      "body": "A"
+                    }
+                  ],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:first": true,
+                  "seen:second": true
+                }
+              },
+              {
+                "step": 4,
+                "actor": 1,
+                "method": "append",
+                "key": "notifications",
+                "args": [
+                  "notifications",
+                  {
+                    "eventId": "second",
+                    "to": "b@example.test",
+                    "body": "B"
+                  }
+                ],
+                "result": 2,
+                "before": {
+                  "notifications": [
+                    {
+                      "eventId": "first",
+                      "to": "a@example.test",
+                      "body": "A"
+                    }
+                  ],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:first": true,
+                  "seen:second": true
+                },
+                "after": {
+                  "notifications": [
+                    {
+                      "eventId": "first",
+                      "to": "a@example.test",
+                      "body": "A"
+                    },
+                    {
+                      "eventId": "second",
+                      "to": "b@example.test",
+                      "body": "B"
+                    }
+                  ],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:first": true,
+                  "seen:second": true
+                }
+              }
+            ],
+            "decisions": [
+              {
+                "actor": 0,
+                "eligible": [0, 1]
+              },
+              {
+                "actor": 0,
+                "eligible": [0, 1]
+              },
+              {
+                "actor": 1,
+                "eligible": [1]
+              },
+              {
+                "actor": 1,
+                "eligible": [1]
+              }
+            ],
+            "schedule": [0, 0, 1, 1],
+            "verdict": {
+              "passed": true,
+              "checks": [
+                {
+                  "name": "All requests finish",
+                  "passed": true,
+                  "actual": "completed",
+                  "expected": "completed"
+                },
+                {
+                  "name": "Exactly one message per fresh event",
+                  "passed": true,
+                  "actual": 2,
+                  "expected": 2
+                },
+                {
+                  "name": "Event IDs are recorded",
+                  "passed": true,
+                  "actual": [true, true],
+                  "expected": "all true"
+                },
+                {
+                  "name": "Responses match sent messages",
+                  "passed": true,
+                  "actual": [
+                    {
+                      "sent": true
+                    },
+                    {
+                      "sent": true
+                    }
+                  ],
+                  "expected": "2 sent response(s)"
+                },
+                {
+                  "name": "Unrelated state is preserved",
+                  "passed": true,
+                  "actual": ["seen:older", "auditVersion"],
+                  "expected": "unchanged; no unrelated keys"
+                }
+              ],
+              "violations": []
+            }
+          },
+          "schedules": [
+            {
+              "schedule": [0, 0, 1, 1],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [1, 0, 0, 1],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [1, 1, 0, 0],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [1, 0, 1, 0],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [0, 1, 0, 1],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [0, 1, 1, 0],
+              "passed": true,
+              "violations": [],
+              "error": null
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "scenario": {
+            "initial": {
+              "notifications": [],
+              "seen:older": true,
+              "auditVersion": 4
+            },
+            "requests": [
+              {
+                "id": "retry",
+                "to": "c@example.test",
+                "body": "C"
+              },
+              {
+                "id": "retry",
+                "to": "c@example.test",
+                "body": "C"
+              },
+              {
+                "id": "retry",
+                "to": "c@example.test",
+                "body": "C"
+              }
+            ]
+          },
+          "engine": "racelab-quickjs-v1",
+          "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+          "strategy": "dfs",
+          "tested": 18,
+          "attempts": 31,
+          "exhaustive": true,
+          "passed": 18,
+          "failed": 0,
+          "firstFailure": null,
+          "firstPass": {
+            "engine": "racelab-quickjs-v1",
+            "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+            "status": "completed",
+            "error": null,
+            "state": {
+              "notifications": [
+                {
+                  "eventId": "retry",
+                  "to": "c@example.test",
+                  "body": "C"
+                }
+              ],
+              "seen:older": true,
+              "auditVersion": 4,
+              "seen:retry": true
+            },
+            "results": [
+              {
+                "sent": true
+              },
+              {
+                "sent": false
+              },
+              {
+                "sent": false
+              }
+            ],
+            "trace": [
+              {
+                "step": 1,
+                "actor": 0,
+                "method": "insertOnce",
+                "key": "seen:retry",
+                "args": ["seen:retry", true],
+                "result": true,
+                "before": {
+                  "notifications": [],
+                  "seen:older": true,
+                  "auditVersion": 4
+                },
+                "after": {
+                  "notifications": [],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:retry": true
+                }
+              },
+              {
+                "step": 2,
+                "actor": 0,
+                "method": "append",
+                "key": "notifications",
+                "args": [
+                  "notifications",
+                  {
+                    "eventId": "retry",
+                    "to": "c@example.test",
+                    "body": "C"
+                  }
+                ],
+                "result": 1,
+                "before": {
+                  "notifications": [],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:retry": true
+                },
+                "after": {
+                  "notifications": [
+                    {
+                      "eventId": "retry",
+                      "to": "c@example.test",
+                      "body": "C"
+                    }
+                  ],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:retry": true
+                }
+              },
+              {
+                "step": 3,
+                "actor": 1,
+                "method": "insertOnce",
+                "key": "seen:retry",
+                "args": ["seen:retry", true],
+                "result": false,
+                "before": {
+                  "notifications": [
+                    {
+                      "eventId": "retry",
+                      "to": "c@example.test",
+                      "body": "C"
+                    }
+                  ],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:retry": true
+                },
+                "after": {
+                  "notifications": [
+                    {
+                      "eventId": "retry",
+                      "to": "c@example.test",
+                      "body": "C"
+                    }
+                  ],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:retry": true
+                }
+              },
+              {
+                "step": 4,
+                "actor": 2,
+                "method": "insertOnce",
+                "key": "seen:retry",
+                "args": ["seen:retry", true],
+                "result": false,
+                "before": {
+                  "notifications": [
+                    {
+                      "eventId": "retry",
+                      "to": "c@example.test",
+                      "body": "C"
+                    }
+                  ],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:retry": true
+                },
+                "after": {
+                  "notifications": [
+                    {
+                      "eventId": "retry",
+                      "to": "c@example.test",
+                      "body": "C"
+                    }
+                  ],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:retry": true
+                }
+              }
+            ],
+            "decisions": [
+              {
+                "actor": 0,
+                "eligible": [0, 1, 2]
+              },
+              {
+                "actor": 0,
+                "eligible": [0, 1, 2]
+              },
+              {
+                "actor": 1,
+                "eligible": [1, 2]
+              },
+              {
+                "actor": 2,
+                "eligible": [2]
+              }
+            ],
+            "schedule": [0, 0, 1, 2],
+            "verdict": {
+              "passed": true,
+              "checks": [
+                {
+                  "name": "All requests finish",
+                  "passed": true,
+                  "actual": "completed",
+                  "expected": "completed"
+                },
+                {
+                  "name": "Exactly one message per fresh event",
+                  "passed": true,
+                  "actual": 1,
+                  "expected": 1
+                },
+                {
+                  "name": "Event IDs are recorded",
+                  "passed": true,
+                  "actual": [true, true, true],
+                  "expected": "all true"
+                },
+                {
+                  "name": "Responses match sent messages",
+                  "passed": true,
+                  "actual": [
+                    {
+                      "sent": true
+                    },
+                    {
+                      "sent": false
+                    },
+                    {
+                      "sent": false
+                    }
+                  ],
+                  "expected": "1 sent response(s)"
+                },
+                {
+                  "name": "Unrelated state is preserved",
+                  "passed": true,
+                  "actual": ["seen:older", "auditVersion"],
+                  "expected": "unchanged; no unrelated keys"
+                }
+              ],
+              "violations": []
+            }
+          },
+          "schedules": [
+            {
+              "schedule": [0, 0, 1, 2],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [1, 0, 1, 2],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [1, 1, 0, 2],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [1, 1, 2, 0],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [1, 2, 0, 1],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [1, 2, 1, 0],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [1, 0, 2, 1],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [2, 0, 1, 2],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [2, 1, 0, 2],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [2, 1, 2, 0],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [2, 2, 0, 1],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [2, 2, 1, 0],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [2, 0, 2, 1],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [0, 1, 0, 2],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [0, 1, 2, 0],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [0, 2, 0, 1],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [0, 2, 1, 0],
+              "passed": true,
+              "violations": [],
+              "error": null
+            },
+            {
+              "schedule": [0, 0, 2, 1],
+              "passed": true,
+              "violations": [],
+              "error": null
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "summary": "",
+  "requests": 2,
+  "costUsd": 0.007815,
+  "outcome": "repaired_in_checked_schedules",
+  "scope": "Authored handlers with a simulated asynchronous store. Bounded controlled schedules and additional inputs, not a production or general correctness claim.",
+  "events": [
+    {
+      "type": "baseline",
+      "message": "The sequential execution has been checked.",
+      "run": {
+        "engine": "racelab-quickjs-v1",
+        "sourceHash": "828640b58c62232291fe0823413dea34f14afa7f87854fc53f6596a7dd4410ab",
+        "status": "completed",
+        "error": null,
+        "state": {
+          "notifications": [
+            {
+              "eventId": "delivery-42",
+              "to": "ada@example.test",
+              "body": "Your parcel is ready."
+            }
+          ],
+          "seen:older": true,
+          "auditVersion": 4,
+          "seen:delivery-42": true
+        },
+        "results": [
+          {
+            "sent": true
+          },
+          {
+            "sent": false
+          }
+        ],
+        "trace": [
+          {
+            "step": 1,
+            "actor": 0,
+            "method": "get",
+            "key": "seen:delivery-42",
+            "args": ["seen:delivery-42"],
+            "result": null,
+            "before": {
+              "notifications": [],
+              "seen:older": true,
+              "auditVersion": 4
+            },
+            "after": {
+              "notifications": [],
+              "seen:older": true,
+              "auditVersion": 4
+            }
+          },
+          {
+            "step": 2,
+            "actor": 0,
+            "method": "append",
+            "key": "notifications",
+            "args": [
+              "notifications",
+              {
+                "eventId": "delivery-42",
+                "to": "ada@example.test",
+                "body": "Your parcel is ready."
+              }
+            ],
+            "result": 1,
+            "before": {
+              "notifications": [],
+              "seen:older": true,
+              "auditVersion": 4
+            },
+            "after": {
+              "notifications": [
+                {
+                  "eventId": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                }
+              ],
+              "seen:older": true,
+              "auditVersion": 4
+            }
+          },
+          {
+            "step": 3,
+            "actor": 0,
+            "method": "set",
+            "key": "seen:delivery-42",
+            "args": ["seen:delivery-42", true],
+            "result": true,
+            "before": {
+              "notifications": [
+                {
+                  "eventId": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                }
+              ],
+              "seen:older": true,
+              "auditVersion": 4
+            },
+            "after": {
+              "notifications": [
+                {
+                  "eventId": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                }
+              ],
+              "seen:older": true,
+              "auditVersion": 4,
+              "seen:delivery-42": true
+            }
+          },
+          {
+            "step": 4,
+            "actor": 1,
+            "method": "get",
+            "key": "seen:delivery-42",
+            "args": ["seen:delivery-42"],
+            "result": true,
+            "before": {
+              "notifications": [
+                {
+                  "eventId": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                }
+              ],
+              "seen:older": true,
+              "auditVersion": 4,
+              "seen:delivery-42": true
+            },
+            "after": {
+              "notifications": [
+                {
+                  "eventId": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                }
+              ],
+              "seen:older": true,
+              "auditVersion": 4,
+              "seen:delivery-42": true
+            }
+          }
+        ],
+        "decisions": [
+          {
+            "actor": 0,
+            "eligible": [0, 1]
+          },
+          {
+            "actor": 0,
+            "eligible": [0, 1]
+          },
+          {
+            "actor": 0,
+            "eligible": [0, 1]
+          },
+          {
+            "actor": 1,
+            "eligible": [1]
+          }
+        ],
+        "schedule": [0, 0, 0, 1],
+        "verdict": {
+          "passed": true,
+          "checks": [
+            {
+              "name": "All requests finish",
+              "passed": true,
+              "actual": "completed",
+              "expected": "completed"
+            },
+            {
+              "name": "Exactly one message per fresh event",
+              "passed": true,
+              "actual": 1,
+              "expected": 1
+            },
+            {
+              "name": "Event IDs are recorded",
+              "passed": true,
+              "actual": [true, true],
+              "expected": "all true"
+            },
+            {
+              "name": "Responses match sent messages",
+              "passed": true,
+              "actual": [
+                {
+                  "sent": true
+                },
+                {
+                  "sent": false
+                }
+              ],
+              "expected": "1 sent response(s)"
+            },
+            {
+              "name": "Unrelated state is preserved",
+              "passed": true,
+              "actual": ["seen:older", "auditVersion"],
+              "expected": "unchanged; no unrelated keys"
+            }
+          ],
+          "violations": []
+        }
+      },
+      "sequence": 1
+    },
+    {
+      "type": "model",
+      "message": "Muse Spark is investigating · turn 1/6",
+      "sequence": 2
+    },
+    {
+      "type": "probe",
+      "message": "Both workers get seen:null before either sets, so both append -> duplicate notification",
+      "probe": {
+        "hypothesis": "Both workers get seen:null before either sets, so both append -> duplicate notification",
+        "run": {
+          "engine": "racelab-quickjs-v1",
+          "sourceHash": "828640b58c62232291fe0823413dea34f14afa7f87854fc53f6596a7dd4410ab",
+          "status": "completed",
+          "error": null,
+          "state": {
+            "notifications": [
+              {
+                "eventId": "delivery-42",
+                "to": "ada@example.test",
+                "body": "Your parcel is ready."
+              },
+              {
+                "eventId": "delivery-42",
+                "to": "ada@example.test",
+                "body": "Your parcel is ready."
+              }
+            ],
+            "seen:older": true,
+            "auditVersion": 4,
+            "seen:delivery-42": true
+          },
+          "results": [
+            {
+              "sent": true
+            },
+            {
+              "sent": true
+            }
+          ],
+          "trace": [
+            {
+              "step": 1,
+              "actor": 0,
+              "method": "get",
+              "key": "seen:delivery-42",
+              "args": ["seen:delivery-42"],
+              "result": null,
+              "before": {
+                "notifications": [],
+                "seen:older": true,
+                "auditVersion": 4
+              },
+              "after": {
+                "notifications": [],
+                "seen:older": true,
+                "auditVersion": 4
+              }
+            },
+            {
+              "step": 2,
+              "actor": 1,
+              "method": "get",
+              "key": "seen:delivery-42",
+              "args": ["seen:delivery-42"],
+              "result": null,
+              "before": {
+                "notifications": [],
+                "seen:older": true,
+                "auditVersion": 4
+              },
+              "after": {
+                "notifications": [],
+                "seen:older": true,
+                "auditVersion": 4
+              }
+            },
+            {
+              "step": 3,
+              "actor": 0,
+              "method": "append",
+              "key": "notifications",
+              "args": [
+                "notifications",
+                {
+                  "eventId": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                }
+              ],
+              "result": 1,
+              "before": {
+                "notifications": [],
+                "seen:older": true,
+                "auditVersion": 4
+              },
+              "after": {
+                "notifications": [
+                  {
+                    "eventId": "delivery-42",
+                    "to": "ada@example.test",
+                    "body": "Your parcel is ready."
+                  }
+                ],
+                "seen:older": true,
+                "auditVersion": 4
+              }
+            },
+            {
+              "step": 4,
+              "actor": 0,
+              "method": "set",
+              "key": "seen:delivery-42",
+              "args": ["seen:delivery-42", true],
+              "result": true,
+              "before": {
+                "notifications": [
+                  {
+                    "eventId": "delivery-42",
+                    "to": "ada@example.test",
+                    "body": "Your parcel is ready."
+                  }
+                ],
+                "seen:older": true,
+                "auditVersion": 4
+              },
+              "after": {
+                "notifications": [
+                  {
+                    "eventId": "delivery-42",
+                    "to": "ada@example.test",
+                    "body": "Your parcel is ready."
+                  }
+                ],
+                "seen:older": true,
+                "auditVersion": 4,
+                "seen:delivery-42": true
+              }
+            },
+            {
+              "step": 5,
+              "actor": 1,
+              "method": "append",
+              "key": "notifications",
+              "args": [
+                "notifications",
+                {
+                  "eventId": "delivery-42",
+                  "to": "ada@example.test",
+                  "body": "Your parcel is ready."
+                }
+              ],
+              "result": 2,
+              "before": {
+                "notifications": [
+                  {
+                    "eventId": "delivery-42",
+                    "to": "ada@example.test",
+                    "body": "Your parcel is ready."
+                  }
+                ],
+                "seen:older": true,
+                "auditVersion": 4,
+                "seen:delivery-42": true
+              },
+              "after": {
+                "notifications": [
+                  {
+                    "eventId": "delivery-42",
+                    "to": "ada@example.test",
+                    "body": "Your parcel is ready."
+                  },
+                  {
+                    "eventId": "delivery-42",
+                    "to": "ada@example.test",
+                    "body": "Your parcel is ready."
+                  }
+                ],
+                "seen:older": true,
+                "auditVersion": 4,
+                "seen:delivery-42": true
+              }
+            },
+            {
+              "step": 6,
+              "actor": 1,
+              "method": "set",
+              "key": "seen:delivery-42",
+              "args": ["seen:delivery-42", true],
+              "result": true,
+              "before": {
+                "notifications": [
+                  {
+                    "eventId": "delivery-42",
+                    "to": "ada@example.test",
+                    "body": "Your parcel is ready."
+                  },
+                  {
+                    "eventId": "delivery-42",
+                    "to": "ada@example.test",
+                    "body": "Your parcel is ready."
+                  }
+                ],
+                "seen:older": true,
+                "auditVersion": 4,
+                "seen:delivery-42": true
+              },
+              "after": {
+                "notifications": [
+                  {
+                    "eventId": "delivery-42",
+                    "to": "ada@example.test",
+                    "body": "Your parcel is ready."
+                  },
+                  {
+                    "eventId": "delivery-42",
+                    "to": "ada@example.test",
+                    "body": "Your parcel is ready."
+                  }
+                ],
+                "seen:older": true,
+                "auditVersion": 4,
+                "seen:delivery-42": true
+              }
+            }
+          ],
+          "decisions": [
+            {
+              "actor": 0,
+              "eligible": [0, 1]
+            },
+            {
+              "actor": 1,
+              "eligible": [0, 1]
+            },
+            {
+              "actor": 0,
+              "eligible": [0, 1]
+            },
+            {
+              "actor": 0,
+              "eligible": [0, 1]
+            },
+            {
+              "actor": 1,
+              "eligible": [1]
+            },
+            {
+              "actor": 1,
+              "eligible": [1]
+            }
+          ],
+          "schedule": [0, 1, 0, 0, 1, 1],
+          "verdict": {
+            "passed": false,
+            "checks": [
+              {
+                "name": "All requests finish",
+                "passed": true,
+                "actual": "completed",
+                "expected": "completed"
+              },
+              {
+                "name": "Exactly one message per fresh event",
+                "passed": false,
+                "actual": 2,
+                "expected": 1
+              },
+              {
+                "name": "Event IDs are recorded",
+                "passed": true,
+                "actual": [true, true],
+                "expected": "all true"
+              },
+              {
+                "name": "Responses match sent messages",
+                "passed": false,
+                "actual": [
+                  {
+                    "sent": true
+                  },
+                  {
+                    "sent": true
+                  }
+                ],
+                "expected": "1 sent response(s)"
+              },
+              {
+                "name": "Unrelated state is preserved",
+                "passed": true,
+                "actual": ["seen:older", "auditVersion"],
+                "expected": "unchanged; no unrelated keys"
+              }
+            ],
+            "violations": [
+              "Exactly one message per fresh event",
+              "Responses match sent messages"
+            ]
+          }
+        }
+      },
+      "sequence": 3
+    },
+    {
+      "type": "model",
+      "message": "Muse Spark is investigating · turn 2/6",
+      "sequence": 4
+    },
+    {
+      "type": "checking",
+      "message": "Executing the proposed source against the locked contract and additional inputs…",
+      "sequence": 5
+    },
+    {
+      "type": "patch",
+      "message": "Race was check-then-act get+set allowing both to append. Fix uses atomic insertOnce to claim seen key; only winner appends notification.",
+      "patch": {
+        "source": "export async function handle(db, request) {\n  const key = \"seen:\" + request.id;\n  const claimed = await db.insertOnce(key, true);\n  if (!claimed) {\n    return { sent: false };\n  }\n  await db.append(\"notifications\", {\n    eventId: request.id,\n    to: request.to,\n    body: request.body\n  });\n  return { sent: true };\n}",
+        "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+        "explanation": "Race was check-then-act get+set allowing both to append. Fix uses atomic insertOnce to claim seen key; only winner appends notification.",
+        "verification": {
+          "passed": true,
+          "exhaustive": true,
+          "tested": 29,
+          "failures": 0,
+          "cases": [
+            {
+              "index": 0,
+              "scenario": {
+                "initial": {
+                  "notifications": [],
+                  "seen:older": true,
+                  "auditVersion": 4
+                },
+                "requests": [
+                  {
+                    "id": "delivery-42",
+                    "to": "ada@example.test",
+                    "body": "Your parcel is ready."
+                  },
+                  {
+                    "id": "delivery-42",
+                    "to": "ada@example.test",
+                    "body": "Your parcel is ready."
+                  }
+                ]
+              },
+              "engine": "racelab-quickjs-v1",
+              "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+              "strategy": "dfs",
+              "tested": 4,
+              "attempts": 7,
+              "exhaustive": true,
+              "passed": 4,
+              "failed": 0,
+              "firstFailure": null,
+              "firstPass": {
+                "engine": "racelab-quickjs-v1",
+                "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+                "status": "completed",
+                "error": null,
+                "state": {
+                  "notifications": [
+                    {
+                      "eventId": "delivery-42",
+                      "to": "ada@example.test",
+                      "body": "Your parcel is ready."
+                    }
+                  ],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:delivery-42": true
+                },
+                "results": [
+                  {
+                    "sent": true
+                  },
+                  {
+                    "sent": false
+                  }
+                ],
+                "trace": [
+                  {
+                    "step": 1,
+                    "actor": 0,
+                    "method": "insertOnce",
+                    "key": "seen:delivery-42",
+                    "args": ["seen:delivery-42", true],
+                    "result": true,
+                    "before": {
+                      "notifications": [],
+                      "seen:older": true,
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "notifications": [],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:delivery-42": true
+                    }
+                  },
+                  {
+                    "step": 2,
+                    "actor": 0,
+                    "method": "append",
+                    "key": "notifications",
+                    "args": [
+                      "notifications",
+                      {
+                        "eventId": "delivery-42",
+                        "to": "ada@example.test",
+                        "body": "Your parcel is ready."
+                      }
+                    ],
+                    "result": 1,
+                    "before": {
+                      "notifications": [],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:delivery-42": true
+                    },
+                    "after": {
+                      "notifications": [
+                        {
+                          "eventId": "delivery-42",
+                          "to": "ada@example.test",
+                          "body": "Your parcel is ready."
+                        }
+                      ],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:delivery-42": true
+                    }
+                  },
+                  {
+                    "step": 3,
+                    "actor": 1,
+                    "method": "insertOnce",
+                    "key": "seen:delivery-42",
+                    "args": ["seen:delivery-42", true],
+                    "result": false,
+                    "before": {
+                      "notifications": [
+                        {
+                          "eventId": "delivery-42",
+                          "to": "ada@example.test",
+                          "body": "Your parcel is ready."
+                        }
+                      ],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:delivery-42": true
+                    },
+                    "after": {
+                      "notifications": [
+                        {
+                          "eventId": "delivery-42",
+                          "to": "ada@example.test",
+                          "body": "Your parcel is ready."
+                        }
+                      ],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:delivery-42": true
+                    }
+                  }
+                ],
+                "decisions": [
+                  {
+                    "actor": 0,
+                    "eligible": [0, 1]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0, 1]
+                  },
+                  {
+                    "actor": 1,
+                    "eligible": [1]
+                  }
+                ],
+                "schedule": [0, 0, 1],
+                "verdict": {
+                  "passed": true,
+                  "checks": [
+                    {
+                      "name": "All requests finish",
+                      "passed": true,
+                      "actual": "completed",
+                      "expected": "completed"
+                    },
+                    {
+                      "name": "Exactly one message per fresh event",
+                      "passed": true,
+                      "actual": 1,
+                      "expected": 1
+                    },
+                    {
+                      "name": "Event IDs are recorded",
+                      "passed": true,
+                      "actual": [true, true],
+                      "expected": "all true"
+                    },
+                    {
+                      "name": "Responses match sent messages",
+                      "passed": true,
+                      "actual": [
+                        {
+                          "sent": true
+                        },
+                        {
+                          "sent": false
+                        }
+                      ],
+                      "expected": "1 sent response(s)"
+                    },
+                    {
+                      "name": "Unrelated state is preserved",
+                      "passed": true,
+                      "actual": ["seen:older", "auditVersion"],
+                      "expected": "unchanged; no unrelated keys"
+                    }
+                  ],
+                  "violations": []
+                }
+              },
+              "schedules": [
+                {
+                  "schedule": [0, 0, 1],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [1, 0, 1],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [1, 1, 0],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [0, 1, 0],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "scenario": {
+                "initial": {
+                  "notifications": [],
+                  "seen:older": true,
+                  "auditVersion": 4
+                },
+                "requests": [
+                  {
+                    "id": "fresh",
+                    "to": "b@example.test",
+                    "body": "Ready B"
+                  }
+                ]
+              },
+              "engine": "racelab-quickjs-v1",
+              "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+              "strategy": "dfs",
+              "tested": 1,
+              "attempts": 1,
+              "exhaustive": true,
+              "passed": 1,
+              "failed": 0,
+              "firstFailure": null,
+              "firstPass": {
+                "engine": "racelab-quickjs-v1",
+                "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+                "status": "completed",
+                "error": null,
+                "state": {
+                  "notifications": [
+                    {
+                      "eventId": "fresh",
+                      "to": "b@example.test",
+                      "body": "Ready B"
+                    }
+                  ],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:fresh": true
+                },
+                "results": [
+                  {
+                    "sent": true
+                  }
+                ],
+                "trace": [
+                  {
+                    "step": 1,
+                    "actor": 0,
+                    "method": "insertOnce",
+                    "key": "seen:fresh",
+                    "args": ["seen:fresh", true],
+                    "result": true,
+                    "before": {
+                      "notifications": [],
+                      "seen:older": true,
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "notifications": [],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:fresh": true
+                    }
+                  },
+                  {
+                    "step": 2,
+                    "actor": 0,
+                    "method": "append",
+                    "key": "notifications",
+                    "args": [
+                      "notifications",
+                      {
+                        "eventId": "fresh",
+                        "to": "b@example.test",
+                        "body": "Ready B"
+                      }
+                    ],
+                    "result": 1,
+                    "before": {
+                      "notifications": [],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:fresh": true
+                    },
+                    "after": {
+                      "notifications": [
+                        {
+                          "eventId": "fresh",
+                          "to": "b@example.test",
+                          "body": "Ready B"
+                        }
+                      ],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:fresh": true
+                    }
+                  }
+                ],
+                "decisions": [
+                  {
+                    "actor": 0,
+                    "eligible": [0]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0]
+                  }
+                ],
+                "schedule": [0, 0],
+                "verdict": {
+                  "passed": true,
+                  "checks": [
+                    {
+                      "name": "All requests finish",
+                      "passed": true,
+                      "actual": "completed",
+                      "expected": "completed"
+                    },
+                    {
+                      "name": "Exactly one message per fresh event",
+                      "passed": true,
+                      "actual": 1,
+                      "expected": 1
+                    },
+                    {
+                      "name": "Event IDs are recorded",
+                      "passed": true,
+                      "actual": [true],
+                      "expected": "all true"
+                    },
+                    {
+                      "name": "Responses match sent messages",
+                      "passed": true,
+                      "actual": [
+                        {
+                          "sent": true
+                        }
+                      ],
+                      "expected": "1 sent response(s)"
+                    },
+                    {
+                      "name": "Unrelated state is preserved",
+                      "passed": true,
+                      "actual": ["seen:older", "auditVersion"],
+                      "expected": "unchanged; no unrelated keys"
+                    }
+                  ],
+                  "violations": []
+                }
+              },
+              "schedules": [
+                {
+                  "schedule": [0, 0],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "scenario": {
+                "initial": {
+                  "notifications": [],
+                  "seen:older": true,
+                  "auditVersion": 4
+                },
+                "requests": [
+                  {
+                    "id": "first",
+                    "to": "a@example.test",
+                    "body": "A"
+                  },
+                  {
+                    "id": "second",
+                    "to": "b@example.test",
+                    "body": "B"
+                  }
+                ]
+              },
+              "engine": "racelab-quickjs-v1",
+              "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+              "strategy": "dfs",
+              "tested": 6,
+              "attempts": 11,
+              "exhaustive": true,
+              "passed": 6,
+              "failed": 0,
+              "firstFailure": null,
+              "firstPass": {
+                "engine": "racelab-quickjs-v1",
+                "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+                "status": "completed",
+                "error": null,
+                "state": {
+                  "notifications": [
+                    {
+                      "eventId": "first",
+                      "to": "a@example.test",
+                      "body": "A"
+                    },
+                    {
+                      "eventId": "second",
+                      "to": "b@example.test",
+                      "body": "B"
+                    }
+                  ],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:first": true,
+                  "seen:second": true
+                },
+                "results": [
+                  {
+                    "sent": true
+                  },
+                  {
+                    "sent": true
+                  }
+                ],
+                "trace": [
+                  {
+                    "step": 1,
+                    "actor": 0,
+                    "method": "insertOnce",
+                    "key": "seen:first",
+                    "args": ["seen:first", true],
+                    "result": true,
+                    "before": {
+                      "notifications": [],
+                      "seen:older": true,
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "notifications": [],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:first": true
+                    }
+                  },
+                  {
+                    "step": 2,
+                    "actor": 0,
+                    "method": "append",
+                    "key": "notifications",
+                    "args": [
+                      "notifications",
+                      {
+                        "eventId": "first",
+                        "to": "a@example.test",
+                        "body": "A"
+                      }
+                    ],
+                    "result": 1,
+                    "before": {
+                      "notifications": [],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:first": true
+                    },
+                    "after": {
+                      "notifications": [
+                        {
+                          "eventId": "first",
+                          "to": "a@example.test",
+                          "body": "A"
+                        }
+                      ],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:first": true
+                    }
+                  },
+                  {
+                    "step": 3,
+                    "actor": 1,
+                    "method": "insertOnce",
+                    "key": "seen:second",
+                    "args": ["seen:second", true],
+                    "result": true,
+                    "before": {
+                      "notifications": [
+                        {
+                          "eventId": "first",
+                          "to": "a@example.test",
+                          "body": "A"
+                        }
+                      ],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:first": true
+                    },
+                    "after": {
+                      "notifications": [
+                        {
+                          "eventId": "first",
+                          "to": "a@example.test",
+                          "body": "A"
+                        }
+                      ],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:first": true,
+                      "seen:second": true
+                    }
+                  },
+                  {
+                    "step": 4,
+                    "actor": 1,
+                    "method": "append",
+                    "key": "notifications",
+                    "args": [
+                      "notifications",
+                      {
+                        "eventId": "second",
+                        "to": "b@example.test",
+                        "body": "B"
+                      }
+                    ],
+                    "result": 2,
+                    "before": {
+                      "notifications": [
+                        {
+                          "eventId": "first",
+                          "to": "a@example.test",
+                          "body": "A"
+                        }
+                      ],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:first": true,
+                      "seen:second": true
+                    },
+                    "after": {
+                      "notifications": [
+                        {
+                          "eventId": "first",
+                          "to": "a@example.test",
+                          "body": "A"
+                        },
+                        {
+                          "eventId": "second",
+                          "to": "b@example.test",
+                          "body": "B"
+                        }
+                      ],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:first": true,
+                      "seen:second": true
+                    }
+                  }
+                ],
+                "decisions": [
+                  {
+                    "actor": 0,
+                    "eligible": [0, 1]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0, 1]
+                  },
+                  {
+                    "actor": 1,
+                    "eligible": [1]
+                  },
+                  {
+                    "actor": 1,
+                    "eligible": [1]
+                  }
+                ],
+                "schedule": [0, 0, 1, 1],
+                "verdict": {
+                  "passed": true,
+                  "checks": [
+                    {
+                      "name": "All requests finish",
+                      "passed": true,
+                      "actual": "completed",
+                      "expected": "completed"
+                    },
+                    {
+                      "name": "Exactly one message per fresh event",
+                      "passed": true,
+                      "actual": 2,
+                      "expected": 2
+                    },
+                    {
+                      "name": "Event IDs are recorded",
+                      "passed": true,
+                      "actual": [true, true],
+                      "expected": "all true"
+                    },
+                    {
+                      "name": "Responses match sent messages",
+                      "passed": true,
+                      "actual": [
+                        {
+                          "sent": true
+                        },
+                        {
+                          "sent": true
+                        }
+                      ],
+                      "expected": "2 sent response(s)"
+                    },
+                    {
+                      "name": "Unrelated state is preserved",
+                      "passed": true,
+                      "actual": ["seen:older", "auditVersion"],
+                      "expected": "unchanged; no unrelated keys"
+                    }
+                  ],
+                  "violations": []
+                }
+              },
+              "schedules": [
+                {
+                  "schedule": [0, 0, 1, 1],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [1, 0, 0, 1],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [1, 1, 0, 0],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [1, 0, 1, 0],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [0, 1, 0, 1],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [0, 1, 1, 0],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                }
+              ]
+            },
+            {
+              "index": 3,
+              "scenario": {
+                "initial": {
+                  "notifications": [],
+                  "seen:older": true,
+                  "auditVersion": 4
+                },
+                "requests": [
+                  {
+                    "id": "retry",
+                    "to": "c@example.test",
+                    "body": "C"
+                  },
+                  {
+                    "id": "retry",
+                    "to": "c@example.test",
+                    "body": "C"
+                  },
+                  {
+                    "id": "retry",
+                    "to": "c@example.test",
+                    "body": "C"
+                  }
+                ]
+              },
+              "engine": "racelab-quickjs-v1",
+              "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+              "strategy": "dfs",
+              "tested": 18,
+              "attempts": 31,
+              "exhaustive": true,
+              "passed": 18,
+              "failed": 0,
+              "firstFailure": null,
+              "firstPass": {
+                "engine": "racelab-quickjs-v1",
+                "sourceHash": "dc4f67f6b99db4ac186bcd6647d25b79a4f9a26fa7fe26c85b2257d038eead8a",
+                "status": "completed",
+                "error": null,
+                "state": {
+                  "notifications": [
+                    {
+                      "eventId": "retry",
+                      "to": "c@example.test",
+                      "body": "C"
+                    }
+                  ],
+                  "seen:older": true,
+                  "auditVersion": 4,
+                  "seen:retry": true
+                },
+                "results": [
+                  {
+                    "sent": true
+                  },
+                  {
+                    "sent": false
+                  },
+                  {
+                    "sent": false
+                  }
+                ],
+                "trace": [
+                  {
+                    "step": 1,
+                    "actor": 0,
+                    "method": "insertOnce",
+                    "key": "seen:retry",
+                    "args": ["seen:retry", true],
+                    "result": true,
+                    "before": {
+                      "notifications": [],
+                      "seen:older": true,
+                      "auditVersion": 4
+                    },
+                    "after": {
+                      "notifications": [],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:retry": true
+                    }
+                  },
+                  {
+                    "step": 2,
+                    "actor": 0,
+                    "method": "append",
+                    "key": "notifications",
+                    "args": [
+                      "notifications",
+                      {
+                        "eventId": "retry",
+                        "to": "c@example.test",
+                        "body": "C"
+                      }
+                    ],
+                    "result": 1,
+                    "before": {
+                      "notifications": [],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:retry": true
+                    },
+                    "after": {
+                      "notifications": [
+                        {
+                          "eventId": "retry",
+                          "to": "c@example.test",
+                          "body": "C"
+                        }
+                      ],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:retry": true
+                    }
+                  },
+                  {
+                    "step": 3,
+                    "actor": 1,
+                    "method": "insertOnce",
+                    "key": "seen:retry",
+                    "args": ["seen:retry", true],
+                    "result": false,
+                    "before": {
+                      "notifications": [
+                        {
+                          "eventId": "retry",
+                          "to": "c@example.test",
+                          "body": "C"
+                        }
+                      ],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:retry": true
+                    },
+                    "after": {
+                      "notifications": [
+                        {
+                          "eventId": "retry",
+                          "to": "c@example.test",
+                          "body": "C"
+                        }
+                      ],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:retry": true
+                    }
+                  },
+                  {
+                    "step": 4,
+                    "actor": 2,
+                    "method": "insertOnce",
+                    "key": "seen:retry",
+                    "args": ["seen:retry", true],
+                    "result": false,
+                    "before": {
+                      "notifications": [
+                        {
+                          "eventId": "retry",
+                          "to": "c@example.test",
+                          "body": "C"
+                        }
+                      ],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:retry": true
+                    },
+                    "after": {
+                      "notifications": [
+                        {
+                          "eventId": "retry",
+                          "to": "c@example.test",
+                          "body": "C"
+                        }
+                      ],
+                      "seen:older": true,
+                      "auditVersion": 4,
+                      "seen:retry": true
+                    }
+                  }
+                ],
+                "decisions": [
+                  {
+                    "actor": 0,
+                    "eligible": [0, 1, 2]
+                  },
+                  {
+                    "actor": 0,
+                    "eligible": [0, 1, 2]
+                  },
+                  {
+                    "actor": 1,
+                    "eligible": [1, 2]
+                  },
+                  {
+                    "actor": 2,
+                    "eligible": [2]
+                  }
+                ],
+                "schedule": [0, 0, 1, 2],
+                "verdict": {
+                  "passed": true,
+                  "checks": [
+                    {
+                      "name": "All requests finish",
+                      "passed": true,
+                      "actual": "completed",
+                      "expected": "completed"
+                    },
+                    {
+                      "name": "Exactly one message per fresh event",
+                      "passed": true,
+                      "actual": 1,
+                      "expected": 1
+                    },
+                    {
+                      "name": "Event IDs are recorded",
+                      "passed": true,
+                      "actual": [true, true, true],
+                      "expected": "all true"
+                    },
+                    {
+                      "name": "Responses match sent messages",
+                      "passed": true,
+                      "actual": [
+                        {
+                          "sent": true
+                        },
+                        {
+                          "sent": false
+                        },
+                        {
+                          "sent": false
+                        }
+                      ],
+                      "expected": "1 sent response(s)"
+                    },
+                    {
+                      "name": "Unrelated state is preserved",
+                      "passed": true,
+                      "actual": ["seen:older", "auditVersion"],
+                      "expected": "unchanged; no unrelated keys"
+                    }
+                  ],
+                  "violations": []
+                }
+              },
+              "schedules": [
+                {
+                  "schedule": [0, 0, 1, 2],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [1, 0, 1, 2],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [1, 1, 0, 2],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [1, 1, 2, 0],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [1, 2, 0, 1],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [1, 2, 1, 0],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [1, 0, 2, 1],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [2, 0, 1, 2],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [2, 1, 0, 2],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [2, 1, 2, 0],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [2, 2, 0, 1],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [2, 2, 1, 0],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [2, 0, 2, 1],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [0, 1, 0, 2],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [0, 1, 2, 0],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [0, 2, 0, 1],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [0, 2, 1, 0],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                },
+                {
+                  "schedule": [0, 0, 2, 1],
+                  "passed": true,
+                  "violations": [],
+                  "error": null
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "sequence": 6
+    }
+  ],
+  "comparison": {
+    "serial": {
+      "passed": true,
+      "checks": [
+        {
+          "name": "All requests finish",
+          "passed": true,
+          "actual": "completed",
+          "expected": "completed"
+        },
+        {
+          "name": "Exactly one message per fresh event",
+          "passed": true,
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "name": "Event IDs are recorded",
+          "passed": true,
+          "actual": [true, true],
+          "expected": "all true"
+        },
+        {
+          "name": "Responses match sent messages",
+          "passed": true,
+          "actual": [
+            {
+              "sent": true
+            },
+            {
+              "sent": false
+            }
+          ],
+          "expected": "1 sent response(s)"
+        },
+        {
+          "name": "Unrelated state is preserved",
+          "passed": true,
+          "actual": ["seen:older", "auditVersion"],
+          "expected": "unchanged; no unrelated keys"
+        }
+      ],
+      "violations": []
+    },
+    "roundRobin": {
+      "passed": false,
+      "checks": [
+        {
+          "name": "All requests finish",
+          "passed": true,
+          "actual": "completed",
+          "expected": "completed"
+        },
+        {
+          "name": "Exactly one message per fresh event",
+          "passed": false,
+          "actual": 2,
+          "expected": 1
+        },
+        {
+          "name": "Event IDs are recorded",
+          "passed": true,
+          "actual": [true, true],
+          "expected": "all true"
+        },
+        {
+          "name": "Responses match sent messages",
+          "passed": false,
+          "actual": [
+            {
+              "sent": true
+            },
+            {
+              "sent": true
+            }
+          ],
+          "expected": "1 sent response(s)"
+        },
+        {
+          "name": "Unrelated state is preserved",
+          "passed": true,
+          "actual": ["seen:older", "auditVersion"],
+          "expected": "unchanged; no unrelated keys"
+        }
+      ],
+      "violations": [
+        "Exactly one message per fresh event",
+        "Responses match sent messages"
+      ]
+    },
+    "seededRandom": {
+      "tested": 1,
+      "failed": 1
+    },
+    "note": "Simple scheduling baselines may also expose these authored bugs. Meta's patch is generated during the recorded investigation."
+  }
+}
