@@ -4,11 +4,11 @@
 
 This is the standalone RaceLab repository. It contains the workbench, runner, Meta chat integration, accounting, tests and demo. LiveWorld, Kept, tabletop simulation, segmentation and their dependencies are excluded. [Source provenance](docs/provenance.md) identifies the reused event infrastructure.
 
-![RaceLab workbench](docs/racelab-final.png)
+The current interface is a concurrency lab: a live trace stage, editable source, shared-memory readout and a checked repair. [Interface walkthrough](docs/interface.md). Earlier screenshots and the bundled film show the previous interface and remain archived evidence.
 
 ## Run locally
 
-Requires Node.js 24+. No GPU, Docker or external database is required.
+Requires Node.js 24.15+ LTS or 26+. No GPU, Docker or external database is required.
 
 ```sh
 npm ci --ignore-scripts --no-audit --no-fund
@@ -23,9 +23,9 @@ The local extract uses the existing accounting ledger through an ignored `RACELA
 
 ## Try the experiment
 
-1. Open **The last seat**. Sequential execution passes.
-2. Choose **Find the race**. A local schedule search can commit two orders against one seat.
-3. Choose **Replay recorded Meta run**. The saved model's schedule and actual candidate source execute again locally without a new API call. Inspect **Original A / Candidate B**, click timeline steps and **Re-execute** an exact schedule.
+1. Open **The last seat**. The app executes a serial run and a controlled overlap locally: one passes, one commits two orders against one seat.
+2. Play the trace, scrub it, or choose **Find the collision** to inspect the actual shared read. The large impact number follows the selected committed state. Expand any acceptance check to see actual/expected values.
+3. Choose **Check Meta repair** beside the trace. The recorded model's schedule and candidate source execute again without a new API call, then **Meta repair B** opens for inspection. **Original A** preserves the starting code and failing trace. **Find the race** searches more schedules; **Re-execute** repeats the exact selected schedule.
 4. Edit the handler and choose **Run a new Meta investigation** for a paid live run within the existing budget limits. The button is disabled without a key. Editing clears stale results.
 5. **Export evidence**, then **Open report**. Source and schedules execute again; imported pass flags and model attribution are not trusted.
 
@@ -35,7 +35,7 @@ The third-party QuickJS/WebAssembly runtime executes actual ES modules. RaceLab 
 
 **[Watch the three-minute demo](public/racelab-demo.mp4)** · [Architecture and evidence](docs/racelab.md) · [Submission draft](docs/racelab-submission.md) · [Third-party notices](THIRD_PARTY_NOTICES.md)
 
-The 179.99-second video uses actual application screenshots paced as stills, recorded Meta outputs, generic synthetic English narration and captions. It was captured before repository extraction; the archived screenshots retain the earlier navigation. The opening identifies new RaceLab work and reused event infrastructure.
+The 179.99-second video uses actual application screenshots paced as stills, recorded Meta outputs, generic synthetic English narration and captions. It was captured before repository extraction and the interface redesign; the archived screenshots retain the earlier navigation and styling. The opening identifies new RaceLab work and reused event infrastructure.
 
 ## Verify offline
 

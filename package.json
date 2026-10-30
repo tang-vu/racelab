@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Reproduce asynchronous store races and independently check Meta-generated repairs.",
   "engines": {
-    "node": ">=24"
+    "node": "^24.15.0 || >=26.0.0"
   },
   "scripts": {
     "start": "node server.mjs",
@@ -22,6 +22,7 @@
     "quickjs-emscripten": "0.32.0"
   },
   "devDependencies": {
+    "jsdom": "30.1.3",
     "prettier": "3.9.10"
   }
 }

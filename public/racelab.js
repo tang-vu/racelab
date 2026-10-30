@@ -1,3 +1,4 @@
+import { highlightSource, collisionPair, impactFor } from "./evidence-view.js";
 const $ = (id) => document.getElementById(id);
 const escape = (value) =>
   String(value).replace(
@@ -64,16 +65,21 @@ function setBusy(busy) {
     "reset-source",
     "import-button",
     "import-confirm",
+    "inspect-candidate",
   ])
     $(id).disabled = busy;
   $("agent-button").disabled = busy || !state.configured || !state.authorized;
   $("source").readOnly = busy || state.sourceVersion === "candidate";
+  $("play-button").disabled = busy || !state.run?.trace.length;
+  $("scrubber").disabled = busy || !state.run?.trace.length;
   for (const button of document.querySelectorAll(".case-button"))
     button.disabled = busy;
   $("original-tab").disabled = busy;
   $("candidate-tab").disabled = busy || !state.report?.best;
   $("export-button").disabled = busy || !state.report;
   $("replay-button").disabled = busy || !state.run?.trace.length;
+  $("collision-button").disabled =
+    busy || !collisionPair(state.run, state.fixture?.id);
 }
 
 async function perform(label, work) {
@@ -107,7 +113,14 @@ function paintCases() {
 function sourceDisplay() {
   const candidate = state.sourceVersion === "candidate" && state.report?.best;
   const source = candidate ? state.report.best.source : state.source;
+  if ($("source").value !== source) {
+    $("source").scrollTop = $("source").scrollLeft = 0;
+    $("line-numbers").scrollTop = 0;
+  }
   $("source").value = source;
+  $("source-highlight").innerHTML = highlightSource(source);
+  $("source-highlight").scrollTop = $("source").scrollTop;
+  $("source-highlight").scrollLeft = $("source").scrollLeft;
   $("source").readOnly = state.busy || Boolean(candidate);
   $("line-numbers").textContent = source
     .split("\n")
@@ -155,12 +168,13 @@ function renderMetrics() {
       ? verification.passed
         ? "CHECKED · PASS"
         : "CHECKED · FAIL"
-      : "Awaiting a proposal",
+      : "Unchecked",
     verification ? (verification.passed ? "pass" : "fail") : "",
   );
   $("patch-detail").textContent = verification
     ? `${verification.tested} schedules · ${verification.cases.length} inputs`
     : "The contract stays locked";
+  $("patch-detail").classList.toggle("sr-only", !verification);
 }
 
 function explain(run, event) {
@@ -183,46 +197,86 @@ function renderTimeline() {
   const run = state.run;
   if (!run) {
     $("timeline").innerHTML =
-      '<div class="timeline-empty"><span> A ──── read ──── write ──── finish</span><span> B ──── read ──── write ──── finish</span><p>The scheduler chooses which request advances at each store operation.</p></div>';
+      '<div class="timeline-empty">Run the handler.<br>The scheduler will expose the overlap.</div>';
     return;
   }
-  const width = Math.max(620, run.trace.length * 67 + 100);
-  const colors = ["#71c4ca", "#ecaa83", "#bfade2", "#d7cf8f"];
-  const row = (actor) => 65 + actor * 67;
+  const width = Math.max(760, run.trace.length * 88 + 90);
   const height = Math.max(
-    214,
-    state.fixture.scenario.requests.length * 67 + 55,
+    232,
+    state.fixture.scenario.requests.length * 86 + 60,
   );
-  const spacing = (width - 140) / Math.max(run.trace.length - 1, 1);
-  const labels = state.fixture.scenario.requests
-    .map(
-      (request, actor) =>
-        `<circle cx="28" cy="${row(actor)}" r="13" fill="${colors[actor]}18" stroke="${colors[actor]}50"/><text x="28" y="${row(actor) + 3}" text-anchor="middle" fill="${colors[actor]}" font-size="10">${String.fromCharCode(65 + actor)}</text><line x1="50" y1="${row(actor)}" x2="${width - 24}" y2="${row(actor)}" stroke="#365264" stroke-dasharray="3 5"/>`,
-    )
+  const colors = ["#d4f879", "#c6b9f8", "#ffab83", "#a7d8de"];
+  const row = (actor) => 75 + actor * 86;
+  const spacing = (width - 174) / Math.max(run.trace.length - 1, 1);
+  const pair = collisionPair(run, state.fixture.id);
+  const lanes = state.fixture.scenario.requests
+    .map((request, actor) => {
+      const points = run.trace.filter(
+        (event) => event.actor === actor && event.step <= state.step,
+      );
+      const last = points.at(-1);
+      const end = last ? 111 + (last.step - 1) * spacing : 72;
+      return `<text x="24" y="${row(actor) - 11}" fill="${colors[actor]}" font-size="14" font-family="Consolas,monospace">${String.fromCharCode(65 + actor)}</text><text x="24" y="${row(actor) + 8}" fill="#717e65" font-size="8">REQUEST</text><line x1="72" y1="${row(actor)}" x2="${width - 24}" y2="${row(actor)}" stroke="#3c4833" stroke-dasharray="3 5"/><line x1="72" y1="${row(actor)}" x2="${end}" y2="${row(actor)}" stroke="${colors[actor]}" opacity=".55"/>`;
+    })
     .join("");
   const nodes = run.trace
     .map((event, i) => {
-      const x = 87 + i * spacing;
-      const y = row(event.actor);
-      const selected = event.step === state.step;
-      const past = event.step <= state.step;
+      const x = 111 + i * spacing,
+        y = row(event.actor);
+      const selected = event.step === state.step,
+        past = event.step <= state.step;
+      const shared = pair && [pair.first, pair.second].includes(event.step);
+      const color = shared ? "#ff9b70" : colors[event.actor];
       const label =
         event.method === "compareAndSwap"
           ? "CAS"
           : event.method === "insertOnce"
             ? "ONCE"
             : event.method.toUpperCase();
-      const value =
-        typeof event.result === "object"
-          ? Array.isArray(event.result)
+      const result =
+        event.result === null
+          ? "empty"
+          : Array.isArray(event.result)
             ? `[${event.result.length}]`
-            : "{…}"
-          : String(event.result);
-      return `<g class="event-node" role="button" tabindex="0" data-step="${event.step}" aria-label="Step ${event.step}, request ${String.fromCharCode(65 + event.actor)}, ${escape(event.method)} ${escape(event.key)}"><text x="${x}" y="22" text-anchor="middle" font-size="8" fill="#6d8999">${String(event.step).padStart(2, "0")}</text><line x1="${x}" y1="32" x2="${x}" y2="${height - 22}" stroke="#456073" opacity="${selected ? 0.65 : 0.15}"/><rect x="${x - 25}" y="${y - 14}" rx="5" width="50" height="28" fill="${selected ? colors[event.actor] : "#1a3a4e"}" stroke="${colors[event.actor]}" opacity="${past || selected ? 1 : 0.65}"/><text x="${x}" y="${y + 3}" text-anchor="middle" fill="${selected ? "#123143" : colors[event.actor]}" font-size="7.5">${escape(label)}</text><text x="${x}" y="${y + 29}" text-anchor="middle" fill="#8aa6b4" font-size="7">${escape(event.key.slice(0, 13))}</text><text x="${x}" y="${y + 40}" text-anchor="middle" fill="${colors[event.actor]}" font-size="7">→ ${escape(value.slice(0, 16))}</text></g>`;
+            : typeof event.result === "object"
+              ? "{...}"
+              : String(event.result);
+      return `<g class="event-node" role="button" tabindex="0" data-step="${event.step}" aria-label="Step ${event.step}, request ${String.fromCharCode(65 + event.actor)}, ${escape(event.method)} ${escape(event.key)}"><text x="${x}" y="24" text-anchor="middle" fill="${selected ? "#d4f879" : "#67755a"}" font-size="10" font-family="Consolas,monospace">${String(event.step).padStart(2, "0")}</text>${selected ? `<line class="current-line" x1="${x}" y1="34" x2="${x}" y2="${height - 15}"/>` : ""}<rect class="event-box" x="${x - 31}" y="${y - 17}" width="62" height="34" rx="0" fill="${selected ? color : shared && past ? "#382c21" : "#252f22"}" stroke="${past ? color : "#46543a"}" stroke-width="${selected ? 1.5 : 1}"/><text x="${x}" y="${y + 4}" text-anchor="middle" fill="${selected ? "#20251a" : past ? color : "#728463"}" font-size="10" font-family="Consolas,monospace">${escape(label)}</text><text x="${x}" y="${y + 34}" text-anchor="middle" fill="#a4b390" font-size="10" font-family="Consolas,monospace">${escape(event.key.slice(0, 13))}</text><text x="${x}" y="${y + 49}" text-anchor="middle" fill="${past ? color : "#687b59"}" font-size="9" font-family="Consolas,monospace">${escape(result.slice(0, 16))}</text></g>`;
     })
     .join("");
   $("timeline").innerHTML =
-    `<svg viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" aria-label="Request operations in committed order">${labels}${nodes}</svg>`;
+    `<svg viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" aria-label="Request operations in committed order">${lanes}${nodes}</svg>`;
+}
+
+function renderImpact(snapshot) {
+  if (!state.fixture) return;
+  const value = impactFor(state.fixture, snapshot);
+  $("impact-label").textContent = value.label;
+  $("impact-actual").textContent = state.run ? value.actual : "\u2014";
+  $("impact-expected").textContent = value.expected;
+  $("impact-caption").textContent = state.run
+    ? `MEMORY AFTER OP. ${String(state.step).padStart(2, "0")}`
+    : "EXECUTE TO OBSERVE";
+  document
+    .querySelector(".impact")
+    .classList.toggle(
+      "is-failure",
+      Boolean(
+        state.run &&
+        state.step === state.run.trace.length &&
+        !state.run.verdict.passed,
+      ),
+    );
+  document
+    .querySelector(".impact")
+    .classList.toggle(
+      "is-pass",
+      Boolean(
+        state.run &&
+        state.step === state.run.trace.length &&
+        state.run.verdict.passed,
+      ),
+    );
 }
 
 function renderState() {
@@ -230,6 +284,7 @@ function renderState() {
   const event = state.step > 0 ? run?.trace[state.step - 1] : null;
   const snapshot = event?.after ?? state.fixture?.scenario.initial ?? {};
   const previous = event?.before ?? snapshot;
+  renderImpact(snapshot);
   $("state-step").textContent = event
     ? `After step ${state.step}`
     : "Initial state";
@@ -256,14 +311,25 @@ function renderState() {
     ? checks
         .map(
           (check) =>
-            `<div class="check-row ${check.passed ? "" : "failed"}" title="${escape(`Actual: ${JSON.stringify(check.actual)} · Expected: ${JSON.stringify(check.expected)}`)}"><span>${check.passed ? "✓" : "×"}</span><span>${escape(check.name)}</span></div>`,
+            `<details class="check-row ${check.passed ? "" : "failed"}"><summary><span>${check.passed ? "+" : "\u00d7"}</span><span>${escape(check.name)}</span></summary><p>Actual: ${escape(JSON.stringify(check.actual))}<br>Expected: ${escape(JSON.stringify(check.expected))}</p></details>`,
         )
         .join("")
-    : '<p class="muted">Checks evaluate the full execution, independently of the selected replay step.</p>';
+    : '<p class="muted">Execute the handler to check the fixed contract.</p>';
+  const pair = collisionPair(run, state.fixture?.id);
+  $("collision-button").disabled = state.busy || !pair;
+  if (pair && state.step === pair.second) {
+    $("observation-label").textContent = "THE SHARED READ";
+    $("observation-text").textContent =
+      `Two requests read ${pair.key} = ${JSON.stringify(pair.value)} before a write changes it. Both now hold their own copy.`;
+  } else
+    $("observation-label").textContent =
+      state.step === run?.trace.length
+        ? "FINAL OBSERVATION"
+        : "COMMITTED OPERATION";
   $("scrubber").max = run?.trace.length ?? 0;
   $("scrubber").value = state.step;
-  $("scrubber").disabled = !run?.trace.length;
-  $("play-button").disabled = !run?.trace.length;
+  $("scrubber").disabled = state.busy || !run?.trace.length;
+  $("play-button").disabled = state.busy || !run?.trace.length;
   $("replay-button").disabled = state.busy || !run?.trace.length;
   $("step-label").textContent = run
     ? `STEP ${String(state.step).padStart(2, "0")} / ${String(run.trace.length).padStart(2, "0")}`
@@ -271,6 +337,8 @@ function renderState() {
 }
 
 function showRun(run, title) {
+  $("serial-button").classList.toggle("active", run === state.serial);
+  $("race-button").classList.toggle("active", run === state.race);
   stopPlayback();
   state.run = run;
   state.step = run.trace.length;
@@ -299,23 +367,27 @@ function eventMessage(message, type = "") {
   text.textContent = message;
   row.append(number, text);
   $("agent-events").append(row);
+  $("event-count").textContent = String(
+    $("agent-events").children.length,
+  ).padStart(2, "0");
   $("agent-events").scrollTop = $("agent-events").scrollHeight;
 }
 
 function showVerification(report) {
   const best = report.best;
   $("verification").hidden = !best;
+  $("inspect-candidate").hidden = !best;
   if (!best) return;
   const verification = best.verification;
-  $("verification").classList.toggle("failed", !verification.passed);
   const provenance =
     report.origin === "imported_recomputed"
-      ? "Imported candidate · recomputed"
+      ? "Imported candidate / attribution unverified"
       : report.origin === "recorded_meta_recomputed"
-        ? "Recorded Meta candidate · recomputed"
-        : "Live Meta candidate · checked";
+        ? "Recorded Meta / re-executed locally"
+        : "Live Meta / executed here";
+  $("verification").classList.toggle("failed", !verification.passed);
   $("verification").innerHTML =
-    `<strong>${verification.passed ? "No violation in the checked schedules." : "This candidate still violates the contract."}</strong><p>${escape(provenance)} · ${verification.tested} schedules · ${verification.cases.length} input cases${report.requests != null ? ` · ${report.requests} original model calls` : ""}.</p>${verification.cases.map((item) => `<div class="case-result"><span>${item.index === 0 ? "Original inputs" : `Additional inputs ${item.index}`}</span><span>${item.failed ? `${item.failed} FAIL` : "PASS"} · ${item.tested} schedules${item.exhaustive ? " · complete" : " · capped"}</span></div>`).join("")}<p>${verification.exhaustive ? "The scheduler exhausted its finite store-operation choices for these inputs." : "Some searches reached their schedule cap."} These results cover this simulated store and these inputs.</p>`;
+    `<strong>${verification.passed ? "No violation in the checked schedules." : "The candidate still breaks the contract."}</strong><p>${escape(provenance)} / ${verification.tested} schedules / ${verification.cases.length} input cases${report.requests != null ? ` / ${report.requests} original model calls` : ""}</p><div class="case-results">${verification.cases.map((item) => `<div class="case-result ${item.failed ? "failed" : ""}"><span>${item.index === 0 ? "Original inputs" : `Additional set ${item.index}`}</span><strong>${item.failed ? "FAIL" : item.tested}</strong><small>${item.failed ? `${item.failed} failed schedules` : `schedules / ${item.exhaustive ? "complete" : "capped"}`}</small></div>`).join("")}</div><p>${verification.exhaustive ? "Finite store-operation choices exhausted for these inputs." : "Some searches reached their cap."} This simulated store and these inputs only.</p>`;
 }
 
 function acceptReport(report) {
@@ -343,11 +415,23 @@ async function selectCase(id, source = null, runSerial = true) {
   state.serial = state.race = state.run = state.report = null;
   state.sourceVersion = "original";
   state.step = 0;
-  $("case-title").textContent = state.fixture.title;
+  const labels = {
+    "last-seat": ["ONE SEAT.", "TWO BUYERS.", "reserve-seat.js"],
+    webhook: ["ONE EVENT.", "TWO CALLS.", "send-webhook.js"],
+    "lost-update": ["ONE COUNT.", "TWO WRITES.", "apply-update.js"],
+  }[id];
+  $("case-title").textContent = labels[2];
+  $("experiment-headline").innerHTML =
+    `${labels[0]}<br><span>${labels[1]}</span>`;
+  $("case-index").textContent =
+    ` / EXP. 0${state.fixtures.indexOf(state.fixture) + 1}`;
+  $("case-description").textContent = state.fixture.description;
   $("case-category").textContent = state.fixture.category;
   $("contract-text").textContent = state.fixture.invariant;
   $("agent-events").replaceChildren();
+  $("event-count").textContent = "00";
   $("verification").hidden = true;
+  $("inspect-candidate").hidden = true;
   $("export-button").disabled = true;
   $("run-title").textContent = "Find the moment they overlap.";
   $("run-badge").textContent = "READY";
@@ -363,7 +447,18 @@ async function selectCase(id, source = null, runSerial = true) {
       source: state.source,
       action: "run",
     });
-    showRun(state.serial, "One request at a time: no overlap.");
+    state.race = await api("/api/racelab/execute", {
+      caseId: id,
+      source: state.source,
+      action: "run",
+      mode: "interleave",
+    });
+    showRun(
+      state.race,
+      state.race.verdict.passed
+        ? "The overlap, checked."
+        : "Same code. A different ending.",
+    );
   }
 }
 
@@ -389,7 +484,9 @@ $("source").addEventListener("input", () => {
   state.serial = state.race = state.run = state.report = null;
   state.step = 0;
   $("verification").hidden = true;
+  $("inspect-candidate").hidden = true;
   $("agent-events").replaceChildren();
+  $("event-count").textContent = "00";
   $("run-title").textContent = "Source changed. Execute it again.";
   $("run-badge").textContent = "STALE RESULTS CLEARED";
   $("run-badge").className = "badge neutral";
@@ -400,12 +497,15 @@ $("source").addEventListener("input", () => {
     .map((_, i) => i + 1)
     .join("\n");
   $("source-size").textContent = `${state.source.split("\n").length} lines`;
+  $("source-highlight").innerHTML = highlightSource(state.source);
   renderMetrics();
   renderTimeline();
   renderState();
 });
 $("source").addEventListener("scroll", () => {
   $("line-numbers").scrollTop = $("source").scrollTop;
+  $("source-highlight").scrollTop = $("source").scrollTop;
+  $("source-highlight").scrollLeft = $("source").scrollLeft;
 });
 $("reset-source").addEventListener("click", () =>
   perform("Restoring the authored handler…", () =>
@@ -421,7 +521,7 @@ $("serial-button").addEventListener("click", () =>
       source: state.source,
       action: "run",
     });
-    showRun(state.serial, "One request at a time: no overlap.");
+    showRun(state.serial, "One request at a time. No overlap.");
   }),
 );
 $("race-button").addEventListener("click", () =>
@@ -451,6 +551,10 @@ $("recorded-button").addEventListener("click", () =>
   perform(
     "Re-executing the recorded Meta investigation. No model calls…",
     async () => {
+      if (state.source !== state.fixture.source)
+        throw new Error(
+          "The saved repair belongs to the authored source. Reset your edits to replay it, or start a new investigation for this handler.",
+        );
       const report = await api("/api/racelab/replay", {
         recordedCaseId: state.fixture.id,
       });
@@ -461,6 +565,7 @@ $("recorded-button").addEventListener("click", () =>
       for (const probe of report.probes) eventMessage(probe.hypothesis);
       for (const patch of report.patches) eventMessage(patch.explanation);
       acceptReport(report);
+      if (report.best) viewCandidate();
     },
   ),
 );
@@ -468,7 +573,9 @@ $("recorded-button").addEventListener("click", () =>
 $("agent-button").addEventListener("click", () =>
   perform("Muse Spark is investigating the current handler…", async () => {
     $("agent-events").replaceChildren();
+    $("event-count").textContent = "00";
     $("verification").hidden = true;
+    $("inspect-candidate").hidden = true;
     state.report = null;
     state.sourceVersion = "original";
     sourceDisplay();
@@ -498,6 +605,7 @@ $("agent-button").addEventListener("click", () =>
         if (event.type === "error") throw new Error(event.message);
         if (event.type === "complete") {
           acceptReport(event.result);
+          if (event.result.best) viewCandidate();
           complete = true;
         } else {
           if (event.message) eventMessage(event.message, event.type);
@@ -527,20 +635,59 @@ $("original-tab").addEventListener("click", () => {
   if (state.race ?? state.serial)
     showRun(state.race ?? state.serial, "Original handler · A");
 });
-$("candidate-tab").addEventListener("click", () => {
+function viewCandidate() {
   if (!state.report?.best) return;
   state.sourceVersion = "candidate";
   sourceDisplay();
   const result = state.report.best.verification.cases[0];
-  const run = result.firstFailure ?? result.firstPass;
+  const run = result?.firstFailure ?? result?.firstPass;
   if (run) showRun(run, "Meta candidate · B · checked execution");
-});
+  else {
+    state.run = null;
+    state.step = 0;
+    $("run-title").textContent = "The candidate could not finish verification.";
+    $("run-badge").textContent = "ERROR";
+    $("run-badge").className = "badge fail";
+    renderTimeline();
+    renderState();
+  }
+}
+$("candidate-tab").addEventListener("click", viewCandidate);
 function chooseStep(step) {
   if (!state.run) return;
   state.step = Math.max(0, Math.min(state.run.trace.length, Number(step)));
   renderTimeline();
   renderState();
 }
+function followStep(step) {
+  const node = $("timeline").querySelector(`[data-step="${step}"]`);
+  if (!node) return;
+  const rect = node.getBoundingClientRect();
+  const viewport = $("timeline").getBoundingClientRect();
+  if (rect.left < viewport.left || rect.right > viewport.right)
+    $("timeline").scrollBy({
+      left: rect.left - viewport.left - viewport.width / 2 + rect.width / 2,
+      behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "instant"
+        : "smooth",
+    });
+}
+$("collision-button").addEventListener("click", () => {
+  const pair = collisionPair(state.run, state.fixture.id);
+  if (!pair) return;
+  stopPlayback();
+  chooseStep(pair.second);
+  followStep(pair.second);
+});
+$("inspect-candidate").addEventListener("click", () => {
+  $("candidate-tab").click();
+  document.querySelector(".workbench").scrollIntoView({
+    block: "start",
+    behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? "instant"
+      : "smooth",
+  });
+});
 $("timeline").addEventListener("click", (event) => {
   const node = event.target.closest("[data-step]");
   if (node) {
@@ -564,11 +711,12 @@ $("play-button").addEventListener("click", () => {
     stopPlayback();
     return;
   }
-  if (state.step >= state.run.trace.length) state.step = 0;
+  if (state.step >= state.run.trace.length) chooseStep(0);
   $("play-button").textContent = "Ⅱ";
   $("play-button").setAttribute("aria-label", "Pause execution");
   state.playing = setInterval(() => {
     chooseStep(state.step + 1);
+    followStep(state.step);
     if (state.step >= state.run.trace.length) stopPlayback();
   }, 750);
 });
@@ -657,7 +805,7 @@ try {
   ]);
   state.fixtures = fixtures;
   state.configured = connection.configured;
-  state.authorized = connection.authorized;
+  state.authorized = connection.authorized && !connection.budget.blocked;
   $("connection").classList.add("ready");
   $("connection").innerHTML =
     `<i></i>${state.configured ? "Meta ready · local runner" : "Keyless · local runner"}`;

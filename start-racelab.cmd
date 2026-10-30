@@ -3,13 +3,13 @@ setlocal
 cd /d "%~dp0"
 where node >nul 2>nul
 if errorlevel 1 (
-  echo Install Node.js 24 or later, then run this file again.
+  echo Install Node.js 24.15 or later LTS, then run this file again.
   pause
   exit /b 1
 )
-node -e "if(Number(process.versions.node.split('.')[0])<24)process.exit(1)"
+node -e "const [major,minor]=process.versions.node.split('.').map(Number);if(!((major===24&&minor>=15)||major>=26))process.exit(1)"
 if errorlevel 1 (
-  echo RaceLab needs Node.js 24 or later.
+  echo RaceLab needs Node.js 24.15 or later LTS, or Node.js 26+.
   pause
   exit /b 1
 )
