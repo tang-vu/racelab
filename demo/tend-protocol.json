@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "declaredBeforeLiveRun": "2026-10-30",
+  "input": "tang-vu/tend@fe6975ced2c2004e3bb8f91e97c07db878596a06 packages/db/src/store.ts claimNextDue",
+  "scope": "One pinned TypeScript method, real temporary SQLite, controlled process/clock actions; QuickJS evaluates the guest. No whole-app, Discord, multi-tenant security or production validation claim.",
+  "newContract": "An explicitly added 60-second claim expiry, preserved eligibility and payloads, and monotonically incremented durable claim generations. Existing TEND did not define this expiry policy.",
+  "instrumentation": "Completion is a local fixture using a fixed generation check outside candidate code. This guard is new RaceLab instrumentation, not the unchanged TEND completeFollowUp method.",
+  "conditions": [
+    "normal",
+    "crash-restart",
+    "live-owner",
+    "expired-owner",
+    "future",
+    "completed",
+    "retry",
+    "mixed",
+    "lease-edge",
+    "different-input"
+  ],
+  "attempts": {
+    "investigations": 1,
+    "maximumModelTurns": 6,
+    "maximumProbes": 3,
+    "maximumPatches": 2
+  },
+  "retention": "Retain incomplete and failed attempts, source, output, and verification. No automatic transport retry or overwriting a retained investigation to select a nicer run.",
+  "success": "A completed probe exposes an original-input contract failure and a Meta-generated method passes all ten fixed conditions. This does not establish superiority over a direct repair model or generalization to other repositories."
+}
