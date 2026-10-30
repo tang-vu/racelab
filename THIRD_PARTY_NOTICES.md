@@ -8,4 +8,8 @@ Prettier 3.9.10 is a development dependency under MIT, used for formatting. Its 
 
 [jsdom 30.1.3](https://github.com/jsdom/jsdom) is a development dependency under MIT, used to exercise the actual workbench HTML and JavaScript against a keyless local test server. It is not shipped to the browser and does not provide visual rendering or screenshot verification.
 
+[Google Sans Flex](https://github.com/google/fonts/tree/main/ofl/googlesansflex) is distributed under the SIL Open Font License 1.1. The local Latin and Vietnamese WOFF2 subsets came from Google's Fonts API. Their source URLs, byte counts and SHA-256 hashes are in `public/fonts/font-origin.json`; the complete license is in `public/fonts/OFL-Google-Sans-Flex.txt`. Font loading makes no external request. Code uses the system's installed monospace fonts.
+
+The user selected [Bearplus](https://bear.plus/) and its project sites as visual references. RaceLab's memory sculpture, SVG paths, layout implementation and vanilla JavaScript motion are original project work. No Bearplus, Heron AI, Cargokite or Silana mascot, image, animation bundle or site code is included. See [design references](docs/interface.md).
+
 The offline recording workflow uses separately installed FFmpeg and Microsoft Zira speech synthesis for generic English narration. Segoe UI is read from the recording machine for rasterized text. Those binaries, voice files and font are not distributed. The bundled movie contains actual application screenshots paced as stills and captions. No Three.js, Mediabunny or Meta SAM parser is bundled or required.

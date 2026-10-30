@@ -11,6 +11,7 @@ import { join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { JSDOM, VirtualConsole } from "jsdom";
 import * as presentation from "../public/evidence-view.js";
+import * as motionData from "../public/motion-data.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 async function until(check) {
@@ -78,7 +79,17 @@ test("The actual workbench walks from overlap to inspected repair and recomputed
   };
   window.TextDecoder = TextDecoder;
   window.__presentation = presentation;
-  window.matchMedia = () => ({ matches: true });
+  window.__motionData = motionData;
+  const mediaListeners = [];
+  let reduceMotion = false;
+  window.matchMedia = (query) => ({
+    get matches() {
+      return query.includes("reduced-motion") && reduceMotion;
+    },
+    addEventListener(_, listener) {
+      mediaListeners.push(listener);
+    },
+  });
   window.Element.prototype.scrollIntoView = () => {};
   window.Element.prototype.scrollBy = () => {};
   window.HTMLDialogElement.prototype.showModal = function () {
@@ -88,6 +99,12 @@ test("The actual workbench walks from overlap to inspected repair and recomputed
     this.open = false;
   };
   window.addEventListener("error", (event) => errors.push(event.message));
+  const experience = (
+    await readFile(join(root, "public/experience.js"), "utf8")
+  ).replace(/^import[\s\S]*?from "\.\/motion-data\.js";\r?\n/, "");
+  window.eval(
+    `(() => {const {chapterSteps,replayFrame}=window.__motionData;\n${experience}\n})()`,
+  );
   const frontend = (
     await readFile(join(root, "public/racelab.js"), "utf8")
   ).replace(/^import[\s\S]*?from "\.\/evidence-view\.js";\r?\n/, "");
@@ -103,6 +120,38 @@ test("The actual workbench walks from overlap to inspected repair and recomputed
   assert.equal($("race-verdict").textContent, "FAIL");
   assert.equal($("impact-actual").textContent, "2");
   assert.equal($("impact-expected").textContent, "1");
+  assert.equal(
+    $("sculpture-outcome").textContent,
+    "2 / 1 committed / available seats",
+  );
+  assert.equal($("sculpture-read-a").textContent, "1");
+  assert.equal($("sculpture-read-b").textContent, "1");
+  const sourceBeforeTheme = $("source").value;
+  await click("theme-toggle");
+  assert.equal(window.document.documentElement.dataset.theme, "dark");
+  assert.equal(window.localStorage.getItem("racelab-theme"), "dark");
+  await click("motion-toggle");
+  assert.equal(window.document.body.classList.contains("motion-paused"), true);
+  await click("motion-toggle");
+  assert.equal(window.document.body.classList.contains("motion-paused"), false);
+  reduceMotion = true;
+  mediaListeners.forEach((listener) => listener());
+  assert.equal($("motion-toggle").disabled, true);
+  assert.equal(window.document.body.classList.contains("motion-paused"), true);
+  assert.equal($("source").value, sourceBeforeTheme);
+  // Scroll selects another real frame without executing another API request.
+  const chapters = [...window.document.querySelectorAll(".story-chapter")];
+  chapters.forEach(
+    (chapter, i) =>
+      (chapter.getBoundingClientRect = () => ({
+        top: i === 2 ? window.innerHeight / 2 - 50 : -2000,
+        height: 100,
+      })),
+  );
+  window.dispatchEvent(new window.Event("scroll"));
+  await until(() => $("story-verdict").textContent === "FAIL");
+  assert.equal($("story-actual").textContent, "2");
+  assert.equal($("story-version").textContent, "ORIGINAL A");
   assert.equal($("agent-button").disabled, true);
   await click("collision-button");
   assert.equal($("scrubber").value, "2");
@@ -125,6 +174,9 @@ test("The actual workbench walks from overlap to inspected repair and recomputed
   assert.equal($("run-badge").textContent, "PASS");
   assert.equal($("impact-actual").textContent, "1");
   assert.equal($("collision-button").disabled, true);
+  assert.equal($("story-version").textContent, "CANDIDATE B");
+  assert.equal($("story-verdict").textContent, "PASS");
+  assert.equal($("story-actual").textContent, "1");
   await click("original-tab");
   assert.equal($("source").readOnly, false);
   const original = $("source").value;
@@ -134,6 +186,8 @@ test("The actual workbench walks from overlap to inspected repair and recomputed
   assert.equal($("export-button").disabled, true);
   assert.equal($("verification").hidden, true);
   assert.equal($("candidate-tab").disabled, true);
+  assert.equal($("story-verdict").textContent, "WAITING");
+  assert.equal($("sculpture-value").textContent, "—");
   assert.equal(window.document.querySelector(".code-surface img"), null);
   assert.equal(window.injected, undefined);
   await click("recorded-button");
@@ -160,7 +214,7 @@ test("The actual workbench walks from overlap to inspected repair and recomputed
   const cases = $("case-list").querySelectorAll("button");
   cases[1].click();
   await until(() => !window.document.body.classList.contains("busy"));
-  assert.match($("experiment-headline").textContent, /ONE EVENT/);
+  assert.match($("experiment-headline").textContent, /one event/i);
   assert.equal($("impact-actual").textContent, "2");
   assert.equal($("verification").hidden, true);
   $("case-list").querySelector('[data-case="lost-update"]').click();

@@ -4,7 +4,7 @@
 
 This is the standalone RaceLab repository. It contains the workbench, runner, Meta chat integration, accounting, tests and demo. LiveWorld, Kept, tabletop simulation, segmentation and their dependencies are excluded. [Source provenance](docs/provenance.md) identifies the reused event infrastructure.
 
-The current interface is a concurrency lab: a live trace stage, editable source, shared-memory readout and a checked repair. [Interface walkthrough](docs/interface.md). Earlier screenshots and the bundled film show the previous interface and remain archived evidence.
+The interface opens with a moving shared-memory sculpture and a three-chapter scroll replay, followed by the working concurrency lab: editable source, a live trace stage and a checked repair. The sculpture and replay use actual execution frames. **Open the lab** skips directly to the workbench. Light/dark themes, a motion pause control and reduced-motion support are included. [Interface walkthrough and design references](docs/interface.md). Earlier screenshots and the bundled film show the previous interface and remain archived evidence.
 
 ## Run locally
 

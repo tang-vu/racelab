@@ -8,6 +8,7 @@ import { tmpdir } from "node:os";
 import { join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { BudgetLedger, openLedger } from "../src/budget.mjs";
+import { createHash } from "node:crypto";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 async function temporary(t) {
@@ -91,11 +92,30 @@ test("Standalone server serves RaceLab at root and excludes old apps and private
   for (const path of [
     "/racelab.css",
     "/racelab.js",
+    "/motion.css",
+    "/experience.js",
+    "/motion-data.js",
+    "/font.css",
     "/film.html",
     "/racelab-demo.vtt",
   ]) {
     assert.equal((await fetch(base + path)).status, 200, path);
   }
+  const fonts = JSON.parse(
+    await readFile(join(root, "public/fonts/font-origin.json")),
+  );
+  for (const font of fonts.fonts) {
+    const response = await fetch(base + "/fonts/" + font.file);
+    assert.equal(response.status, 200);
+    assert.match(response.headers.get("content-type"), /font\/woff2/);
+    const bytes = Buffer.from(await response.arrayBuffer());
+    assert.equal(bytes.length, font.bytes);
+    assert.equal(createHash("sha256").update(bytes).digest("hex"), font.sha256);
+  }
+  const license = await (
+    await fetch(base + "/fonts/OFL-Google-Sans-Flex.txt")
+  ).text();
+  assert.match(license, /SIL OPEN FONT LICENSE Version 1.1/);
   const status = await (await fetch(base + "/api/status")).json();
   assert.equal(status.configured, false);
   assert.equal(status.budget.requests, 0);

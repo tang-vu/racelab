@@ -1,0 +1,22 @@
+{
+  "family": "Google Sans Flex",
+  "source": "https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300..800&display=swap",
+  "licenseSource": "https://raw.githubusercontent.com/google/fonts/main/ofl/googlesansflex/OFL.txt",
+  "license": "SIL Open Font License 1.1",
+  "fonts": [
+    {
+      "subset": "vietnamese",
+      "fontSource": "https://fonts.gstatic.com/s/googlesansflex/v26/t5svIQcYNIWbFgDgAAzZ34auoVyXkJCOvoOmPWNbN5hF8Ju1x5Vwd0N3l9sIcwowNJwGpVd4AZzz0v6lJ4qFXNZhGjLvDSkV4W6JGn9C3w.woff2",
+      "file": "google-sans-flex-vietnamese.woff2",
+      "bytes": 11404,
+      "sha256": "d20c2c1018dde0c2ffe9b0a5823e4e214c5ea025ec16d9fb35c8c814b2c6666e"
+    },
+    {
+      "subset": "latin",
+      "fontSource": "https://fonts.gstatic.com/s/googlesansflex/v26/t5svIQcYNIWbFgDgAAzZ34auoVyXkJCOvoOmPWNbN5hF8Ju1x5Vwd0N3l9sIcwowNJwGpVd4AZzz0v6lJ4qFXNZhGjLvDSkV4W6GGn8.woff2",
+      "file": "google-sans-flex-latin.woff2",
+      "bytes": 51128,
+      "sha256": "ca6f390b8a995c7a9b1c8b66aec2059d0cf68f53a358d3a9d09a4bc69d5b7f43"
+    }
+  ]
+}

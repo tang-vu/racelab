@@ -105,7 +105,7 @@ function paintCases() {
   $("case-list").innerHTML = state.fixtures
     .map(
       (fixture, i) =>
-        `<button class="case-button ${fixture.id === state.fixture?.id ? "selected" : ""}" data-case="${escape(fixture.id)}" aria-pressed="${fixture.id === state.fixture?.id}"><span>0${i + 1}</span><div><strong>${escape(fixture.title)}</strong><small>${escape(fixture.category)}</small></div></button>`,
+        `<button class="case-button ${fixture.id === state.fixture?.id ? "selected" : ""}" data-case="${escape(fixture.id)}" aria-pressed="${fixture.id === state.fixture?.id}"><span>0${i + 1}</span><span class="case-art" aria-hidden="true"><i>A</i><i>B</i></span><div><strong>${escape(fixture.title)}</strong><small>${escape(fixture.category)}</small></div></button>`,
     )
     .join("");
 }
@@ -205,7 +205,7 @@ function renderTimeline() {
     232,
     state.fixture.scenario.requests.length * 86 + 60,
   );
-  const colors = ["#d4f879", "#c6b9f8", "#ffab83", "#a7d8de"];
+  const colors = ["#f2a087", "#a5b1ed", "#dbca98", "#a7d8de"];
   const row = (actor) => 75 + actor * 86;
   const spacing = (width - 174) / Math.max(run.trace.length - 1, 1);
   const pair = collisionPair(run, state.fixture.id);
@@ -216,7 +216,7 @@ function renderTimeline() {
       );
       const last = points.at(-1);
       const end = last ? 111 + (last.step - 1) * spacing : 72;
-      return `<text x="24" y="${row(actor) - 11}" fill="${colors[actor]}" font-size="14" font-family="Consolas,monospace">${String.fromCharCode(65 + actor)}</text><text x="24" y="${row(actor) + 8}" fill="#717e65" font-size="8">REQUEST</text><line x1="72" y1="${row(actor)}" x2="${width - 24}" y2="${row(actor)}" stroke="#3c4833" stroke-dasharray="3 5"/><line x1="72" y1="${row(actor)}" x2="${end}" y2="${row(actor)}" stroke="${colors[actor]}" opacity=".55"/>`;
+      return `<text x="24" y="${row(actor) - 11}" fill="${colors[actor]}" font-size="14" font-family="Consolas,monospace">${String.fromCharCode(65 + actor)}</text><text x="24" y="${row(actor) + 8}" fill="#8d8d8d" font-size="8">REQUEST</text><line x1="72" y1="${row(actor)}" x2="${width - 24}" y2="${row(actor)}" stroke="#3b3b3b" stroke-dasharray="3 5"/><line x1="72" y1="${row(actor)}" x2="${end}" y2="${row(actor)}" stroke="${colors[actor]}" opacity=".55"/>`;
     })
     .join("");
   const nodes = run.trace
@@ -241,7 +241,7 @@ function renderTimeline() {
             : typeof event.result === "object"
               ? "{...}"
               : String(event.result);
-      return `<g class="event-node" role="button" tabindex="0" data-step="${event.step}" aria-label="Step ${event.step}, request ${String.fromCharCode(65 + event.actor)}, ${escape(event.method)} ${escape(event.key)}"><text x="${x}" y="24" text-anchor="middle" fill="${selected ? "#d4f879" : "#67755a"}" font-size="10" font-family="Consolas,monospace">${String(event.step).padStart(2, "0")}</text>${selected ? `<line class="current-line" x1="${x}" y1="34" x2="${x}" y2="${height - 15}"/>` : ""}<rect class="event-box" x="${x - 31}" y="${y - 17}" width="62" height="34" rx="0" fill="${selected ? color : shared && past ? "#382c21" : "#252f22"}" stroke="${past ? color : "#46543a"}" stroke-width="${selected ? 1.5 : 1}"/><text x="${x}" y="${y + 4}" text-anchor="middle" fill="${selected ? "#20251a" : past ? color : "#728463"}" font-size="10" font-family="Consolas,monospace">${escape(label)}</text><text x="${x}" y="${y + 34}" text-anchor="middle" fill="#a4b390" font-size="10" font-family="Consolas,monospace">${escape(event.key.slice(0, 13))}</text><text x="${x}" y="${y + 49}" text-anchor="middle" fill="${past ? color : "#687b59"}" font-size="9" font-family="Consolas,monospace">${escape(result.slice(0, 16))}</text></g>`;
+      return `<g class="event-node" role="button" tabindex="0" data-step="${event.step}" aria-label="Step ${event.step}, request ${String.fromCharCode(65 + event.actor)}, ${escape(event.method)} ${escape(event.key)}"><text x="${x}" y="24" text-anchor="middle" fill="${selected ? "#eeeeee" : "#898989"}" font-size="10" font-family="Consolas,monospace">${String(event.step).padStart(2, "0")}</text>${selected ? `<line class="current-line" x1="${x}" y1="34" x2="${x}" y2="${height - 15}"/>` : ""}<rect class="event-box" x="${x - 31}" y="${y - 17}" width="62" height="34" rx="8" fill="${selected ? color : shared && past ? "#382c28" : "#242424"}" stroke="${past ? color : "#494949"}" stroke-width="${selected ? 1.5 : 1}"/><text x="${x}" y="${y + 4}" text-anchor="middle" fill="${selected ? "#1c1c1c" : past ? color : "#8a8a8a"}" font-size="10" font-family="Consolas,monospace">${escape(label)}</text><text x="${x}" y="${y + 34}" text-anchor="middle" fill="#b0b0b0" font-size="10" font-family="Consolas,monospace">${escape(event.key.slice(0, 13))}</text><text x="${x}" y="${y + 49}" text-anchor="middle" fill="${past ? color : "#888888"}" font-size="9" font-family="Consolas,monospace">${escape(result.slice(0, 16))}</text></g>`;
     })
     .join("");
   $("timeline").innerHTML =
@@ -334,6 +334,16 @@ function renderState() {
   $("step-label").textContent = run
     ? `STEP ${String(state.step).padStart(2, "0")} / ${String(run.trace.length).padStart(2, "0")}`
     : "STEP — / —";
+  document.dispatchEvent(
+    new CustomEvent("racelab:frame", {
+      detail: {
+        fixture: state.fixture,
+        run,
+        step: state.step,
+        version: state.sourceVersion,
+      },
+    }),
+  );
 }
 
 function showRun(run, title) {
@@ -416,9 +426,9 @@ async function selectCase(id, source = null, runSerial = true) {
   state.sourceVersion = "original";
   state.step = 0;
   const labels = {
-    "last-seat": ["ONE SEAT.", "TWO BUYERS.", "reserve-seat.js"],
-    webhook: ["ONE EVENT.", "TWO CALLS.", "send-webhook.js"],
-    "lost-update": ["ONE COUNT.", "TWO WRITES.", "apply-update.js"],
+    "last-seat": ["One seat.", "Two buyers.", "reserve-seat.js"],
+    webhook: ["One event.", "Two calls.", "send-webhook.js"],
+    "lost-update": ["One count.", "Two writes.", "apply-update.js"],
   }[id];
   $("case-title").textContent = labels[2];
   $("experiment-headline").innerHTML =
@@ -472,9 +482,23 @@ function stopPlayback() {
 $("case-list").addEventListener("click", (event) => {
   const button = event.target.closest("[data-case]");
   if (button && !state.busy)
-    perform("Executing the next handler sequentially…", () =>
-      selectCase(button.dataset.case),
-    );
+    perform("Executing the next handler sequentially…", async () => {
+      const update = async () => {
+        await selectCase(button.dataset.case);
+        $("workspace").scrollIntoView({ behavior: "instant", block: "start" });
+        $("workspace").tabIndex = -1;
+        $("workspace").focus({ preventScroll: true });
+      };
+      if (
+        document.startViewTransition &&
+        !matchMedia("(prefers-reduced-motion: reduce)").matches &&
+        !document.body.classList.contains("motion-paused")
+      ) {
+        const transition = document.startViewTransition(update);
+        await transition.updateCallbackDone;
+        await transition.finished;
+      } else await update();
+    });
 });
 
 $("source").addEventListener("input", () => {
@@ -786,6 +810,7 @@ $("focus-button").addEventListener("click", () => {
   const focused = document.body.classList.toggle("focus-mode");
   $("focus-button").setAttribute("aria-pressed", String(focused));
   $("focus-button").textContent = focused ? "Exit focus" : "Focus";
+  $("workspace").scrollIntoView({ behavior: "instant", block: "start" });
 });
 document.addEventListener("keydown", (event) => {
   if (
@@ -797,6 +822,9 @@ document.addEventListener("keydown", (event) => {
 });
 for (const button of document.querySelectorAll("[data-close]"))
   button.addEventListener("click", () => $(button.dataset.close).close());
+document.addEventListener("racelab:request-frame", () => {
+  if (state.fixture) renderState();
+});
 
 try {
   const [fixtures, connection] = await Promise.all([

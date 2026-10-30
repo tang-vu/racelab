@@ -6,6 +6,7 @@ RaceLab was built by Tang Vu during the Meta Global AI Developer Hackathon, star
 
 - `src/race/`: controlled store-operation scheduling, isolated QuickJS execution, fixed independent contracts, Meta experiment/patch tools, bounded verification and replay.
 - `public/`: RaceLab editor, trace timeline, A/B source, recorded/live tool feedback, checks and report import/export.
+- The October 30 interface adds original CSS geometry, trace-driven scroll chapters and browser-native transitions. Bearplus and linked product sites were user-selected visual references, identified in `docs/interface.md`. The redistributed font is Google Sans Flex under OFL 1.1, with its license and source manifest; reference-site assets and scripts are excluded.
 - `demo/`, `docs/racelab-shots/`: predeclared study, actual retained model outputs, edited-source integration check, movie transcript and capture provenance.
 
 ## Reused event infrastructure

@@ -5,15 +5,46 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>RaceLab - three-minute demo</title>
     <link rel="icon" href="/mark.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="/fonts/google-sans-flex-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="/font.css" />
+    <link rel="stylesheet" href="/racelab.css" />
+    <link rel="stylesheet" href="/motion.css" />
     <link rel="stylesheet" href="/film.css" />
   </head>
   <body>
-    <main>
-      <a href="/">&larr; Open the RaceLab workbench</a>
-      <p class="eyebrow">
-        TANG VU &middot; META GLOBAL AI DEVELOPER HACKATHON 2026
+    <header class="topbar studio-header">
+      <a class="brand" href="/" aria-label="RaceLab home"
+        ><img src="/mark.svg" width="28" height="28" alt="" /><span
+          class="brand-text"
+          >racelab<span class="brand-sign">*</span></span
+        ></a
+      >
+      <nav aria-label="Main navigation">
+        <a class="roll-link" href="/#experiments">Experiments</a
+        ><button
+          id="theme-toggle"
+          class="theme-toggle"
+          aria-label="Switch to dark theme"
+          aria-pressed="false"
+        >
+          <span aria-hidden="true">&#9680;</span></button
+        ><a class="pill-link" href="/#workspace"
+          ><span>Open the lab</span
+          ><span class="round-arrow" aria-hidden="true">&#8599;</span></a
+        >
+      </nav>
+    </header>
+    <main class="film-main">
+      <p class="section-kicker">
+        TANG VU / META GLOBAL AI DEVELOPER HACKATHON 2026
       </p>
-      <h1>CONTROL THE<br /><span>OVERLAP.</span></h1>
+      <h1 data-reveal>Three minutes.<br /><span>One overlap.</span></h1>
       <p class="archive-note">ARCHIVED DEMO / PREVIOUS INTERFACE / 02:59</p>
       <video
         controls
@@ -45,9 +76,16 @@
         do not establish production correctness or a general repair rate.
       </p>
       <p>
-        <a href="/racelab-demo.mp4" download>Download MP4 &nearr;</a>
-        &middot; <a href="/">Try the workbench &nearr;</a>
+        <a class="pill-link" href="/racelab-demo.mp4" download
+          ><span>Download MP4</span
+          ><span class="round-arrow" aria-hidden="true">&#8595;</span></a
+        >
+        <a class="pill-link pill-dark" href="/#workspace"
+          ><span>Try the workbench</span
+          ><span class="round-arrow" aria-hidden="true">&#8599;</span></a
+        >
       </p>
     </main>
+    <script type="module" src="/experience.js"></script>
   </body>
 </html>

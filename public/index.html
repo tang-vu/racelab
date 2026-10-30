@@ -9,31 +9,276 @@
     />
     <title>RaceLab - control the overlap</title>
     <link rel="icon" href="/mark.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="/fonts/google-sans-flex-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="/font.css" />
     <link rel="stylesheet" href="/racelab.css" />
+    <link rel="stylesheet" href="/motion.css" />
   </head>
   <body>
-    <header class="topbar">
-      <a class="brand" href="/" aria-label="RaceLab home"
-        ><img src="/mark.svg" width="36" height="36" alt="" /><span
-          >RACE<span class="brand-light">LAB</span
-          ><small>CONCURRENCY, UNDER A MICROSCOPE.</small></span
+    <a class="skip-link" href="#workspace">Skip to the working lab</a>
+    <header class="topbar studio-header">
+      <a class="brand" href="#overview" aria-label="RaceLab home"
+        ><img src="/mark.svg" width="34" height="34" alt="" /><span
+          class="brand-text"
+          >racelab<span class="brand-sign">*</span></span
         ></a
       >
       <nav aria-label="Main navigation">
-        <span class="connection" id="connection"><i></i>Connecting</span
+        <a href="#experiments" class="roll-link"><span>Experiments</span></a
+        ><button id="about-button" class="text-button roll-link">
+          Methods &amp; scope</button
+        ><button
+          id="theme-toggle"
+          class="theme-toggle"
+          aria-label="Switch to dark theme"
+          aria-pressed="false"
+        >
+          <span aria-hidden="true">&#9680;</span></button
+        ><span id="connection" class="connection"><i></i>Connecting</span
         ><button id="focus-button" class="text-button" aria-pressed="false">
-          Focus</button
-        ><button id="about-button" class="text-button">
-          Scope &amp; sources</button
-        ><a href="/film.html">Demo film &#8599;</a>
+          Focus lab</button
+        ><a class="pill-link" href="#workspace"
+          ><span>Open the lab</span
+          ><span class="round-arrow" aria-hidden="true">&#8599;</span></a
+        >
       </nav>
     </header>
+    <section class="cover" id="overview" aria-labelledby="cover-title">
+      <div class="cover-main">
+        <div class="cover-copy">
+          <p class="section-kicker">
+            <span class="tiny-orbit" aria-hidden="true"></span> A SMALL LAB FOR
+            BIG WHAT-IFS.
+          </p>
+          <h1 class="cover-title" id="cover-title">
+            <span class="line-mask"
+              ><span class="line-inner">Small overlaps.</span></span
+            ><span class="line-mask"
+              ><span class="line-inner">Big <em>consequences.</em></span></span
+            >
+          </h1>
+          <div class="cover-description">
+            <p>
+              Make the invisible race visible.<br />Then give the repair a test
+              it can fail.
+            </p>
+            <a class="pill-link pill-dark" href="#workspace"
+              ><span>Run an experiment</span
+              ><span class="round-arrow" aria-hidden="true">&#8599;</span></a
+            >
+          </div>
+        </div>
+        <div
+          class="sculpture-wrap"
+          id="sculpture-wrap"
+          aria-label="Illustrated view of the current local execution"
+        >
+          <span class="scene-label scene-label-top"
+            >[ SHARED STATE / TWO REQUESTS ]</span
+          >
+          <svg class="orbit-lines" viewBox="0 0 700 600" aria-hidden="true">
+            <defs>
+              <linearGradient id="flow-a">
+                <stop stop-color="#f47b53" stop-opacity=".15" />
+                <stop offset=".5" stop-color="#ee7148" />
+                <stop offset="1" stop-color="#ee7148" stop-opacity=".1" />
+              </linearGradient>
+              <linearGradient id="flow-b">
+                <stop stop-color="#7d90ed" stop-opacity=".1" />
+                <stop offset=".5" stop-color="#5976d9" />
+                <stop offset="1" stop-color="#7d90ed" stop-opacity=".1" />
+              </linearGradient>
+            </defs>
+            <ellipse
+              cx="350"
+              cy="310"
+              rx="275"
+              ry="142"
+              transform="rotate(-32 350 310)"
+            />
+            <ellipse
+              cx="350"
+              cy="310"
+              rx="275"
+              ry="142"
+              transform="rotate(32 350 310)"
+            />
+            <path
+              class="flow-path flow-path-a"
+              d="M100 390C-10 160 520 90 605 235S360 565 145 420"
+            />
+            <path
+              class="flow-path flow-path-b"
+              d="M600 400C715 185 170 90 95 260S340 555 565 425"
+            />
+          </svg>
+          <div class="sculpture" id="sculpture">
+            <div class="object-shadow"></div>
+            <div class="memory-object">
+              <div class="chip-edge chip-edge-one"></div>
+              <div class="chip-edge chip-edge-two"></div>
+              <div class="chip-top">
+                <span class="chip-screw screw-one"></span
+                ><span class="chip-screw screw-two"></span
+                ><span class="chip-screw screw-three"></span
+                ><span class="chip-screw screw-four"></span>
+                <p class="chip-label" id="sculpture-key">shared state</p>
+                <strong id="sculpture-value">&mdash;</strong
+                ><span class="chip-brand">racelab / memory</span>
+              </div>
+            </div>
+            <div class="copy-object copy-object-a">
+              <span class="request-disc">A</span>
+              <div>
+                <small>READ COPY</small
+                ><strong id="sculpture-read-a">&mdash;</strong>
+              </div>
+              <span class="copy-spark" aria-hidden="true">*</span>
+            </div>
+            <div class="copy-object copy-object-b">
+              <span class="request-disc">B</span>
+              <div>
+                <small>READ COPY</small
+                ><strong id="sculpture-read-b">&mdash;</strong>
+              </div>
+              <span class="copy-spark" aria-hidden="true">*</span>
+            </div>
+            <div class="outcome-slip">
+              <span class="slip-dot"></span
+              ><span id="sculpture-outcome">Waiting for a local execution</span
+              ><span aria-hidden="true">&#8599;</span>
+            </div>
+          </div>
+          <div class="scene-bottom">
+            <span id="sculpture-caption"
+              >Original geometry. Values from the local trace.</span
+            ><button
+              id="motion-toggle"
+              class="motion-toggle"
+              aria-pressed="false"
+            >
+              Pause motion <span aria-hidden="true">&#8545;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="cover-bottom">
+        <p>
+          Concurrency experiments.<br />Meta-generated repairs. Executable
+          evidence.
+        </p>
+        <a class="scroll-cue" href="#the-overlap"
+          ><span>Scroll into the overlap</span
+          ><span class="round-arrow" aria-hidden="true">&#8595;</span></a
+        ><span>BUILT BY TANG VU<br />META GLOBAL AI HACKATHON / 2026</span>
+      </div>
+    </section>
+    <section
+      class="scroll-story"
+      id="the-overlap"
+      aria-label="A local execution, in three moments"
+    >
+      <div class="story-words">
+        <article class="story-chapter" data-chapter="0">
+          <span class="section-kicker">01 / THE READ</span>
+          <h2 data-reveal>A read is<br />just a copy.</h2>
+          <p>
+            Two requests can see the same value. Neither knows what the other is
+            about to do.
+          </p>
+        </article>
+        <article class="story-chapter" data-chapter="1">
+          <span class="section-kicker">02 / THE WRITE</span>
+          <h2 data-reveal>Each step looks<br />reasonable.</h2>
+          <p>
+            The order decides the outcome. Scrub a real local trace and see the
+            state change, one operation at a time.
+          </p>
+        </article>
+        <article class="story-chapter" data-chapter="2">
+          <span class="section-kicker">03 / THE EVIDENCE</span>
+          <h2 data-reveal>Now make<br />the fix prove it.</h2>
+          <p>
+            Meta proposes a repair. Independent code checks the unchanged
+            contract and additional inputs.
+          </p>
+          <a class="pill-link pill-dark" href="#workspace"
+            ><span>Try it in the lab</span
+            ><span class="round-arrow" aria-hidden="true">&#8599;</span></a
+          >
+        </article>
+      </div>
+      <div class="story-stage">
+        <div class="replay-board" id="replay-board">
+          <div class="board-heading">
+            <span
+              >LOCAL EXECUTION /
+              <span id="story-version">ORIGINAL A</span></span
+            ><span id="story-step">OP. 00</span>
+          </div>
+          <div class="board-reads">
+            <div class="board-read board-read-a">
+              <span>REQUEST A</span><strong id="story-read-a">&mdash;</strong
+              ><small>read copy</small>
+            </div>
+            <div class="board-read board-read-b">
+              <span>REQUEST B</span><strong id="story-read-b">&mdash;</strong
+              ><small>read copy</small>
+            </div>
+          </div>
+          <div class="board-memory">
+            <span id="story-key">shared state</span
+            ><strong id="story-value">&mdash;</strong
+            ><small>COMMITTED MEMORY</small>
+          </div>
+          <div class="board-outcome">
+            <div>
+              <span id="story-impact-label">OBSERVED / EXPECTED</span>
+              <p>
+                <strong id="story-actual">&mdash;</strong><span>/</span
+                ><span id="story-expected">&mdash;</span>
+              </p>
+            </div>
+            <span class="board-verdict" id="story-verdict">WAITING</span>
+          </div>
+          <div class="board-caption">
+            <span class="board-phase" id="story-phase">Reads, in order.</span>
+            <p id="story-caption">
+              This visualization follows the actual local trace. Scroll to
+              inspect it.
+            </p>
+          </div>
+          <div class="chapter-dots" aria-hidden="true">
+            <i></i><i></i><i></i>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="experiment-intro" id="experiments">
+      <span class="section-kicker">THE EXPERIMENTS / 01 - 03</span>
+      <h2 data-reveal>Choose what<br />breaks first.</h2>
+      <p>
+        Three authored cases. Real JavaScript.<br />The same inputs, rearranged.
+      </p>
+    </section>
     <div class="case-navigation">
-      <span class="eyebrow">PICK YOUR FAILURE</span>
       <div id="case-list" class="case-list" aria-label="Example handlers"></div>
-      <span class="edition">AN EXPERIMENT BY TANG VU <b> / 2026</b></span>
     </div>
     <main id="workspace">
+      <div class="lab-intro">
+        <span class="section-kicker">THE WORKING LAB</span>
+        <h2 data-reveal>Enough theory.<br />Run the overlap.</h2>
+        <p>
+          Everything below is executed locally.<br />A recorded repair makes no
+          new model call.
+        </p>
+      </div>
       <section class="intro">
         <div class="intro-title">
           <p class="eyebrow">
@@ -41,9 +286,9 @@
             <span id="case-category">INVENTORY RESERVATION</span>
             <span class="case-index" id="case-index"> / EXP. 01</span>
           </p>
-          <h1 id="experiment-headline">
-            ONE SEAT.<br /><span>TWO BUYERS.</span>
-          </h1>
+          <h2 id="experiment-headline">
+            One seat.<br /><span>Two buyers.</span>
+          </h2>
         </div>
         <div class="intro-copy">
           <p>
@@ -280,6 +525,16 @@
           </button>
         </div>
       </section>
+      <section class="closing-note">
+        <span class="section-kicker"
+          >CONTROL THE OVERLAP. KEEP THE EVIDENCE.</span
+        >
+        <h2 data-reveal>Run it. Break it.<br /><em>Prove it.</em></h2>
+        <a class="pill-link pill-dark" href="#workspace"
+          ><span>Back to the experiment</span
+          ><span class="round-arrow" aria-hidden="true">&#8599;</span></a
+        >
+      </section>
       <footer>
         <span>AUTHORED CASES / SIMULATED ASYNC STORE / FINITE CHECKS</span
         ><button id="scope-footer" class="text-button">
@@ -371,6 +626,7 @@
         Open & recompute
       </button>
     </dialog>
+    <script type="module" src="/experience.js"></script>
     <script type="module" src="/racelab.js"></script>
   </body>
 </html>
