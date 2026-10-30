@@ -67,8 +67,43 @@ const refused = await fetch(base + "/api/racelab/execute", {
   body: "{}",
 });
 assert.equal(refused.status, 403);
+const tend = await request("/api/workloads/tend");
+assert.equal(tend.sourceVerified, true);
+const normal = await request("/api/workloads/tend/execute", {
+  action: "run",
+  condition: "normal",
+});
+const interrupted = await request("/api/workloads/tend/execute", {
+  action: "run",
+  condition: "crash-restart",
+});
+assert.equal(normal.verdict.passed, true);
+assert.equal(interrupted.status, "completed");
+assert.equal(interrupted.verdict.passed, false);
+assert.ok(interrupted.trace.some((event) => event.kind === "process-killed"));
+const tendReport = await request("/api/workloads/tend/replay", {
+  recorded: true,
+});
+assert.equal(tendReport.best.verification.passed, true);
+assert.equal(tendReport.best.verification.tested, 10);
+tendReport.patches[0].source = "claimNextDue(){return null;}";
+tendReport.patches[0].verification.passed = true;
+const tendImport = await request("/api/workloads/tend/replay", {
+  report: tendReport,
+});
+assert.equal(tendImport.best.verification.passed, false);
+assert.equal(tendImport.model, "Imported candidate / attribution unverified");
+const tendOrigin = await fetch(base + "/api/workloads/tend/execute", {
+  method: "POST",
+  headers: {
+    Origin: "https://untrusted.example",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ action: "run" }),
+});
+assert.equal(tendOrigin.status, 403);
 const after = await request("/api/status");
 assert.equal(after.budget.requests, before.budget.requests);
 console.log(
-  "RaceLab HTTP checks passed: 3 serial/race pairs, recorded recomputation, forged-pass rejection and origin checks. No model calls.",
+  "RaceLab HTTP checks passed: 3 serial/race pairs, TEND process interruption and ten-condition replay, forged-pass rejection and origin checks. No model calls.",
 );

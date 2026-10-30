@@ -4,6 +4,8 @@ RaceLab uses [quickjs-emscripten 0.32.0](https://github.com/justjake/quickjs-ems
 
 Meta provides Muse Spark through its Model API. The existing chat integration and budget code were built during the same event for Tang Vu's earlier prototype; [source provenance](docs/provenance.md) identifies that reuse.
 
+The repository-workload input includes `claimNextDue` from [TEND](https://github.com/tang-vu/tend/blob/fe6975ced2c2004e3bb8f91e97c07db878596a06/packages/db/src/store.ts), pinned at `fe6975ced2c2004e3bb8f91e97c07db878596a06`, under MIT, copyright 2026 TEND contributors. The [complete license](public/licenses/TEND-MIT.txt) accompanies the source excerpts in the retained recording and the verified source cache. TEND is pre-existing input. RaceLab's adapter, interruption harness, recovery contract, Meta tools and interface are new work; TEND application features are not claimed as RaceLab contributions. The adapter uses Node's built-in SQLite driver, not the complete TEND runtime.
+
 Prettier 3.9.10 is a development dependency under MIT, used for formatting. Its npm package includes its license.
 
 [jsdom 30.1.3](https://github.com/jsdom/jsdom) is a development dependency under MIT, used to exercise the actual workbench HTML and JavaScript against a keyless local test server. It is not shipped to the browser and does not provide visual rendering or screenshot verification.

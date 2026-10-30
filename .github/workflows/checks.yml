@@ -15,6 +15,8 @@ jobs:
           node-version: "24"
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: npm run format:check
+      - run: npm run prepare:tend
       - run: npm test
       - run: npm run evaluate
+      - run: npm run evaluate:tend
       - run: npm run check:film

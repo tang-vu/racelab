@@ -36,13 +36,15 @@ The frontend clears stale results when source changes. Bundled replay executes t
 
 Browser checks include a real downloaded report reopened through a file chooser, an edited-source live investigation, per-step state, exact replay, keyless operation and a 390-pixel viewport. The standalone server includes only RaceLab routes.
 
-Scope: three authored contracts, deterministic simulated store operations and bounded inputs. No real DB/network/OS scheduling, crash/recovery/durability verification, arbitrary repository adapter, external developer study or production bug discovery has been completed. Mutexes serialize these small examples and may reduce throughput; throughput is not measured here. New workloads require explicit store semantics and independent acceptance contracts.
+The three original experiments cover authored contracts, deterministic simulated store operations and bounded inputs. Mutexes serialize these small examples and may reduce throughput; throughput is not measured here. There is no arbitrary repository runner, external developer study or production bug discovery.
+
+The separate [TEND workload](tend.md) now verifies a pinned TypeScript claim method on real disposable SQLite across controlled process exit/restart and stale-owner conditions. One retained Meta candidate passes ten declared conditions after two requests, app-estimated $0.015165. Its 60-second lease policy and generation-guarded local completion are new adapter contracts, not upstream TEND semantics. This does not establish correctness of TEND's full worker lifecycle or external effects, general OS scheduling, or an AI advantage over direct repair.
 
 Related work: [Antithesis deterministic simulation testing](https://antithesis.com/docs/resources/deterministic_simulation_testing/) and [REINS](https://arxiv.org/abs/2610.13421). RaceLab does not claim to invent deterministic testing or agent-guided scheduling. Meta's demonstrated contribution is proposing executed hypotheses and actual candidate source within a constrained developer workflow.
 
 ## Local operation
 
-`start-racelab.cmd` preserves private configuration and starts port 4174. `/` is the workbench; `/film.html` is the demo player. No external deployment, purchases, submission or messages are part of this delivery. `scripts/serve-keyless.mjs` starts an isolated keyless QA server on 4176 without changing the real ledger.
+`start-racelab.cmd` preserves private configuration and starts port 4174. `/` opens the experience and store workbench; `/tend.html` is the repository recovery workbench; `/film.html` is the archived demo player. Run `npm run prepare:tend` once to cache the verified public input before offline tests. No external deployment, purchases, submission or messages are part of this delivery. `scripts/serve-keyless.mjs` starts an isolated keyless QA server on 4176 without changing the real ledger.
 
 ## Demo artifact
 

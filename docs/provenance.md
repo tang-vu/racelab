@@ -8,6 +8,7 @@ RaceLab was built by Tang Vu during the Meta Global AI Developer Hackathon, star
 - `public/`: RaceLab editor, trace timeline, A/B source, recorded/live tool feedback, checks and report import/export.
 - The October 30 interface adds original CSS geometry, trace-driven scroll chapters and browser-native transitions. Bearplus and linked product sites were user-selected visual references, identified in `docs/interface.md`. The redistributed font is Google Sans Flex under OFL 1.1, with its license and source manifest; reference-site assets and scripts are excluded.
 - `demo/`, `docs/racelab-shots/`: predeclared study, actual retained model outputs, edited-source integration check, movie transcript and capture provenance.
+- `src/workloads/`, `/tend.html`: the October 30 TEND adapter, disposable SQLite/process harness, fixed recovery contract, probe/patch tools, recomputed reports and method-diff export. TEND's pinned method and mapper are pre-existing MIT inputs. RaceLab adds the 60-second lease policy and fixed generation-guarded fixture completion; it does not run or repair the full TEND application. [Workload provenance and limits](tend.md).
 
 ## Reused event infrastructure
 

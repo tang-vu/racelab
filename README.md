@@ -2,6 +2,8 @@
 
 **It passes alone. It breaks together.** Execute JavaScript handlers under controlled concurrent store operations. Let Meta propose the failing overlap and a source repair. Check the repair against an independent acceptance contract and additional inputs.
 
+**New: [a real repository recovery experiment](docs/tend.md).** A pinned TypeScript method from TEND claims a job in real disposable SQLite. RaceLab kills the worker after the claim commits and starts another process on the same file. The original method leaves the job claimed; a retained Meta repair passes ten declared recovery conditions. Open **http://127.0.0.1:4174/tend.html** to inspect the source, process receipts, A/B, stale-owner rejection and replayable regression export.
+
 This is the standalone RaceLab repository. It contains the workbench, runner, Meta chat integration, accounting, tests and demo. LiveWorld, Kept, tabletop simulation, segmentation and their dependencies are excluded. [Source provenance](docs/provenance.md) identifies the reused event infrastructure.
 
 The interface opens with a moving shared-memory sculpture and a three-chapter scroll replay, followed by the working concurrency lab: editable source, a live trace stage and a checked repair. The sculpture and replay use actual execution frames. **Open the lab** skips directly to the workbench. Light/dark themes, a motion pause control and reduced-motion support are included. [Interface walkthrough and design references](docs/interface.md). Earlier screenshots and the bundled film show the previous interface and remain archived evidence.
@@ -31,7 +33,7 @@ The local extract uses the existing accounting ledger through an ignored `RACELA
 
 The three declared investigations used one run per authored case and two Meta requests each. Generated candidates passed **11 schedules / 4 inputs** (inventory), **29 / 4** (webhook) and **11 / 4** (counter), at a total app-estimated $0.030444. A separate edited-source browser check used two requests / $0.008764 and passed 11 schedules / 4 inputs. These are authored integration studies. Simple round-robin scheduling also exposes the starting bugs; no general repair rate or scheduling superiority is claimed.
 
-The third-party QuickJS/WebAssembly runtime executes actual ES modules. RaceLab controls only the exposed asynchronous operations on a simulated store. Real database transactions, network/OS scheduling and arbitrary Node repositories are outside its scope. Passing finite checks covers only the store semantics and input cases tested. The independent oracle and execution limits remain outside the submitted module.
+The three store experiments use the third-party QuickJS/WebAssembly runtime and simulated asynchronous operations. The separate TEND adapter strips one TypeScript method, executes it in QuickJS and bridges bounded SQL to Node's SQLite driver in isolated processes. It adds a 60-second lease contract and a fixed local completion guard; it does not run the full TEND application or prove production correctness. Arbitrary repositories, external effects and general OS/network scheduling remain outside the supported scope. The independent oracle and execution limits stay outside candidate code.
 
 **[Watch the three-minute demo](public/racelab-demo.mp4)** · [Architecture and evidence](docs/racelab.md) · [Submission draft](docs/racelab-submission.md) · [Third-party notices](THIRD_PARTY_NOTICES.md)
 
@@ -42,9 +44,12 @@ The 179.99-second video uses actual application screenshots paced as stills, rec
 ```sh
 npm test
 npm run evaluate
+npm run evaluate:tend
 npm run check:film
 npm run format:check
 npm run check:local # with the local server running
 ```
 
 Tests and these default checks make no model calls. The recording script's explicit `--live --case=...` option makes paid requests and refuses to overwrite retained investigations. No deployment, public repository creation or competition submission is part of this local delivery.
+
+For the TEND workload, run `npm run prepare:tend` once before offline verification. It downloads the exact public source revision into ignored local storage and verifies its Git blob hash. The app also prepares this input on its first visit when missing. Thereafter the workload and its recording replay without network or model calls. A downloaded regression runs with `npm run evaluate:tend -- --report="path/to/racelab-tend-regression.json"`. [Scope, protocol, artifacts and verification](docs/tend.md).

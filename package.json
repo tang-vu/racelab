@@ -15,6 +15,8 @@
     "evaluate": "node scripts/record-racelab.mjs",
     "check:local": "node scripts/check-racelab.mjs",
     "check:film": "node scripts/check-racelab-film.mjs",
+    "prepare:tend": "node scripts/prepare-tend.mjs",
+    "evaluate:tend": "node scripts/record-tend.mjs",
     "format": "prettier . --write",
     "format:check": "prettier . --check"
   },

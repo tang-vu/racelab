@@ -3,3 +3,5 @@ node_modules/
 captures/
 .env*
 package-lock.json
+# Retain the exact bytes of the one live repository-workload investigation.
+public/recordings/tend-claims.json

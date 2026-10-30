@@ -10,6 +10,13 @@ import { raceJob } from "./src/race/runner.mjs";
 import { investigateRace } from "./src/race/agent.mjs";
 import { replayInvestigation } from "./src/race/replay.mjs";
 import { readRuntimeConfig, DemoAccess } from "./src/access.mjs";
+import { loadTend, TEND, compileClaim } from "./src/workloads/tend-source.mjs";
+import {
+  CONDITIONS,
+  runTend,
+  verifyTend,
+} from "./src/workloads/tend-engine.mjs";
+import { investigateTend, replayTend } from "./src/workloads/tend-agent.mjs";
 
 const root = dirname(fileURLToPath(import.meta.url));
 const config = readConfig();
@@ -110,6 +117,107 @@ const server = createServer(async (req, res) => {
         authorized: access.authorized(req),
         budget: await ledger.summary(),
       });
+    if (req.method === "GET" && url.pathname === "/api/workloads/tend") {
+      const bundle = await loadTend(dataDirectory, { fetchMissing: true });
+      let recordedAvailable = false;
+      try {
+        await readFile(join(root, "public", "recordings", "tend-claims.json"));
+        recordedAvailable = true;
+      } catch (error) {
+        if (error.code !== "ENOENT") throw error;
+      }
+      const { rowAdapter, ...input } = bundle;
+      return json(res, 200, {
+        ...input,
+        conditions: CONDITIONS,
+        recordedAvailable,
+      });
+    }
+    if (
+      req.method === "POST" &&
+      [
+        "/api/workloads/tend/execute",
+        "/api/workloads/tend/replay",
+        "/api/workloads/tend/agent",
+      ].includes(url.pathname)
+    ) {
+      if (raceBusy || paidBusy)
+        return json(res, 409, {
+          error: "Another experiment is running. Wait for it to finish.",
+        });
+      const paid = url.pathname.endsWith("/agent");
+      if (paid && !access.authorized(req))
+        return json(res, 403, {
+          error: "Enter the demo access code to use live Meta calls.",
+          code: "LIVE_ACCESS_REQUIRED",
+        });
+      if (paid) paidBusy = true;
+      else raceBusy = true;
+      try {
+        const body = await readBody(req),
+          bundle = await loadTend(dataDirectory, { fetchMissing: true });
+        if (url.pathname.endsWith("/replay")) {
+          const report = body.recorded
+            ? JSON.parse(
+                await readFile(
+                  join(root, "public", "recordings", "tend-claims.json"),
+                  "utf8",
+                ),
+              )
+            : body.report;
+          return json(
+            res,
+            200,
+            await replayTend(report, bundle, Boolean(body.recorded)),
+          );
+        }
+        const source = body.source ?? bundle.source;
+        compileClaim(source);
+        if (!paid) {
+          if (!["run", "verify"].includes(body.action))
+            throw new Error(
+              "Choose run or verify for the repository workload.",
+            );
+          return json(
+            res,
+            200,
+            body.action === "verify"
+              ? await verifyTend(bundle, source)
+              : await runTend(
+                  bundle,
+                  source,
+                  body.condition ?? "crash-restart",
+                ),
+          );
+        }
+        if (!config.key)
+          throw new Error(
+            "Meta is not configured. Local execution and recorded rechecks still work.",
+          );
+        res.writeHead(200, {
+          "Content-Type": "text/event-stream",
+          "Cache-Control": "no-store",
+          Connection: "keep-alive",
+          "X-Accel-Buffering": "no",
+        });
+        const send = (event) => {
+          if (!res.destroyed) res.write(`data: ${JSON.stringify(event)}\n\n`);
+        };
+        const result = await investigateTend(client, bundle, source, send);
+        await mkdir(join(dataDirectory, "workloads"), { recursive: true });
+        await writeFile(
+          join(dataDirectory, "workloads", `${result.runId}.json`),
+          JSON.stringify(result, null, 2),
+          { mode: 0o600 },
+        );
+        send({ type: "complete", result });
+        res.end();
+        return;
+      } finally {
+        if (paid) paidBusy = false;
+        else raceBusy = false;
+      }
+    }
     if (req.method === "GET" && url.pathname === "/api/racelab/fixtures")
       return json(
         res,
