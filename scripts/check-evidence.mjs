@@ -113,6 +113,10 @@ try {
       /airules · 6\/8/,
     );
     assert.equal(await page.locator("#lifecycle-cases > details").count(), 11);
+    assert.match(
+      await page.locator("#lifecycle-summary").textContent(),
+      /Meta lifecycle candidate · 10\/10/,
+    );
     assert.equal(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
