@@ -1,90 +1,92 @@
 {
-  "format": "racelab-demo-v2",
-  "title": "RaceLab — The job was saved. The worker wasn't.",
+  "format": "racelab-demo-v3",
+  "title": "RaceLab — inspect the repair, keep the failures",
   "owner": "Tang Vu",
   "durationSeconds": 180,
-  "sourceDirectory": "docs/tend-shots",
+  "sourceDirectory": "docs/evidence-shots",
   "recording": "public/recordings/tend-claims.json",
   "recordingSha256": "91e2b1ffc0d4ac3940d537b5a7552f15977905743a3480eadfcc8b090480baee",
   "disclosures": [
-    "Actual Microsoft Edge application screenshots paced as stills, not continuous screen recording",
-    "Recorded Meta proposal recomputed locally; model and recheck waiting time omitted",
-    "One pinned repository method; real disposable SQLite and controlled process sequences, not a whole application or production benchmark",
+    "Actual Microsoft Edge UI interaction recordings and application stills, captured through Playwright in fresh contexts; preparation and model waiting omitted",
+    "Public explorer displays recorded evidence; local workbench independently re-executes the retained Meta proposal without new model calls",
+    "Pinned source adapters, real disposable SQLite and controlled process sequences; no whole-application or external delivery guarantee",
+    "Lifecycle renewal/completion controls are RaceLab-authored, not new Meta proposals; additional repository checks are not human feedback",
+    "Frozen direct/feedback study: two paired claim repetitions show no pass-count advantage; lifecycle output cap stopped the study, leaving seven arms unrun; original HTTP 400 setup retained separately",
     "Generic synthetic English narration using Microsoft Zira Desktop",
-    "New RaceLab work by Tang Vu reuses earlier event Meta transport, budget and local infrastructure; TEND is an existing MIT source input"
+    "New RaceLab work by Tang Vu reuses earlier event transport, budget and local infrastructure; TEND, OpenMusic and airules are pre-existing inputs"
   ],
   "scenes": [
     {
-      "id": "01-overview",
-      "seconds": 24,
-      "source": "01-overview.png",
-      "kind": "ui",
-      "heading": "The job was saved. The worker wasn't.",
-      "caption": "New RaceLab work by Tang Vu. Reused event infrastructure; existing MIT TEND input. Actual UI stills / recorded Meta replay.",
-      "narration": "RaceLab is new hackathon work by Tang Vu. It reuses Meta transport and local infrastructure from the earlier event prototype, LiveWorld. TEND is an existing MIT source input. Here is a familiar failure: a worker saves its claim, then stops. The job exists, but another worker cannot finish it."
-    },
-    {
-      "id": "02-normal",
+      "id": "01-result",
       "seconds": 20,
-      "source": "02-normal.png",
-      "kind": "ui",
-      "heading": "First, show that the original method works.",
-      "caption": "Pinned claimNextDue method / unchanged input / real disposable SQLite / one local completion.",
-      "narration": "RaceLab verifies the exact public source revision, extracts this TypeScript claim method, and executes it through a bounded SQLite adapter. Without interruption, one due job is claimed and completed. The original method passes. These process identifiers and transaction receipts come from the local execution."
+      "kind": "browser",
+      "source": "01-result.webm",
+      "heading": "A lost job. A checked repair.",
+      "caption": "Actual UI interaction / recorded TEND evidence / A fails → retained Meta B passes / new RaceLab work; earlier TEND and event infrastructure",
+      "narration": "A worker saved this claim, then stopped. The original leaves zero completions. Switch to the retained Meta candidate: the job recovers, and the check passes. This is RaceLab, built by Tang Vu with Meta. TEND and the event infrastructure are earlier inputs."
     },
     {
-      "id": "03-interrupted",
-      "seconds": 23,
-      "source": "03-interrupted.png",
+      "id": "02-source",
+      "seconds": 22,
       "kind": "ui",
-      "heading": "Stop after COMMIT. Reopen the same database.",
-      "caption": "Actual worker exit and replacement process. Original method: 0 of 1 expected local completions; persisted row remains claimed.",
-      "narration": "Now stop worker A after its claim commits. RaceLab observes its exit and starts worker B on the same database file. The original query only selects scheduled or retrying jobs. This row is already claimed, so it stays behind. The completion count is zero. The independent recovery check fails."
+      "source": "02-source.png",
+      "heading": "Run the exact source. Check the contract.",
+      "caption": "Pinned MIT TEND method / QuickJS / real child processes and SQLite / original adapter has a fixed fixture completion guard",
+      "narration": "The local workbench verifies a pinned public source revision. It executes the extracted TypeScript claim method in Quick J S, through a bounded bridge to real SQLite. Without interruption, the original works. The sixty second lease contract and this adapter's fixed completion guard are RaceLab additions, not upstream application guarantees."
     },
     {
-      "id": "04-candidate",
-      "seconds": 27,
-      "source": "04-candidate.png",
-      "kind": "ui",
-      "heading": "Meta proposes the repair. Execution decides.",
-      "caption": "Retained Muse Spark investigation: 2 requests / 1 original probe / 1 candidate / $0.015165 app estimate. Local replay makes no model call.",
-      "narration": "Muse Spark inspected this method and the declared recovery contract. In the retained investigation, it ran a failing crash probe and proposed one replacement method. Check Meta repair executes that recorded proposal again locally, with no new model call. Worker B now reclaims the expired job. One local completion is recorded. Original A and candidate B remain inspectable."
-    },
-    {
-      "id": "05-matrix",
+      "id": "03-process",
       "seconds": 24,
-      "source": "05-matrix.png",
-      "kind": "ui",
-      "heading": "A reset is easy. Preserving the contract is harder.",
-      "caption": "10 declared conditions recomputed: fresh, expired, future, completed, retry, mixed rows, the exact lease boundary and a changed input.",
-      "narration": "Recovering one job is not enough. A blanket reset could steal a healthy worker's claim. The fixed checker also requires preservation of fresh claims, future jobs, completed work, and payloads. It checks retries, mixed rows, the exact sixty second lease boundary, and a changed input. This candidate passes all ten declared conditions."
+      "kind": "browser",
+      "source": "03-process.webm",
+      "heading": "Follow the committed state.",
+      "caption": "Actual process exit observed before replacement / saved SQL receipts / scrubber shows committed snapshots, not future state",
+      "narration": "Step through the saved execution. Worker A claims the row and commits. RaceLab terminates that actual process and observes its exit. Worker B opens the same database after expiry. The original query ignores claimed rows. The job remains stuck. The candidate adds expired lease recovery. These are finite controlled sequences, not every possible schedule."
     },
     {
-      "id": "06-stale-owner",
+      "id": "04-investigation",
+      "seconds": 25,
+      "kind": "browser",
+      "source": "04-investigation.webm",
+      "heading": "Meta proposes. Independent checks decide.",
+      "caption": "Public hypothesis → failed probe → candidate diff → independent checks / retained original: 2 requests, $0.015165",
+      "narration": "Open the public investigation. Here is Meta's retained hypothesis, the requested crash probe, and the executed failure. Then inspect its candidate diff and independent checks. This original investigation used two requests and one candidate. The recording does not contain a complete raw transcript. The page exposes public artifacts, never hidden reasoning, and keeps the failure beside the repair."
+    },
+    {
+      "id": "05-lifecycle",
+      "seconds": 24,
+      "kind": "ui",
+      "source": "05-lifecycle.png",
+      "heading": "Challenge ownership beyond one claim.",
+      "caption": "New lifecycle adapter / authored control: 10 conditions pass / two workers, kill before/after commit, renewal, inclusive expiry and stale tokens",
+      "narration": "A second lifecycle adapter tests two competing workers, interruption before and after commit, long jobs with lease renewal, and expired tokens. Its ownership checks live inside the candidate methods. The retained control passes ten conditions. Renewal and completion here are authored RaceLab controls around the earlier Meta claim repair. They are not newly generated Meta fixes or upstream changes."
+    },
+    {
+      "id": "06-repositories",
       "seconds": 22,
-      "source": "06-stale-owner.png",
       "kind": "ui",
-      "heading": "When the old worker returns, its generation is stale.",
-      "caption": "Actual stale-owner sequence. Durable generation increments; RaceLab's fixed fixture completion guard rejects the old generation.",
-      "narration": "Inspect the expired owner condition. Worker B receives a newer durable generation. When worker A tries to complete with the old generation, the fixed local guard rejects it. Scrub the transaction trace to inspect what committed. This guard belongs to RaceLab's fixture. It does not establish exactly once delivery to an external service."
+      "source": "06-repositories.png",
+      "heading": "Broader inputs. Retain the negative result.",
+      "caption": "Pinned public inputs / OpenMusic: 14 checks pass / airules: 6 of 8 meet RaceLab's added line-edit contract / bounded adapters",
+      "narration": "Two more public repositories widen the inputs. Unchanged OpenMusic code passes fourteen memory adapter checks. The airules diff function fails two of eight conditions under RaceLab's added line edit contract. That is a contract mismatch, not a concurrency finding. These bounded checks are not full application tests or human feedback."
     },
     {
-      "id": "07-portable-report",
-      "seconds": 22,
-      "source": "07-portable-report.png",
+      "id": "07-comparison",
+      "seconds": 23,
       "kind": "ui",
-      "heading": "Keep the failure. Take the evidence.",
-      "caption": "Actual exported regression reopened through the file picker. Source and conditions execute again; imported model attribution is unverified.",
-      "narration": "Export the regression and reopen that file. RaceLab discards supplied verdicts, traces, and process identifiers, then executes the source and conditions again. Imported model attribution is unverified. A method diff targets the pinned source. Editing clears old results, so a previous pass cannot silently survive a change."
+      "source": "07-comparison.png",
+      "heading": "Measure it. Keep the failures.",
+      "caption": "Frozen amended study / 2 complete pairs: direct 2/2, feedback 2/2 / lifecycle output cap / 7 unrun arms / earlier failed setup retained",
+      "narration": "Two paired claim repetitions finished. Direct repair and feedback repair both passed six held out conditions each time. This sample shows no pass count advantage. The lifecycle task then hit the output cap, so the frozen runner stopped. We retain the failure, seven unrun arms, and the earlier failed setup."
     },
     {
-      "id": "08-scope",
-      "seconds": 18,
-      "source": "08-scope.png",
-      "kind": "ui",
-      "heading": "Make a repair an experiment you can challenge.",
-      "caption": "One repository-derived study. New 60-second lease contract; bounded adapter and fixture effects. No whole-app, production or AI-superiority claim.",
-      "narration": "This is one repository derived study, with a new lease contract, a bounded adapter, real SQLite, and controlled process sequences. It does not prove whole application correctness or general repair performance. RaceLab turns a model's proposed repair into evidence you can replay and challenge."
+      "id": "08-explore",
+      "seconds": 20,
+      "kind": "browser",
+      "source": "08-explore.webm",
+      "heading": "Inspect online. Recompute locally.",
+      "caption": "Public recorded explorer / A/B, conditions, trace controls, actual/expected / unchanged evidence download / keyless local execution",
+      "narration": "Anyone can inspect the public recorded explorer, select conditions, compare methods, and scrub the trace. Download the unchanged evidence, then run the local workbench to recompute it without a model key. RaceLab makes a repair reviewable: source, hypothesis, execution, failure, and a clear boundary around what passed."
     }
   ]
 }

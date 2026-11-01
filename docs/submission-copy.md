@@ -28,17 +28,23 @@ Replay the retained Meta proposal. RaceLab executes its replacement source again
 
 Three additional authored JavaScript cases demonstrate controlled asynchronous-store scheduling: inventory, webhook deduplication and shared-counter updates.
 
+The public recorded explorer lets reviewers inspect A/B source, conditions, committed-state tracing, retained public Meta hypotheses/requests, candidate diffs and actual/expected checks without installation. It displays saved artifacts, not remote execution. The local workbench independently recomputes them.
+
 ## Meaningful use of Meta
 
 Muse Spark 1.3 receives the source, declared contract and executed feedback. Its bounded tools can probe an execution and propose replacement source. The model cannot alter the independent oracle or grant itself a PASS.
 
 The retained TEND investigation was declared before its live run. It used two requests, one failed original crash probe and one proposed method, at an app-estimated $0.015165. The candidate passed all ten declared recovery conditions. Recorded replay executes the retained proposal locally without another model request. This is one integration study, not a general repair-rate or AI-superiority result.
 
+A separately frozen direct/feedback comparison completed two paired claim repetitions: both arms passed 6/6 held-out conditions each time. Output truncation stopped the next task, leaving four completed, one failed and seven unrun arms out of twelve planned. Its original failed setup is also retained. The full three-task study is incomplete and provides no general AI-advantage conclusion. [Protocols, artifacts and accounting](evaluation.md).
+
 ## Technical depth
 
 QuickJS executes the isolated JavaScript candidate. The repository adapter strips the pinned TypeScript method and mapper and exposes bounded synchronous SQL through Node's SQLite driver in separate child processes. RaceLab controls interruption boundaries and the supplied clock, waits for worker exit, and reopens the same temporary database. SQL writes require a transaction. Execution limits and the acceptance oracle remain outside candidate code.
 
 Browser UI supports editable original source, read-only candidate B, actual/expected checks, ten-condition selection, committed-state traces, theme, replay and report/diff export. Local checks include forged-report recomputation, no-op and unsafe-operation rejection, process interruption and actual browser export/import.
+
+A separate lifecycle adapter tests simultaneous claimants, real interruption before and after commit, long-job renewal and old-token rejection, with ownership checks inside its candidate methods. A retained authored control passes ten conditions; it is not a new Meta lifecycle fix. Additional pinned owned public inputs retain 14 passing OpenMusic workspace checks and 6/8 airules conditions under RaceLab's added line-edit contract. These are bounded source adapters, not whole-application runs or human feedback.
 
 ## New work and existing components
 
@@ -52,7 +58,7 @@ The TEND adapter executes one verified method, not the full application. RaceLab
 
 The three store studies execute authored JavaScript handlers against a simulated asynchronous store. Their retained candidates pass 11 schedules / 4 inputs, 29 / 4 and 11 / 4 respectively. Simple scheduling baselines also expose the original failures.
 
-The video uses actual Microsoft Edge UI screenshots paced as stills, generic synthetic English narration and captions; waiting time is omitted. It is not continuous live screen recording. Its opening identifies new work, reused event infrastructure and the existing TEND input.
+The video combines actual Microsoft Edge UI interaction clips with stills, generic synthetic English narration and captions; preparation and model waiting are omitted. Failure and the checked retained repair appear within twenty seconds. Its opening identifies new work, reused event infrastructure and the existing TEND input. Both previous movies are preserved.
 
 ## Submission links
 

@@ -21,4 +21,7 @@ jobs:
       - run: npm run evaluate
       - run: npm run evaluate:tend
       - run: npm run evaluate:repositories
+      - run: npm run evaluate:lifecycle
+      - run: npm run evaluate:comparison
+      - run: npm run evaluate:comparison:v2
       - run: npm run check:film

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>RaceLab — evaluation and boundaries</title>
+    <link rel="icon" href="/mark.svg" />
+    <link rel="stylesheet" href="/font.css" />
+    <link rel="stylesheet" href="/racelab.css" />
+    <link rel="stylesheet" href="/motion.css" />
+    <link rel="stylesheet" href="/evidence.css" />
+  </head>
+  <body>
+    <header class="topbar studio-header">
+      <a class="brand" href="/"
+        ><img src="/mark.svg" width="28" height="28" alt="" /><span
+          class="brand-text"
+          >racelab*</span
+        ></a
+      >
+      <nav>
+        <a href="/evidence.html">Inspect TEND</a
+        ><a href="https://github.com/tang-vu/racelab">Source ↗</a
+        ><button
+          id="theme-toggle"
+          class="theme-toggle"
+          aria-label="Switch to dark theme"
+          aria-pressed="false"
+        >
+          ◐
+        </button>
+      </nav>
+    </header>
+    <main class="explorer">
+      <p class="section-kicker">BOUNDED EVALUATION / RETAIN FAILURES</p>
+      <h1>Tests that can<br />say no.</h1>
+      <p class="explorer-intro">
+        Recorded independent checks on real source and controlled adapters. This
+        page displays retained artifacts; it does not execute code.
+      </p>
+      <p id="evaluation-status" role="status">Loading evaluation artifacts…</p>
+      <section id="lifecycle-results" class="explorer-section">
+        <p class="section-kicker">REAL SQLITE / REAL CHILD PROCESSES</p>
+        <h2>Beyond one recovered claim.</h2>
+        <p>
+          Two simultaneous claimants, interruption inside a transaction and
+          after commit, lease renewal, inclusive expiry and old generation
+          rejection. Ownership checks are inside the new candidate methods.
+        </p>
+        <div id="lifecycle-summary"></div>
+        <div id="lifecycle-cases"></div>
+      </section>
+      <section id="repository-results" class="explorer-section">
+        <p class="section-kicker">TANG VU’S ADDITIONAL PUBLIC REPOSITORIES</p>
+        <h2>Broader inputs. Honest scope.</h2>
+        <div id="repository-summary"></div>
+      </section>
+      <section id="comparison-results" class="explorer-section">
+        <p class="section-kicker">FROZEN DIRECT / FEEDBACK STUDY</p>
+        <h2>Measure the feedback.</h2>
+        <p>
+          The amended comparison uses three tasks, two repetitions and two
+          requests per arm. It preserves the original failed setup as a separate
+          artifact. Inspect both versions, every proposal and the final held-out
+          results below.
+        </p>
+        <div id="comparison-summary"></div>
+        <p>
+          <a href="/recordings/comparison-study-v2.json" download
+            >Amended attempts</a
+          >
+          ·
+          <a
+            href="https://github.com/tang-vu/racelab/blob/main/demo/comparison-protocol-v2.json"
+            >Frozen protocol ↗</a
+          >
+          ·
+          <a href="/recordings/comparison-study.json" download
+            >Original failed setup</a
+          >
+          ·
+          <a href="/recordings/comparison-summary.json" download
+            >Full planned matrix / summary</a
+          >
+        </p>
+      </section>
+      <section class="explorer-section">
+        <h2>Recompute locally.</h2>
+        <pre>
+npm ci
+npm run prepare:tend
+npm run prepare:repositories
+npm test
+npm run evaluate:repositories
+node scripts/record-lifecycle.mjs
+npm run evaluate:comparison</pre>
+        <p>
+          These commands make no model calls. Repository validation is not human
+          feedback or productivity evidence. The original TEND investigation
+          remains unchanged.
+        </p>
+        <a href="/evidence.html">Explore the original TEND investigation ↗</a>
+      </section>
+    </main>
+    <script type="module" src="/evaluation.js"></script>
+    <script src="/theme.js"></script>
+  </body>
+</html>

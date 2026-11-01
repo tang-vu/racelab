@@ -21,6 +21,8 @@
     "prepare:repositories": "node scripts/prepare-repositories.mjs",
     "evaluate:repositories": "node scripts/validate-repositories.mjs",
     "evaluate:comparison": "node scripts/run-comparison.mjs",
+    "evaluate:comparison:v2": "node scripts/run-comparison-v2.mjs",
+    "evaluate:lifecycle": "node scripts/record-lifecycle.mjs",
     "check:evidence": "node scripts/check-evidence.mjs",
     "format": "prettier . --write",
     "format:check": "prettier . --check"

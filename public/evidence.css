@@ -122,6 +122,19 @@
   padding: 10px;
   min-width: 38px;
 }
+.evidence-impact {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 14px 0 20px;
+}
+.evidence-impact strong {
+  font: 450 58px/1 var(--studio-font);
+  letter-spacing: -0.06em;
+}
+.evidence-impact span {
+  font: 12px/1.6 var(--studio-font);
+}
 #evidence-scrubber {
   width: 100%;
   accent-color: var(--ink);
@@ -162,6 +175,26 @@
 .explorer-provenance code {
   font-size: 10px;
   overflow-wrap: anywhere;
+}
+.evaluation-table-wrap {
+  overflow-x: auto;
+}
+.evaluation-table {
+  width: 100%;
+  border-collapse: collapse;
+  font: 12px/1.6 var(--mono);
+}
+.evaluation-table th,
+.evaluation-table td {
+  text-align: left;
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+.evaluation-table caption {
+  text-align: left;
+  padding: 12px;
+  font-family: var(--studio-font);
 }
 .skip-evidence {
   position: absolute;

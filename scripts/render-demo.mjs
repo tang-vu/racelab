@@ -65,6 +65,7 @@ const sourceTypes = [
   "CUA-screenshot",
   "app-screenshot",
   "engine-evidence-diagram",
+  "app-recording",
 ];
 async function verifyOrigin(name) {
   const origin = sources.sources[name.replace(/\.(webm|jpg|png)$/, "")];
@@ -128,7 +129,7 @@ const subtitles = [],
 for (const s of story.scenes) {
   if (!/^[0-9]{2}-[a-z-]+$/.test(s.id)) throw new Error("Invalid scene ID.");
   const source = path.join(capture, s.source),
-    input = probe(source, s.kind === "native");
+    input = probe(source, ["native", "browser"].includes(s.kind));
   const video = input.streams.find((v) => v.codec_type === "video");
   const origin = await verifyOrigin(s.source);
   for (const name of s.shots ?? []) {
@@ -141,7 +142,7 @@ for (const s of story.scenes) {
       throw new Error(`Invalid still source: ${name}`);
   }
   if (
-    s.kind === "native" &&
+    ["native", "browser"].includes(s.kind) &&
     (video.avg_frame_rate !== "30/1" || Number(video.nb_read_frames) < 300)
   )
     throw new Error("Native replay must contain verified 30 fps motion.");
@@ -165,8 +166,9 @@ for (const s of story.scenes) {
     filter = `scale=1920:1080:flags=lanczos,setsar=1,fps=30`;
   else
     filter = `scale=1760:720:force_original_aspect_ratio=decrease:flags=lanczos,pad=1920:1080:(ow-iw)/2:176:color=0xffffff,setsar=1,fps=30,drawtext=${font}:textfile=${s.id}-heading.txt:fontsize=37:fontcolor=0x101010:x=80:y=35,drawtext=${font}:textfile=${s.id}-caption.txt:fontsize=22:fontcolor=0x555555:x=80:y=99`;
-  let inputArgs =
-    s.kind === "native" ? ["-i", s.source] : ["-loop", "1", "-i", s.source];
+  let inputArgs = ["native", "browser"].includes(s.kind)
+    ? ["-i", s.source]
+    : ["-loop", "1", "-i", s.source];
   if (s.shots?.length) {
     // A changing JPEG resolution reinitializes ffmpeg's filter graph and can
     // discard the preceding frames. Normalize before concatenating screenshots
@@ -253,10 +255,9 @@ for (const s of story.scenes) {
     sourceSha256: origin.sha256,
     narrationSha256: await sha(path.join(capture, s.id + ".wav")),
     evidenceFactsSha256: origin.factsSha256 ?? null,
-    sourceFrames:
-      s.kind === "native"
-        ? Number(video.nb_read_frames)
-        : (s.shots?.length ?? 1),
+    sourceFrames: ["native", "browser"].includes(s.kind)
+      ? Number(video.nb_read_frames)
+      : (s.shots?.length ?? 1),
     sourceFrameRate: video.avg_frame_rate,
     narrationSeconds: speech,
     tempo,
@@ -293,7 +294,15 @@ run("ffmpeg", [
   "-map",
   "1:0",
   "-c:v",
-  "copy",
+  "libx264",
+  "-preset",
+  "fast",
+  "-crf",
+  "20",
+  "-vf",
+  "fps=30",
+  "-pix_fmt",
+  "yuv420p",
   "-c:a",
   "copy",
   "-c:s",

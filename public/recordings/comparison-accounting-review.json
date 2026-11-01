@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "reviewedAt": "2026-11-01T16:01:44.000Z",
+  "reason": "The retained study stopped at HTTP 400. No token usage or actual billing is known. Explicitly accept the ENTIRE reserved maximum as spent, preserve the uncertain entry/debit, and count it against the unchanged phase/total/reserve caps. This review does not assume a refund or zero billing. A separately committed amended experiment is needed; the failed study will not be overwritten or retried.",
+  "conservativeDebitUsd": 1.328129,
+  "blocked": null,
+  "knownUsageCostUsd": 0.02373425,
+  "originalStudyRequests": 3,
+  "originalStudyConservativeDebitUsd": 1.351864,
+  "originalEntriesDeleted": 0,
+  "originalDebitsReducedUsd": 0
+}

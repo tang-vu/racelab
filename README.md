@@ -4,7 +4,7 @@
 
 **[Watch the public three-minute demo](https://racelab-tang-vu.tang-vu.chatgpt.site)** · **[Source and setup](https://github.com/tang-vu/racelab)** · [Submission copy](docs/submission-copy.md)
 
-The public review page hosts the video and evidence links. The complete Node/SQLite workbench runs locally from this repository. Recorded replay and local execution need no API key.
+The public review page hosts the video and an **[interactive recorded evidence explorer](https://racelab-tang-vu.tang-vu.chatgpt.site/evidence.html)**: A/B source, conditions, process trace, public Meta hypothesis/probe/diff and actual/expected checks. **[Evaluation and limits](https://racelab-tang-vu.tang-vu.chatgpt.site/evaluation.html)** includes additional owned repositories, deeper lifecycle controls and every planned comparison arm. Static replay does not execute code. The complete Node/SQLite workbench runs locally; recorded rechecks need no API key.
 
 **New: [a real repository recovery experiment](docs/tend.md).** A pinned TypeScript method from TEND claims a job in real disposable SQLite. RaceLab kills the worker after the claim commits and starts another process on the same file. The original method leaves the job claimed; a retained Meta repair passes ten declared recovery conditions. Open **http://127.0.0.1:4174/tend.html** to inspect the source, process receipts, A/B, stale-owner rejection and replayable regression export.
 
@@ -21,6 +21,7 @@ Requires Node.js 24.15+ LTS or 26+. No GPU, Docker or external database is requi
 ```sh
 npm ci --ignore-scripts --no-audit --no-fund
 npm run prepare:tend
+npm run prepare:repositories
 npm start
 ```
 
@@ -44,7 +45,9 @@ The three store experiments use the third-party QuickJS/WebAssembly runtime and 
 
 **[Watch the three-minute demo](public/racelab-demo.mp4)** · [Architecture and evidence](docs/racelab.md) · [Submission draft](docs/racelab-submission.md) · [Third-party notices](THIRD_PARTY_NOTICES.md)
 
-The current three-minute video follows the TEND experiment: normal operation, committed-claim interruption, the retained Meta repair, ten conditions, stale-owner rejection and exported regression. It uses actual Microsoft Edge screenshots paced as stills, generic Microsoft Zira narration and English captions. The player has eight working chapter buttons. [Capture and rebuild notes](docs/demo.md) identify the retained evidence and boundaries. The earlier store-experiment movie is preserved byte-for-byte in `public/archive/`.
+The current three-minute video shows failure and the checked repair within its first twenty seconds, then public Meta artifacts, committed-state tracing, lifecycle controls, additional repository checks and the incomplete comparison. It combines actual Microsoft Edge UI interaction clips with stills, generic Microsoft Zira narration and English captions. Eight chapter controls, hashes and [capture/rebuild notes](docs/demo.md) accompany it. Both earlier movies are byte-preserved in `public/archive/`.
+
+**[Expanded evaluation](docs/evaluation.md):** a separate real-process lifecycle adapter covers contention, interruption before/after commit and renewal, with candidate-internal ownership guards. An authored control passes ten conditions; no new Meta lifecycle repair is claimed. Pinned OpenMusic code passes 14 memory-adapter checks; unchanged airules meets 6/8 conditions under a new precise line-edit contract. A frozen direct/feedback study completed two claim pairs: both arms passed 6/6 held-out each time. Output truncation stopped the next task, leaving 7/12 planned arms unrun. The failed original setup is also retained. No general AI advantage or human feedback is claimed.
 
 ## Verify offline
 
@@ -52,8 +55,12 @@ The current three-minute video follows the TEND experiment: normal operation, co
 npm test
 npm run evaluate
 npm run evaluate:tend
+npm run evaluate:repositories
+node scripts/record-lifecycle.mjs
+node scripts/run-comparison-v2.mjs
 npm run check:film
 npm run check:browser # optional: installed Microsoft Edge and a running local server
+npm run check:evidence # recorded explorer/evaluation, same browser requirement
 npm run format:check
 npm run check:local # with the local server running
 ```

@@ -242,7 +242,10 @@ try {
   const duration = await film.locator("video").evaluate((el) => el.duration);
   assert.ok(duration >= 179.8 && duration <= 180);
   assert.equal(await film.locator("[data-seek]").count(), 8);
-  for (const start of [67, 118, 162]) {
+  const chapterStarts = await film
+    .locator("[data-seek]")
+    .evaluateAll((items) => items.map((item) => Number(item.dataset.seek)));
+  for (const start of chapterStarts) {
     await film.locator(`[data-seek="${start}"]`).click();
     await film.waitForFunction((time) => {
       const video = document.querySelector("video");
@@ -274,7 +277,7 @@ try {
   report.film = {
     duration,
     chapters: 8,
-    seekAndPlay: [67, 118, 162],
+    seekAndPlay: chapterStarts,
     captionsLoaded: true,
   };
   await film.locator("video").evaluate((el) => el.pause());
@@ -289,7 +292,7 @@ try {
   );
   await filmContext.close();
   console.log(
-    "Film: actual metadata, decoded playback, three chapter seeks, captions and narrow layout passed.",
+    "Film: actual metadata, decoded playback, all eight chapter seeks, captions and narrow layout passed.",
   );
   const after = await status();
   assert.equal(after.budget.requests, before.budget.requests);

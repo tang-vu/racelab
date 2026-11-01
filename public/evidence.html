@@ -84,6 +84,13 @@
             </div>
             <p id="evidence-missing" role="status" hidden></p>
             <div id="evidence-playback">
+              <div class="evidence-impact">
+                <strong id="evidence-completions">0</strong
+                ><span
+                  >local completions<br />of
+                  <b id="evidence-expected">1</b> expected</span
+                >
+              </div>
               <div class="playback-controls">
                 <button id="evidence-start" aria-label="Go to start">↤</button
                 ><button id="evidence-back" aria-label="Previous trace step">
@@ -137,6 +144,10 @@
         <p>
           <a href="/recordings/tend-claims.json" download
             >Download unchanged recording</a
+          >
+          ·
+          <a href="/evaluation.html"
+            >Lifecycle, repository checks and study status</a
           >
           ·
           <a href="https://github.com/tang-vu/racelab/blob/main/docs/tend.md"

@@ -1,0 +1,132 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:06.058
+RaceLab is new hackathon work by Tang Vu. It reuses
+Meta transport and
+
+00:00:06.058 --> 00:00:12.117
+local infrastructure from the earlier event
+prototype, LiveWorld. TEND is an existing MIT
+
+00:00:12.117 --> 00:00:18.175
+source input. Here is a familiar failure: a worker
+saves its claim, then
+
+00:00:18.175 --> 00:00:22.836
+stops. The job exists, but another worker cannot
+finish it.
+
+00:00:24.000 --> 00:00:29.761
+RaceLab verifies the exact public source revision,
+extracts this TypeScript claim method, and
+
+00:00:29.761 --> 00:00:35.523
+executes it through a bounded SQLite adapter. Without
+interruption, one due job is
+
+00:00:35.523 --> 00:00:41.284
+claimed and completed. The original method passes.
+These process identifiers and transaction receipts
+
+00:00:41.284 --> 00:00:43.500
+come from the local execution.
+
+00:00:44.000 --> 00:00:49.887
+Now stop worker A after its claim commits. RaceLab
+observes its exit and
+
+00:00:49.887 --> 00:00:55.775
+starts worker B on the same database file. The
+original query only selects
+
+00:00:55.775 --> 00:01:01.662
+scheduled or retrying jobs. This row is already
+claimed, so it stays behind.
+
+00:01:01.662 --> 00:01:06.191
+The completion count is zero. The independent
+recovery check fails.
+
+00:01:07.000 --> 00:01:12.940
+Muse Spark inspected this method and the declared
+recovery contract. In the retained
+
+00:01:12.940 --> 00:01:18.879
+investigation, it ran a failing crash probe and
+proposed one replacement method. Check
+
+00:01:18.879 --> 00:01:24.819
+Meta repair executes that recorded proposal again
+locally, with no new model call.
+
+00:01:24.819 --> 00:01:30.759
+Worker B now reclaims the expired job. One local
+completion is recorded. Original
+
+00:01:30.759 --> 00:01:33.500
+A and candidate B remain inspectable.
+
+00:01:34.000 --> 00:01:39.875
+Recovering one job is not enough. A blanket reset
+could steal a healthy
+
+00:01:39.875 --> 00:01:45.750
+worker's claim. The fixed checker also requires
+preservation of fresh claims, future jobs,
+
+00:01:45.750 --> 00:01:51.625
+completed work, and payloads. It checks retries,
+mixed rows, the exact sixty second
+
+00:01:51.625 --> 00:01:57.500
+lease boundary, and a changed input. This candidate
+passes all ten declared conditions.
+
+00:01:58.000 --> 00:02:03.274
+Inspect the expired owner condition. Worker B
+receives a newer durable generation. When
+
+00:02:03.274 --> 00:02:08.547
+worker A tries to complete with the old generation,
+the fixed local guard
+
+00:02:08.547 --> 00:02:13.821
+rejects it. Scrub the transaction trace to inspect
+what committed. This guard belongs
+
+00:02:13.821 --> 00:02:19.094
+to RaceLab's fixture. It does not establish exactly
+once delivery to an external
+
+00:02:19.094 --> 00:02:19.500
+service.
+
+00:02:20.000 --> 00:02:25.947
+Export the regression and reopen that file. RaceLab
+discards supplied verdicts, traces, and
+
+00:02:25.947 --> 00:02:31.894
+process identifiers, then executes the source and
+conditions again. Imported model attribution is
+
+00:02:31.894 --> 00:02:37.840
+unverified. A method diff targets the pinned source.
+Editing clears old results, so
+
+00:02:37.840 --> 00:02:41.500
+a previous pass cannot silently survive a change.
+
+00:02:42.000 --> 00:02:47.170
+This is one repository derived study, with a new
+lease contract, a bounded
+
+00:02:47.170 --> 00:02:52.341
+adapter, real SQLite, and controlled process
+sequences. It does not prove whole application
+
+00:02:52.341 --> 00:02:57.511
+correctness or general repair performance. RaceLab
+turns a model's proposed repair into evidence
+
+00:02:57.511 --> 00:02:59.500
+you can replay and challenge.

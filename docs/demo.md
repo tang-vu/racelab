@@ -1,38 +1,40 @@
-# Current TEND demo
+# Current evidence demo
 
-Open `http://127.0.0.1:4174/film.html` after `npm start`. The current film is `public/racelab-demo.mp4`; it includes generic Microsoft Zira English narration, English subtitles and eight chapter controls in the player. The film uses actual application screenshots paced as stills, with model/recheck waiting time omitted. It is not continuous screen recording.
+Open `http://127.0.0.1:4174/film.html` after `npm start`, or use the [public review player](https://racelab-tang-vu.tang-vu.chatgpt.site). The current 179.904-second film combines four actual Microsoft Edge interaction clips with four application stills. It has generic Microsoft Zira narration, English captions and eight chapter controls. Preparation and model waiting are omitted; the movie is edited, not a continuous end-to-end live investigation.
 
-The [public review player](https://racelab-tang-vu.tang-vu.chatgpt.site) mirrors the same movie, captions and retained investigation without requiring a login. Anonymous desktop and mobile browser checks verify actual playback, seeking, captions and matching media hashes. The complete executable lab runs locally from the [public repository](https://github.com/tang-vu/racelab).
+| Start | Scene                                                                                         |
+| ----- | --------------------------------------------------------------------------------------------- |
+| 00:00 | Original failure → checked retained Meta candidate within twenty seconds; concise attribution |
+| 00:20 | Verified source, real SQLite and original adapter boundary                                    |
+| 00:42 | Interactive committed-state process trace                                                     |
+| 01:06 | Retained public hypothesis, failed probe, candidate diff and independent checks               |
+| 01:31 | Authored lifecycle control: contention, commit interruption and renewal                       |
+| 01:55 | OpenMusic healthy checks and airules new-contract failures                                    |
+| 02:17 | Incomplete direct/feedback comparison, no pass-count advantage and retained failures          |
+| 02:40 | Public recorded exploration and keyless local reproduction                                    |
 
-| Start | Scene                                                              |
-| ----- | ------------------------------------------------------------------ |
-| 00:00 | Saved job, stopped worker; new/reused work disclosure              |
-| 00:24 | Original method completes uninterrupted work                       |
-| 00:44 | Kill after the committed claim; replacement process cannot recover |
-| 01:07 | Retained Meta candidate re-executes locally and recovers           |
-| 01:34 | Ten declared conditions and independent acceptance checks          |
-| 01:58 | Old generation rejected by the fixed local completion guard        |
-| 02:20 | Actual exported regression opened through the file picker          |
-| 02:42 | Method, adapter, lease-policy and external-effect boundary         |
+The [explorer](https://racelab-tang-vu.tang-vu.chatgpt.site/evidence.html) displays recorded evidence; it does not run SQLite remotely. The local workbench recomputes the unchanged original Meta proposal. [Evaluation](evaluation.md) distinguishes original/added contracts, authored controls, incomplete study outcomes and code validation from human feedback.
 
-## Evidence and authorship
+## Source and authorship
 
-`demo/racelab-storyboard.json` contains the exact transcript, timings and disclosures. `demo/racelab-render-manifest.json` records media geometry, duration, decoded frames, screenshot hashes, narration hashes, voice, tempo and retained-investigation hash. `docs/tend-shots/sources.json` records the actual browser version, viewport, capture method and review results. Scene PNGs are actual screenshots, not generated UI mockups. CSS transitions were settled when taking stills.
+`demo/racelab-storyboard.json` contains the exact transcript, timings and disclosures. `demo/racelab-render-manifest.json` binds geometry, decoded frames, media/source/narration hashes and the unchanged original investigation. `docs/evidence-shots/sources.json` identifies actual Edge captures, viewport, raw recording hashes and preparation trim offsets. WebM clips are real UI interactions converted to 30 fps; PNGs are actual application screenshots. No generated UI mockups or fabricated receipts are used.
 
-The source is the existing MIT TEND method at its verified pin. RaceLab's adapter, interruption harness and 60-second lease contract are new work. The completion-generation guard is fixed RaceLab fixture instrumentation, not a repair of upstream completion or proof of exactly-once external effects. The retained Muse Spark investigation used two requests and one candidate; offline capture made no new model call. The recording remains byte-identical at SHA-256 `91e2b1ffc0d4ac3940d537b5a7552f15977905743a3480eadfcc8b090480baee`.
+The opening identifies new RaceLab work by Tang Vu and pre-existing TEND/event infrastructure. The original retained Muse Spark claim candidate is model work. The new lifecycle renewal/completion control is authored RaceLab work, not a new Meta repair. The full comparison remains incomplete; the movie does not turn its stopped/unrun arms into successes. English subtitles are timed approximately by narrated word groups, not a manually aligned verbatim audio transcription.
 
-The earlier store-experiment video is byte-preserved at `public/archive/racelab-store-demo.mp4`. Its captions/poster accompany it; original storyboard, manifest and SRT are in `demo/archive/`. Old screenshot hashes still verify against `docs/racelab-shots/`.
+Both earlier movies are byte-preserved: `public/archive/racelab-store-demo.mp4` and `public/archive/racelab-tend-demo.mp4`, with captions/posters and matching storyboard/render/SRT files in `demo/archive/`. Their original captures remain in `docs/racelab-shots/` and `docs/tend-shots/`.
 
-## Reproduce locally
+## Reproduce and verify
 
-Run `npm run check:browser` with the local server and installed Microsoft Edge. Playwright uses a fresh headless context and blocks paid endpoints and external page requests. It saves actual screenshots and a source registry under ignored `.racelab/browser-review/`. The script verifies A/B, ten conditions, stale-owner inspection, file export/import, edited-source invalidation, theme, playback, reduced motion and widths of 1440, 390, 320 and 768 pixels. Phone checks use viewport emulation, not physical devices. Browser QA does not claim exhaustive performance or animation timing coverage.
+`npm run check:browser` checks the keyless local workbench, actual downloads/import, themes, recorded A/B and media. `npm run check:evidence` checks recorded trace controls, missing original conditions, integrity rejection and the complete planned evaluation matrix at 1440, 768, 390 and 320 pixels. Both use fresh installed Microsoft Edge contexts and block paid endpoints. Mobile checks are viewport emulation, not physical phones.
 
-To rebuild, copy the eight reviewed scene PNGs and their `sources.json` into an ignored capture directory. On Windows, `node scripts/narrate-demo.mjs` generates local narration WAVs under `.racelab/film-tend/` with the installed speech API and leaves system settings unchanged. Use an installed FFmpeg:
+On this Windows capture machine, with the local server running:
 
 ```powershell
+node scripts/capture-demo.mjs
+node scripts/narrate-demo.mjs .racelab/film-evidence
 $env:RACELAB_FFMPEG_DIR = 'D:\Apps\FFmpeg-9.0.2\bin'
-node scripts/render-demo.mjs .racelab/film-tend
+node scripts/render-demo.mjs .racelab/film-evidence
 npm.cmd run check:film
 ```
 
-The renderer rejects changed source hashes or narration needing more than 1.16x tempo, checks final video geometry/timing/audio/subtitle tracks, and then promotes the movie and captions. WAVs, intermediate media and the local font stay ignored. The checker verifies the retained investigation and archive too. No upload, hosting, competition submission or production integration is part of this workflow.
+The capture helper currently identifies this machine's FFmpeg directory; adapt it for a different machine. Playwright captures the actual application in fresh contexts and blocks paid endpoints. Raw recordings, WAVs, intermediate media and local font stay ignored. Source clips/stills and their registry are retained in the repository. Context shutdown can append final frames; trim offsets use measured action start rather than total file duration. The renderer checks source hashes, 30 fps motion, narration tempo (at most 1.16x), final video dimensions/timing/audio/subtitle tracks before promotion. The checker verifies both historical archives too. No competition submission or LAN deployment is part of this workflow.

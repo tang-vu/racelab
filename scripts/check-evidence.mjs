@@ -26,7 +26,15 @@ try {
       .filter({ hasText: "Recording integrity verified" })
       .waitFor();
     assert.equal(await page.locator("#evidence-verdict").textContent(), "FAIL");
+    assert.equal(
+      await page.locator("#evidence-completions").textContent(),
+      "0",
+    );
     await page.locator("#version-b").click();
+    assert.equal(
+      await page.locator("#evidence-completions").textContent(),
+      "1",
+    );
     assert.equal(await page.locator("#evidence-verdict").textContent(), "PASS");
     await page.locator("#evidence-condition").selectOption("expired-owner");
     assert.match(
@@ -78,6 +86,44 @@ try {
     assert.deepEqual(api, []);
     await page.screenshot({
       path: resolve(out, `explorer-${width}.png`),
+      fullPage: true,
+    });
+    await page.goto(base + "/evaluation.html");
+    await page
+      .getByText("Saved evaluation artifacts loaded.", { exact: false })
+      .waitFor();
+    assert.equal(await page.locator(".evaluation-table tbody tr").count(), 12);
+    assert.equal(
+      await page
+        .locator(".evaluation-table tbody tr")
+        .filter({ hasText: "not-run-after-stop" })
+        .count(),
+      7,
+    );
+    assert.match(
+      await page.locator("#comparison-summary").textContent(),
+      /no pass-count advantage/i,
+    );
+    assert.match(
+      await page.locator("#repository-summary").textContent(),
+      /OpenMusic · 14\/14/,
+    );
+    assert.match(
+      await page.locator("#repository-summary").textContent(),
+      /airules · 6\/8/,
+    );
+    assert.equal(await page.locator("#lifecycle-cases > details").count(), 11);
+    assert.equal(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+      true,
+      `evaluation overflow at ${width}`,
+    );
+    assert.deepEqual(errors, []);
+    assert.deepEqual(api, []);
+    await page.screenshot({
+      path: resolve(out, `evaluation-${width}.png`),
       fullPage: true,
     });
     await context.close();

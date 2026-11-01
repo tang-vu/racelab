@@ -7,4 +7,9 @@ package-lock.json
 public/recordings/tend-claims.json
 public/recordings/comparison-study.json
 public/recordings/repository-validation.json
+public/recordings/lifecycle-validation.json
 demo/comparison-protocol.json
+demo/comparison-protocol-v2.json
+public/recordings/comparison-study-v2.json
+public/recordings/comparison-summary.json
+public/recordings/comparison-accounting-review.json

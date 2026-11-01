@@ -23,6 +23,11 @@ function render() {
   $("evidence-verdict").className =
     `badge ${frame?.verdict === "PASS" ? "pass" : frame?.verdict === "FAIL" || frame?.verdict === "ERROR" ? "fail" : "neutral"}`;
   if (!frame) return;
+  $("evidence-completions").textContent = frame.receipts;
+  $("evidence-expected").textContent =
+    state.run.verdict.checks.find(
+      (c) => c.name === "Exactly the expected local fixture completions",
+    )?.expected ?? "—";
   $("evidence-scrubber").value = frame.step;
   $("evidence-step").textContent = `${frame.step} / ${frame.total}`;
   $("evidence-event").textContent = frame.event

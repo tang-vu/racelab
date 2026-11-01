@@ -1,0 +1,342 @@
+{
+  "version": 1,
+  "createdAt": "2026-11-01T16:06:40.623Z",
+  "status": "incomplete-predeclared-study",
+  "originalStatus": "stopped-error",
+  "amendedStatus": "stopped-error",
+  "protocolCommit": "b3ab84e08e21785c01a766be3b73882e44e550e3",
+  "plannedArms": 12,
+  "completedArms": 4,
+  "failedArms": 1,
+  "notRunArms": 7,
+  "planned": [
+    {
+      "id": "tend-claim-1-direct",
+      "task": "tend-claim",
+      "repetition": 1,
+      "arm": "direct",
+      "status": "completed",
+      "heldOutPassed": true,
+      "heldOutConditionsPassed": 6,
+      "heldOutConditionsTested": 6,
+      "error": null
+    },
+    {
+      "id": "tend-claim-1-feedback",
+      "task": "tend-claim",
+      "repetition": 1,
+      "arm": "feedback",
+      "status": "completed",
+      "heldOutPassed": true,
+      "heldOutConditionsPassed": 6,
+      "heldOutConditionsTested": 6,
+      "error": null
+    },
+    {
+      "id": "tend-claim-2-feedback",
+      "task": "tend-claim",
+      "repetition": 2,
+      "arm": "feedback",
+      "status": "completed",
+      "heldOutPassed": true,
+      "heldOutConditionsPassed": 6,
+      "heldOutConditionsTested": 6,
+      "error": null
+    },
+    {
+      "id": "tend-claim-2-direct",
+      "task": "tend-claim",
+      "repetition": 2,
+      "arm": "direct",
+      "status": "completed",
+      "heldOutPassed": true,
+      "heldOutConditionsPassed": 6,
+      "heldOutConditionsTested": 6,
+      "error": null
+    },
+    {
+      "id": "tend-lifecycle-1-direct",
+      "task": "tend-lifecycle",
+      "repetition": 1,
+      "arm": "direct",
+      "status": "error",
+      "heldOutPassed": null,
+      "heldOutConditionsPassed": null,
+      "heldOutConditionsTested": null,
+      "error": "Meta reached the output cap. No automatic retry was made."
+    },
+    {
+      "id": "tend-lifecycle-1-feedback",
+      "task": "tend-lifecycle",
+      "repetition": 1,
+      "arm": "feedback",
+      "status": "not-run-after-stop",
+      "heldOutPassed": null,
+      "heldOutConditionsPassed": null,
+      "heldOutConditionsTested": null,
+      "error": null
+    },
+    {
+      "id": "tend-lifecycle-2-feedback",
+      "task": "tend-lifecycle",
+      "repetition": 2,
+      "arm": "feedback",
+      "status": "not-run-after-stop",
+      "heldOutPassed": null,
+      "heldOutConditionsPassed": null,
+      "heldOutConditionsTested": null,
+      "error": null
+    },
+    {
+      "id": "tend-lifecycle-2-direct",
+      "task": "tend-lifecycle",
+      "repetition": 2,
+      "arm": "direct",
+      "status": "not-run-after-stop",
+      "heldOutPassed": null,
+      "heldOutConditionsPassed": null,
+      "heldOutConditionsTested": null,
+      "error": null
+    },
+    {
+      "id": "airules-diff-1-direct",
+      "task": "airules-diff",
+      "repetition": 1,
+      "arm": "direct",
+      "status": "not-run-after-stop",
+      "heldOutPassed": null,
+      "heldOutConditionsPassed": null,
+      "heldOutConditionsTested": null,
+      "error": null
+    },
+    {
+      "id": "airules-diff-1-feedback",
+      "task": "airules-diff",
+      "repetition": 1,
+      "arm": "feedback",
+      "status": "not-run-after-stop",
+      "heldOutPassed": null,
+      "heldOutConditionsPassed": null,
+      "heldOutConditionsTested": null,
+      "error": null
+    },
+    {
+      "id": "airules-diff-2-feedback",
+      "task": "airules-diff",
+      "repetition": 2,
+      "arm": "feedback",
+      "status": "not-run-after-stop",
+      "heldOutPassed": null,
+      "heldOutConditionsPassed": null,
+      "heldOutConditionsTested": null,
+      "error": null
+    },
+    {
+      "id": "airules-diff-2-direct",
+      "task": "airules-diff",
+      "repetition": 2,
+      "arm": "direct",
+      "status": "not-run-after-stop",
+      "heldOutPassed": null,
+      "heldOutConditionsPassed": null,
+      "heldOutConditionsTested": null,
+      "error": null
+    }
+  ],
+  "paired": [
+    {
+      "task": "tend-claim",
+      "repetition": 1,
+      "complete": true,
+      "arms": [
+        {
+          "id": "tend-claim-1-direct",
+          "task": "tend-claim",
+          "repetition": 1,
+          "arm": "direct",
+          "status": "completed",
+          "heldOutPassed": true,
+          "heldOutConditionsPassed": 6,
+          "heldOutConditionsTested": 6,
+          "error": null
+        },
+        {
+          "id": "tend-claim-1-feedback",
+          "task": "tend-claim",
+          "repetition": 1,
+          "arm": "feedback",
+          "status": "completed",
+          "heldOutPassed": true,
+          "heldOutConditionsPassed": 6,
+          "heldOutConditionsTested": 6,
+          "error": null
+        }
+      ]
+    },
+    {
+      "task": "tend-claim",
+      "repetition": 2,
+      "complete": true,
+      "arms": [
+        {
+          "id": "tend-claim-2-feedback",
+          "task": "tend-claim",
+          "repetition": 2,
+          "arm": "feedback",
+          "status": "completed",
+          "heldOutPassed": true,
+          "heldOutConditionsPassed": 6,
+          "heldOutConditionsTested": 6,
+          "error": null
+        },
+        {
+          "id": "tend-claim-2-direct",
+          "task": "tend-claim",
+          "repetition": 2,
+          "arm": "direct",
+          "status": "completed",
+          "heldOutPassed": true,
+          "heldOutConditionsPassed": 6,
+          "heldOutConditionsTested": 6,
+          "error": null
+        }
+      ]
+    },
+    {
+      "task": "tend-lifecycle",
+      "repetition": 1,
+      "complete": false,
+      "arms": [
+        {
+          "id": "tend-lifecycle-1-direct",
+          "task": "tend-lifecycle",
+          "repetition": 1,
+          "arm": "direct",
+          "status": "error",
+          "heldOutPassed": null,
+          "heldOutConditionsPassed": null,
+          "heldOutConditionsTested": null,
+          "error": "Meta reached the output cap. No automatic retry was made."
+        },
+        {
+          "id": "tend-lifecycle-1-feedback",
+          "task": "tend-lifecycle",
+          "repetition": 1,
+          "arm": "feedback",
+          "status": "not-run-after-stop",
+          "heldOutPassed": null,
+          "heldOutConditionsPassed": null,
+          "heldOutConditionsTested": null,
+          "error": null
+        }
+      ]
+    },
+    {
+      "task": "tend-lifecycle",
+      "repetition": 2,
+      "complete": false,
+      "arms": [
+        {
+          "id": "tend-lifecycle-2-feedback",
+          "task": "tend-lifecycle",
+          "repetition": 2,
+          "arm": "feedback",
+          "status": "not-run-after-stop",
+          "heldOutPassed": null,
+          "heldOutConditionsPassed": null,
+          "heldOutConditionsTested": null,
+          "error": null
+        },
+        {
+          "id": "tend-lifecycle-2-direct",
+          "task": "tend-lifecycle",
+          "repetition": 2,
+          "arm": "direct",
+          "status": "not-run-after-stop",
+          "heldOutPassed": null,
+          "heldOutConditionsPassed": null,
+          "heldOutConditionsTested": null,
+          "error": null
+        }
+      ]
+    },
+    {
+      "task": "airules-diff",
+      "repetition": 1,
+      "complete": false,
+      "arms": [
+        {
+          "id": "airules-diff-1-direct",
+          "task": "airules-diff",
+          "repetition": 1,
+          "arm": "direct",
+          "status": "not-run-after-stop",
+          "heldOutPassed": null,
+          "heldOutConditionsPassed": null,
+          "heldOutConditionsTested": null,
+          "error": null
+        },
+        {
+          "id": "airules-diff-1-feedback",
+          "task": "airules-diff",
+          "repetition": 1,
+          "arm": "feedback",
+          "status": "not-run-after-stop",
+          "heldOutPassed": null,
+          "heldOutConditionsPassed": null,
+          "heldOutConditionsTested": null,
+          "error": null
+        }
+      ]
+    },
+    {
+      "task": "airules-diff",
+      "repetition": 2,
+      "complete": false,
+      "arms": [
+        {
+          "id": "airules-diff-2-feedback",
+          "task": "airules-diff",
+          "repetition": 2,
+          "arm": "feedback",
+          "status": "not-run-after-stop",
+          "heldOutPassed": null,
+          "heldOutConditionsPassed": null,
+          "heldOutConditionsTested": null,
+          "error": null
+        },
+        {
+          "id": "airules-diff-2-direct",
+          "task": "airules-diff",
+          "repetition": 2,
+          "arm": "direct",
+          "status": "not-run-after-stop",
+          "heldOutPassed": null,
+          "heldOutConditionsPassed": null,
+          "heldOutConditionsTested": null,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "requests": {
+    "original": 3,
+    "amended": 9,
+    "total": 12
+  },
+  "cost": {
+    "originalKnownUsageUsd": 0.02373425,
+    "amendedKnownUsageLedgerUsd": 0.070791,
+    "originalUnknownChargeConservativeDebitUsd": 1.328129,
+    "totalConservativeLedgerDebitUsd": 1.422655,
+    "note": "Per-request costs can differ from rounded ledger debits. The truncated request returned token usage settled in the ledger, but transport rejected its output and did not retain its content/usage in the public call record. Amended study aggregate includes that known debit. The original HTTP 400 charge is unknown and remains fully debited conservatively; this is not provider billing verification."
+  },
+  "conclusion": "Only two complete paired repetitions of the TEND claim task finished: direct and feedback each passed 6/6 held-out conditions in both repetitions. This sample shows no pass-count advantage. The first lifecycle direct attempt hit the output token cap; the frozen runner stopped. Remaining planned arms were not run. No aggregate three-task repair rate, lifecycle AI repair result or general AI advantage is established. The original failed setup is reported separately, not pooled or overwritten.",
+  "limitations": [
+    "Small purposive sample; two TEND tasks share source.",
+    "Held-out means withheld from prompts/feedback, not novel problem classes or training-data isolation.",
+    "Original failed setup includes incompatible source boundaries and API HTTP 400; cause of HTTP 400 not diagnosed.",
+    "Model output truncation is retained as a failure; the client did not retain truncated message content.",
+    "No human usability or productivity measurements. No external delivery guarantee."
+  ]
+}
