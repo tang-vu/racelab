@@ -12,17 +12,19 @@
 
 ## Publication and reproduction verified November 1
 
-| Item                | Verified result                                                                                                                                                                                 |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Public repository   | [tang-vu/racelab](https://github.com/tang-vu/racelab); source and entry copy return HTTP 200 without authentication                                                                             |
-| Public review/video | [racelab-tang-vu.tang-vu.chatgpt.site](https://racelab-tang-vu.tang-vu.chatgpt.site); fresh anonymous Edge contexts pass at 1440, 390 and 320 pixels                                            |
-| Player              | Actual decoded playback, chapter seeking, loaded captions and theme pass on the public host                                                                                                     |
-| Media integrity     | Current repository MP4 SHA-256 `3a48d646493a0677d8585bb87b000b71153d81ea408f02c7c179f34a9e300896`; source/current/archive film verifier passes                                                  |
-| Local verification  | 48/48 tests, zero skipped; format/film, HTTP and actual Edge workbench flow pass; all eight local chapter seeks decode; explorer/evaluation pass at 1440/768/390/320 pixels with no model calls |
-| Remote CI           | [First public Ubuntu verification](https://github.com/tang-vu/racelab/actions/runs/41318199086) passed on code revision `f3c4609`; subsequent main-branch runs are visible in Actions           |
-| Publication scan    | Reachable history and newly staged publication text checked for the configured credential and private configuration/usage files before publishing                                               |
+| Item                | Verified result                                                                                                                                                                                          |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Public repository   | [tang-vu/racelab](https://github.com/tang-vu/racelab); source and entry copy return HTTP 200 without authentication                                                                                      |
+| Public review/video | [racelab-tang-vu.tang-vu.chatgpt.site](https://racelab-tang-vu.tang-vu.chatgpt.site); fresh anonymous Edge contexts pass at 1440, 390 and 320 pixels                                                     |
+| Player              | Actual decoded playback, chapter seeking, loaded captions and theme pass on the public host                                                                                                              |
+| Media integrity     | Anonymous public MP4 matches repository SHA-256 `3a48d646493a0677d8585bb87b000b71153d81ea408f02c7c179f34a9e300896`; current and both archived film/source hashes verify                                  |
+| Local verification  | 48/48 tests, zero skipped; actual HTTP and Edge workbench/evidence checks at 1440/768/390/320; all eight chapter seeks decode; no model calls                                                            |
+| Remote CI           | [Ubuntu verification](https://github.com/tang-vu/racelab/actions/runs/41326501194) succeeded on `9321f08`, including all 48 tests, every offline study, source preparation, format and film verification |
+| Publication scan    | Reachable history and newly staged publication text checked for the configured credential and private configuration/usage files before publishing                                                        |
 
 The public Site is a static recorded explorer/evaluation and video review, separate from the complete Node/SQLite application. Its video buffers locally before chapter controls are enabled because the static host serves full files rather than honoring byte ranges. It contains no API key, ledger, backend execution or model calls. Local workbench reproduction remains the executable product path. Missing original runs and unrun comparison arms are explicit. The three-task comparison is incomplete; two paired claim repetitions show no pass-count advantage. [Evidence, accounting and limits](evaluation.md).
+
+Clean-clone verification used committed `9321f08` in a new directory: fresh dependency install, both pinned-source preparations, 48/48 tests with zero skips, all offline studies, film/format checks and actual keyless HTTP/Edge/evidence flows pass. The independent server at port 4186 had `configured=false`, zero requests and zero usage before/after. No product key or ledger was copied. Public explorer/evaluation also passed at 1440/768/390/320, including integrity rejection and explicit unavailable/unrun states. Public player decoded, sought and loaded captions in fresh anonymous Edge contexts; no JS errors.
 
 ## Official sources checked November 1, 2026
 
