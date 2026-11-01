@@ -1,0 +1,140 @@
+{
+  "version": 3,
+  "id": "racelab-previously-unrun-continuation-20261101",
+  "frozenAt": "2026-11-01T16:42:25.416Z",
+  "model": "muse-spark-1.3",
+  "reasoningEffort": "low",
+  "repetitions": 2,
+  "arms": [
+    "direct",
+    "feedback"
+  ],
+  "requestsPerArm": 2,
+  "maxOutputTokensPerRequest": 4096,
+  "maxOutputTokensPerArm": 8192,
+  "studyIncrementalCapUsd": 3,
+  "selection": "Run only the seven previously unrun planned arms. Never rerun any completed, failed, truncated or rejected old attempt. Each first-time arm retains at most two requests,4096 output tokens per request. Known settled output truncation/schema failure counts as a failed arm with no retry; proceed to the next previously unrun arm. Any HTTP/transport/uncertain-accounting error stops the entire continuation. Preserve stopped original studies unchanged.",
+  "treatment": "Both arms receive identical source, contract and development-condition names. Direct: propose, then self-review with no executed feedback. Feedback: propose through test_candidate, receive only independent development checks, then revise. Same model, low reasoning, two request/output ceilings. Actual token usage, latency and cost may differ; these are resource ceilings, not equal spend or a production benchmark.",
+  "heldOutPolicy": "Held-out fixtures and results are withheld from prompts and tool feedback; evaluate only the final proposal. Public preexisting TEND conditions are not novel problem classes. Developers can inspect frozen evaluators; no claim of training-data isolation. Small purposive sample, two repetitions, no significance or general superiority claim.",
+  "scope": "Two TEND adapters share source and are correlated tasks. airules edit-count precision is a RaceLab-added contract. OpenMusic is a separately retained healthy code control, not an AI repair task or human study.",
+  "tasks": [
+    {
+      "id": "tend-claim",
+      "sourceHash": "2ace48973139ac1b9392d6cbf2364591c56100a208b099f08b204bbedd0e5538",
+      "contract": "Repair only claimNextDue(now). Use the existing followUpFromRow(row) mapper. Due scheduled/retrying jobs or claimed jobs with claimed_at <= now-60000 are eligible, inclusive 60-second leases. Fresh claimed/future/completed jobs must not be stolen or replayed. Increment durable attempt_count once per acquisition; preserve all other payload fields, due dates and unrelated rows. Every write must be in this.database.transaction(fn)(). Database prepare supports bounded SELECT/UPDATE get/all/run on follow_ups. No network/files/imports. This v1 adapter has a fixed host generation guard for completion outside the candidate; you are repairing the claim method only.",
+      "development": [
+        "normal",
+        "crash-restart",
+        "live-owner",
+        "retry"
+      ],
+      "heldOut": [
+        "expired-owner",
+        "future",
+        "completed",
+        "mixed",
+        "lease-edge",
+        "different-input"
+      ]
+    },
+    {
+      "id": "tend-lifecycle",
+      "sourceHash": "b41e75d6a65aa67dfcaa85a694317c493fccaedd844477a63cdd0b0dd80e3660",
+      "contract": "RaceLab lifecycle adapter v2, not upstream completeFollowUp. claimNextDue(now) returns a mapped job or null; due scheduled/retrying jobs and claimed jobs with claimed_at <= now-60000 are eligible. Increment attempt_count exactly once on each acquisition. renewClaim(id,generation,now) and completeClaim(id,generation,now) return boolean; only a currently claimed matching generation with claimed_at > now-60000 may renew or complete. Renewal sets claimed_at=now without changing generation. Completion sets status=completed, completed_at=now. At expiry (inclusive), old tokens cannot renew or complete. Preserve payload, due_at and unrelated/future/completed jobs. All writes must be transactional. Concurrent SQLite BUSY is allowed only with a bounded harness retry, never two successful owners. Methods use this.database.prepare(...).get/all/run and this.database.transaction(fn)(); no network/files/imports. Local completion is a database transition only, no external side effect.",
+      "development": [
+        "normal",
+        "recovery",
+        "stale",
+        "renew"
+      ],
+      "heldOut": [
+        "competing",
+        "before-commit",
+        "after-commit",
+        "expired-renew",
+        "renew-boundary",
+        "different-input"
+      ]
+    },
+    {
+      "id": "airules-diff",
+      "sourceHash": "6f19499d13d6874d2851de3abe4d0586ffa97615d6805da4f9010ed90d463531",
+      "contract": "diffSync(profile,config,cwd,targetTool?) uses supplied generateAll and read-only file facade. Preserve statuses added/modified/unchanged/deleted and tools/path behavior. For modified files, linesAdded and linesRemoved must count the minimum line insertions/deletions (LCS, replacement=one removal plus one addition), including equal-length replacements. split('\\n') defines lines, including empty/trailing entries. Existing absent generated files are added, known omitted files deleted, same contents unchanged. This precise edit-count contract is added by RaceLab, not claimed as an upstream guarantee. No writes or network are exposed.",
+      "development": [
+        "unchanged",
+        "added",
+        "replacement"
+      ],
+      "heldOut": [
+        "middle-insert",
+        "middle-delete",
+        "reordered",
+        "trailing-empty",
+        "omitted-known"
+      ]
+    }
+  ],
+  "order": [
+    {
+      "task": "tend-lifecycle",
+      "repetition": 1,
+      "arms": [
+        "feedback"
+      ]
+    },
+    {
+      "task": "tend-lifecycle",
+      "repetition": 2,
+      "arms": [
+        "feedback",
+        "direct"
+      ]
+    },
+    {
+      "task": "airules-diff",
+      "repetition": 1,
+      "arms": [
+        "direct",
+        "feedback"
+      ]
+    },
+    {
+      "task": "airules-diff",
+      "repetition": 2,
+      "arms": [
+        "feedback",
+        "direct"
+      ]
+    }
+  ],
+  "files": {
+    "src/study-tasks.mjs": "3cbf85b245d76bb2cc7fb423b59d37f9ff0f53cf9a704798862347f92b182b2e",
+    "src/workloads/tend-engine.mjs": "a498c8ce7c90382e70000c92dfb6b257ef669049695b759b319fa80e02be4035",
+    "src/workloads/tend-source.mjs": "dcd72716995bead44b6d464676931b87fd2ba3f4b02315da5de2e4264b301b3d",
+    "src/workloads/claim-runtime.mjs": "a080907240a3e4b73c511c8792aeaf895b77d5ee8d0ba8f2cd4d77343eca7996",
+    "src/workloads/claim-worker.mjs": "a105d260ff3eb0ceae0b01ba4a5d2539ea609ac7e6fa68e0b881c41eab630f5c",
+    "src/workloads/lifecycle-engine.mjs": "8e3df3e2ece541d69689794aa9bcb9b1093a99aaecf7cc706b96b3ba3a5a7ce1",
+    "src/workloads/lifecycle-worker.mjs": "fc7ce924ae528b0e96c3e5d69233735bb040b6ffebd6e09a66f632e1fe1bf9b7",
+    "src/workloads/repository-engine.mjs": "b94e5ab4f9befbacfccd32e380372a7949d191004e78de9b926de586322a61a6",
+    "scripts/run-comparison.mjs": "e8b0e3efd58d1ce23c9b3ee9369fd7ab464adb866bc9c33275cd1fe20d3ce311",
+    "demo/repository-inputs.json": "26634edbfadd7f90ab0771140e20652bf3f3a5520ccf97e9c157b89c7499520c",
+    "scripts/run-comparison-v2.mjs": "dc539879a061498b93d954dd92ee7c74d3b4ed5237c1307a1c54c3858d7e9c65",
+    "src/meta.mjs": "7db9a8215cf52e6d8c820dacff5aef3d8bebba6e3e2776e848681c9073129f9f",
+    "src/budget.mjs": "d4fc75edf7f8e21704b8e49f72e6fcece493ac45dbb9068a33c84b09fe7e0878",
+    "scripts/run-comparison-continuation.mjs": "130245771ef80045735be8ce03b84c4c9e641edc8ae6897dfc07e916382326c9"
+  },
+  "originalProtocolHash": "378081070863cbc0ea164b93cf28814c7d9f30431a00fb580cc01578ca7556e0",
+  "originalStudyHash": "3f72e53ad225889208506da7d897e6c477afa26662b314727972364de547e6a0",
+  "amendments": [
+    "Retain the original study as a failed setup/pilot, including an invalid class-shaped direct candidate and API HTTP 400. Do not pool or hide it.",
+    "Remove the forced function tool_choice field; use the same tools plus parallel_tool_calls:false shape already used by the original successful TEND investigation. The reason for HTTP 400 is not known from a returned body; this is a compatibility change, not a proven root-cause diagnosis.",
+    "Specify exact source boundaries (method-only TEND; three method declarations for lifecycle; diffSync function for airules) identically for both arms. Existing evaluators, cases, source, contracts and splits are unchanged.",
+    "Conduct the entire two-repetition comparison under this amended protocol, not a replacement of selected losing attempts. Stop on any further API error; no further automatic amendments.",
+    "Explicitly accept the old uncertain charge at the full reservation debit with no reduction or deleted entries. Actual failed-request billing remains unknown. V2 cap is $3 incremental including conservative reservations, within the existing $10 phase cap; combined retained study debit cannot exceed $4.5."
+  ],
+  "combinedStudyCapUsd": 4.5,
+  "parentProtocolHash": "9495b8ac8318dcc8005650499e7d4bc7f9985d3ae12d25a5dc6aaf73c2d584fb",
+  "parentStoppedStudyHash": "c95873e4997c8955663a0b2a052dd09f56ca24b7340d1784c3b89bb43454a7d5",
+  "continuationDisclosure": "Post-hoc continuation and a deviation from the original runner's global-stop policy, explicitly declared after seeing the earlier stop. The first two studies remain stopped/incomplete. Do not present a pooled collection as an uninterrupted preregistered benchmark. Sources, contracts, prompts, evaluator cases, held-out splits, model, reasoning and per-arm ceilings remain the same. Missing truncated content cannot be reconstructed. Original failed lifecycle direct arm remains a failure; it is excluded from the seven new arms, not replaced.",
+  "priorCombinedConservativeDebitUsd": 1.422655
+}
