@@ -2,6 +2,8 @@
 
 Open `http://127.0.0.1:4174/film.html` after `npm start`. The current film is `public/racelab-demo.mp4`; it includes generic Microsoft Zira English narration, English subtitles and eight chapter controls in the player. The film uses actual application screenshots paced as stills, with model/recheck waiting time omitted. It is not continuous screen recording.
 
+The [public review player](https://racelab-tang-vu.tang-vu.chatgpt.site) mirrors the same movie, captions and retained investigation without requiring a login. Anonymous desktop and mobile browser checks verify actual playback, seeking, captions and matching media hashes. The complete executable lab runs locally from the [public repository](https://github.com/tang-vu/racelab).
+
 | Start | Scene                                                              |
 | ----- | ------------------------------------------------------------------ |
 | 00:00 | Saved job, stopped worker; new/reused work disclosure              |

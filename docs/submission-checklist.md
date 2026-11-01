@@ -8,6 +8,20 @@
 - Keyless execution and recorded rechecks; independent report recomputation and regression export.
 - [Ready-to-paste entry copy](submission-copy.md).
 
+## Publication and reproduction verified November 1
+
+| Item                | Verified result                                                                                                                                                                              |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Public repository   | [tang-vu/racelab](https://github.com/tang-vu/racelab); source and entry copy return HTTP 200 without authentication                                                                          |
+| Public review/video | [racelab-tang-vu.tang-vu.chatgpt.site](https://racelab-tang-vu.tang-vu.chatgpt.site); fresh anonymous Edge contexts pass at 1440, 390 and 320 pixels                                         |
+| Player              | Actual decoded playback, chapter seeking, loaded captions and theme pass on the public host                                                                                                  |
+| Media integrity     | Public MP4 matches the repository at SHA-256 `ead0bf7285e132d2f3bfe92c65903e4026d6200983218e42b256647e34cb920d`                                                                              |
+| Clean local clone   | Fresh dependency installation, verified source preparation, 41/41 tests, all offline studies, film/format checks, HTTP checks and actual browser flow pass with no API key and zero requests |
+| Remote CI           | [First public Ubuntu verification](https://github.com/tang-vu/racelab/actions/runs/41318199086) passed on code revision `f3c4609`; subsequent main-branch runs are visible in Actions        |
+| Publication scan    | Reachable history and newly staged publication text checked for the configured credential and private configuration/usage files before publishing                                            |
+
+The public Site is a static video/evidence review, separate from the complete Node/SQLite application. Its small video buffers locally before chapter controls are enabled because the static host serves full files rather than honoring byte ranges. It contains no API key, ledger, backend execution or model calls. Local workbench reproduction remains the executable product path.
+
 ## Official sources checked November 1, 2026
 
 - [Meta event page](https://dev.meta.ai/events/global-hackathon): deadline November 4 at 9 PM Eastern, equivalent to November 5 at 09:00 in Vietnam.
