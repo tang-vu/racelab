@@ -2,6 +2,10 @@
 
 **It passes alone. It breaks together.** Execute JavaScript handlers under controlled concurrent store operations. Let Meta propose the failing overlap and a source repair. Check the repair against an independent acceptance contract and additional inputs.
 
+**[Watch the public three-minute demo](https://racelab-tang-vu.tang-vu.chatgpt.site)** · **[Source and setup](https://github.com/tang-vu/racelab)** · [Submission copy](docs/submission-copy.md)
+
+The public review page hosts the video and evidence links. The complete Node/SQLite workbench runs locally from this repository. Recorded replay and local execution need no API key.
+
 **New: [a real repository recovery experiment](docs/tend.md).** A pinned TypeScript method from TEND claims a job in real disposable SQLite. RaceLab kills the worker after the claim commits and starts another process on the same file. The original method leaves the job claimed; a retained Meta repair passes ten declared recovery conditions. Open **http://127.0.0.1:4174/tend.html** to inspect the source, process receipts, A/B, stale-owner rejection and replayable regression export.
 
 This is the standalone RaceLab repository. It contains the workbench, runner, Meta chat integration, accounting, tests and demo. LiveWorld, Kept, tabletop simulation, segmentation and their dependencies are excluded. [Source provenance](docs/provenance.md) identifies the reused event infrastructure.
@@ -16,6 +20,7 @@ Requires Node.js 24.15+ LTS or 26+. No GPU, Docker or external database is requi
 
 ```sh
 npm ci --ignore-scripts --no-audit --no-fund
+npm run prepare:tend
 npm start
 ```
 
@@ -53,7 +58,7 @@ npm run format:check
 npm run check:local # with the local server running
 ```
 
-Tests and these default checks make no model calls. The recording script's explicit `--live --case=...` option makes paid requests and refuses to overwrite retained investigations. No deployment, public repository creation or competition submission is part of this local delivery.
+Tests and these default checks make no model calls. The recording script's explicit `--live --case=...` option makes paid requests and refuses to overwrite retained investigations. Public repository and video preparation are separate from competition submission; no entry is submitted automatically. See the [submission checklist](docs/submission-checklist.md).
 
 The browser check uses a fresh headless Edge context, blocks paid endpoints and external page requests, verifies unchanged accounting and writes review screenshots to ignored `.racelab/browser-review/`. It covers desktop, tablet, phone and narrow-phone viewports, A/B, the ten-condition replay, actual file export/import, edits, theme, playback and reduced motion. Mobile viewport checks are emulation, not physical-device tests.
 
