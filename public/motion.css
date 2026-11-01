@@ -2839,7 +2839,7 @@ dialog[open] {
   }
   .closing-note:after {
     font-size: 150px;
-    right: -2%;
+    right: 5%;
     top: 28%;
     opacity: 0.65;
   }

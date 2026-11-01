@@ -1,0 +1,129 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:06.777
+RaceLab is new hackathon work by Tang Vu. It reuses
+the Meta integration
+
+00:00:06.777 --> 00:00:13.555
+and local infrastructure from the earlier event
+prototype, LiveWorld. A handler passes its
+
+00:00:13.555 --> 00:00:20.332
+sequential test. Two requests overlap, and it breaks.
+RaceLab makes that order executable,
+
+00:00:20.332 --> 00:00:21.896
+visible, and repeatable.
+
+00:00:24.000 --> 00:00:30.131
+Here is the reservation handler. It reads stock,
+checks availability, writes the new
+
+00:00:30.131 --> 00:00:36.261
+value, and records an order. Every operation runs in
+QuickJS against an asynchronous
+
+00:00:36.261 --> 00:00:42.392
+simulated store. The scheduler pauses at store
+operations. At this step, both buyers
+
+00:00:42.392 --> 00:00:45.221
+have read the same last seat.
+
+00:00:48.000 --> 00:00:53.659
+Advance the recorded order. Buyer A commits an order.
+Buyer B writes from
+
+00:00:53.659 --> 00:00:59.319
+its earlier read and commits another. There are now
+two orders against one
+
+00:00:59.319 --> 00:01:04.978
+seat. The independent checks reject the execution.
+Re-execute starts from the initial store
+
+00:01:04.978 --> 00:01:08.896
+and reproduces the same failure, without asking the
+model.
+
+00:01:12.000 --> 00:01:17.920
+Muse Spark receives the original source, contract,
+and serial trace. It proposes the
+
+00:01:17.920 --> 00:01:23.839
+overlapping schedule, reads the execution feedback,
+and writes this replacement handler. In this
+
+00:01:23.839 --> 00:01:29.759
+retained run, it uses an exclusive lock around the
+check, update, and receipt.
+
+00:01:29.759 --> 00:01:35.679
+The acceptance contract stays outside the submitted
+module. A confident explanation cannot turn
+
+00:01:35.679 --> 00:01:37.500
+a failed check green.
+
+00:01:38.000 --> 00:01:43.704
+The candidate passes eleven distinct schedules across
+four input cases, including additional capacity
+
+00:01:43.704 --> 00:01:49.408
+and request counts. The display distinguishes a
+completed finite sweep from a search
+
+00:01:49.408 --> 00:01:55.112
+that reached its cap. Export carries the source and
+schedules. Opening a report
+
+00:01:55.112 --> 00:01:59.500
+recomputes the checks and treats imported model
+attribution as unverified.
+
+00:02:00.000 --> 00:02:05.281
+The same loop repairs duplicate webhook notifications
+and a shared counter in the
+
+00:02:05.281 --> 00:02:10.563
+other two authored cases. The three retained
+investigations used six Meta requests in
+
+00:02:10.563 --> 00:02:15.844
+total. Simple round-robin scheduling also exposes
+these bugs. The demonstrated Meta contribution is
+
+00:02:15.844 --> 00:02:19.500
+the executed hypothesis and generated repair, with
+independent feedback.
+
+00:02:20.000 --> 00:02:26.183
+Changing the source clears stale results. A separate
+live browser investigation on an
+
+00:02:26.183 --> 00:02:32.366
+edited handler completed the probe, patch, and check
+loop. Recorded replay works without
+
+00:02:32.366 --> 00:02:38.549
+an API key. Timeline steps expose committed state.
+Both original and candidate source
+
+00:02:38.549 --> 00:02:39.500
+remain inspectable.
+
+00:02:40.000 --> 00:02:46.183
+This prototype covers JavaScript handlers using a
+simulated store. Real databases, networks,
+operating-system
+
+00:02:46.183 --> 00:02:52.366
+threads, and arbitrary repositories are outside its
+scope. New workloads need explicit semantics
+
+00:02:52.366 --> 00:02:58.549
+and independent contracts. RaceLab makes an agent
+repair an experiment you can replay
+
+00:02:58.549 --> 00:02:59.500
+and challenge.

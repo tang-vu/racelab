@@ -6,7 +6,9 @@
 
 This is the standalone RaceLab repository. It contains the workbench, runner, Meta chat integration, accounting, tests and demo. LiveWorld, Kept, tabletop simulation, segmentation and their dependencies are excluded. [Source provenance](docs/provenance.md) identifies the reused event infrastructure.
 
-The interface opens with a moving shared-memory sculpture and a three-chapter scroll replay, followed by the working concurrency lab: editable source, a live trace stage and a checked repair. The sculpture and replay use actual execution frames. **Open the lab** skips directly to the workbench. Light/dark themes, a motion pause control and reduced-motion support are included. [Interface walkthrough and design references](docs/interface.md). Earlier screenshots and the bundled film show the previous interface and remain archived evidence.
+The interface opens with a moving shared-memory sculpture and a three-chapter scroll replay, followed by the working concurrency lab: editable source, a live trace stage and a checked repair. The sculpture and replay use actual execution frames. **Run the real case** opens TEND; **Open the lab** skips to the store workbench. Light/dark themes, a motion pause control and reduced-motion support are included. [Interface walkthrough and design references](docs/interface.md).
+
+![Current TEND recovery workbench](docs/tend-shots/04-candidate.png)
 
 ## Run locally
 
@@ -37,7 +39,7 @@ The three store experiments use the third-party QuickJS/WebAssembly runtime and 
 
 **[Watch the three-minute demo](public/racelab-demo.mp4)** · [Architecture and evidence](docs/racelab.md) · [Submission draft](docs/racelab-submission.md) · [Third-party notices](THIRD_PARTY_NOTICES.md)
 
-The 179.99-second video uses actual application screenshots paced as stills, recorded Meta outputs, generic synthetic English narration and captions. It was captured before repository extraction and the interface redesign; the archived screenshots retain the earlier navigation and styling. The opening identifies new RaceLab work and reused event infrastructure.
+The current three-minute video follows the TEND experiment: normal operation, committed-claim interruption, the retained Meta repair, ten conditions, stale-owner rejection and exported regression. It uses actual Microsoft Edge screenshots paced as stills, generic Microsoft Zira narration and English captions. The player has eight working chapter buttons. [Capture and rebuild notes](docs/demo.md) identify the retained evidence and boundaries. The earlier store-experiment movie is preserved byte-for-byte in `public/archive/`.
 
 ## Verify offline
 
@@ -46,10 +48,13 @@ npm test
 npm run evaluate
 npm run evaluate:tend
 npm run check:film
+npm run check:browser # optional: installed Microsoft Edge and a running local server
 npm run format:check
 npm run check:local # with the local server running
 ```
 
 Tests and these default checks make no model calls. The recording script's explicit `--live --case=...` option makes paid requests and refuses to overwrite retained investigations. No deployment, public repository creation or competition submission is part of this local delivery.
+
+The browser check uses a fresh headless Edge context, blocks paid endpoints and external page requests, verifies unchanged accounting and writes review screenshots to ignored `.racelab/browser-review/`. It covers desktop, tablet, phone and narrow-phone viewports, A/B, the ten-condition replay, actual file export/import, edits, theme, playback and reduced motion. Mobile viewport checks are emulation, not physical-device tests.
 
 For the TEND workload, run `npm run prepare:tend` once before offline verification. It downloads the exact public source revision into ignored local storage and verifies its Git blob hash. The app also prepares this input on its first visit when missing. Thereafter the workload and its recording replay without network or model calls. A downloaded regression runs with `npm run evaluate:tend -- --report="path/to/racelab-tend-regression.json"`. [Scope, protocol, artifacts and verification](docs/tend.md).

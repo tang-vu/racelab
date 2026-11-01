@@ -44,7 +44,33 @@
 .film-main .pill-link {
   font-size: 12px;
 }
+.film-chapters {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px 20px;
+  margin: 25px 0 35px;
+}
+.film-chapters button {
+  padding: 14px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  background: transparent;
+  text-align: left;
+  font: 12px/1.6 var(--studio-font);
+}
+.film-chapters button[aria-current] {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+.film-chapters small {
+  display: block;
+  font: 9px/2 var(--mono);
+}
 @media (max-width: 600px) {
+  .film-chapters {
+    grid-template-columns: repeat(2, 1fr);
+  }
   .film-main {
     padding: 40px 19px 60px;
   }

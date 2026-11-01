@@ -164,7 +164,7 @@ for (const s of story.scenes) {
   else if (s.kind === "evidence")
     filter = `scale=1920:1080:flags=lanczos,setsar=1,fps=30`;
   else
-    filter = `scale=1760:820:force_original_aspect_ratio=decrease:flags=lanczos,pad=1920:1080:(ow-iw)/2:126:color=0xf3f2e9,setsar=1,fps=30,drawtext=${font}:textfile=${s.id}-heading.txt:fontsize=37:fontcolor=0x173d2c:x=80:y=48,drawtext=${font}:textfile=${s.id}-caption.txt:fontsize=25:fontcolor=0x37563e:x=80:y=980`;
+    filter = `scale=1760:720:force_original_aspect_ratio=decrease:flags=lanczos,pad=1920:1080:(ow-iw)/2:176:color=0xffffff,setsar=1,fps=30,drawtext=${font}:textfile=${s.id}-heading.txt:fontsize=37:fontcolor=0x101010:x=80:y=35,drawtext=${font}:textfile=${s.id}-caption.txt:fontsize=22:fontcolor=0x555555:x=80:y=99`;
   let inputArgs =
     s.kind === "native" ? ["-i", s.source] : ["-loop", "1", "-i", s.source];
   if (s.shots?.length) {
@@ -251,6 +251,7 @@ for (const s of story.scenes) {
       ) ?? null,
     sourceType: origin.type,
     sourceSha256: origin.sha256,
+    narrationSha256: await sha(path.join(capture, s.id + ".wav")),
     evidenceFactsSha256: origin.factsSha256 ?? null,
     sourceFrames:
       s.kind === "native"
@@ -264,12 +265,8 @@ for (const s of story.scenes) {
   console.log(`Rendered ${s.id}: ${s.seconds}s, ${origin.type}.`);
 }
 const srt = subtitles.join("\n");
-await fs.writeFile(path.join(root, subtitlePath), srt);
-await fs.writeFile(
-  path.join(root, `${publicDirectory}/${target}-demo.vtt`),
-  "WEBVTT\n\n" +
-    srt.replace(/^\d+\n/gm, "").replace(/(\d\d:\d\d:\d\d),(\d\d\d)/g, "$1.$2"),
-);
+const generatedSubtitles = path.join(capture, `${target}-demo.srt`);
+await fs.writeFile(generatedSubtitles, srt);
 await fs.writeFile(
   path.join(capture, "movie.ffconcat"),
   story.scenes.map((s) => `file 'render/${s.id}.mp4'`).join("\n"),
@@ -288,7 +285,7 @@ run("ffmpeg", [
   "-i",
   "movie.ffconcat",
   "-i",
-  path.join(root, subtitlePath),
+  generatedSubtitles,
   "-map",
   "0:v:0",
   "-map",
@@ -328,6 +325,12 @@ if (
 )
   throw new Error("Final video failed dimensions, timing or track checks.");
 await fs.copyFile(out, publishedVideo);
+await fs.writeFile(path.join(root, subtitlePath), srt);
+await fs.writeFile(
+  path.join(root, `${publicDirectory}/${target}-demo.vtt`),
+  "WEBVTT\n\n" +
+    srt.replace(/^\d+\n/gm, "").replace(/(\d\d:\d\d:\d\d),(\d\d\d)/g, "$1.$2"),
+);
 await fs.writeFile(
   path.join(root, manifestPath),
   JSON.stringify(
@@ -341,6 +344,12 @@ await fs.writeFile(
       frameRate: v.avg_frame_rate,
       frames: Number(v.nb_read_frames),
       videoSha256: await sha(out),
+      sourceDirectory: story.sourceDirectory ?? "docs/racelab-shots",
+      recording: story.recording ?? null,
+      recordingSha256: story.recording
+        ? await sha(path.join(root, story.recording))
+        : null,
+      narrationVoice: "Microsoft Zira Desktop",
       disclosures: story.disclosures,
       scenes: manifest,
     },

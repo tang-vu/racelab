@@ -1,0 +1,187 @@
+{
+  "format": "racelab-browser-review-v1",
+  "browser": "156.0.4314.50",
+  "channel": "msedge",
+  "capturedAt": "2026-11-01T09:28:20.594Z",
+  "sources": {
+    "01-overview": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4174/tend.html",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "233e793e783870ea927771ef484891aa6353349ec1950692b0e66899d9f6f3ed"
+    },
+    "02-normal": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4174/tend.html",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "cec4fe48d482bebbd178501685d4f503f0ae6748007c49e62edd3c6ac3bad8e0"
+    },
+    "03-interrupted": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4174/tend.html",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "55e038804d49a3c0a80230f105ff2f1727dcbe0d94461c7417a310e2ca926e1f"
+    },
+    "04-candidate": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4174/tend.html",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "3c1952e23f74b37930b0989b1821fc87c398b09ae23c5234beeefa4fe1d29dc9"
+    },
+    "05-matrix": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4174/tend.html",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "e186c2c48e6b43c477a90e03569add4b2ccaf588d8d9d3dbcdd324d5547d12e0"
+    },
+    "06-stale-owner": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4174/tend.html",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "c645a4fffb9dd13341e58133c6f454be561c994b7f59189c0bc89085ae626890"
+    },
+    "07-portable-report": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4174/tend.html",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "dbbb087273111ea414a4fe0a8fba28d3b5408487f1a257ec1469a91e53abe147"
+    },
+    "08-scope": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4174/tend.html",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "0308679abcb8e96b063aa77ebb0b19a0c4d24deaf4f36d49f1c0ad3f68df7fc0"
+    },
+    "1440-landing": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4174/",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "4f8155584e03ceb29b7feba789d78a67df1e77ad1687e825b87f5c70d31f8902"
+    },
+    "390-intro": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4174/tend.html",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "2e1f0d50d89c43a787d71e04d37935a5c61ddc83682f05d394ed86d464704177"
+    },
+    "390-dark": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4174/tend.html",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "17d4eef8fe6abd910f4b0f8b1d099c9a6274137dd9f3b20346d13c38e395e17b"
+    },
+    "390-landing": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4174/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "6f0555c5361bc5be9f8931e41824daffd1a47eabdc3edbd20f5a1cb88e57f64a"
+    },
+    "320-intro": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4174/tend.html",
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "sha256": "6f5c4bed00ac33fc15882f89c01233e9e7f79810d241476f52b4b38755e2b2e5"
+    },
+    "768-intro": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4174/tend.html",
+      "viewport": {
+        "width": 768,
+        "height": 844
+      },
+      "sha256": "a580e4a54f389daa6868669393a6a3945381127d939a58bfa99de429aae96ad4"
+    }
+  },
+  "views": [
+    {
+      "width": 1440,
+      "overflow": {
+        "viewport": 1440,
+        "content": 1440
+      },
+      "reducedMotion": false
+    },
+    {
+      "width": 390,
+      "overflow": {
+        "viewport": 390,
+        "content": 390
+      },
+      "reducedMotion": false
+    },
+    {
+      "width": 320,
+      "overflow": {
+        "viewport": 320,
+        "content": 320
+      },
+      "reducedMotion": true
+    },
+    {
+      "width": 768,
+      "overflow": {
+        "viewport": 768,
+        "content": 768
+      },
+      "reducedMotion": false
+    }
+  ],
+  "errors": [],
+  "paidAttempts": 0,
+  "passed": true,
+  "baseRevision": "4ba0f4b",
+  "captureNote": "Actual local working tree with responsive fixes. CSS transitions were settled for still captures. No fabricated process, source or verdict values."
+}

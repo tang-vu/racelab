@@ -19,6 +19,8 @@ RaceLab was built by Tang Vu during the Meta Global AI Developer Hackathon, star
 
 QuickJS/quickjs-emscripten is third-party runtime software. Meta supplies Muse Spark; RaceLab does not claim to have built or trained those components. See [third-party notices](../THIRD_PARTY_NOTICES.md).
 
-The bundled movie and original eight source screenshots are retained byte-for-byte with their original hashes. They were captured before this repository extraction and contain historical navigation to the earlier application. The current workbench contains only RaceLab. Captures are evidence of the running prototype, not continuous live footage or a production benchmark.
+The current bundled movie was rebuilt November 1 around the TEND workbench. Its actual Microsoft Edge screenshots were captured through Playwright in a fresh local context, with finite CSS transitions settled for stills. They are in `docs/tend-shots/`; `sources.json` records browser version, viewport, capture method and SHA-256. The retained Meta investigation was replayed rather than repeated. Microsoft Zira supplies generic English narration; FFmpeg encodes the movie. The opening identifies new RaceLab work, reused infrastructure and TEND as a pre-existing input.
+
+The earlier movie is retained byte-for-byte at `public/archive/racelab-store-demo.mp4`, with original captions/poster and storyboard/render metadata in `demo/archive/`. Its eight screenshots remain unchanged in `docs/racelab-shots/`. They predate extraction and contain historical navigation. Neither film is continuous live footage or a production benchmark.
 
 No GitHub remote, upload, deployment, submission or organizer message was created during the extraction. Prior work is credited rather than represented as newly authored for this extraction.

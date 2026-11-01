@@ -1,14 +1,17 @@
 {
-  "format": "racelab-demo-v1",
-  "title": "RaceLab — It breaks together",
+  "format": "racelab-demo-v2",
+  "title": "RaceLab — The job was saved. The worker wasn't.",
   "owner": "Tang Vu",
   "durationSeconds": 180,
+  "sourceDirectory": "docs/tend-shots",
+  "recording": "public/recordings/tend-claims.json",
+  "recordingSha256": "91e2b1ffc0d4ac3940d537b5a7552f15977905743a3480eadfcc8b090480baee",
   "disclosures": [
-    "Actual application screenshots paced as stills, not a continuous screen recording",
-    "Recorded Meta outputs recomputed locally; API waiting time omitted",
-    "Three authored simulated-store cases; no production or held-out benchmark claim",
-    "Generic synthetic English narration",
-    "New RaceLab code reuses earlier event Meta transport, budget and local infrastructure"
+    "Actual Microsoft Edge application screenshots paced as stills, not continuous screen recording",
+    "Recorded Meta proposal recomputed locally; model and recheck waiting time omitted",
+    "One pinned repository method; real disposable SQLite and controlled process sequences, not a whole application or production benchmark",
+    "Generic synthetic English narration using Microsoft Zira Desktop",
+    "New RaceLab work by Tang Vu reuses earlier event Meta transport, budget and local infrastructure; TEND is an existing MIT source input"
   ],
   "scenes": [
     {
@@ -16,72 +19,72 @@
       "seconds": 24,
       "source": "01-overview.png",
       "kind": "ui",
-      "heading": "It passes alone. It breaks together.",
-      "caption": "New RaceLab work by Tang Vu; reuses earlier event Meta infrastructure. Actual UI stills; recorded Meta replay.",
-      "narration": "RaceLab is new hackathon work by Tang Vu. It reuses the Meta integration and local infrastructure from the earlier event prototype, LiveWorld. A handler passes its sequential test. Two requests overlap, and it breaks. RaceLab makes that order executable, visible, and repeatable."
+      "heading": "The job was saved. The worker wasn't.",
+      "caption": "New RaceLab work by Tang Vu. Reused event infrastructure; existing MIT TEND input. Actual UI stills / recorded Meta replay.",
+      "narration": "RaceLab is new hackathon work by Tang Vu. It reuses Meta transport and local infrastructure from the earlier event prototype, LiveWorld. TEND is an existing MIT source input. Here is a familiar failure: a worker saves its claim, then stops. The job exists, but another worker cannot finish it."
     },
     {
-      "id": "02-overlap",
-      "seconds": 24,
-      "source": "02-both-read.png",
+      "id": "02-normal",
+      "seconds": 20,
+      "source": "02-normal.png",
       "kind": "ui",
-      "heading": "Two buyers. One remaining seat.",
-      "caption": "Actual replay at step 2: both requests have read stock = 1.",
-      "narration": "Here is the reservation handler. It reads stock, checks availability, writes the new value, and records an order. Every operation runs in QuickJS against an asynchronous simulated store. The scheduler pauses at store operations. At this step, both buyers have read the same last seat."
+      "heading": "First, show that the original method works.",
+      "caption": "Pinned claimNextDue method / unchanged input / real disposable SQLite / one local completion.",
+      "narration": "RaceLab verifies the exact public source revision, extracts this TypeScript claim method, and executes it through a bounded SQLite adapter. Without interruption, one due job is claimed and completed. The original method passes. These process identifiers and transaction receipts come from the local execution."
     },
     {
-      "id": "03-failure",
-      "seconds": 24,
-      "source": "03-oversold.png",
+      "id": "03-interrupted",
+      "seconds": 23,
+      "source": "03-interrupted.png",
       "kind": "ui",
-      "heading": "The same code. A failing order.",
-      "caption": "Exact schedule re-executed from initial state: two orders against one seat; independent checks fail.",
-      "narration": "Advance the recorded order. Buyer A commits an order. Buyer B writes from its earlier read and commits another. There are now two orders against one seat. The independent checks reject the execution. Re-execute starts from the initial store and reproduces the same failure, without asking the model."
+      "heading": "Stop after COMMIT. Reopen the same database.",
+      "caption": "Actual worker exit and replacement process. Original method: 0 of 1 expected local completions; persisted row remains claimed.",
+      "narration": "Now stop worker A after its claim commits. RaceLab observes its exit and starts worker B on the same database file. The original query only selects scheduled or retrying jobs. This row is already claimed, so it stays behind. The completion count is zero. The independent recovery check fails."
     },
     {
-      "id": "04-patch",
-      "seconds": 26,
+      "id": "04-candidate",
+      "seconds": 27,
       "source": "04-candidate.png",
       "kind": "ui",
-      "heading": "Meta writes a candidate. Code gives the verdict.",
-      "caption": "Recorded Muse Spark proposal, executed again locally. No supplied answer patch; no new model calls during replay.",
-      "narration": "Muse Spark receives the original source, contract, and serial trace. It proposes the overlapping schedule, reads the execution feedback, and writes this replacement handler. In this retained run, it uses an exclusive lock around the check, update, and receipt. The acceptance contract stays outside the submitted module. A confident explanation cannot turn a failed check green."
+      "heading": "Meta proposes the repair. Execution decides.",
+      "caption": "Retained Muse Spark investigation: 2 requests / 1 original probe / 1 candidate / $0.015165 app estimate. Local replay makes no model call.",
+      "narration": "Muse Spark inspected this method and the declared recovery contract. In the retained investigation, it ran a failing crash probe and proposed one replacement method. Check Meta repair executes that recorded proposal again locally, with no new model call. Worker B now reclaims the expired job. One local completion is recorded. Original A and candidate B remain inspectable."
     },
     {
-      "id": "05-evidence",
+      "id": "05-matrix",
+      "seconds": 24,
+      "source": "05-matrix.png",
+      "kind": "ui",
+      "heading": "A reset is easy. Preserving the contract is harder.",
+      "caption": "10 declared conditions recomputed: fresh, expired, future, completed, retry, mixed rows, the exact lease boundary and a changed input.",
+      "narration": "Recovering one job is not enough. A blanket reset could steal a healthy worker's claim. The fixed checker also requires preservation of fresh claims, future jobs, completed work, and payloads. It checks retries, mixed rows, the exact sixty second lease boundary, and a changed input. This candidate passes all ten declared conditions."
+    },
+    {
+      "id": "06-stale-owner",
       "seconds": 22,
-      "source": "05-evidence.png",
+      "source": "06-stale-owner.png",
       "kind": "ui",
-      "heading": "A green result has a boundary.",
-      "caption": "Inventory candidate: 11 distinct schedules across 4 input cases. These finite store-operation choices completed.",
-      "narration": "The candidate passes eleven distinct schedules across four input cases, including additional capacity and request counts. The display distinguishes a completed finite sweep from a search that reached its cap. Export carries the source and schedules. Opening a report recomputes the checks and treats imported model attribution as unverified."
+      "heading": "When the old worker returns, its generation is stale.",
+      "caption": "Actual stale-owner sequence. Durable generation increments; RaceLab's fixed fixture completion guard rejects the old generation.",
+      "narration": "Inspect the expired owner condition. Worker B receives a newer durable generation. When worker A tries to complete with the old generation, the fixed local guard rejects it. Scrub the transaction trace to inspect what committed. This guard belongs to RaceLab's fixture. It does not establish exactly once delivery to an external service."
     },
     {
-      "id": "06-webhook",
-      "seconds": 20,
-      "source": "06-webhook.png",
+      "id": "07-portable-report",
+      "seconds": 22,
+      "source": "07-portable-report.png",
       "kind": "ui",
-      "heading": "Three authored cases. Every attempt retained.",
-      "caption": "One declared investigation per case: inventory 11/4, webhook 29/4, counter 11/4. Not a held-out benchmark.",
-      "narration": "The same loop repairs duplicate webhook notifications and a shared counter in the other two authored cases. The three retained investigations used six Meta requests in total. Simple round-robin scheduling also exposes these bugs. The demonstrated Meta contribution is the executed hypothesis and generated repair, with independent feedback."
-    },
-    {
-      "id": "07-counter",
-      "seconds": 20,
-      "source": "07-counter.png",
-      "kind": "ui",
-      "heading": "Editable source. Live tools. Portable evidence.",
-      "caption": "Counter recording recomputed locally. A separate edited-source live browser check also completed; results retained.",
-      "narration": "Changing the source clears stale results. A separate live browser investigation on an edited handler completed the probe, patch, and check loop. Recorded replay works without an API key. Timeline steps expose committed state. Both original and candidate source remain inspectable."
+      "heading": "Keep the failure. Take the evidence.",
+      "caption": "Actual exported regression reopened through the file picker. Source and conditions execute again; imported model attribution is unverified.",
+      "narration": "Export the regression and reopen that file. RaceLab discards supplied verdicts, traces, and process identifiers, then executes the source and conditions again. Imported model attribution is unverified. A method diff targets the pinned source. Editing clears old results, so a previous pass cannot silently survive a change."
     },
     {
       "id": "08-scope",
-      "seconds": 20,
+      "seconds": 18,
       "source": "08-scope.png",
       "kind": "ui",
-      "heading": "Control the overlap. Keep the evidence.",
-      "caption": "Simulated asynchronous store only. No real DB, network or OS scheduling; no production correctness claim.",
-      "narration": "This prototype covers JavaScript handlers using a simulated store. Real databases, networks, operating-system threads, and arbitrary repositories are outside its scope. New workloads need explicit semantics and independent contracts. RaceLab makes an agent repair an experiment you can replay and challenge."
+      "heading": "Make a repair an experiment you can challenge.",
+      "caption": "One repository-derived study. New 60-second lease contract; bounded adapter and fixture effects. No whole-app, production or AI-superiority claim.",
+      "narration": "This is one repository derived study, with a new lease contract, a bounded adapter, real SQLite, and controlled process sequences. It does not prove whole application correctness or general repair performance. RaceLab turns a model's proposed repair into evidence you can replay and challenge."
     }
   ]
 }
