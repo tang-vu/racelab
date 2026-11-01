@@ -32,6 +32,49 @@ test("pending reservations survive a restart and cannot be spent twice", async (
   await assert.rejects(afterRestart.reserve("spark", 2));
 });
 
+test("an explicit conservative review preserves every charged cent and phase limits", async (t) => {
+  const b = await ledger(t, { total: 150, phase: 2, reserve: 50 });
+  const id = await b.reserve("spark", 1.4);
+  await b.settle(id, null);
+  await assert.rejects(b.acceptConservativeDebit(id, "short"));
+  const before = await b.read();
+  await b.acceptConservativeDebit(
+    id,
+    "Accept the entire reserved maximum as spent; actual provider billing remains unknown.",
+  );
+  const after = await b.read();
+  assert.equal(after.entries.length, before.entries.length);
+  assert.equal(after.entries[0].status, "uncertain");
+  assert.equal(after.entries[0].chargedMicros, before.entries[0].chargedMicros);
+  assert.equal(
+    after.entries[0].reservedMicros,
+    before.entries[0].reservedMicros,
+  );
+  assert.equal((await b.summary()).spentUsd, 1.4);
+  assert.equal((await b.summary()).blocked, null);
+  await assert.rejects(b.reserve("spark", 0.7));
+  await b.reserve("spark", 0.5);
+  await assert.rejects(
+    b.acceptConservativeDebit(
+      id,
+      "Duplicate review must never restore a budget or change its debit.",
+    ),
+  );
+});
+test("reviewing one debit cannot clear another unresolved charge", async (t) => {
+  const b = await ledger(t),
+    a = await b.reserve("spark", 1),
+    c = await b.reserve("spark", 1);
+  await b.settle(a, null);
+  await b.settle(c, null);
+  await b.acceptConservativeDebit(
+    a,
+    "Accept this full reserved debit without changing the other unresolved charge.",
+  );
+  assert.ok((await b.summary()).blocked);
+  await assert.rejects(b.reserve("spark", 0.1));
+});
+
 test("reservation metadata cannot override accounting fields", async (t) => {
   const b = await ledger(t);
   const id = await b.reserve("spark", 1.4, {

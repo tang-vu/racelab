@@ -137,6 +137,42 @@ export class BudgetLedger {
       scope: "Calls made by this app; not the provider account balance.",
     };
   }
+
+  // Explicit accounting review, never an automatic API-error retry. Keep the
+  // entire reservation charged and the original uncertain entry intact. This
+  // accepts the worst-case debit, not a claim that the provider billed zero.
+  async acceptConservativeDebit(id, reason) {
+    if (typeof reason !== "string" || reason.trim().length < 30)
+      throw new Error("A concrete conservative-charge review is required.");
+    return this.transaction((state) => {
+      const entry = state.entries.find((item) => item.id === id);
+      if (
+        !entry ||
+        entry.status !== "uncertain" ||
+        entry.chargedMicros !== entry.reservedMicros ||
+        entry.review
+      )
+        throw new Error(
+          "Only an unreviewed full-reservation debit can be accepted.",
+        );
+      entry.review = {
+        decision: "accept-full-reservation-debit",
+        reason,
+        reviewedAt: new Date().toISOString(),
+      };
+      const unresolved = state.entries.some(
+        (item) =>
+          (item.status === "uncertain" &&
+            item.review?.decision !== "accept-full-reservation-debit") ||
+          item.chargedMicros > item.reservedMicros,
+      );
+      if (!unresolved) state.blocked = null;
+      return {
+        conservativeDebitUsd: entry.chargedMicros / 1e6,
+        blocked: state.blocked,
+      };
+    });
+  }
 }
 
 export async function openLedger(config) {

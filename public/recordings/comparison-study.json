@@ -1,0 +1,103 @@
+{
+  "version": 1,
+  "kind": "bounded-direct-feedback-comparison",
+  "protocolHash": "378081070863cbc0ea164b93cf28814c7d9f30431a00fb580cc01578ca7556e0",
+  "protocolCommit": "74dc9348b866d0d7f31ad78a85df11df0eec5c7f",
+  "createdAt": "2026-11-01T15:52:00.485Z",
+  "model": "muse-spark-1.3",
+  "status": "stopped-error",
+  "attempts": [
+    {
+      "id": "tend-claim-1-direct",
+      "task": "tend-claim",
+      "repetition": 1,
+      "arm": "direct",
+      "startedAt": "2026-11-01T15:52:00.491Z",
+      "calls": [
+        {
+          "durationMs": 14342,
+          "usage": {
+            "completion_tokens": 3420,
+            "prompt_tokens": 541,
+            "total_tokens": 3961,
+            "completion_tokens_details": {
+              "reasoning_tokens": 2732
+            },
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "costUsd": 0.015211249999999999,
+          "message": {
+            "role": "assistant",
+            "content": "{\"explanation\": \"Claim must also reclaim expired leases: eligible if due scheduled/retrying or claimed with claimed_at<=now-60s inclusive. Select with OR and cutoff, then conditional UPDATE rechecking eligibility to avoid stealing fresh claims and losing races, bumping attempt_count once.\", \"hypothesis\": \"Missing expired-lease reclaim causes crash-restart loss; fix selects due scheduled/retrying plus stale claimed via 60s cutoff and guards UPDATE with same predicate.\", \"source\": \"type Row = { id: string; status: string; due_at: string; claimed_at: string | null; attempt_count: number; payload: string };\\ntype FollowUp = { id: string; status: string; dueAt: Date; claimedAt: Date | null; attemptCount: number; payload: any };\\nfunction followUpFromRow(row: Row): FollowUp {\\n  let payload: any = (row as any).payload;\\n  try { if (typeof payload === 'string') payload = JSON.parse(payload); } catch {}\\n  return { id: (row as any).id, status: (row as any).status, dueAt: new Date((row as any).due_at), claimedAt: (row as any).claimed_at ? new Date((row as any).claimed_at) : null, attemptCount: (row as any).attempt_count, payload } as FollowUp;\\n}\\nclass FollowUpStore {\\n  database: any;\\n  constructor(database: any) { this.database = database; }\\n  claimNextDue(now = new Date()): FollowUp | null {\\n    const timestamp = now.toISOString();\\n    const cutoff = new Date(now.getTime() - 60000).toISOString();\\n    const claim = this.database.transaction(() => {\\n      const row = this.database.prepare(`SELECT * FROM follow_ups WHERE ((status IN ('scheduled', 'retrying') AND due_at <= ?) OR (status = 'claimed' AND claimed_at <= ?)) ORDER BY due_at ASC LIMIT 1`).get(timestamp, cutoff) as Row | undefined;\\n      if (!row) return null;\\n      const result = this.database.prepare(`UPDATE follow_ups SET status = 'claimed', claimed_at = ?, attempt_count = attempt_count + 1 WHERE id = ? AND ((status IN ('scheduled', 'retrying') AND due_at <= ?) OR (status = 'claimed' AND claimed_at <= ?))`).run(timestamp, (row as any).id, timestamp, cutoff);\\n      if (result.changes !== 1) return null;\\n      const claimed = this.database.prepare(\\\"SELECT * FROM follow_ups WHERE id = ?\\\").get((row as any).id) as Row;\\n      return followUpFromRow(claimed);\\n    });\\n    return claim();\\n  }\\n}\\nconst SqliteFollowUpStore = FollowUpStore;\\nconst FollowUpAdapter = FollowUpStore;\\nconst FollowUpsAdapter = FollowUpStore;\\nconst Adapter = FollowUpStore;\\nexport { FollowUpStore, SqliteFollowUpStore, FollowUpAdapter, FollowUpsAdapter, Adapter, followUpFromRow };\\nexport default FollowUpStore;\\n\"}"
+          }
+        },
+        {
+          "durationMs": 6317,
+          "usage": {
+            "completion_tokens": 1636,
+            "prompt_tokens": 1256,
+            "total_tokens": 2892,
+            "completion_tokens_details": {
+              "reasoning_tokens": 1206
+            },
+            "prompt_tokens_details": {
+              "cached_tokens": 497
+            }
+          },
+          "costUsd": 0.008523,
+          "message": {
+            "role": "assistant",
+            "content": "{\"explanation\": \"Eligibility is due scheduled/retrying plus expired claimed leases inclusive at now-60s. Select with unified OR predicate ordered by due_at, then conditional UPDATE re-validating the same predicate inside transaction so fresh claimed, future, and completed rows cannot be stolen and races lose, incrementing attempt_count once.\", \"hypothesis\": \"Original only selects due scheduled/retrying so crash-restart stale claimed jobs are never reclaimed; repair adds inclusive claimed_at<=now-60000 reclaim to both SELECT and guarded UPDATE.\", \"source\": \"class FollowUpStore {\\n  database;\\n  constructor(database) { this.database = database; }\\n  claimNextDue(now = new Date()) {\\n    const nowDate = (now instanceof Date) ? now : new Date(now);\\n    const timestamp = nowDate.toISOString();\\n    const cutoff = new Date(nowDate.getTime() - 60000).toISOString();\\n    const claim = this.database.transaction(() => {\\n      const row = this.database.prepare(`SELECT * FROM follow_ups WHERE ((status IN ('scheduled', 'retrying') AND due_at <= ?) OR (status = 'claimed' AND claimed_at <= ?)) ORDER BY due_at ASC LIMIT 1`).get(timestamp, cutoff);\\n      if (!row) return null;\\n      const result = this.database.prepare(`UPDATE follow_ups SET status = 'claimed', claimed_at = ?, attempt_count = attempt_count + 1 WHERE id = ? AND ((status IN ('scheduled', 'retrying') AND due_at <= ?) OR (status = 'claimed' AND claimed_at <= ?))`).run(timestamp, row.id, timestamp, cutoff);\\n      if (result.changes !== 1) return null;\\n      const claimed = this.database.prepare(`SELECT * FROM follow_ups WHERE id = ?`).get(row.id);\\n      return followUpFromRow(claimed);\\n    });\\n    return claim();\\n  }\\n}\\nexport default FollowUpStore;\\n\"}"
+          }
+        }
+      ],
+      "status": "completed",
+      "first": {
+        "hypothesis": "Missing expired-lease reclaim causes crash-restart loss; fix selects due scheduled/retrying plus stale claimed via 60s cutoff and guards UPDATE with same predicate.",
+        "explanation": "Claim must also reclaim expired leases: eligible if due scheduled/retrying or claimed with claimed_at<=now-60s inclusive. Select with OR and cutoff, then conditional UPDATE rechecking eligibility to avoid stealing fresh claims and losing races, bumping attempt_count once.",
+        "source": "type Row = { id: string; status: string; due_at: string; claimed_at: string | null; attempt_count: number; payload: string };\ntype FollowUp = { id: string; status: string; dueAt: Date; claimedAt: Date | null; attemptCount: number; payload: any };\nfunction followUpFromRow(row: Row): FollowUp {\n  let payload: any = (row as any).payload;\n  try { if (typeof payload === 'string') payload = JSON.parse(payload); } catch {}\n  return { id: (row as any).id, status: (row as any).status, dueAt: new Date((row as any).due_at), claimedAt: (row as any).claimed_at ? new Date((row as any).claimed_at) : null, attemptCount: (row as any).attempt_count, payload } as FollowUp;\n}\nclass FollowUpStore {\n  database: any;\n  constructor(database: any) { this.database = database; }\n  claimNextDue(now = new Date()): FollowUp | null {\n    const timestamp = now.toISOString();\n    const cutoff = new Date(now.getTime() - 60000).toISOString();\n    const claim = this.database.transaction(() => {\n      const row = this.database.prepare(`SELECT * FROM follow_ups WHERE ((status IN ('scheduled', 'retrying') AND due_at <= ?) OR (status = 'claimed' AND claimed_at <= ?)) ORDER BY due_at ASC LIMIT 1`).get(timestamp, cutoff) as Row | undefined;\n      if (!row) return null;\n      const result = this.database.prepare(`UPDATE follow_ups SET status = 'claimed', claimed_at = ?, attempt_count = attempt_count + 1 WHERE id = ? AND ((status IN ('scheduled', 'retrying') AND due_at <= ?) OR (status = 'claimed' AND claimed_at <= ?))`).run(timestamp, (row as any).id, timestamp, cutoff);\n      if (result.changes !== 1) return null;\n      const claimed = this.database.prepare(\"SELECT * FROM follow_ups WHERE id = ?\").get((row as any).id) as Row;\n      return followUpFromRow(claimed);\n    });\n    return claim();\n  }\n}\nconst SqliteFollowUpStore = FollowUpStore;\nconst FollowUpAdapter = FollowUpStore;\nconst FollowUpsAdapter = FollowUpStore;\nconst Adapter = FollowUpStore;\nexport { FollowUpStore, SqliteFollowUpStore, FollowUpAdapter, FollowUpsAdapter, Adapter, followUpFromRow };\nexport default FollowUpStore;\n",
+        "sourceHash": "a6aa44fdca244d734bde26ea757ee563b442329757e8b4ecd42666cd612e4e28"
+      },
+      "final": {
+        "hypothesis": "Original only selects due scheduled/retrying so crash-restart stale claimed jobs are never reclaimed; repair adds inclusive claimed_at<=now-60000 reclaim to both SELECT and guarded UPDATE.",
+        "explanation": "Eligibility is due scheduled/retrying plus expired claimed leases inclusive at now-60s. Select with unified OR predicate ordered by due_at, then conditional UPDATE re-validating the same predicate inside transaction so fresh claimed, future, and completed rows cannot be stolen and races lose, incrementing attempt_count once.",
+        "source": "class FollowUpStore {\n  database;\n  constructor(database) { this.database = database; }\n  claimNextDue(now = new Date()) {\n    const nowDate = (now instanceof Date) ? now : new Date(now);\n    const timestamp = nowDate.toISOString();\n    const cutoff = new Date(nowDate.getTime() - 60000).toISOString();\n    const claim = this.database.transaction(() => {\n      const row = this.database.prepare(`SELECT * FROM follow_ups WHERE ((status IN ('scheduled', 'retrying') AND due_at <= ?) OR (status = 'claimed' AND claimed_at <= ?)) ORDER BY due_at ASC LIMIT 1`).get(timestamp, cutoff);\n      if (!row) return null;\n      const result = this.database.prepare(`UPDATE follow_ups SET status = 'claimed', claimed_at = ?, attempt_count = attempt_count + 1 WHERE id = ? AND ((status IN ('scheduled', 'retrying') AND due_at <= ?) OR (status = 'claimed' AND claimed_at <= ?))`).run(timestamp, row.id, timestamp, cutoff);\n      if (result.changes !== 1) return null;\n      const claimed = this.database.prepare(`SELECT * FROM follow_ups WHERE id = ?`).get(row.id);\n      return followUpFromRow(claimed);\n    });\n    return claim();\n  }\n}\nexport default FollowUpStore;\n",
+        "sourceHash": "e3cd2b3474f0d7c89172a146876b68e41e16ff763189cc2b10d51982103b108c"
+      },
+      "development": {
+        "passed": false,
+        "tested": 0,
+        "error": "Provide a TypeScript claimNextDue method, up to 12,000 characters.",
+        "cases": []
+      },
+      "heldOut": {
+        "passed": false,
+        "tested": 0,
+        "error": "Provide a TypeScript claimNextDue method, up to 12,000 characters.",
+        "cases": []
+      },
+      "finishedAt": "2026-11-01T15:52:21.215Z"
+    },
+    {
+      "id": "tend-claim-1-feedback",
+      "task": "tend-claim",
+      "repetition": 1,
+      "arm": "feedback",
+      "startedAt": "2026-11-01T15:52:21.232Z",
+      "calls": [
+        {
+          "durationMs": 747,
+          "error": "Meta returned HTTP 400. No automatic retry was made."
+        }
+      ],
+      "status": "error",
+      "error": "Meta returned HTTP 400. No automatic retry was made."
+    }
+  ],
+  "requests": 3,
+  "costUsd": 1.351864,
+  "error": "Meta returned HTTP 400. No automatic retry was made.",
+  "finishedAt": "2026-11-01T15:52:22.004Z"
+}
