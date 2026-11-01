@@ -91,6 +91,24 @@ for (const scene of archive.scenes)
 const tendArchive = JSON.parse(
   await read("demo/archive/tend-render-manifest.json"),
 );
+const partialArchive = JSON.parse(
+  await read("demo/archive/evidence-partial-render-manifest.json"),
+);
+assert.equal(
+  await hash("public/archive/racelab-evidence-partial-demo.mp4"),
+  partialArchive.videoSha256,
+);
+for (const scene of partialArchive.scenes)
+  assert.equal(
+    await hash(
+      scene.id === "07-comparison"
+        ? "docs/evidence-shots/archive/07-comparison-partial.png"
+        : scene.id === "05-lifecycle"
+          ? "docs/evidence-shots/archive/05-lifecycle-partial.png"
+          : `docs/evidence-shots/${scene.source}`,
+    ),
+    scene.sourceSha256,
+  );
 assert.equal(
   await hash("public/archive/racelab-tend-demo.mp4"),
   tendArchive.videoSha256,
@@ -101,5 +119,5 @@ for (const scene of tendArchive.scenes)
     scene.sourceSha256,
   );
 console.log(
-  "RaceLab evidence film verified: actual Edge clips/stills, retained investigation, captions/transcript, chapters and both preserved earlier films.",
+  "RaceLab evidence film verified: actual Edge clips/stills, retained investigation, captions/transcript, chapters and all preserved earlier films.",
 );

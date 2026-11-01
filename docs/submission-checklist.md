@@ -4,9 +4,9 @@
 
 - Separate RaceLab Git repository with event-work provenance and third-party notices.
 - Current 179.904-second evidence video, English narration/captions, eight chapter controls; failure and checked candidate within twenty seconds.
-- Actual Edge interaction clips/stills, source/recording/media hashes and both preserved historical films.
+- Actual Edge interaction clips/stills, source/recording/media hashes and three preserved historical films.
 - Public recorded explorer and evaluation: A/B, trace controls, public Meta hypotheses/request fields, candidate diff and actual/expected checks.
-- Ten-condition real-process lifecycle control; pinned OpenMusic/airules source validation; both stopped comparison studies and full planned/unrun matrix.
+- Ten-condition real-process lifecycle control; pinned OpenMusic/airules source validation; stopped original studies, disclosed continuation and complete attempted-arm matrix.
 - Keyless execution and recorded rechecks; independent report recomputation and regression export.
 - [Ready-to-paste entry copy](submission-copy.md).
 
@@ -17,14 +17,14 @@
 | Public repository   | [tang-vu/racelab](https://github.com/tang-vu/racelab); source and entry copy return HTTP 200 without authentication                                                                                      |
 | Public review/video | [racelab-tang-vu.tang-vu.chatgpt.site](https://racelab-tang-vu.tang-vu.chatgpt.site); fresh anonymous Edge contexts pass at 1440, 390 and 320 pixels                                                     |
 | Player              | Actual decoded playback, chapter seeking, loaded captions and theme pass on the public host                                                                                                              |
-| Media integrity     | Anonymous public MP4 matches repository SHA-256 `3a48d646493a0677d8585bb87b000b71153d81ea408f02c7c179f34a9e300896`; current and both archived film/source hashes verify                                  |
+| Media integrity     | Anonymous public MP4 matches repository SHA-256 `6cdd83b9e096fb56067883c1ed4a2996384822d3cc8eca2a385cea751094cff6`; current and three archived film/source hashes verify                                 |
 | Local verification  | 48/48 tests, zero skipped; actual HTTP and Edge workbench/evidence checks at 1440/768/390/320; all eight chapter seeks decode; no model calls                                                            |
 | Remote CI           | [Ubuntu verification](https://github.com/tang-vu/racelab/actions/runs/41326501194) succeeded on `9321f08`, including all 48 tests, every offline study, source preparation, format and film verification |
 | Publication scan    | Reachable history and newly staged publication text checked for the configured credential and private configuration/usage files before publishing                                                        |
 
-The public Site is a static recorded explorer/evaluation and video review, separate from the complete Node/SQLite application. Its video buffers locally before chapter controls are enabled because the static host serves full files rather than honoring byte ranges. It contains no API key, ledger, backend execution or model calls. Local workbench reproduction remains the executable product path. Missing original runs and unrun comparison arms are explicit. The three-task comparison is incomplete; two paired claim repetitions show no pass-count advantage. [Evidence, accounting and limits](evaluation.md).
+The public Site is a static recorded explorer/evaluation and video review, separate from the complete Node/SQLite application. Its video buffers locally before chapter controls are enabled because the static host serves full files rather than honoring byte ranges. It contains no API key, ledger, backend execution or model calls. Local workbench reproduction remains the executable product path. Missing original runs and unrun comparison arms are explicit. All 12 planned arms were attempted once, including seven first-time arms in a separately frozen post-hoc continuation: feedback 6/6 and direct 4/6 pass the full held-out set. Original truncation/invalid-SQL failures and the earlier failed setup remain; this is not an uninterrupted preregistered benchmark or general superiority result. [Evidence, accounting and limits](evaluation.md).
 
-Clean-clone verification used committed `9321f08` in a new directory: fresh dependency install, both pinned-source preparations, 48/48 tests with zero skips, all offline studies, film/format checks and actual keyless HTTP/Edge/evidence flows pass. The independent server at port 4186 had `configured=false`, zero requests and zero usage before/after. No product key or ledger was copied. Public explorer/evaluation also passed at 1440/768/390/320, including integrity rejection and explicit unavailable/unrun states. Public player decoded, sought and loaded captions in fresh anonymous Edge contexts; no JS errors.
+Clean-clone verification used committed `9321f08` in a new directory: fresh dependency install, both pinned-source preparations, 48/48 tests with zero skips, all offline studies, film/format checks and actual keyless HTTP/Edge/evidence flows pass. The independent server at port 4186 had `configured=false`, zero requests and zero usage before/after. No product key or ledger was copied. Public explorer/evaluation also passed at 1440/768/390/320, including integrity rejection, explicit missing-original states and all 12 attempted comparison rows. Public player decoded, sought and loaded captions in fresh anonymous Edge contexts; no JS errors.
 
 ## Official sources checked November 1, 2026
 

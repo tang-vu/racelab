@@ -10,8 +10,8 @@
     "Actual Microsoft Edge UI interaction recordings and application stills, captured through Playwright in fresh contexts; preparation and model waiting omitted",
     "Public explorer displays recorded evidence; local workbench independently re-executes the retained Meta proposal without new model calls",
     "Pinned source adapters, real disposable SQLite and controlled process sequences; no whole-application or external delivery guarantee",
-    "Lifecycle renewal/completion controls are RaceLab-authored, not new Meta proposals; additional repository checks are not human feedback",
-    "Frozen direct/feedback study: two paired claim repetitions show no pass-count advantage; lifecycle output cap stopped the study, leaving seven arms unrun; original HTTP 400 setup retained separately",
+    "Authored controls remain separate from new Meta lifecycle candidates; ownership checks execute inside candidate methods; repository checks are not human feedback",
+    "Twelve planned arms attempted once across amended study and explicitly disclosed post-hoc continuation; feedback6/6 and direct4/6 complete-arm held-out passes; original setup and truncation retained; no general AI superiority claim",
     "Generic synthetic English narration using Microsoft Zira Desktop",
     "New RaceLab work by Tang Vu reuses earlier event transport, budget and local infrastructure; TEND, OpenMusic and airules are pre-existing inputs"
   ],
@@ -57,9 +57,9 @@
       "seconds": 24,
       "kind": "ui",
       "source": "05-lifecycle.png",
-      "heading": "Challenge ownership beyond one claim.",
-      "caption": "New lifecycle adapter / authored control: 10 conditions pass / two workers, kill before/after commit, renewal, inclusive expiry and stale tokens",
-      "narration": "A second lifecycle adapter tests two competing workers, interruption before and after commit, long jobs with lease renewal, and expired tokens. Its ownership checks live inside the candidate methods. The retained control passes ten conditions. Renewal and completion here are authored RaceLab controls around the earlier Meta claim repair. They are not newly generated Meta fixes or upstream changes."
+      "heading": "Make the ownership checks executable.",
+      "caption": "New lifecycle adapter / first feedback candidate: 10/10 development + held-out / real contention, commit interruption, renewal and stale tokens",
+      "narration": "The lifecycle adapter puts claim, renewal and completion ownership checks inside candidate methods. The first feedback candidate passes all ten conditions: competing workers, interruption before and after commit, long job renewal and old token rejection. Its authored control stays separate. This bounded adapter does not repair upstream completion or guarantee external delivery."
     },
     {
       "id": "06-repositories",
@@ -75,9 +75,9 @@
       "seconds": 23,
       "kind": "ui",
       "source": "07-comparison.png",
-      "heading": "Measure it. Keep the failures.",
-      "caption": "Frozen amended study / 2 complete pairs: direct 2/2, feedback 2/2 / lifecycle output cap / 7 unrun arms / earlier failed setup retained",
-      "narration": "Two paired claim repetitions finished. Direct repair and feedback repair both passed six held out conditions each time. This sample shows no pass count advantage. The lifecycle task then hit the output cap, so the frozen runner stopped. We retain the failure, seven unrun arms, and the earlier failed setup."
+      "heading": "Measure it. Keep every failure.",
+      "caption": "12 arms attempted once / feedback 6 of 6; direct 4 of 6 / seven first-time arms in a disclosed post-hoc continuation / no general superiority claim",
+      "narration": "Across twelve arms, feedback passes in six attempts; direct repair, four. Direct failures include truncation and an invented SQL column. Seven previously unrun arms were collected under a separately frozen continuation after the stop. No failed attempt was retried. This small collection does not establish general superiority."
     },
     {
       "id": "08-explore",

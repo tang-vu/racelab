@@ -24,7 +24,7 @@ try {
     if (!response.ok) throw Error("Evaluation artifact unavailable.");
     return response.json();
   };
-  const [life, repos, comparison, amended, review, analysis] =
+  const [life, repos, comparison, amended, review, analysis, continued] =
     await Promise.all([
       get("lifecycle-validation"),
       get("repository-validation"),
@@ -32,6 +32,7 @@ try {
       get("comparison-study-v2"),
       get("comparison-accounting-review"),
       get("comparison-summary"),
+      get("comparison-continuation"),
     ]);
   text(
     $("lifecycle-summary"),
@@ -92,10 +93,11 @@ try {
   }
   p.append(provenance);
   const c = $("comparison-summary");
+  const allAttempts = [...amended.attempts, ...continued.attempts];
   text(
     c,
     "h3",
-    `${analysis.completedArms} completed · ${analysis.failedArms} failed · ${analysis.notRunArms} not run / 12 planned arms`,
+    `${analysis.completedArms} final candidates · ${analysis.failedArms} output error · ${analysis.notRunArms} unrun / 12 planned arms`,
   );
   text(
     c,
@@ -123,7 +125,7 @@ try {
   table.append(head);
   const body = document.createElement("tbody");
   for (const planned of analysis.planned) {
-    const a = amended.attempts.find((a) => a.id === planned.id) ?? {
+    const a = allAttempts.find((a) => a.id === planned.id) ?? {
       ...planned,
       calls: [],
     };
@@ -152,7 +154,7 @@ try {
   text(
     c,
     "p",
-    `Amended study: ${amended.requests} requests; $${amended.costUsd.toFixed(6)} known usage ledger debit, including the truncated response. Original plus amended studies: ${analysis.requests.total} requests, $${analysis.cost.totalConservativeLedgerDebitUsd.toFixed(6)} conservative debit including the old unresolved provider charge. Per-request rows omit usage not retained by the transport; the aggregate includes it.`,
+    `Amended study: ${amended.requests} requests, $${amended.costUsd.toFixed(6)} known debit. Post-hoc continuation: ${continued.requests} requests, $${continued.costUsd.toFixed(6)} known debit. Including the original failed setup: ${analysis.requests.total} requests and $${analysis.cost.totalConservativeLedgerDebitUsd.toFixed(6)} conservative ledger debit, which retains the original unknown HTTP400 charge. Aggregate includes truncated-response usage omitted from its public per-call row.`,
   );
   if (amended.status === "completed") {
     const direct = amended.attempts.filter((a) => a.arm === "direct"),
@@ -170,7 +172,7 @@ try {
     "summary",
     "Every amended-study proposal and executed feedback",
   );
-  for (const a of amended.attempts) {
+  for (const a of allAttempts) {
     const d = document.createElement("details");
     text(d, "summary", `${a.id} · ${a.status}`);
     text(
@@ -192,11 +194,18 @@ try {
     artifacts.append(d);
   }
   c.append(artifacts);
-  const metaLife = amended.attempts.find(
+  const metaLife = allAttempts.find(
     (a) =>
       a.task === "tend-lifecycle" && a.repetition === 1 && a.arm === "feedback",
   );
   if (metaLife?.final) {
+    const passed = [
+      ...(metaLife.development?.cases ?? []),
+      ...(metaLife.heldOut?.cases ?? []),
+    ].filter((c) => c.passed).length;
+    const heading = document.createElement("h3");
+    heading.textContent = `Meta lifecycle candidate · ${passed}/10 conditions · first feedback repetition`;
+    $("lifecycle-summary").prepend(heading);
     const d = document.createElement("details");
     text(
       d,

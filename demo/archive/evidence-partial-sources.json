@@ -1,0 +1,110 @@
+{
+  "format": "racelab-browser-capture-v2",
+  "browser": "156.0.4314.50",
+  "capturedAt": "2026-11-01T16:17:58.359Z",
+  "viewport": {
+    "width": 1440,
+    "height": 700
+  },
+  "sources": {
+    "02-source": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4174/tend.html",
+      "viewport": {
+        "width": 1440,
+        "height": 700
+      },
+      "sha256": "e1fbc25c58006b4ebf220bc9548c70fac4b26aad4dcb5527b58aca62b3b21ee5"
+    },
+    "05-lifecycle": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4174/evaluation.html",
+      "viewport": {
+        "width": 1440,
+        "height": 700
+      },
+      "sha256": "a79b65b6e7526763cd405d667bd911b0d89f8d360699df8f086a782ec336adb2"
+    },
+    "06-repositories": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4174/evaluation.html",
+      "viewport": {
+        "width": 1440,
+        "height": 700
+      },
+      "sha256": "f218ccc51a1b7ff00b44cd23a27147b9b08097b41031ec87a7bade890e0dfaf2"
+    },
+    "07-comparison": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4174/evaluation.html",
+      "viewport": {
+        "width": 1440,
+        "height": 700
+      },
+      "sha256": "97bc12230aa5c29a944568f9dbe3fa77c40a2330503f43712e7b910fea78afd2"
+    },
+    "03-process": {
+      "type": "app-recording",
+      "method": "Playwright video / fresh Microsoft Edge context / actual UI interactions; trimmed preparation, 30 fps conversion",
+      "url": "http://127.0.0.1:4174/evidence.html",
+      "viewport": {
+        "width": 1440,
+        "height": 700
+      },
+      "sha256": "947fce539c97df71a2a4ec5485024964af9800225bf1d0a6f3d069b22e4c9888",
+      "rawSha256": "0992758b5b8d33ec4f30c2810ba41ae4dbd3ff1e87234086fa76e140251333c3",
+      "trimStartSeconds": 0.45899999999999996,
+      "rawDurationSeconds": 29,
+      "recordedSeconds": 24
+    },
+    "04-investigation": {
+      "type": "app-recording",
+      "method": "Playwright video / fresh Microsoft Edge context / actual UI interactions; trimmed preparation, 30 fps conversion",
+      "url": "http://127.0.0.1:4174/evidence.html",
+      "viewport": {
+        "width": 1440,
+        "height": 700
+      },
+      "sha256": "224679f451ff729cecbecaf7a7bfda8d41c5652d6f2eca6bb9a2554997f09adf",
+      "rawSha256": "e99630b89e6d5511f8b63825b69319c5fe7474bedf36bf5c1e1a7f6676007950",
+      "trimStartSeconds": 0.44499999999999995,
+      "rawDurationSeconds": 31.68,
+      "recordedSeconds": 25
+    },
+    "08-explore": {
+      "type": "app-recording",
+      "method": "Playwright video / fresh Microsoft Edge context / actual UI interactions; trimmed preparation, 30 fps conversion",
+      "url": "http://127.0.0.1:4174/evidence.html",
+      "viewport": {
+        "width": 1440,
+        "height": 700
+      },
+      "sha256": "4edc554399a48133704a19ad9b7d604ab2a6a701155b75bf1a3082afa8f17f22",
+      "rawSha256": "4e5e1a9a966201ffd61fac42d382cdfe3561611dbf59bb21940966f7fae81308",
+      "trimStartSeconds": 0.488,
+      "rawDurationSeconds": 23.72,
+      "recordedSeconds": 20
+    },
+    "01-result": {
+      "type": "app-recording",
+      "method": "Playwright video / fresh Microsoft Edge context / actual UI interactions; trimmed preparation, 30 fps conversion",
+      "url": "http://127.0.0.1:4174/evidence.html",
+      "viewport": {
+        "width": 1440,
+        "height": 700
+      },
+      "sha256": "b7257ee1b1755f1c3bf7d60934ec193ede1a61b8d35f233ec7f5d0681c1dfc24",
+      "rawSha256": "e45e7fbc18702a63573afd8df3c7f853413c31e4f243768750f2dceb8fe49db6",
+      "trimStartSeconds": 0.567,
+      "rawDurationSeconds": 25.08,
+      "recordedSeconds": 20
+    }
+  },
+  "paidAttempts": 0,
+  "errors": [],
+  "passed": true
+}

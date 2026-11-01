@@ -13,3 +13,6 @@ demo/comparison-protocol-v2.json
 public/recordings/comparison-study-v2.json
 public/recordings/comparison-summary.json
 public/recordings/comparison-accounting-review.json
+public/recordings/comparison-continuation.json
+public/recordings/comparison-summary-pre-continuation.json
+demo/comparison-continuation-protocol.json

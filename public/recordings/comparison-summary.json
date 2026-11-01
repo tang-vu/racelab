@@ -1,20 +1,23 @@
 {
-  "version": 1,
-  "createdAt": "2026-11-01T16:06:40.623Z",
-  "status": "incomplete-predeclared-study",
+  "version": 2,
+  "createdAt": "2026-11-01T16:47:17.838Z",
+  "status": "all-planned-arms-attempted-with-post-hoc-continuation",
   "originalStatus": "stopped-error",
   "amendedStatus": "stopped-error",
+  "continuationStatus": "completed",
   "protocolCommit": "b3ab84e08e21785c01a766be3b73882e44e550e3",
+  "continuationProtocolCommit": "39de43a37c95cbc4f3ef62ed3876c89c580cc036",
   "plannedArms": 12,
-  "completedArms": 4,
+  "completedArms": 11,
   "failedArms": 1,
-  "notRunArms": 7,
+  "notRunArms": 0,
   "planned": [
     {
       "id": "tend-claim-1-direct",
       "task": "tend-claim",
       "repetition": 1,
       "arm": "direct",
+      "collection": "amended-study",
       "status": "completed",
       "heldOutPassed": true,
       "heldOutConditionsPassed": 6,
@@ -26,6 +29,7 @@
       "task": "tend-claim",
       "repetition": 1,
       "arm": "feedback",
+      "collection": "amended-study",
       "status": "completed",
       "heldOutPassed": true,
       "heldOutConditionsPassed": 6,
@@ -37,6 +41,7 @@
       "task": "tend-claim",
       "repetition": 2,
       "arm": "feedback",
+      "collection": "amended-study",
       "status": "completed",
       "heldOutPassed": true,
       "heldOutConditionsPassed": 6,
@@ -48,6 +53,7 @@
       "task": "tend-claim",
       "repetition": 2,
       "arm": "direct",
+      "collection": "amended-study",
       "status": "completed",
       "heldOutPassed": true,
       "heldOutConditionsPassed": 6,
@@ -59,8 +65,9 @@
       "task": "tend-lifecycle",
       "repetition": 1,
       "arm": "direct",
+      "collection": "amended-study",
       "status": "error",
-      "heldOutPassed": null,
+      "heldOutPassed": false,
       "heldOutConditionsPassed": null,
       "heldOutConditionsTested": null,
       "error": "Meta reached the output cap. No automatic retry was made."
@@ -70,10 +77,11 @@
       "task": "tend-lifecycle",
       "repetition": 1,
       "arm": "feedback",
-      "status": "not-run-after-stop",
-      "heldOutPassed": null,
-      "heldOutConditionsPassed": null,
-      "heldOutConditionsTested": null,
+      "collection": "post-hoc-continuation",
+      "status": "completed",
+      "heldOutPassed": true,
+      "heldOutConditionsPassed": 6,
+      "heldOutConditionsTested": 6,
       "error": null
     },
     {
@@ -81,10 +89,11 @@
       "task": "tend-lifecycle",
       "repetition": 2,
       "arm": "feedback",
-      "status": "not-run-after-stop",
-      "heldOutPassed": null,
-      "heldOutConditionsPassed": null,
-      "heldOutConditionsTested": null,
+      "collection": "post-hoc-continuation",
+      "status": "completed",
+      "heldOutPassed": true,
+      "heldOutConditionsPassed": 6,
+      "heldOutConditionsTested": 6,
       "error": null
     },
     {
@@ -92,10 +101,11 @@
       "task": "tend-lifecycle",
       "repetition": 2,
       "arm": "direct",
-      "status": "not-run-after-stop",
-      "heldOutPassed": null,
-      "heldOutConditionsPassed": null,
-      "heldOutConditionsTested": null,
+      "collection": "post-hoc-continuation",
+      "status": "completed",
+      "heldOutPassed": false,
+      "heldOutConditionsPassed": 0,
+      "heldOutConditionsTested": 6,
       "error": null
     },
     {
@@ -103,10 +113,11 @@
       "task": "airules-diff",
       "repetition": 1,
       "arm": "direct",
-      "status": "not-run-after-stop",
-      "heldOutPassed": null,
-      "heldOutConditionsPassed": null,
-      "heldOutConditionsTested": null,
+      "collection": "post-hoc-continuation",
+      "status": "completed",
+      "heldOutPassed": true,
+      "heldOutConditionsPassed": 5,
+      "heldOutConditionsTested": 5,
       "error": null
     },
     {
@@ -114,10 +125,11 @@
       "task": "airules-diff",
       "repetition": 1,
       "arm": "feedback",
-      "status": "not-run-after-stop",
-      "heldOutPassed": null,
-      "heldOutConditionsPassed": null,
-      "heldOutConditionsTested": null,
+      "collection": "post-hoc-continuation",
+      "status": "completed",
+      "heldOutPassed": true,
+      "heldOutConditionsPassed": 5,
+      "heldOutConditionsTested": 5,
       "error": null
     },
     {
@@ -125,10 +137,11 @@
       "task": "airules-diff",
       "repetition": 2,
       "arm": "feedback",
-      "status": "not-run-after-stop",
-      "heldOutPassed": null,
-      "heldOutConditionsPassed": null,
-      "heldOutConditionsTested": null,
+      "collection": "post-hoc-continuation",
+      "status": "completed",
+      "heldOutPassed": true,
+      "heldOutConditionsPassed": 5,
+      "heldOutConditionsTested": 5,
       "error": null
     },
     {
@@ -136,10 +149,11 @@
       "task": "airules-diff",
       "repetition": 2,
       "arm": "direct",
-      "status": "not-run-after-stop",
-      "heldOutPassed": null,
-      "heldOutConditionsPassed": null,
-      "heldOutConditionsTested": null,
+      "collection": "post-hoc-continuation",
+      "status": "completed",
+      "heldOutPassed": true,
+      "heldOutConditionsPassed": 5,
+      "heldOutConditionsTested": 5,
       "error": null
     }
   ],
@@ -147,13 +161,15 @@
     {
       "task": "tend-claim",
       "repetition": 1,
-      "complete": true,
+      "collected": true,
+      "completeFinalCandidates": true,
       "arms": [
         {
           "id": "tend-claim-1-direct",
           "task": "tend-claim",
           "repetition": 1,
           "arm": "direct",
+          "collection": "amended-study",
           "status": "completed",
           "heldOutPassed": true,
           "heldOutConditionsPassed": 6,
@@ -165,6 +181,7 @@
           "task": "tend-claim",
           "repetition": 1,
           "arm": "feedback",
+          "collection": "amended-study",
           "status": "completed",
           "heldOutPassed": true,
           "heldOutConditionsPassed": 6,
@@ -176,13 +193,15 @@
     {
       "task": "tend-claim",
       "repetition": 2,
-      "complete": true,
+      "collected": true,
+      "completeFinalCandidates": true,
       "arms": [
         {
           "id": "tend-claim-2-feedback",
           "task": "tend-claim",
           "repetition": 2,
           "arm": "feedback",
+          "collection": "amended-study",
           "status": "completed",
           "heldOutPassed": true,
           "heldOutConditionsPassed": 6,
@@ -194,6 +213,7 @@
           "task": "tend-claim",
           "repetition": 2,
           "arm": "direct",
+          "collection": "amended-study",
           "status": "completed",
           "heldOutPassed": true,
           "heldOutConditionsPassed": 6,
@@ -205,15 +225,17 @@
     {
       "task": "tend-lifecycle",
       "repetition": 1,
-      "complete": false,
+      "collected": true,
+      "completeFinalCandidates": false,
       "arms": [
         {
           "id": "tend-lifecycle-1-direct",
           "task": "tend-lifecycle",
           "repetition": 1,
           "arm": "direct",
+          "collection": "amended-study",
           "status": "error",
-          "heldOutPassed": null,
+          "heldOutPassed": false,
           "heldOutConditionsPassed": null,
           "heldOutConditionsTested": null,
           "error": "Meta reached the output cap. No automatic retry was made."
@@ -223,10 +245,11 @@
           "task": "tend-lifecycle",
           "repetition": 1,
           "arm": "feedback",
-          "status": "not-run-after-stop",
-          "heldOutPassed": null,
-          "heldOutConditionsPassed": null,
-          "heldOutConditionsTested": null,
+          "collection": "post-hoc-continuation",
+          "status": "completed",
+          "heldOutPassed": true,
+          "heldOutConditionsPassed": 6,
+          "heldOutConditionsTested": 6,
           "error": null
         }
       ]
@@ -234,17 +257,19 @@
     {
       "task": "tend-lifecycle",
       "repetition": 2,
-      "complete": false,
+      "collected": true,
+      "completeFinalCandidates": true,
       "arms": [
         {
           "id": "tend-lifecycle-2-feedback",
           "task": "tend-lifecycle",
           "repetition": 2,
           "arm": "feedback",
-          "status": "not-run-after-stop",
-          "heldOutPassed": null,
-          "heldOutConditionsPassed": null,
-          "heldOutConditionsTested": null,
+          "collection": "post-hoc-continuation",
+          "status": "completed",
+          "heldOutPassed": true,
+          "heldOutConditionsPassed": 6,
+          "heldOutConditionsTested": 6,
           "error": null
         },
         {
@@ -252,10 +277,11 @@
           "task": "tend-lifecycle",
           "repetition": 2,
           "arm": "direct",
-          "status": "not-run-after-stop",
-          "heldOutPassed": null,
-          "heldOutConditionsPassed": null,
-          "heldOutConditionsTested": null,
+          "collection": "post-hoc-continuation",
+          "status": "completed",
+          "heldOutPassed": false,
+          "heldOutConditionsPassed": 0,
+          "heldOutConditionsTested": 6,
           "error": null
         }
       ]
@@ -263,17 +289,19 @@
     {
       "task": "airules-diff",
       "repetition": 1,
-      "complete": false,
+      "collected": true,
+      "completeFinalCandidates": true,
       "arms": [
         {
           "id": "airules-diff-1-direct",
           "task": "airules-diff",
           "repetition": 1,
           "arm": "direct",
-          "status": "not-run-after-stop",
-          "heldOutPassed": null,
-          "heldOutConditionsPassed": null,
-          "heldOutConditionsTested": null,
+          "collection": "post-hoc-continuation",
+          "status": "completed",
+          "heldOutPassed": true,
+          "heldOutConditionsPassed": 5,
+          "heldOutConditionsTested": 5,
           "error": null
         },
         {
@@ -281,10 +309,11 @@
           "task": "airules-diff",
           "repetition": 1,
           "arm": "feedback",
-          "status": "not-run-after-stop",
-          "heldOutPassed": null,
-          "heldOutConditionsPassed": null,
-          "heldOutConditionsTested": null,
+          "collection": "post-hoc-continuation",
+          "status": "completed",
+          "heldOutPassed": true,
+          "heldOutConditionsPassed": 5,
+          "heldOutConditionsTested": 5,
           "error": null
         }
       ]
@@ -292,17 +321,19 @@
     {
       "task": "airules-diff",
       "repetition": 2,
-      "complete": false,
+      "collected": true,
+      "completeFinalCandidates": true,
       "arms": [
         {
           "id": "airules-diff-2-feedback",
           "task": "airules-diff",
           "repetition": 2,
           "arm": "feedback",
-          "status": "not-run-after-stop",
-          "heldOutPassed": null,
-          "heldOutConditionsPassed": null,
-          "heldOutConditionsTested": null,
+          "collection": "post-hoc-continuation",
+          "status": "completed",
+          "heldOutPassed": true,
+          "heldOutConditionsPassed": 5,
+          "heldOutConditionsTested": 5,
           "error": null
         },
         {
@@ -310,33 +341,51 @@
           "task": "airules-diff",
           "repetition": 2,
           "arm": "direct",
-          "status": "not-run-after-stop",
-          "heldOutPassed": null,
-          "heldOutConditionsPassed": null,
-          "heldOutConditionsTested": null,
+          "collection": "post-hoc-continuation",
+          "status": "completed",
+          "heldOutPassed": true,
+          "heldOutConditionsPassed": 5,
+          "heldOutConditionsTested": 5,
           "error": null
         }
       ]
     }
   ],
+  "armCounts": {
+    "direct": {
+      "planned": 6,
+      "attempted": 6,
+      "heldOutPasses": 4,
+      "outputErrors": 1
+    },
+    "feedback": {
+      "planned": 6,
+      "attempted": 6,
+      "heldOutPasses": 6,
+      "outputErrors": 0
+    }
+  },
   "requests": {
     "original": 3,
     "amended": 9,
-    "total": 12
+    "continuation": 14,
+    "total": 26
   },
   "cost": {
     "originalKnownUsageUsd": 0.02373425,
     "amendedKnownUsageLedgerUsd": 0.070791,
+    "continuationKnownUsageLedgerUsd": 0.141145,
     "originalUnknownChargeConservativeDebitUsd": 1.328129,
-    "totalConservativeLedgerDebitUsd": 1.422655,
-    "note": "Per-request costs can differ from rounded ledger debits. The truncated request returned token usage settled in the ledger, but transport rejected its output and did not retain its content/usage in the public call record. Amended study aggregate includes that known debit. The original HTTP 400 charge is unknown and remains fully debited conservatively; this is not provider billing verification."
+    "totalConservativeLedgerDebitUsd": 1.5638,
+    "note": "All original debits remain. Truncated output returned settled usage but its content/usage was not retained in the public per-call row. Aggregate known ledger debit includes it. HTTP400 billing remains unknown and fully charged at the reservation maximum; this is not provider billing verification."
   },
-  "conclusion": "Only two complete paired repetitions of the TEND claim task finished: direct and feedback each passed 6/6 held-out conditions in both repetitions. This sample shows no pass-count advantage. The first lifecycle direct attempt hit the output token cap; the frozen runner stopped. Remaining planned arms were not run. No aggregate three-task repair rate, lifecycle AI repair result or general AI advantage is established. The original failed setup is reported separately, not pooled or overwritten.",
+  "conclusion": "All 12 originally planned amended-design arms were attempted exactly once: 11 returned final candidates, 1 failed, 0 unrun. Complete-arm held-out passes in this collection: direct 4/6, feedback 6/6. Two paired claim repetitions passed 6/6 in both arms. The original amended runner stopped at a lifecycle output cap; its seven unrun arms were collected afterward under a separately frozen continuation. The failed lifecycle direct arm was never retried. This is a post-hoc deviation from global stopping, not an uninterrupted preregistered three-task benchmark or a general AI-superiority result.",
   "limitations": [
-    "Small purposive sample; two TEND tasks share source.",
-    "Held-out means withheld from prompts/feedback, not novel problem classes or training-data isolation.",
-    "Original failed setup includes incompatible source boundaries and API HTTP 400; cause of HTTP 400 not diagnosed.",
-    "Model output truncation is retained as a failure; the client did not retain truncated message content.",
-    "No human usability or productivity measurements. No external delivery guarantee."
+    "Two purposive repetitions per task; two TEND tasks share source.",
+    "Seven arms were collected after observing the amended study stop. Original stopped artifacts stay unchanged and are disclosed separately.",
+    "Different tasks have different held-out condition counts; do not compare raw condition totals as if equally weighted.",
+    "Held-out means withheld from prompts/feedback, not novel classes or training-data isolation.",
+    "Output-cap errors count as failed arms; unavailable truncated content is not reconstructed.",
+    "No whole-application guarantee, human feedback or measured productivity gain."
   ]
 }

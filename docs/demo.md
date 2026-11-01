@@ -19,9 +19,9 @@ The [explorer](https://racelab-tang-vu.tang-vu.chatgpt.site/evidence.html) displ
 
 `demo/racelab-storyboard.json` contains the exact transcript, timings and disclosures. `demo/racelab-render-manifest.json` binds geometry, decoded frames, media/source/narration hashes and the unchanged original investigation. `docs/evidence-shots/sources.json` identifies actual Edge captures, viewport, raw recording hashes and preparation trim offsets. WebM clips are real UI interactions converted to 30 fps; PNGs are actual application screenshots. No generated UI mockups or fabricated receipts are used.
 
-The opening identifies new RaceLab work by Tang Vu and pre-existing TEND/event infrastructure. The original retained Muse Spark claim candidate is model work. The new lifecycle renewal/completion control is authored RaceLab work, not a new Meta repair. The full comparison remains incomplete; the movie does not turn its stopped/unrun arms into successes. English subtitles are timed approximately by narrated word groups, not a manually aligned verbatim audio transcription.
+The opening identifies new RaceLab work by Tang Vu and pre-existing TEND/event infrastructure. The original retained Muse Spark claim candidate is model work. The authored lifecycle control stays separate from new Meta feedback candidates passing all ten conditions. All12 planned arms are now attempted once across amended study and a disclosed post-hoc continuation; original output-cap/invalid-SQL failures remain, with no general superiority claim. English subtitles are timed approximately by narrated word groups, not a manually aligned verbatim audio transcription.
 
-Both earlier movies are byte-preserved: `public/archive/racelab-store-demo.mp4` and `public/archive/racelab-tend-demo.mp4`, with captions/posters and matching storyboard/render/SRT files in `demo/archive/`. Their original captures remain in `docs/racelab-shots/` and `docs/tend-shots/`.
+Three earlier movies are byte-preserved, including `public/archive/racelab-evidence-partial-demo.mp4` from before the continuation. The two earlier sources are: `public/archive/racelab-store-demo.mp4` and `public/archive/racelab-tend-demo.mp4`, with captions/posters and matching storyboard/render/SRT files in `demo/archive/`. Their original captures remain in `docs/racelab-shots/` and `docs/tend-shots/`.
 
 ## Reproduce and verify
 

@@ -24,4 +24,5 @@ jobs:
       - run: npm run evaluate:lifecycle
       - run: npm run evaluate:comparison
       - run: npm run evaluate:comparison:v2
+      - run: npm run evaluate:comparison:continuation
       - run: npm run check:film

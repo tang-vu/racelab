@@ -36,7 +36,7 @@ Muse Spark 1.3 receives the source, declared contract and executed feedback. Its
 
 The retained TEND investigation was declared before its live run. It used two requests, one failed original crash probe and one proposed method, at an app-estimated $0.015165. The candidate passed all ten declared recovery conditions. Recorded replay executes the retained proposal locally without another model request. This is one integration study, not a general repair-rate or AI-superiority result.
 
-A separately frozen direct/feedback comparison completed two paired claim repetitions: both arms passed 6/6 held-out conditions each time. Output truncation stopped the next task, leaving four completed, one failed and seven unrun arms out of twelve planned. Its original failed setup is also retained. The full three-task study is incomplete and provides no general AI-advantage conclusion. [Protocols, artifacts and accounting](evaluation.md).
+A separately frozen direct/feedback design now has all 12 planned arms attempted once: feedback 6/6 complete-arm held-out passes, direct 4/6. The original runner stopped at truncation; exactly seven previously unrun arms were collected afterward under a separately frozen, disclosed post-hoc continuation. No failed attempt was repeated. Original setup errors and a direct candidate's nonexistent SQL column remain visible. This small, correlated collection is not an uninterrupted preregistered benchmark or general superiority result. [Protocols, outcomes and accounting](evaluation.md).
 
 ## Technical depth
 
@@ -44,7 +44,7 @@ QuickJS executes the isolated JavaScript candidate. The repository adapter strip
 
 Browser UI supports editable original source, read-only candidate B, actual/expected checks, ten-condition selection, committed-state traces, theme, replay and report/diff export. Local checks include forged-report recomputation, no-op and unsafe-operation rejection, process interruption and actual browser export/import.
 
-A separate lifecycle adapter tests simultaneous claimants, real interruption before and after commit, long-job renewal and old-token rejection, with ownership checks inside its candidate methods. A retained authored control passes ten conditions; it is not a new Meta lifecycle fix. Additional pinned owned public inputs retain 14 passing OpenMusic workspace checks and 6/8 airules conditions under RaceLab's added line-edit contract. These are bounded source adapters, not whole-application runs or human feedback.
+A separate lifecycle adapter tests simultaneous claimants, real interruption before and after commit, long-job renewal and old-token rejection, with ownership checks inside its candidate methods. A retained authored control passes ten conditions and remains separately attributed. Two new feedback lifecycle candidates also pass all ten development/held-out conditions with ownership guards inside their source. Additional pinned owned public inputs retain 14 passing OpenMusic workspace checks and 6/8 airules conditions under RaceLab's added line-edit contract. These are bounded source adapters, not whole-application runs or human feedback.
 
 ## New work and existing components
 

@@ -98,11 +98,11 @@ try {
         .locator(".evaluation-table tbody tr")
         .filter({ hasText: "not-run-after-stop" })
         .count(),
-      7,
+      0,
     );
     assert.match(
       await page.locator("#comparison-summary").textContent(),
-      /no pass-count advantage/i,
+      /post-hoc deviation/i,
     );
     assert.match(
       await page.locator("#repository-summary").textContent(),
