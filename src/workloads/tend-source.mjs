@@ -92,3 +92,21 @@ export function compileClaim(source) {
     { mode: "strip" },
   );
 }
+
+// Separate lifecycle adapter: the original v1 claim contract is unchanged.
+export function compileLifecycle(source) {
+  if (
+    typeof source !== "string" ||
+    source.length > 18000 ||
+    !["claimNextDue", "renewClaim", "completeClaim"].every((name) =>
+      new RegExp(`\\b${name}\\s*\\(`).test(source),
+    )
+  )
+    throw new Error(
+      "Provide claimNextDue, renewClaim and completeClaim methods, up to 18,000 characters.",
+    );
+  return stripTypeScriptTypes(
+    `class CaseRepository { constructor(database) { this.database = database; }\n${source}\n}`,
+    { mode: "strip" },
+  );
+}

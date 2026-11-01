@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>RaceLab — inspect the evidence</title>
+    <link rel="icon" href="/mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/font.css" />
+    <link rel="stylesheet" href="/racelab.css" />
+    <link rel="stylesheet" href="/motion.css" />
+    <link rel="stylesheet" href="/evidence.css" />
+  </head>
+  <body>
+    <a class="skip-evidence" href="#explorer">Skip to evidence</a>
+    <header class="topbar studio-header">
+      <a class="brand" href="/"
+        ><img src="/mark.svg" width="28" height="28" alt="" /><span
+          class="brand-text"
+          >racelab<span class="brand-sign">*</span></span
+        ></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="/">Demo</a
+        ><a href="https://github.com/tang-vu/racelab#run-locally"
+          >Run locally ↗</a
+        ><button
+          id="theme-toggle"
+          class="theme-toggle"
+          aria-label="Switch to dark theme"
+          aria-pressed="false"
+        >
+          ◐
+        </button>
+      </nav>
+    </header>
+    <main class="explorer" id="explorer">
+      <p class="section-kicker">RECORDED EVIDENCE / TEND / SQLITE</p>
+      <h1>A failure you<br />can inspect.</h1>
+      <p class="explorer-intro">
+        Follow one lost job from a terminated worker to a checked Meta repair.
+        Select a condition, compare the methods, and step through the retained
+        process trace.
+      </p>
+      <p class="recorded-notice">
+        <strong>Recorded, read-only evidence.</strong> This page displays saved
+        results; it does not execute SQLite or call a model. Run the local
+        workbench to independently recompute them. Ten finite conditions, with a
+        fixed fixture completion guard; this is not a full application or
+        external delivery guarantee.
+      </p>
+      <p id="evidence-status" role="status">Checking recording integrity…</p>
+      <section class="explorer-workbench" aria-label="Recorded execution">
+        <div class="explorer-toolbar">
+          <div role="tablist" aria-label="Method version">
+            <button role="tab" id="version-a" aria-selected="true">
+              A / Original</button
+            ><button role="tab" id="version-b" aria-selected="false">
+              B / Meta candidate
+            </button>
+          </div>
+          <label
+            >Condition
+            <select id="evidence-condition"></select
+          ></label>
+        </div>
+        <div
+          id="evidence-matrix"
+          class="evidence-matrix"
+          aria-label="Candidate condition results"
+        ></div>
+        <div class="explorer-grid">
+          <section class="explorer-source">
+            <h2 id="evidence-source-title">Pinned method / A</h2>
+            <pre
+              id="evidence-source"
+              tabindex="0"
+              aria-label="Read-only method source"
+            ></pre>
+          </section>
+          <section class="explorer-run">
+            <div class="explorer-run-heading">
+              <h2 id="evidence-run-title">Loading…</h2>
+              <strong id="evidence-verdict" class="badge neutral">—</strong>
+            </div>
+            <p id="evidence-missing" role="status" hidden></p>
+            <div id="evidence-playback">
+              <div class="playback-controls">
+                <button id="evidence-start" aria-label="Go to start">↤</button
+                ><button id="evidence-back" aria-label="Previous trace step">
+                  ←</button
+                ><button id="evidence-play">Play trace</button
+                ><button id="evidence-next" aria-label="Next trace step">
+                  →</button
+                ><button id="evidence-end" aria-label="Go to end">↦</button>
+              </div>
+              <label for="evidence-scrubber"
+                >Recorded trace <span id="evidence-step"></span></label
+              ><input id="evidence-scrubber" type="range" min="0" value="0" />
+              <p id="evidence-event" aria-live="polite"></p>
+              <div id="evidence-processes"></div>
+              <h3>Committed SQLite rows</h3>
+              <pre id="evidence-rows" tabindex="0"></pre>
+              <details>
+                <summary>Full recorded trace</summary>
+                <ol id="evidence-trace"></ol>
+              </details>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="explorer-section">
+        <p class="section-kicker">INDEPENDENT CONTRACT / FULL SAVED RUN</p>
+        <h2>Actual meets expected.</h2>
+        <p>
+          Checks below describe the full saved execution, regardless of the
+          current trace position.
+        </p>
+        <div id="evidence-checks"></div>
+      </section>
+      <section class="explorer-section">
+        <p class="section-kicker">PUBLIC INVESTIGATION ARTIFACTS</p>
+        <h2>See what Meta proposed.</h2>
+        <div id="evidence-investigation" class="investigation"></div>
+      </section>
+      <section class="explorer-section explorer-provenance">
+        <h2>Take the evidence.</h2>
+        <p id="evidence-facts"></p>
+        <p>
+          Input:
+          <a
+            href="https://github.com/tang-vu/tend/blob/fe6975ced2c2004e3bb8f91e97c07db878596a06/packages/db/src/store.ts#L1017"
+            >Tang Vu’s TEND · pinned MIT source ↗</a
+          >. RaceLab adds the 60-second inclusive recovery contract and bounded
+          adapter. Meta proposes the candidate; RaceLab executes it and checks
+          the contract.
+        </p>
+        <p>
+          <a href="/recordings/tend-claims.json" download
+            >Download unchanged recording</a
+          >
+          ·
+          <a href="https://github.com/tang-vu/racelab/blob/main/docs/tend.md"
+            >Scope and reproduction ↗</a
+          >
+        </p>
+        <code id="evidence-hash"></code>
+      </section>
+    </main>
+    <script type="module" src="/evidence.js"></script>
+    <script src="/theme.js"></script>
+  </body>
+</html>

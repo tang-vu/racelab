@@ -1,7 +1,7 @@
 // Guest TypeScript is stripped in Node, then executed inside QuickJS. Only a
 // bounded SQL bridge to this run's disposable SQLite DB crosses the boundary.
 import { getQuickJS } from "quickjs-emscripten";
-import { compileClaim } from "./tend-source.mjs";
+import { compileClaim, compileLifecycle } from "./tend-source.mjs";
 import { stripTypeScriptTypes } from "node:module";
 
 const forbidden =
@@ -42,10 +42,22 @@ function sqlAllowed(query) {
 
 export async function executeClaim(
   database,
-  { source, rowAdapter, at },
+  {
+    source,
+    rowAdapter,
+    at,
+    lifecycle = false,
+    operation = "claimNextDue",
+    args = [],
+  },
   onSql = () => {},
 ) {
-  const compiled = compileClaim(source);
+  if (
+    !["claimNextDue", "renewClaim", "completeClaim"].includes(operation) ||
+    (!lifecycle && operation !== "claimNextDue")
+  )
+    throw new Error("Unknown adapter operation.");
+  const compiled = lifecycle ? compileLifecycle(source) : compileClaim(source);
   const mapper = stripTypeScriptTypes(rowAdapter, { mode: "strip" });
   const QuickJS = await getQuickJS();
   const runtime = QuickJS.newRuntime();
@@ -134,7 +146,7 @@ export async function executeClaim(
       }});
       ${mapper}
       ${compiled}
-      JSON.stringify(new CaseRepository(database).claimNextDue(new Date(${JSON.stringify(at)})));
+      JSON.stringify(new CaseRepository(database)[${JSON.stringify(operation)}](...${JSON.stringify(args)}, new Date(${JSON.stringify(at)})));
     `;
     const result = vm.unwrapResult(vm.evalCode(code, "tend-claim.js"));
     try {

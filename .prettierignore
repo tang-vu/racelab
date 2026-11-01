@@ -5,3 +5,6 @@ captures/
 package-lock.json
 # Retain the exact bytes of the one live repository-workload investigation.
 public/recordings/tend-claims.json
+public/recordings/comparison-study.json
+public/recordings/repository-validation.json
+demo/comparison-protocol.json

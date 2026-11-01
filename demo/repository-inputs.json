@@ -1,0 +1,34 @@
+[
+  {
+    "repository": "tang-vu/OpenMusic",
+    "commit": "bc7544b8412ed867b59c4d8b1097cdddb1661840",
+    "path": "src/lib/project-workspace.ts",
+    "blobSha": "a887ea82fd4fed7102f1dbac95d7234e570a660d",
+    "cacheName": "openmusic-project-workspace.ts",
+    "license": "No license file found; owned public source selected by Tang Vu"
+  },
+  {
+    "repository": "tang-vu/OpenMusic",
+    "commit": "bc7544b8412ed867b59c4d8b1097cdddb1661840",
+    "path": "src/stores/project-store.ts",
+    "blobSha": "0a5f0c50e53019e8fac0caf200544f2dcd3e090d",
+    "cacheName": "openmusic-project-store.ts",
+    "license": "No license file found; owned public source selected by Tang Vu"
+  },
+  {
+    "repository": "tang-vu/airules",
+    "commit": "c092eaf30c24e6735522284ce7c798071d4e64b0",
+    "path": "src/core/sync/diff.ts",
+    "blobSha": "4feeaa3306efbfe6b9f7b00d1409366f0b9fe10c",
+    "cacheName": "airules-diff.ts",
+    "license": "MIT"
+  },
+  {
+    "repository": "tang-vu/airules",
+    "commit": "c092eaf30c24e6735522284ce7c798071d4e64b0",
+    "path": "LICENSE",
+    "blobSha": "7097f5df1c1450e03f377be4fd109ca94b8d98ad",
+    "cacheName": "airules-LICENSE",
+    "license": "MIT"
+  }
+]

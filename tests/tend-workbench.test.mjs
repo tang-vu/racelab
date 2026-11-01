@@ -11,6 +11,7 @@ import { JSDOM, VirtualConsole } from "jsdom";
 import { TEND } from "../src/workloads/tend-source.mjs";
 import * as evidence from "../public/evidence-view.js";
 import * as view from "../public/tend-view.js";
+import * as investigation from "../public/investigation-view.js";
 import * as motionData from "../public/motion-data.js";
 const root = fileURLToPath(new URL("../", import.meta.url));
 const sourcePath = join(root, `.racelab/sources/tend-${TEND.commit}.ts`);
@@ -93,6 +94,7 @@ test(
     window.TextDecoder = TextDecoder;
     window.__evidence = evidence;
     window.__view = view;
+    window.__investigation = investigation;
     window.__motionData = motionData;
     window.matchMedia = () => ({ matches: false, addEventListener() {} });
     const downloads = [];
@@ -121,7 +123,7 @@ test(
       await readFile(join(root, "public/tend.js"), "utf8")
     ).replace(/^import[^\n]*\r?\n/gm, "");
     await window.eval(
-      `(async()=>{const{highlightSource}=window.__evidence;const{frameFor,eventText,methodDiff}=window.__view;\n${script}\n})()`,
+      `(async()=>{const{highlightSource}=window.__evidence;const{frameFor,eventText,methodDiff}=window.__view;const{renderInvestigation}=window.__investigation;\n${script}\n})()`,
     );
     const click = async (id) => {
       assert.equal($(id).disabled, false, id + " available");

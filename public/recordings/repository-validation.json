@@ -1,0 +1,509 @@
+{
+  "version": 1,
+  "createdAt": "2026-11-01T15:47:49.768Z",
+  "inputs": [
+    {
+      "repository": "tang-vu/OpenMusic",
+      "commit": "bc7544b8412ed867b59c4d8b1097cdddb1661840",
+      "path": "src/lib/project-workspace.ts",
+      "blobSha": "a887ea82fd4fed7102f1dbac95d7234e570a660d",
+      "cacheName": "openmusic-project-workspace.ts",
+      "license": "No license file found; owned public source selected by Tang Vu",
+      "sourceHash": "630d47ae7d0176e5a09b30807eb54e299fb1d079a06f19fd2305fbd7a8777ac9"
+    },
+    {
+      "repository": "tang-vu/OpenMusic",
+      "commit": "bc7544b8412ed867b59c4d8b1097cdddb1661840",
+      "path": "src/stores/project-store.ts",
+      "blobSha": "0a5f0c50e53019e8fac0caf200544f2dcd3e090d",
+      "cacheName": "openmusic-project-store.ts",
+      "license": "No license file found; owned public source selected by Tang Vu",
+      "sourceHash": "d391fdc27d8867ac67578f885e7fa522cb26d2092960b926f8ef6b4223747515"
+    },
+    {
+      "repository": "tang-vu/airules",
+      "commit": "c092eaf30c24e6735522284ce7c798071d4e64b0",
+      "path": "src/core/sync/diff.ts",
+      "blobSha": "4feeaa3306efbfe6b9f7b00d1409366f0b9fe10c",
+      "cacheName": "airules-diff.ts",
+      "license": "MIT",
+      "sourceHash": "3c2f858df1fe3b94eb61406f907828028621c182390c1ea198bb840a9c9aac7a"
+    },
+    {
+      "repository": "tang-vu/airules",
+      "commit": "c092eaf30c24e6735522284ce7c798071d4e64b0",
+      "path": "LICENSE",
+      "blobSha": "7097f5df1c1450e03f377be4fd109ca94b8d98ad",
+      "cacheName": "airules-LICENSE",
+      "license": "MIT",
+      "sourceHash": "af3848706963390ff3ff767624e808c0531e42146fcb557c3c713a9894e0b55a"
+    }
+  ],
+  "openmusic": {
+    "engine": "openmusic-workspace-memory-v1",
+    "inputs": [
+      {
+        "repository": "tang-vu/OpenMusic",
+        "commit": "bc7544b8412ed867b59c4d8b1097cdddb1661840",
+        "path": "src/stores/project-store.ts",
+        "blobSha": "0a5f0c50e53019e8fac0caf200544f2dcd3e090d",
+        "cacheName": "openmusic-project-store.ts",
+        "license": "No license file found; owned public source selected by Tang Vu",
+        "sourceHash": "d391fdc27d8867ac67578f885e7fa522cb26d2092960b926f8ef6b4223747515"
+      },
+      {
+        "repository": "tang-vu/OpenMusic",
+        "commit": "bc7544b8412ed867b59c4d8b1097cdddb1661840",
+        "path": "src/lib/project-workspace.ts",
+        "blobSha": "a887ea82fd4fed7102f1dbac95d7234e570a660d",
+        "cacheName": "openmusic-project-workspace.ts",
+        "license": "No license file found; owned public source selected by Tang Vu",
+        "sourceHash": "630d47ae7d0176e5a09b30807eb54e299fb1d079a06f19fd2305fbd7a8777ac9"
+      }
+    ],
+    "passed": true,
+    "tested": 14,
+    "checks": [
+      {
+        "name": "Unknown project rejected",
+        "actual": false,
+        "expected": false,
+        "passed": true
+      },
+      {
+        "name": "Stale selection preserves state",
+        "actual": "{\"projects\":[{\"id\":\"a\",\"name\":\"A\",\"createdAt\":1,\"updatedAt\":1,\"data\":{\"lyrics\":\"old A\",\"beats\":{\"bpm\":120,\"pattern\":[[false]]}}},{\"id\":\"b\",\"name\":\"B\",\"createdAt\":2,\"updatedAt\":2,\"data\":{\"lyrics\":\"saved B\",\"beats\":{\"bpm\":91,\"pattern\":[[false,true]]}}}],\"currentProjectId\":\"a\"}",
+        "expected": "{\"projects\":[{\"id\":\"a\",\"name\":\"A\",\"createdAt\":1,\"updatedAt\":1,\"data\":{\"lyrics\":\"old A\",\"beats\":{\"bpm\":120,\"pattern\":[[false]]}}},{\"id\":\"b\",\"name\":\"B\",\"createdAt\":2,\"updatedAt\":2,\"data\":{\"lyrics\":\"saved B\",\"beats\":{\"bpm\":91,\"pattern\":[[false,true]]}}}],\"currentProjectId\":\"a\"}",
+        "passed": true
+      },
+      {
+        "name": "Selecting current project succeeds",
+        "actual": true,
+        "expected": true,
+        "passed": true
+      },
+      {
+        "name": "Selecting current project preserves unsaved draft",
+        "actual": "draft A",
+        "expected": "draft A",
+        "passed": true
+      },
+      {
+        "name": "Existing project switch succeeds",
+        "actual": true,
+        "expected": true,
+        "passed": true
+      },
+      {
+        "name": "Outgoing lyrics saved",
+        "actual": "draft A",
+        "expected": "draft A",
+        "passed": true
+      },
+      {
+        "name": "Outgoing beat state saved",
+        "actual": {
+          "bpm": 137,
+          "pattern": [
+            [
+              true,
+              false
+            ]
+          ]
+        },
+        "expected": {
+          "bpm": 137,
+          "pattern": [
+            [
+              true,
+              false
+            ]
+          ]
+        },
+        "passed": true
+      },
+      {
+        "name": "Incoming project loaded",
+        "actual": [
+          "saved B",
+          91,
+          [
+            [
+              false,
+              true
+            ]
+          ]
+        ],
+        "expected": [
+          "saved B",
+          91,
+          [
+            [
+              false,
+              true
+            ]
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "name": "Immediate second switch succeeds",
+        "actual": true,
+        "expected": true,
+        "passed": true
+      },
+      {
+        "name": "Latest outgoing draft saved",
+        "actual": "new B",
+        "expected": "new B",
+        "passed": true
+      },
+      {
+        "name": "Latest outgoing BPM saved",
+        "actual": 155,
+        "expected": 155,
+        "passed": true
+      },
+      {
+        "name": "Original draft restored",
+        "actual": "draft A",
+        "expected": "draft A",
+        "passed": true
+      },
+      {
+        "name": "Deleted target is stale",
+        "actual": false,
+        "expected": false,
+        "passed": true
+      },
+      {
+        "name": "Active project unchanged after stale target",
+        "actual": "a",
+        "expected": "a",
+        "passed": true
+      }
+    ],
+    "scope": "Unchanged pinned project store and switchProjectWorkspace, TypeScript stripped in QuickJS. Minimal in-memory Zustand create/persist and lyrics/beats facades; no browser persistence, React, audio, Tauri, OAuth or AI services. Synchronous repeated switching is a healthy control, not an async race or human usability trial."
+  },
+  "airules": {
+    "contract": "RaceLab-added minimum line-edit counts, not an upstream guarantee",
+    "verification": {
+      "passed": false,
+      "tested": 8,
+      "cases": [
+        {
+          "id": "unchanged",
+          "split": "development",
+          "passed": true,
+          "run": {
+            "engine": "airules-readonly-diff-v1",
+            "condition": "unchanged",
+            "sourceHash": "6f19499d13d6874d2851de3abe4d0586ffa97615d6805da4f9010ed90d463531",
+            "status": "completed",
+            "error": null,
+            "verdict": {
+              "passed": true,
+              "checks": [
+                {
+                  "name": "Read-only virtual file diff matches independent line-edit contract",
+                  "actual": [
+                    {
+                      "file": "CLAUDE.md",
+                      "tool": "claude",
+                      "status": "unchanged",
+                      "linesAdded": 0,
+                      "linesRemoved": 0
+                    }
+                  ],
+                  "expected": [
+                    {
+                      "file": "CLAUDE.md",
+                      "tool": "claude",
+                      "status": "unchanged",
+                      "linesAdded": 0,
+                      "linesRemoved": 0
+                    }
+                  ],
+                  "passed": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "added",
+          "split": "development",
+          "passed": true,
+          "run": {
+            "engine": "airules-readonly-diff-v1",
+            "condition": "added",
+            "sourceHash": "6f19499d13d6874d2851de3abe4d0586ffa97615d6805da4f9010ed90d463531",
+            "status": "completed",
+            "error": null,
+            "verdict": {
+              "passed": true,
+              "checks": [
+                {
+                  "name": "Read-only virtual file diff matches independent line-edit contract",
+                  "actual": [
+                    {
+                      "file": "CLAUDE.md",
+                      "tool": "claude",
+                      "status": "added",
+                      "linesAdded": 2,
+                      "linesRemoved": 0
+                    }
+                  ],
+                  "expected": [
+                    {
+                      "file": "CLAUDE.md",
+                      "tool": "claude",
+                      "status": "added",
+                      "linesAdded": 2,
+                      "linesRemoved": 0
+                    }
+                  ],
+                  "passed": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "replacement",
+          "split": "development",
+          "passed": false,
+          "run": {
+            "engine": "airules-readonly-diff-v1",
+            "condition": "replacement",
+            "sourceHash": "6f19499d13d6874d2851de3abe4d0586ffa97615d6805da4f9010ed90d463531",
+            "status": "completed",
+            "error": null,
+            "verdict": {
+              "passed": false,
+              "checks": [
+                {
+                  "name": "Read-only virtual file diff matches independent line-edit contract",
+                  "actual": [
+                    {
+                      "file": "CLAUDE.md",
+                      "tool": "claude",
+                      "status": "modified",
+                      "linesAdded": 0,
+                      "linesRemoved": 0
+                    }
+                  ],
+                  "expected": [
+                    {
+                      "file": "CLAUDE.md",
+                      "tool": "claude",
+                      "status": "modified",
+                      "linesAdded": 1,
+                      "linesRemoved": 1
+                    }
+                  ],
+                  "passed": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "middle-insert",
+          "split": "held-out",
+          "passed": true,
+          "run": {
+            "engine": "airules-readonly-diff-v1",
+            "condition": "middle-insert",
+            "sourceHash": "6f19499d13d6874d2851de3abe4d0586ffa97615d6805da4f9010ed90d463531",
+            "status": "completed",
+            "error": null,
+            "verdict": {
+              "passed": true,
+              "checks": [
+                {
+                  "name": "Read-only virtual file diff matches independent line-edit contract",
+                  "actual": [
+                    {
+                      "file": "CLAUDE.md",
+                      "tool": "claude",
+                      "status": "modified",
+                      "linesAdded": 1,
+                      "linesRemoved": 0
+                    }
+                  ],
+                  "expected": [
+                    {
+                      "file": "CLAUDE.md",
+                      "tool": "claude",
+                      "status": "modified",
+                      "linesAdded": 1,
+                      "linesRemoved": 0
+                    }
+                  ],
+                  "passed": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "middle-delete",
+          "split": "held-out",
+          "passed": true,
+          "run": {
+            "engine": "airules-readonly-diff-v1",
+            "condition": "middle-delete",
+            "sourceHash": "6f19499d13d6874d2851de3abe4d0586ffa97615d6805da4f9010ed90d463531",
+            "status": "completed",
+            "error": null,
+            "verdict": {
+              "passed": true,
+              "checks": [
+                {
+                  "name": "Read-only virtual file diff matches independent line-edit contract",
+                  "actual": [
+                    {
+                      "file": "CLAUDE.md",
+                      "tool": "claude",
+                      "status": "modified",
+                      "linesAdded": 0,
+                      "linesRemoved": 1
+                    }
+                  ],
+                  "expected": [
+                    {
+                      "file": "CLAUDE.md",
+                      "tool": "claude",
+                      "status": "modified",
+                      "linesAdded": 0,
+                      "linesRemoved": 1
+                    }
+                  ],
+                  "passed": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "reordered",
+          "split": "held-out",
+          "passed": false,
+          "run": {
+            "engine": "airules-readonly-diff-v1",
+            "condition": "reordered",
+            "sourceHash": "6f19499d13d6874d2851de3abe4d0586ffa97615d6805da4f9010ed90d463531",
+            "status": "completed",
+            "error": null,
+            "verdict": {
+              "passed": false,
+              "checks": [
+                {
+                  "name": "Read-only virtual file diff matches independent line-edit contract",
+                  "actual": [
+                    {
+                      "file": "CLAUDE.md",
+                      "tool": "claude",
+                      "status": "modified",
+                      "linesAdded": 0,
+                      "linesRemoved": 0
+                    }
+                  ],
+                  "expected": [
+                    {
+                      "file": "CLAUDE.md",
+                      "tool": "claude",
+                      "status": "modified",
+                      "linesAdded": 1,
+                      "linesRemoved": 1
+                    }
+                  ],
+                  "passed": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "trailing-empty",
+          "split": "held-out",
+          "passed": true,
+          "run": {
+            "engine": "airules-readonly-diff-v1",
+            "condition": "trailing-empty",
+            "sourceHash": "6f19499d13d6874d2851de3abe4d0586ffa97615d6805da4f9010ed90d463531",
+            "status": "completed",
+            "error": null,
+            "verdict": {
+              "passed": true,
+              "checks": [
+                {
+                  "name": "Read-only virtual file diff matches independent line-edit contract",
+                  "actual": [
+                    {
+                      "file": "CLAUDE.md",
+                      "tool": "claude",
+                      "status": "modified",
+                      "linesAdded": 1,
+                      "linesRemoved": 0
+                    }
+                  ],
+                  "expected": [
+                    {
+                      "file": "CLAUDE.md",
+                      "tool": "claude",
+                      "status": "modified",
+                      "linesAdded": 1,
+                      "linesRemoved": 0
+                    }
+                  ],
+                  "passed": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "omitted-known",
+          "split": "held-out",
+          "passed": true,
+          "run": {
+            "engine": "airules-readonly-diff-v1",
+            "condition": "omitted-known",
+            "sourceHash": "6f19499d13d6874d2851de3abe4d0586ffa97615d6805da4f9010ed90d463531",
+            "status": "completed",
+            "error": null,
+            "verdict": {
+              "passed": true,
+              "checks": [
+                {
+                  "name": "Read-only virtual file diff matches independent line-edit contract",
+                  "actual": [
+                    {
+                      "file": "CLAUDE.md",
+                      "tool": "unknown",
+                      "status": "deleted",
+                      "linesAdded": 0,
+                      "linesRemoved": 2
+                    }
+                  ],
+                  "expected": [
+                    {
+                      "file": "CLAUDE.md",
+                      "tool": "unknown",
+                      "status": "deleted",
+                      "linesAdded": 0,
+                      "linesRemoved": 2
+                    }
+                  ],
+                  "passed": true
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

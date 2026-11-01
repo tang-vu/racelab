@@ -1,0 +1,24 @@
+.investigation pre {
+  font: 11px/1.7 var(--mono);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 420px;
+  overflow: auto;
+  background: var(--surface);
+  padding: 18px;
+  border-radius: 8px;
+}
+.investigation details {
+  border-bottom: 1px solid var(--line);
+  padding: 14px 0;
+}
+.investigation summary {
+  cursor: pointer;
+  font: 500 14px/1.5 var(--studio-font);
+}
+.investigation p {
+  line-height: 1.6;
+}
+.native-live > details:has(.investigation) {
+  grid-column: 1 / -1;
+}

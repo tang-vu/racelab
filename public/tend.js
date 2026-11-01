@@ -1,5 +1,6 @@
 import { highlightSource } from "./evidence-view.js";
 import { frameFor, eventText, methodDiff } from "./tend-view.js";
+import { renderInvestigation } from "./investigation-view.js";
 
 const $ = (id) => document.getElementById(id);
 const esc = (value) =>
@@ -195,6 +196,7 @@ function verification() {
 }
 function accept(report) {
   state.report = report;
+  renderInvestigation($("native-investigation"), report);
   state.source = report.startingSource;
   state.original = new Map([
     ["normal", report.baseline],
@@ -250,6 +252,7 @@ function event(message) {
 function invalidate() {
   stopPlayback();
   state.report = null;
+  renderInvestigation($("native-investigation"), null);
   state.run = null;
   state.original.clear();
   state.step = 0;

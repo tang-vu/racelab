@@ -18,6 +18,10 @@
     "check:browser": "node scripts/check-browser.mjs",
     "prepare:tend": "node scripts/prepare-tend.mjs",
     "evaluate:tend": "node scripts/record-tend.mjs",
+    "prepare:repositories": "node scripts/prepare-repositories.mjs",
+    "evaluate:repositories": "node scripts/validate-repositories.mjs",
+    "evaluate:comparison": "node scripts/run-comparison.mjs",
+    "check:evidence": "node scripts/check-evidence.mjs",
     "format": "prettier . --write",
     "format:check": "prettier . --check"
   },
