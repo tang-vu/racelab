@@ -100,13 +100,15 @@
       <section class="explorer-section">
         <h2>Recompute locally.</h2>
         <pre>
-npm ci
+npm ci --ignore-scripts --no-audit --no-fund
 npm run prepare:tend
 npm run prepare:repositories
 npm test
 npm run evaluate:repositories
-node scripts/record-lifecycle.mjs
-npm run evaluate:comparison</pre>
+npm run evaluate:lifecycle
+npm run evaluate:comparison
+npm run evaluate:comparison:v2
+npm run evaluate:comparison:continuation</pre>
         <p>
           These commands make no model calls. Repository validation is not human
           feedback or productivity evidence. The original TEND investigation

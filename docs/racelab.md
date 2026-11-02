@@ -50,7 +50,7 @@ Related work: [Antithesis deterministic simulation testing](https://antithesis.c
 
 The local player is http://127.0.0.1:4174/film.html. The current edited movie shows original failure and the checked repair within twenty seconds, then public investigation artifacts, process tracing, lifecycle controls, additional repository checks and the comparison and disclosed continuation. It combines four actual Microsoft Edge interaction clips with four stills, generic narration and English captions. Eight chapters seek/play the corresponding scenes. It does not claim whole-application correctness, a full live investigation or external delivery guarantees.
 
-`demo/racelab-storyboard.json` contains the transcript; `demo/racelab-render-manifest.json` binds finished media and source captures by SHA-256. Actual clips/stills and browser provenance live in `docs/evidence-shots/`. Both earlier films and captures remain byte-preserved in archive paths. `npm run check:film` checks current and historical evidence. See [capture and rebuild notes](demo.md).
+`demo/racelab-storyboard.json` contains the transcript; `demo/racelab-render-manifest.json` binds finished media and source captures by SHA-256. Actual clips/stills and browser provenance live in `docs/evidence-shots/`. All three earlier films and their captures remain byte-preserved in archive paths. `npm run check:film` checks current and historical evidence. See [capture and rebuild notes](demo.md).
 
 ## Expanded evidence
 

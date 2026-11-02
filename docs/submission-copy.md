@@ -1,6 +1,6 @@
 # RaceLab: submission copy
 
-Prepared for Tang Vu to review and paste into the signed-in competition form. Do not interpret a prepared entry as a submitted entry or as confirmation of personal eligibility. Adapt the sections to the form's actual labels and character limits.
+Prepared for Tang Vu to review and paste into the signed-in competition form. [Answers mapped to the actual form fields supplied November 2](submission-form.md) are the primary paste-ready version. The longer sections below provide supporting detail. Do not interpret a prepared entry as a submitted entry or as confirmation of personal eligibility. Character limits and video URL validation still require the signed-in form.
 
 ## Project name
 
@@ -58,7 +58,7 @@ The TEND adapter executes one verified method, not the full application. RaceLab
 
 The three store studies execute authored JavaScript handlers against a simulated asynchronous store. Their retained candidates pass 11 schedules / 4 inputs, 29 / 4 and 11 / 4 respectively. Simple scheduling baselines also expose the original failures.
 
-The video combines actual Microsoft Edge UI interaction clips with stills, generic synthetic English narration and captions; preparation and model waiting are omitted. Failure and the checked retained repair appear within twenty seconds. Its opening identifies new work, reused event infrastructure and the existing TEND input. Both previous movies are preserved.
+The video combines actual Microsoft Edge UI interaction clips with stills, generic synthetic English narration and captions; preparation and model waiting are omitted. Failure and the checked retained repair appear within twenty seconds. Its opening identifies new work, reused event infrastructure and the existing TEND input. All three previous movies are preserved.
 
 ## Submission links
 

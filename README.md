@@ -2,7 +2,7 @@
 
 **It passes alone. It breaks together.** Execute JavaScript handlers under controlled concurrent store operations. Let Meta propose the failing overlap and a source repair. Check the repair against an independent acceptance contract and additional inputs.
 
-**[Watch the public three-minute demo](https://racelab-tang-vu.tang-vu.chatgpt.site)** · **[Source and setup](https://github.com/tang-vu/racelab)** · [Submission copy](docs/submission-copy.md)
+**[Watch the public three-minute demo](https://racelab-tang-vu.tang-vu.chatgpt.site)** · **[Source and setup](https://github.com/tang-vu/racelab)** · [Submission form answers](docs/submission-form.md)
 
 The public review page hosts the video and an **[interactive recorded evidence explorer](https://racelab-tang-vu.tang-vu.chatgpt.site/evidence.html)**: A/B source, conditions, process trace, public Meta hypothesis/probe/diff and actual/expected checks. **[Evaluation and limits](https://racelab-tang-vu.tang-vu.chatgpt.site/evaluation.html)** includes additional owned repositories, deeper lifecycle controls and every planned comparison arm. Static replay does not execute code. The complete Node/SQLite workbench runs locally; recorded rechecks need no API key.
 
@@ -56,8 +56,10 @@ npm test
 npm run evaluate
 npm run evaluate:tend
 npm run evaluate:repositories
-node scripts/record-lifecycle.mjs
-node scripts/run-comparison-v2.mjs
+npm run evaluate:lifecycle
+npm run evaluate:comparison
+npm run evaluate:comparison:v2
+npm run evaluate:comparison:continuation
 npm run check:film
 npm run check:browser # optional: installed Microsoft Edge and a running local server
 npm run check:evidence # recorded explorer/evaluation, same browser requirement

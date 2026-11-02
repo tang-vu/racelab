@@ -2,7 +2,7 @@
 
 Owner: Tang Vu. Track: Indie Developer. Intended theme: Build for Your World. Contributor/approval status must match the actual accepted team on the submission platform; no collaborators have been added by this implementation.
 
-**One-line pitch:** A passing sequential test can hide a race. RaceLab lets Meta reproduce the overlap, propose a source repair, and face a fixed executable contract.
+**One-line pitch:** RaceLab turns Meta-generated repairs into replayable experiments, with independently checked failures and fixes.
 
 **Opening disclosure for the video:** "RaceLab is new hackathon work by Tang Vu. It reuses the Meta integration and local infrastructure from the earlier event prototype, LiveWorld."
 
@@ -20,7 +20,7 @@ Owner: Tang Vu. Track: Indie Developer. Intended theme: Build for Your World. Co
 
 **Expanded evidence:** the public recorded explorer exposes A/B, conditions, committed process tracing, public Meta hypothesis/request fields, candidate diff and actual/expected checks. A separate real-process lifecycle adapter has a ten-condition authored control with in-candidate ownership guards. Pinned OpenMusic/airules source checks retain healthy and new-contract-failing results. All12 planned comparison arms were attempted once across the stopped amended study and a disclosed post-hoc continuation: feedback 6/6 complete-arm held-out passes, direct 4/6. No failed attempt was repeated. Two feedback lifecycle candidates pass ten conditions; authored controls and original setup/truncation/invalid-SQL failures remain separate. No human feedback or general superiority is claimed. [Exact evidence and limits](evaluation.md).
 
-**Current video:** the November 1 edited three-minute film shows original failure and the checked retained repair within twenty seconds, then investigation, process tracing, lifecycle/source controls and the comparison and disclosed continuation. Four actual Microsoft Edge interaction clips and four stills accompany generic narration and English captions; preparation/model waiting is omitted. The opening distinguishes new work and existing inputs. Eight chapters seek/play the scenes. Both earlier movies remain byte-preserved. [Capture provenance](demo.md).
+**Current video:** the November 1 edited three-minute film shows original failure and the checked retained repair within twenty seconds, then investigation, process tracing, lifecycle/source controls and the comparison and disclosed continuation. Four actual Microsoft Edge interaction clips and four stills accompany generic narration and English captions; preparation/model waiting is omitted. The opening distinguishes new work and existing inputs. Eight chapters seek/play the scenes. All three earlier movies remain byte-preserved. [Capture provenance](demo.md).
 
 **Rules checked November 1:** the full rendered [Official Rules and waiver](https://cerebralvalley.ai/e/meta-ai-developer-hackathon/waiver) state Impact 30%, Meta AI tooling 25%, Technical depth/execution 20%, Demo 25%. The supplied CV FAQ additionally specifies a public repository, three-minute demo, all contributor names, a standalone event-work extract and a video opening that identifies old/new work. Collaborators must be approved participants. Do not submit earlier features as new RaceLab contributions or invent an AI submission-filter rule.
 

@@ -2,18 +2,18 @@
 
 Open `http://127.0.0.1:4174/film.html` after `npm start`, or use the [public review player](https://racelab-tang-vu.tang-vu.chatgpt.site). The current 179.904-second film combines four actual Microsoft Edge interaction clips with four application stills. It has generic Microsoft Zira narration, English captions and eight chapter controls. Preparation and model waiting are omitted; the movie is edited, not a continuous end-to-end live investigation.
 
-| Start | Scene                                                                                         |
-| ----- | --------------------------------------------------------------------------------------------- |
-| 00:00 | Original failure → checked retained Meta candidate within twenty seconds; concise attribution |
-| 00:20 | Verified source, real SQLite and original adapter boundary                                    |
-| 00:42 | Interactive committed-state process trace                                                     |
-| 01:06 | Retained public hypothesis, failed probe, candidate diff and independent checks               |
-| 01:31 | Authored lifecycle control: contention, commit interruption and renewal                       |
-| 01:55 | OpenMusic healthy checks and airules new-contract failures                                    |
-| 02:17 | Incomplete direct/feedback comparison, no pass-count advantage and retained failures          |
-| 02:40 | Public recorded exploration and keyless local reproduction                                    |
+| Start | Scene                                                                                                |
+| ----- | ---------------------------------------------------------------------------------------------------- |
+| 00:00 | Original failure → checked retained Meta candidate within twenty seconds; concise attribution        |
+| 00:20 | Verified source, real SQLite and original adapter boundary                                           |
+| 00:42 | Interactive committed-state process trace                                                            |
+| 01:06 | Retained public hypothesis, failed probe, candidate diff and independent checks                      |
+| 01:31 | Meta lifecycle candidate and separate authored controls: contention, commit interruption and renewal |
+| 01:55 | OpenMusic healthy checks and airules new-contract failures                                           |
+| 02:17 | All 12 attempted comparison arms, disclosed post-hoc continuation and retained failures              |
+| 02:40 | Public recorded exploration and keyless local reproduction                                           |
 
-The [explorer](https://racelab-tang-vu.tang-vu.chatgpt.site/evidence.html) displays recorded evidence; it does not run SQLite remotely. The local workbench recomputes the unchanged original Meta proposal. [Evaluation](evaluation.md) distinguishes original/added contracts, authored controls, incomplete study outcomes and code validation from human feedback.
+The [explorer](https://racelab-tang-vu.tang-vu.chatgpt.site/evidence.html) displays recorded evidence; it does not run SQLite remotely. The local workbench recomputes the unchanged original Meta proposal. [Evaluation](evaluation.md) distinguishes original/added contracts, authored controls, the original stopped study and disclosed continuation, and code validation from human feedback.
 
 ## Source and authorship
 
@@ -37,4 +37,4 @@ node scripts/render-demo.mjs .racelab/film-evidence
 npm.cmd run check:film
 ```
 
-The capture helper currently identifies this machine's FFmpeg directory; adapt it for a different machine. Playwright captures the actual application in fresh contexts and blocks paid endpoints. Raw recordings, WAVs, intermediate media and local font stay ignored. Source clips/stills and their registry are retained in the repository. Context shutdown can append final frames; trim offsets use measured action start rather than total file duration. The renderer checks source hashes, 30 fps motion, narration tempo (at most 1.16x), final video dimensions/timing/audio/subtitle tracks before promotion. The checker verifies both historical archives too. No competition submission or LAN deployment is part of this workflow.
+The capture helper currently identifies this machine's FFmpeg directory; adapt it for a different machine. Playwright captures the actual application in fresh contexts and blocks paid endpoints. Raw recordings, WAVs, intermediate media and local font stay ignored. Source clips/stills and their registry are retained in the repository. Context shutdown can append final frames; trim offsets use measured action start rather than total file duration. The renderer checks source hashes, 30 fps motion, narration tempo (at most 1.16x), final video dimensions/timing/audio/subtitle tracks before promotion. The checker verifies all three historical archives too. No competition submission or LAN deployment is part of this workflow.
