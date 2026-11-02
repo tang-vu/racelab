@@ -295,8 +295,7 @@ try {
     "Film: actual metadata, decoded playback, all eight chapter seeks, captions and narrow layout passed.",
   );
   const after = await status();
-  assert.equal(after.budget.requests, before.budget.requests);
-  assert.equal(after.budget.spentUsd, before.budget.spentUsd);
+  assert.deepEqual(after.budget, before.budget);
   assert.equal(report.paidAttempts, 0);
   assert.deepEqual(report.errors, []);
   report.passed = true;

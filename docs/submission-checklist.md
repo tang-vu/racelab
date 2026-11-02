@@ -1,5 +1,7 @@
 # Submission readiness
 
+**Executable hosting update, November 2:** the public Site still hosts video and recorded evidence. A separate real Node/SQLite judge container is built and verified, with a Free Render Blueprint and no credentials or ledger. Its public deployment is **pending hosting account connection**. Do not describe the static Site as the executable workbench or claim a live app URL before anonymous deployment checks pass. [Hosting setup and checks](hosting.md).
+
 **November 2 preflight:** the engineering and evidence package is ready for final form review. A new anonymous clone of `ffe47b0` passed fresh installation, pinned-source preparation, 48/48 tests and every offline check. The representative still needs to review personal answers, confirm the form accepts the video URL, accept acknowledgments if appropriate, and submit. [Answers for the actual supplied form](submission-form.md).
 
 ## Prepared assets

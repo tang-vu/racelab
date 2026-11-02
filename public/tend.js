@@ -37,7 +37,7 @@ async function api(path, body) {
   );
   const result = await response.json();
   if (!response.ok)
-    throw new Error(result.error ?? "The local experiment could not finish.");
+    throw new Error(result.error ?? "The experiment could not finish.");
   return result;
 }
 function status(message, error = false) {
@@ -192,7 +192,7 @@ function verification() {
   $("native-verification").hidden = !result;
   if (!result) return;
   $("native-verification").innerHTML =
-    `<strong>${result.passed ? "CHECKED" : "FAILED"} / ${result.cases.filter((item) => item.passed).length} OF ${result.tested} CONDITIONS</strong><p>${esc(state.report.model)}. Executed locally against the fixed recovery contract.<br>Ten finite conditions; completion uses RaceLab's fixed generation guard.</p><div class="native-matrix">${result.cases.map((item) => `<button data-native-condition="${esc(item.id)}" class="${item.passed ? "" : "failed"}"><span>${esc(item.title)}</span><strong>${item.passed ? "PASS" : "FAIL"}</strong></button>`).join("")}</div>`;
+    `<strong>${result.passed ? "CHECKED" : "FAILED"} / ${result.cases.filter((item) => item.passed).length} OF ${result.tested} CONDITIONS</strong><p>${esc(state.report.model)}. Executed against the fixed recovery contract.<br>Ten finite conditions; completion uses RaceLab's fixed generation guard.</p><div class="native-matrix">${result.cases.map((item) => `<button data-native-condition="${esc(item.id)}" class="${item.passed ? "" : "failed"}"><span>${esc(item.title)}</span><strong>${item.passed ? "PASS" : "FAIL"}</strong></button>`).join("")}</div>`;
 }
 function accept(report) {
   state.report = report;
@@ -314,7 +314,7 @@ $("native-recorded").addEventListener("click", () =>
         recorded: true,
       });
       event(
-        `Recorded Meta investigation. Re-executed locally: ${report.recordedRequests ?? "—"} original requests; no new model calls.`,
+        `Recorded Meta investigation. Re-executed: ${report.recordedRequests ?? "—"} original requests; no new model calls.`,
       );
       for (const patch of report.patches) event(patch.explanation);
       accept(report);
@@ -473,21 +473,36 @@ try {
   state.configured =
     connection.configured &&
     connection.authorized &&
-    !connection.budget.blocked;
+    !connection.budget?.blocked;
   $("source-link").href = input.sourceUrl;
   $("source-proof").textContent =
     `SOURCE VERIFIED / ${input.commit.slice(0, 12)} / MIT`;
-  $("native-connection").textContent = state.configured
-    ? "Meta ready · local SQLite runner"
-    : "Keyless · local SQLite runner";
+  $("native-connection").textContent =
+    connection.runner === "hosted"
+      ? "Online lab · real SQLite execution"
+      : state.configured
+        ? "Meta ready · local SQLite runner"
+        : "Keyless · local SQLite runner";
   $("native-condition").innerHTML = input.conditions
     .map(
       (item) => `<option value="${esc(item.id)}">${esc(item.title)}</option>`,
     )
     .join("");
   $("native-condition").value = "crash-restart";
-  $("native-agent-note").textContent =
-    "New investigation: up to 6 model turns and 2 patches. The displayed method and synthetic execution feedback go to Meta. Existing app budget limits apply. Recorded rechecks make no new model calls.";
+  if (connection.mode === "public-recheck") {
+    $("native-investigation").querySelector("p").textContent =
+      "Choose Check Meta repair to inspect the retained hypotheses, tool requests, source diff and fresh execution results.";
+    $("native-agent").hidden = true;
+    const guide = $("native-agent").closest("details");
+    guide.open = true;
+    guide.querySelector("summary").innerHTML =
+      "Try the online lab <span>+</span>";
+    $("native-agent-note").textContent =
+      "Choose Check Meta repair to execute the retained candidate against ten conditions. Edit source, run an experiment or reopen an exported regression. No API key or sign-in is needed. New model investigations are available in a private installation.";
+  } else {
+    $("native-agent-note").textContent =
+      "New investigation: up to 6 model turns and 2 patches. The displayed method and synthetic execution feedback go to Meta. Existing app budget limits apply. Recorded rechecks make no new model calls.";
+  }
   code();
   await perform(
     "Checking the pinned method before and after interruption…",

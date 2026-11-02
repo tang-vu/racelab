@@ -22,8 +22,8 @@ const root = dirname(fileURLToPath(import.meta.url));
 const config = readConfig();
 const runtime = readRuntimeConfig();
 const dataDirectory = config.dataDirectory;
-const ledger = await openLedger(config);
-const client = new MetaClient(config, ledger);
+const ledger = runtime.judge ? null : await openLedger(config);
+const client = runtime.judge ? null : new MetaClient(config, ledger);
 const port = runtime.port;
 const access = new DemoAccess(runtime);
 let paidBusy = false;
@@ -88,6 +88,16 @@ const server = createServer(async (req, res) => {
   try {
     if (req.method === "GET" && url.pathname === "/healthz")
       return json(res, 200, { ok: true });
+    if (
+      runtime.judge &&
+      req.method === "POST" &&
+      ["/api/racelab/agent", "/api/workloads/tend/agent"].includes(url.pathname)
+    )
+      return json(res, 403, {
+        error:
+          "This public lab re-executes retained Meta repairs. New model investigations require a private installation.",
+        code: "PUBLIC_RECHECK_ONLY",
+      });
     if (req.method === "POST" && url.pathname === "/api/access") {
       const body = await readBody(req);
       const result = access.unlock(body.code);
@@ -112,10 +122,12 @@ const server = createServer(async (req, res) => {
     if (req.method === "GET" && url.pathname === "/api/status")
       return json(res, 200, {
         configured: Boolean(config.key),
+        mode: runtime.judge ? "public-recheck" : "workbench",
+        runner: runtime.publicOrigin ? "hosted" : "local",
         model: config.model,
         accessRequired: access.required(),
         authorized: access.authorized(req),
-        budget: await ledger.summary(),
+        budget: ledger ? await ledger.summary() : null,
       });
     if (req.method === "GET" && url.pathname === "/api/workloads/tend") {
       const bundle = await loadTend(dataDirectory, { fetchMissing: true });

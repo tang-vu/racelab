@@ -4,11 +4,22 @@ import { resolve } from "node:path";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 export function readConfig() {
-  try {
-    loadEnvFile(new URL("../.env.local", import.meta.url));
-  } catch (error) {
-    if (error.code !== "ENOENT")
-      throw new Error("Cannot load local configuration.");
+  const judge = process.env.RACELAB_JUDGE_MODE === "1";
+  if (judge) {
+    if (
+      process.env.MODEL_API_KEY?.trim() ||
+      process.env.RACELAB_LEDGER_DIR?.trim()
+    )
+      throw new Error(
+        "Public judge mode must have no model key or accounting ledger configured.",
+      );
+  } else {
+    try {
+      loadEnvFile(new URL("../.env.local", import.meta.url));
+    } catch (error) {
+      if (error.code !== "ENOENT")
+        throw new Error("Cannot load local configuration.");
+    }
   }
   const usd = (name, fallback) => {
     const raw = process.env[name] ?? String(fallback);

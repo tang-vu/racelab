@@ -31,6 +31,8 @@ Local execution, recorded Meta replay and report import/export work without an A
 
 The local extract uses the existing accounting ledger through an ignored `RACELAB_LEDGER_DIR` setting, preserving earlier spend and reservations. No ledger records are bundled. Code and dependencies are independent of the earlier checkout. For a fresh installation the default private data directory is `.racelab/`; if an external ledger is configured, it must exist and validate. File locking protects shared budget transactions. App accounting is not the provider account balance.
 
+The separate [public judge deployment](docs/hosting.md) runs the same Node/SQLite checks without loading local credentials or any accounting ledger. `Dockerfile` and `render.yaml` prepare a Free Render service; account connection and anonymous verification are required before a live workbench link can be shared. [Deploy to Render](https://render.com/deploy?repo=https://github.com/tang-vu/racelab).
+
 ## Try the experiment
 
 1. Open **The last seat**. The app executes a serial run and a controlled overlap locally: one passes, one commits two orders against one seat.

@@ -833,10 +833,12 @@ try {
   ]);
   state.fixtures = fixtures;
   state.configured = connection.configured;
-  state.authorized = connection.authorized && !connection.budget.blocked;
+  state.authorized = connection.authorized && !connection.budget?.blocked;
   $("connection").classList.add("ready");
   $("connection").innerHTML =
-    `<i></i>${state.configured ? "Meta ready · local runner" : "Keyless · local runner"}`;
+    `<i></i>${connection.runner === "hosted" ? "Online lab · real execution" : state.configured ? "Meta ready · local runner" : "Keyless · local runner"}`;
+  if (connection.mode === "public-recheck")
+    $("agent-button").closest("details").hidden = true;
   $("agent-note").textContent = state.configured
     ? "New investigation: up to 6 model turns and 2 patch proposals. Your handler goes to Meta. Existing app budget limits apply. Recorded replay makes no new model calls."
     : "No Meta key is configured. Local experiments, recorded replay and report recomputation still work. Live investigation is disabled.";

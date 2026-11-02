@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: racelab-judge
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /healthz
+    autoDeployTrigger: off
+    envVars:
+      - key: NODE_ENV
+        value: production

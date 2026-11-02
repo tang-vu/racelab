@@ -1,6 +1,9 @@
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
 
 export function readRuntimeConfig(env = process.env) {
+  if (env.RACELAB_JUDGE_MODE && env.RACELAB_JUDGE_MODE !== "1")
+    throw new Error("RACELAB_JUDGE_MODE must be 1 or unset.");
+  const judge = env.RACELAB_JUDGE_MODE === "1";
   const host = env.HOST ?? "127.0.0.1";
   const port = Number(env.PORT ?? 4174);
   if (!["127.0.0.1", "0.0.0.0"].includes(host))
@@ -26,11 +29,11 @@ export function readRuntimeConfig(env = process.env) {
   }
   if (host === "0.0.0.0" && !publicOrigin)
     throw new Error("A network listener requires RACELAB_PUBLIC_ORIGIN.");
-  if (publicOrigin && code.length < 24)
+  if (publicOrigin && !judge && code.length < 24)
     throw new Error(
       "A public server needs a demo access code of at least 24 characters.",
     );
-  return { host, port, publicOrigin, code };
+  return { host, port, publicOrigin, code: judge ? "" : code, judge };
 }
 
 const digest = (value) => createHash("sha256").update(value).digest();

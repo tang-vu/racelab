@@ -1,0 +1,12 @@
+**
+!package.json
+!package-lock.json
+!server.mjs
+!THIRD_PARTY_NOTICES.md
+!src/
+!src/**
+!public/
+!public/**
+!scripts/
+!scripts/serve-judge.mjs
+!scripts/prepare-judge.mjs

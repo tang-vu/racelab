@@ -61,6 +61,21 @@ test("origin, host and cross-site checks precede protected operations", () => {
   );
 });
 
+test("public judge mode needs no access code and retains origin and host restrictions", () => {
+  const runtime = readRuntimeConfig({
+    HOST: "0.0.0.0",
+    RACELAB_PUBLIC_ORIGIN: "https://racelab.test",
+    RACELAB_JUDGE_MODE: "1",
+  });
+  const access = new DemoAccess(runtime);
+  assert.equal(runtime.judge, true);
+  assert.equal(access.required(), false);
+  assert.equal(access.trusted(req()), true);
+  assert.equal(access.trusted(req({ origin: "https://attacker.test" })), false);
+  assert.equal(access.trusted(req({ host: "attacker.test" })), false);
+  assert.throws(() => readRuntimeConfig({ RACELAB_JUDGE_MODE: "true" }));
+});
+
 test("reviewer access uses expiring revocable HttpOnly cookies without the API key", () => {
   let now = 1000;
   const access = new DemoAccess(config(), () => now);
