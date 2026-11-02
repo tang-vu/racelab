@@ -2,9 +2,9 @@
 
 **It passes alone. It breaks together.** Execute JavaScript handlers under controlled concurrent store operations. Let Meta propose the failing overlap and a source repair. Check the repair against an independent acceptance contract and additional inputs.
 
-**[Watch the public three-minute demo](https://racelab-tang-vu.tang-vu.chatgpt.site)** · **[Source and setup](https://github.com/tang-vu/racelab)** · [Submission form answers](docs/submission-form.md)
+**[Run the online lab](https://racelab-judge.8ndwvxvrgt.workers.dev/tend.html)** · **[Watch the public three-minute demo](https://racelab-tang-vu.tang-vu.chatgpt.site)** · **[Source and setup](https://github.com/tang-vu/racelab)** · [Submission form answers](docs/submission-form.md)
 
-The public review page hosts the video and an **[interactive recorded evidence explorer](https://racelab-tang-vu.tang-vu.chatgpt.site/evidence.html)**: A/B source, conditions, process trace, public Meta hypothesis/probe/diff and actual/expected checks. **[Evaluation and limits](https://racelab-tang-vu.tang-vu.chatgpt.site/evaluation.html)** includes additional owned repositories, deeper lifecycle controls and every planned comparison arm. Static replay does not execute code. The complete Node/SQLite workbench runs locally; recorded rechecks need no API key.
+The online lab runs the actual Node/SQLite workbench on Cloudflare Containers, with no API key or sign-in needed for original execution, retained Meta repair checks and regression import/export. The separate public review page hosts the video and an **[interactive recorded evidence explorer](https://racelab-tang-vu.tang-vu.chatgpt.site/evidence.html)**: A/B source, conditions, process trace, public Meta hypothesis/probe/diff and actual/expected checks. **[Evaluation and limits](https://racelab-tang-vu.tang-vu.chatgpt.site/evaluation.html)** includes additional owned repositories, deeper lifecycle controls and every planned comparison arm. Static replay displays saved results; the online lab recomputes them.
 
 **New: [a real repository recovery experiment](docs/tend.md).** A pinned TypeScript method from TEND claims a job in real disposable SQLite. RaceLab kills the worker after the claim commits and starts another process on the same file. The original method leaves the job claimed; a retained Meta repair passes ten declared recovery conditions. Open **http://127.0.0.1:4174/tend.html** to inspect the source, process receipts, A/B, stale-owner rejection and replayable regression export.
 
@@ -31,7 +31,7 @@ Local execution, recorded Meta replay and report import/export work without an A
 
 The local extract uses the existing accounting ledger through an ignored `RACELAB_LEDGER_DIR` setting, preserving earlier spend and reservations. No ledger records are bundled. Code and dependencies are independent of the earlier checkout. For a fresh installation the default private data directory is `.racelab/`; if an external ledger is configured, it must exist and validate. File locking protects shared budget transactions. App accounting is not the provider account balance.
 
-The separate [public judge deployment](docs/hosting.md) runs the same Node/SQLite checks without loading local credentials or any accounting ledger. `Dockerfile` and `render.yaml` prepare a Free Render service; account connection and anonymous verification are required before a live workbench link can be shared. [Deploy to Render](https://render.com/deploy?repo=https://github.com/tang-vu/racelab).
+The [public judge deployment](docs/hosting.md) runs the same Node/SQLite checks on Cloudflare without loading local credentials or any accounting ledger. The container sleeps after inactivity and restarts on a new request; a cold visit can take longer. New paid model investigations remain available in private installations.
 
 ## Try the experiment
 

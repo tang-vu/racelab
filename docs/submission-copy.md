@@ -6,6 +6,12 @@ Prepared for Tang Vu to review and paste into the signed-in competition form. [A
 
 RaceLab
 
+## Try it online
+
+https://racelab-judge.8ndwvxvrgt.workers.dev/tend.html
+
+The Cloudflare-hosted workbench re-executes the real Node/SQLite experiments, retained Meta candidate and imported regressions without an API key or sign-in. The video/review page remains https://racelab-tang-vu.tang-vu.chatgpt.site . New model investigations are available in a private installation.
+
 ## One-line pitch
 
 RaceLab turns Meta-generated repairs into replayable experiments, with independently checked failures and fixes.

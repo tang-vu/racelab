@@ -26,7 +26,7 @@ A background worker can pass its normal test, commit a job claim, then stop and 
 
 The demo runs a pinned TypeScript method from the public TEND repository on real disposable SQLite. RaceLab terminates the worker after commit and restarts another process on the same database. The original fails the added recovery contract; a retained Muse Spark repair passes ten declared conditions. A separate lifecycle adapter tests competing workers, interruption before and after commit, lease renewal and stale-owner rejection, with ownership checks inside candidate source.
 
-Developers can compare A/B source, scrub process/SQL traces, inspect actual versus expected checks, and export a regression or method diff. Import runs the checks again instead of trusting saved PASS flags. A public recorded explorer makes the evidence inspectable without installation; the full workbench recomputes it locally without a model key.
+Developers can compare A/B source, scrub process/SQL traces, inspect actual versus expected checks, and export a regression or method diff. Import runs the checks again instead of trusting saved PASS flags. The real Node/SQLite workbench is publicly runnable without installation, a model key or sign-in: https://racelab-judge.8ndwvxvrgt.workers.dev/tend.html . A separate recorded explorer retains the original study artifacts.
 
 Tang Vu built the lab, adapters, Meta workflow and interface during the event, reusing earlier event transport/accounting infrastructure. TEND is an existing source input. These bounded experiments do not establish whole-application correctness or general repair performance.
 

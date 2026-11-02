@@ -42,7 +42,12 @@ export default {
         { status: 403 },
       );
     }
-    if (url.pathname.startsWith("/api/") || url.pathname === "/healthz") {
+    if (
+      url.pathname.startsWith("/api/") ||
+      url.pathname === "/healthz" ||
+      url.pathname.endsWith(".mp4")
+    ) {
+      // Static Assets ignores Range; Node serves MP4 byte ranges for real seeks.
       // One named instance enforces the backend's bounded experiment lock.
       const forwarded = new Request(request);
       forwarded.headers.delete("cf-container-target-port");

@@ -1,10 +1,22 @@
 # Public executable workbench
 
-The deployable judge edition runs the actual Node/SQLite harness. It is separate from the static video/evidence Site. Hosting is prepared and tested locally; a public workbench URL must be verified after connecting the hosting account.
+The public judge edition at **https://racelab-judge.8ndwvxvrgt.workers.dev/tend.html** runs the actual Node/SQLite harness on Cloudflare Containers. It is separate from the static video/evidence Site. The complete application, film and recorded explorers are also available under the Cloudflare Worker origin.
 
 Judges can run the pinned TEND original, kill the claimant, re-execute the retained Meta candidate against ten conditions, edit the supported method and export/reopen a regression. The store workbench also executes its supported handlers. New model investigations stay in private installations. Retained candidates are model outputs from the disclosed studies; a recheck makes no new model calls.
 
-## Deploy on Render
+## Cloudflare deployment
+
+`deploy/cloudflare/` is a separate, pinned CLI/Vite project using the existing `cf` login. Run `npm ci --ignore-scripts --no-audit --no-fund` there, then `cf workers types`, `npx tsc` and `cf deploy`. The installed cf CLI bundles a supported Node version; a separate installation requires Node 24.22+ or a version accepted by its pinned package.
+
+The Worker serves public assets and routes API/MP4 requests to one named container. MP4 uses Node's byte-range server because Static Assets ignores Range requests. The `basic` container has 0.25 vCPU, 1 GiB RAM, a maximum of one instance and a two-minute idle timeout. SSH and outbound internet are disabled. The public origin is allowlisted, previews are disabled and caller-controlled container-port headers are removed. Cold starts can take longer; no local computer or LAN server needs to stay online.
+
+The build uses the root `Dockerfile`, an unprivileged user, production dependencies and the hash-verified pinned TEND input. `RACELAB_CF_IMAGE` can select an already-published digest-pinned registry image. The initial deployed image was built by [the repository's manual image workflow](https://github.com/tang-vu/racelab/actions/runs/41476540415) at source `65aded04bcb8de4c0b443e76ad428b780e306343`. Temporary registry credentials were passed through GitHub Actions secrets and removed after publication; no model key, local configuration or ledger was supplied. The registry image digest is `sha256:e60f28a7d6a620c606d50abe7c473028212f2ce49133d054e918a0e04a0f6db6`.
+
+The manual image workflow needs fresh, short-lived registry credentials for each publication. It does not deploy automatically on pushes. An already-published image can be reused for a Worker-only update with `cf deploy --containers-rollout none`. The retained Render Blueprint is an optional alternative and is not the active host.
+
+Cloudflare Containers is a [metered product on Workers Paid](https://developers.cloudflare.com/containers/platform/pricing/), with included CPU/memory/disk allowances. The instance and idle limits bound scaling, not total account spend. Deployment used the existing authenticated account; no subscription-change command was issued. Experiment SQLite files are disposable, reports are downloaded to the visitor's device and private projects are not stored by this edition.
+
+## Optional Render deployment
 
 Use [Deploy to Render](https://render.com/deploy?repo=https://github.com/tang-vu/racelab), or connect Render and deploy this repository's `render.yaml`. The Blueprint selects one **Free Docker web service**, Singapore, `/healthz` and manual deployments. No database service, paid disk, API key, access code or accounting ledger is required. Review the selected Free plan before creating the service; do not upgrade or add billing implicitly.
 

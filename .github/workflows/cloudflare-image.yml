@@ -24,6 +24,7 @@ jobs:
           docker tag racelab-judge:ci "$image:$GITHUB_SHA"
           docker push "$image:$GITHUB_SHA"
           digest=$(docker image inspect "$image:$GITHUB_SHA" --format '{{index .RepoDigests 0}}')
+          digest="$image@${digest#*@}"
           printf 'RACELAB_IMAGE=%s\n' "$digest"
           printf 'Source: `%s`\n\nImage: `%s`\n' "$GITHUB_SHA" "$digest" >> "$GITHUB_STEP_SUMMARY"
           docker logout registry.cloudflare.com

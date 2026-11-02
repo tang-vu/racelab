@@ -5,8 +5,16 @@ import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 
 const base = process.env.RACELAB_BASE_URL ?? "http://127.0.0.1:4174";
-if (!/^http:\/\/(127\.0\.0\.1|localhost):\d+$/.test(base))
-  throw new Error("Browser review requires a loopback preview URL.");
+const reviewUrl = new URL(base);
+const loopback = /^http:\/\/(127\.0\.0\.1|localhost):\d+$/.test(base);
+const hosted =
+  process.env.RACELAB_PUBLIC_CHECK === "1" &&
+  reviewUrl.protocol === "https:" &&
+  reviewUrl.origin === base;
+if (!loopback && !hosted)
+  throw new Error(
+    "Choose a loopback preview, or explicitly enable RACELAB_PUBLIC_CHECK=1 for one HTTPS origin.",
+  );
 const output = new URL("../.racelab/browser-review/", import.meta.url);
 await mkdir(output, { recursive: true });
 const status = async () => (await fetch(base + "/api/status")).json();
@@ -41,8 +49,7 @@ async function capture(name, locator) {
   });
   report.sources[name] = {
     type: "app-screenshot",
-    method:
-      "Playwright / fresh Microsoft Edge context / actual local application",
+    method: `Playwright / fresh Microsoft Edge context / actual ${hosted ? "hosted" : "local"} application`,
     url: currentPage.url(),
     viewport: currentPage.viewportSize(),
     sha256: createHash("sha256")
@@ -73,6 +80,7 @@ try {
       acceptDownloads: true,
       reducedMotion: width === 320 ? "reduce" : "no-preference",
     });
+    context.setDefaultTimeout(60_000);
     await context.route("**/*", (route) => {
       const url = new URL(route.request().url());
       if (url.pathname.endsWith("/agent")) report.paidAttempts++;
@@ -227,12 +235,13 @@ try {
     await capture(`${width}-landing`);
     await context.close();
     console.log(
-      `Edge ${width}px: local baselines, layout${width === 1440 || width === 390 ? ", recorded repair, ten conditions and theme" : ""} passed.`,
+      `Edge ${width}px: executed baselines, layout${width === 1440 || width === 390 ? ", recorded repair, ten conditions and theme" : ""} passed.`,
     );
   }
   const filmContext = await browser.newContext({
     viewport: { width: 1440, height: 1000 },
   });
+  filmContext.setDefaultTimeout(60_000);
   const film = await filmContext.newPage();
   film.on("pageerror", (error) => report.errors.push(error.message));
   await film.goto(base + "/film.html");
