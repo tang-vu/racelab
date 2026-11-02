@@ -5,8 +5,8 @@
   "width": 1920,
   "height": 1080,
   "frameRate": "30/1",
-  "frames": 5396,
-  "videoSha256": "7a81e9edefba9225435f23cd0e6dfbbde4df85059167b2db17c67682c51a7411",
+  "frames": 5397,
+  "videoSha256": "ee97760f19cd462e2d745e384ebf46804850af52d2ddbfabd3d67b49c0deda98",
   "sourceDirectory": "docs/film-shots",
   "recording": "public/recordings/tend-claims.json",
   "recordingSha256": "91e2b1ffc0d4ac3940d537b5a7552f15977905743a3480eadfcc8b090480baee",
@@ -34,9 +34,10 @@
       "sourceFrames": 600,
       "sourceFrameRate": "30/1",
       "narrationSeconds": 15.645458,
-      "tempo": 1.0,
+      "tempo": 1,
       "editorialCrop": [650, 430, 720, 335],
-      "layoutSha256": "16e72991b980d2c44bc7022d76d823fc6df09f6353dfeafa72558dafc230a30c"
+      "layoutSha256": "16e72991b980d2c44bc7022d76d823fc6df09f6353dfeafa72558dafc230a30c",
+      "cameraMotion": "none"
     },
     {
       "id": "02-source",
@@ -48,9 +49,10 @@
       "sourceFrames": 1,
       "sourceFrameRate": "25/1",
       "narrationSeconds": 19.123084,
-      "tempo": 1.0,
+      "tempo": 1,
       "editorialCrop": [620, 570, 72, 238],
-      "layoutSha256": "747b818ad553082d8f4d2d570088fe8470757cb3e8caa047301bbc1d29830704"
+      "layoutSha256": "747b818ad553082d8f4d2d570088fe8470757cb3e8caa047301bbc1d29830704",
+      "cameraMotion": "none"
     },
     {
       "id": "03-process",
@@ -62,9 +64,10 @@
       "sourceFrames": 720,
       "sourceFrameRate": "30/1",
       "narrationSeconds": 15.690417,
-      "tempo": 1.0,
+      "tempo": 1,
       "editorialCrop": [650, 600, 720, 240],
-      "layoutSha256": "3ecdbaa9ae6c3abc24515cce43ab9b064f62fc8f9b7ede3e63ea977d661059e0"
+      "layoutSha256": "3ecdbaa9ae6c3abc24515cce43ab9b064f62fc8f9b7ede3e63ea977d661059e0",
+      "cameraMotion": "none"
     },
     {
       "id": "04-investigation",
@@ -76,9 +79,10 @@
       "sourceFrames": 749,
       "sourceFrameRate": "30/1",
       "narrationSeconds": 17.518833,
-      "tempo": 1.0,
+      "tempo": 1,
       "editorialCrop": [1250, 700, 72, 125],
-      "layoutSha256": "2c1f1f170761a19889d59c1bc8db06104b0d8219f74222cfa65126dae3500ea6"
+      "layoutSha256": "2c1f1f170761a19889d59c1bc8db06104b0d8219f74222cfa65126dae3500ea6",
+      "cameraMotion": "none"
     },
     {
       "id": "05-lifecycle",
@@ -90,9 +94,10 @@
       "sourceFrames": 1,
       "sourceFrameRate": "25/1",
       "narrationSeconds": 19.978792,
-      "tempo": 1.0,
+      "tempo": 1,
       "editorialCrop": [1240, 660, 72, 170],
-      "layoutSha256": "8d393fa68b2ca064a504772f01eef6f5d76b998c6f396f24653dd60463395626"
+      "layoutSha256": "8d393fa68b2ca064a504772f01eef6f5d76b998c6f396f24653dd60463395626",
+      "cameraMotion": "none"
     },
     {
       "id": "06-repositories",
@@ -106,7 +111,8 @@
       "narrationSeconds": 22.48975,
       "tempo": 1.1211241276171484,
       "editorialCrop": [1240, 710, 72, 125],
-      "layoutSha256": "5bcc7524fc977fe5d13bc7a71177555e6f23b24fa0f30f4ef5dfac9b09defc52"
+      "layoutSha256": "5bcc7524fc977fe5d13bc7a71177555e6f23b24fa0f30f4ef5dfac9b09defc52",
+      "cameraMotion": "none"
     },
     {
       "id": "07-comparison",
@@ -120,7 +126,8 @@
       "narrationSeconds": 23.614290999999998,
       "tempo": 1.1212863722697053,
       "editorialCrop": [1240, 650, 72, 125],
-      "layoutSha256": "304f8942f5009b655f05e61471783de8462915430824a4aa6c1bce7bd8b7e150"
+      "layoutSha256": "304f8942f5009b655f05e61471783de8462915430824a4aa6c1bce7bd8b7e150",
+      "cameraMotion": "none"
     },
     {
       "id": "08-explore",
@@ -132,9 +139,13 @@
       "sourceFrames": 600,
       "sourceFrameRate": "30/1",
       "narrationSeconds": 15.198374999999999,
-      "tempo": 1.0,
+      "tempo": 1,
       "editorialCrop": [650, 570, 720, 320],
-      "layoutSha256": "100a1d2d48a8056f1d8927cb4112b8564028d691bcaa8849fd9733861dfeb20f"
+      "layoutSha256": "100a1d2d48a8056f1d8927cb4112b8564028d691bcaa8849fd9733861dfeb20f",
+      "cameraMotion": "none"
     }
-  ]
+  ],
+  "cameraMotion": "none",
+  "audioPacketSha256": "8eabe8fd839fddec38e9626a370294b930b7817d29f73b73d8b3b6162df0808b",
+  "subtitlePacketSha256": "0dab727e2570bd9a234938f949aa64938cbfa69e3f8b4fa7e61b30b7492b59a0"
 }

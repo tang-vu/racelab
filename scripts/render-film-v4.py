@@ -170,7 +170,6 @@ for index, scene in enumerate(STORY["scenes"]):
         f"[1:v]crop={width}:{height}:{x}:{y},"
         "scale=1176:682:force_original_aspect_ratio=decrease:flags=lanczos,"
         "pad=1176:682:(ow-iw)/2:(oh-ih)/2:color=0xf7f8f4,setsar=1,fps=30,"
-        "zoompan=z='min(max(zoom,pzoom)+0.00006,1.045)':x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2':d=1:s=1176x682:fps=30,"
         "tpad=stop_mode=clone:stop_duration=2[ui];"
         "[0:v][ui]overlay=662:161:shortest=1,"
         f"fade=t=in:st=0:d=0.22,fade=t=out:st={seconds-.22}:d=0.22,format=yuv420p[v]"
@@ -213,6 +212,9 @@ assert 179.8 <= float(result["format"]["duration"]) <= 180
 assert {"audio", "subtitle"}.issubset({s["codec_type"] for s in result["streams"]})
 canonical = {"format":"racelab-demo-v4", "title":STORY["title"], "owner":"Tang Vu", "durationSeconds":180, "sourceDirectory":"docs/film-shots", "recording":"public/recordings/tend-claims.json", "recordingSha256":sha(ROOT / "public/recordings/tend-claims.json"), "disclosures":disclosures, "scenes":[{**s, "narration":" ".join(s["beats"])} for s in STORY["scenes"]]}
 render = {"format":"racelab-demo-render-v2", "storyboard":"demo/racelab-storyboard.json", "durationSeconds":float(result["format"]["duration"]), "width":1920, "height":1080, "frameRate":"30/1", "frames":int(video["nb_read_frames"]), "videoSha256":sha(movie), "sourceDirectory":"docs/film-shots", "recording":canonical["recording"], "recordingSha256":canonical["recordingSha256"], "narrationVoice":"Xiaomi MiMo / Mia (built-in English)", "ttsModel":STORY["ttsModel"], "asrModel":STORY["asrModel"], "captionTiming":SPEECH["timingMethod"], "soundBed":"Original procedural oscillators; no sampled music", "disclosures":disclosures, "scenes":manifest}
+render["cameraMotion"] = "none"
+for rendered_scene in render["scenes"]:
+    rendered_scene["cameraMotion"] = "none"
 (ROOT / "public/racelab-demo.mp4").write_bytes(movie.read_bytes())
 (ROOT / "demo/racelab-demo.srt").write_text(srt, encoding="utf8")
 (ROOT / "public/racelab-demo.vtt").write_text("WEBVTT\n\n" + "\n".join(f"{stamp(a).replace(',', '.')} --> {stamp(b).replace(',', '.')}\n{textwrap.fill(text, width=72)}\n" for a,b,text in captions), encoding="utf8")

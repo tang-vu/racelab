@@ -1,6 +1,6 @@
 # Current evidence demo
 
-Watch the [public three-minute player](https://racelab-tang-vu.tang-vu.chatgpt.site), or open `http://127.0.0.1:4174/film.html` after `npm start`. The November 2 film is 179.904 seconds, 1920x1080 at 30 fps. Four new Edge interaction clips and four stills are framed with close-ups, quiet motion, original graphics and a restrained synthesized sound bed. Xiaomi MiMo's built-in English Mia voice replaces the earlier Zira narration. No voice cloning is used.
+Watch the [public three-minute player](https://racelab-tang-vu.tang-vu.chatgpt.site), or open `http://127.0.0.1:4174/film.html` after `npm start`. The November 2 film is 179.904 seconds, 1920x1080 at 30 fps. Four new Edge interaction clips and four stills are framed with fixed close-ups, original graphics and a restrained synthesized sound bed. Xiaomi MiMo's built-in English Mia voice replaces the earlier Zira narration. No voice cloning is used.
 
 | Start | Scene                                                                                           |
 | ----- | ----------------------------------------------------------------------------------------------- |
@@ -13,7 +13,7 @@ Watch the [public three-minute player](https://racelab-tang-vu.tang-vu.chatgpt.s
 | 02:17 | Every attempted comparison arm and the disclosed continuation                                   |
 | 02:40 | Inspect online, recompute locally, export and challenge the regression                          |
 
-The public explorer displays retained evidence. It does not execute SQLite or call a model. The local workbench re-executes the unchanged original Meta proposal. The film is edited; preparation and model waiting are omitted. Camera crops and graphic summaries do not alter source, verdicts or receipts. The bounded adapters do not establish whole-application correctness or external-delivery guarantees.
+The public explorer displays retained evidence. It does not execute SQLite or call a model. The local workbench re-executes the unchanged original Meta proposal. The film is edited; preparation and model waiting are omitted. Camera crops stay fixed within each scene; the video adds no slow zoom or pan to the application. Genuine clicks, scrolling and replay changes remain. Graphic summaries do not alter source, verdicts or receipts. The bounded adapters do not establish whole-application correctness or external-delivery guarantees.
 
 ## Speech and captions
 
