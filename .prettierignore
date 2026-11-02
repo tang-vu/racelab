@@ -1,4 +1,5 @@
 node_modules/
+deploy/cloudflare/.cloudflare/
 .racelab/
 captures/
 .env*
