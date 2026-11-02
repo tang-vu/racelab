@@ -1,0 +1,110 @@
+{
+  "format": "racelab-browser-capture-v2",
+  "browser": "156.0.4314.58",
+  "capturedAt": "2026-11-02T12:26:28.672Z",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "sources": {
+    "01-result": {
+      "type": "app-recording",
+      "method": "Playwright video / fresh Microsoft Edge context / actual UI interactions; trimmed preparation, 30 fps conversion",
+      "url": "http://127.0.0.1:4188/evidence.html",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "6b101fa1170e51d418e0341dbe72520cfd1b12918cee2023c6a52d6565178382",
+      "rawSha256": "2bbc3a4a34536b1dbfcff68682fd66f29d05215aae478133c8fb0921bb44d741",
+      "trimStartSeconds": 0.824,
+      "rawDurationSeconds": 24.08,
+      "recordedSeconds": 20
+    },
+    "02-source": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4188/tend.html",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "3337e90f4d6cfe9dafed30d41484ff5e98dc1f8b3231a0b3cb90ab014d736e3b"
+    },
+    "03-process": {
+      "type": "app-recording",
+      "method": "Playwright video / fresh Microsoft Edge context / actual UI interactions; trimmed preparation, 30 fps conversion",
+      "url": "http://127.0.0.1:4188/evidence.html",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "5b1b8ebd2c397645809ba9b27369b6d0865475e0eb223dfa5c78abd748988bb3",
+      "rawSha256": "b5b6117fc7f0fa3b34b345d2782f75d4fbb14c31726c65bdcedf552101c6513c",
+      "trimStartSeconds": 0.478,
+      "rawDurationSeconds": 29,
+      "recordedSeconds": 24
+    },
+    "04-investigation": {
+      "type": "app-recording",
+      "method": "Playwright video / fresh Microsoft Edge context / actual UI interactions; trimmed preparation, 30 fps conversion",
+      "url": "http://127.0.0.1:4188/evidence.html",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "05e2e79b844dd6fbde246c3ea7710d8c55a36e5a420aabe5a30e1a5381c2bf89",
+      "rawSha256": "844d8d4c9dad59f13a7bf023a9ca33aa53082cf1e58c5e1c41d6301800d1214c",
+      "trimStartSeconds": 0.489,
+      "rawDurationSeconds": 31.68,
+      "recordedSeconds": 25
+    },
+    "05-lifecycle": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4188/evaluation.html",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "0014879f8a0e83ca4ac2a5a6a6d3d2baffb13ec588e3354ea65c960017fd7525"
+    },
+    "06-repositories": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4188/evaluation.html",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "8f8d20d096fa5a218a1f5725b52014cd4822f3bdbeee1187aac72931eb63cdec"
+    },
+    "07-comparison": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4188/evaluation.html",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "138cf4846351082844e3d8a4e41abd65beed1b3f7793c468316b441ce7f0d485"
+    },
+    "08-explore": {
+      "type": "app-recording",
+      "method": "Playwright video / fresh Microsoft Edge context / actual UI interactions; trimmed preparation, 30 fps conversion",
+      "url": "http://127.0.0.1:4188/evidence.html",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "4f7f38347e9d19dcfd63eb67423de915adbeb032a5c8ae1d93756d0947bde35c",
+      "rawSha256": "8b74f7f09752058f081d441d9addfdc7df8ce0a585fdfbb6abc619fc402463c6",
+      "trimStartSeconds": 0.586,
+      "rawDurationSeconds": 24.04,
+      "recordedSeconds": 20
+    }
+  },
+  "paidAttempts": 0,
+  "errors": [],
+  "passed": true
+}

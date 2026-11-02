@@ -50,7 +50,7 @@ A separate lifecycle adapter tests simultaneous claimants, real interruption bef
 
 Tang Vu built RaceLab's scheduling engine, independent contracts, Meta probe/patch workflow, repository adapter, interruption harness, A/B interface, replay/export, tests and demo during the event, starting October 29. It reuses Meta transport, budget accounting and local-serving infrastructure built for the earlier event prototype LiveWorld.
 
-TEND's existing MIT method and mapper are source inputs. QuickJS, Playwright, jsdom, Prettier and Google Sans Flex are third-party components, credited with their applicable notices. Meta supplies Muse Spark. FFmpeg and the installed Microsoft Zira voice provide media encoding and generic narration. Those models, libraries and tools are not claimed as RaceLab inventions.
+TEND's existing MIT method and mapper are source inputs. QuickJS, Playwright, jsdom, Prettier and Google Sans Flex are third-party components, credited with their applicable notices. Meta supplies Muse Spark. FFmpeg and Pillow provide media encoding and original graphic framing. Xiaomi MiMo TTS (Mia) and ASR provide narration and speech checks for the current film; they are media-production tools, separate from the Meta repair model. Those models, libraries and tools are not claimed as RaceLab inventions.
 
 ## Scope and evidence
 
@@ -58,7 +58,7 @@ The TEND adapter executes one verified method, not the full application. RaceLab
 
 The three store studies execute authored JavaScript handlers against a simulated asynchronous store. Their retained candidates pass 11 schedules / 4 inputs, 29 / 4 and 11 / 4 respectively. Simple scheduling baselines also expose the original failures.
 
-The video combines actual Microsoft Edge UI interaction clips with stills, generic synthetic English narration and captions; preparation and model waiting are omitted. Failure and the checked retained repair appear within twenty seconds. Its opening identifies new work, reused event infrastructure and the existing TEND input. All three previous movies are preserved.
+The video combines actual Microsoft Edge UI interaction clips with stills, Xiaomi MiMo synthetic English narration and ASR-checked captions; preparation and model waiting are omitted. Failure and the checked retained repair appear within twenty seconds. Its opening identifies new work, reused event infrastructure and the existing TEND input. All four previous movies are preserved.
 
 ## Submission links
 

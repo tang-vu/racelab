@@ -73,7 +73,7 @@ assert.deepEqual(
 assert.equal(sources.paidAttempts, 0);
 assert.equal(sources.passed, true);
 assert.deepEqual(sources.errors, []);
-assert.deepEqual(sources.viewport, { width: 1440, height: 700 });
+assert.deepEqual(sources.viewport, { width: 1440, height: 900 });
 assert.equal(story.scenes[0].kind, "browser");
 assert.equal(story.scenes[0].seconds, 20);
 const archive = JSON.parse(
@@ -118,6 +118,53 @@ for (const scene of tendArchive.scenes)
     await hash(`docs/tend-shots/${scene.source}`),
     scene.sourceSha256,
   );
+const ziraArchive = JSON.parse(
+  await read("demo/archive/evidence-zira-render-manifest.json"),
+);
+assert.equal(
+  await hash("public/archive/racelab-evidence-zira-demo.mp4"),
+  ziraArchive.videoSha256,
+);
+for (const scene of ziraArchive.scenes)
+  assert.equal(
+    await hash(`docs/evidence-shots/${scene.source}`),
+    scene.sourceSha256,
+  );
+const speech = JSON.parse(await read("demo/racelab-speech.json"));
+assert.equal(speech.ttsModel, "mimo-v2.5-tts");
+assert.equal(speech.asrModel, "mimo-v2.5-asr");
+assert.equal(speech.voice, "Mia");
+assert.equal(manifest.narrationVoice, "Xiaomi MiMo / Mia (built-in English)");
+assert.equal(speech.finalMixedAudioReview.model, "mimo-v2.5-asr");
+assert.ok(speech.finalMixedAudioReview.transcript.split(/\s+/).length > 250);
+assert.match(speech.timingMethod, /not provider word timestamps/);
+const cues = [
+  ...srt.matchAll(
+    /\d+\r?\n(\d\d:\d\d:\d\d,\d{3}) --> (\d\d:\d\d:\d\d,\d{3})\r?\n([\s\S]*?)(?=\r?\n\r?\n|$)/g,
+  ),
+];
+const time = (text) => {
+  const [hours, minutes, seconds, millis] = text.split(/[:,]/).map(Number);
+  return hours * 3600 + minutes * 60 + seconds + millis / 1000;
+};
+const beats = speech.scenes.flatMap((scene) => scene.beats);
+assert.equal(cues.length, beats.length);
+let previousEnd = 0;
+for (const [index, beat] of beats.entries()) {
+  assert.ok(beat.asrTranscript.trim());
+  assert.ok(beat.seconds > 0 && beat.seconds < 20);
+  assert.ok(Math.abs(time(cues[index][1]) - beat.captionStartSeconds) < 0.002);
+  assert.ok(Math.abs(time(cues[index][2]) - beat.captionEndSeconds) < 0.002);
+  assert.ok(time(cues[index][1]) >= previousEnd);
+  assert.ok(time(cues[index][2]) <= manifest.durationSeconds);
+  assert.equal(cues[index][3].replace(/\s+/g, " ").trim(), beat.text);
+  previousEnd = time(cues[index][2]);
+}
+for (const [index, scene] of speech.scenes.entries())
+  assert.equal(
+    scene.beats.map((beat) => beat.text).join(" "),
+    story.scenes[index].narration,
+  );
 console.log(
-  "RaceLab evidence film verified: actual Edge clips/stills, retained investigation, captions/transcript, chapters and all preserved earlier films.",
+  "RaceLab film verified: actual Edge clips/stills, MiMo TTS/ASR, measured caption bounds, retained investigation, chapters and all four preserved earlier films.",
 );

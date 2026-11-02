@@ -2,3 +2,5 @@
 *.jpg binary
 *.png binary
 *.mp4 binary
+# Exact snapshot of the previous film's metadata and captions.
+demo/archive/evidence-zira-* -text

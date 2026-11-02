@@ -1,0 +1,134 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:06.036
+A worker saved this claim, then stopped. The original
+leaves zero completions. Switch
+
+00:00:06.036 --> 00:00:12.071
+to the retained Meta candidate: the job recovers, and
+the check passes. This
+
+00:00:12.071 --> 00:00:18.107
+is RaceLab, built by Tang Vu with Meta. TEND and the
+event infrastructure
+
+00:00:18.107 --> 00:00:19.500
+are earlier inputs.
+
+00:00:20.000 --> 00:00:25.590
+The local workbench verifies a pinned public source
+revision. It executes the extracted
+
+00:00:25.590 --> 00:00:31.180
+TypeScript claim method in Quick J S, through a
+bounded bridge to real
+
+00:00:31.180 --> 00:00:36.770
+SQLite. Without interruption, the original works. The
+sixty second lease contract and this
+
+00:00:36.770 --> 00:00:41.500
+adapter's fixed completion guard are RaceLab
+additions, not upstream application guarantees.
+
+00:00:42.000 --> 00:00:47.657
+Step through the saved execution. Worker A claims the
+row and commits. RaceLab
+
+00:00:47.657 --> 00:00:53.315
+terminates that actual process and observes its exit.
+Worker B opens the same
+
+00:00:53.315 --> 00:00:58.972
+database after expiry. The original query ignores
+claimed rows. The job remains stuck.
+
+00:00:58.972 --> 00:01:04.630
+The candidate adds expired lease recovery. These are
+finite controlled sequences, not every
+
+00:01:04.630 --> 00:01:05.500
+possible schedule.
+
+00:01:06.000 --> 00:01:11.491
+Open the public investigation. Here is Meta's
+retained hypothesis, the requested crash probe,
+
+00:01:11.491 --> 00:01:16.983
+and the executed failure. Then inspect its candidate
+diff and independent checks. This
+
+00:01:16.983 --> 00:01:22.474
+original investigation used two requests and one
+candidate. The recording does not contain
+
+00:01:22.474 --> 00:01:27.966
+a complete raw transcript. The page exposes public
+artifacts, never hidden reasoning, and
+
+00:01:27.966 --> 00:01:30.500
+keeps the failure beside the repair.
+
+00:01:31.000 --> 00:01:36.875
+The lifecycle adapter puts claim, renewal and
+completion ownership checks inside candidate methods.
+
+00:01:36.875 --> 00:01:42.750
+The first feedback candidate passes all ten
+conditions: competing workers, interruption before
+and
+
+00:01:42.750 --> 00:01:48.625
+after commit, long job renewal and old token
+rejection. Its authored control stays
+
+00:01:48.625 --> 00:01:54.500
+separate. This bounded adapter does not repair
+upstream completion or guarantee external delivery.
+
+00:01:55.000 --> 00:02:00.590
+Two more public repositories widen the inputs.
+Unchanged OpenMusic code passes fourteen memory
+
+00:02:00.590 --> 00:02:06.180
+adapter checks. The airules diff function fails two
+of eight conditions under RaceLab's
+
+00:02:06.180 --> 00:02:11.770
+added line edit contract. That is a contract
+mismatch, not a concurrency finding.
+
+00:02:11.770 --> 00:02:16.500
+These bounded checks are not full application tests
+or human feedback.
+
+00:02:17.000 --> 00:02:23.223
+Across twelve arms, feedback passes in six attempts;
+direct repair, four. Direct failures
+
+00:02:23.223 --> 00:02:29.447
+include truncation and an invented SQL column. Seven
+previously unrun arms were collected
+
+00:02:29.447 --> 00:02:35.670
+under a separately frozen continuation after the
+stop. No failed attempt was retried.
+
+00:02:35.670 --> 00:02:39.500
+This small collection does not establish general
+superiority.
+
+00:02:40.000 --> 00:02:45.394
+Anyone can inspect the public recorded explorer,
+select conditions, compare methods, and scrub
+
+00:02:45.394 --> 00:02:50.787
+the trace. Download the unchanged evidence, then run
+the local workbench to recompute
+
+00:02:50.787 --> 00:02:56.181
+it without a model key. RaceLab makes a repair
+reviewable: source, hypothesis, execution,
+
+00:02:56.181 --> 00:02:59.500
+failure, and a clear boundary around what passed.

@@ -24,6 +24,10 @@ const story = JSON.parse(
 const sources = JSON.parse(
   await fs.readFile(path.join(capture, "sources.json"), "utf8"),
 );
+if (story.format === "racelab-demo-v4")
+  throw new Error(
+    "The current MiMo film uses scripts/render-film-v4.py. This legacy renderer is for archived storyboards.",
+  );
 const binary = (name) =>
   process.env.RACELAB_FFMPEG_DIR
     ? path.join(

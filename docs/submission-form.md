@@ -38,7 +38,7 @@ https://github.com/tang-vu/racelab
 
 https://racelab-tang-vu.tang-vu.chatgpt.site
 
-This public page plays the current 179.904-second film with English captions and eight chapters. Direct MP4: https://racelab-tang-vu.tang-vu.chatgpt.site/racelab-demo.mp4
+This public page plays the current 179.904-second film with English captions and eight chapters. The current narration uses Xiaomi MiMo TTS; MiMo ASR checks the speech and caption preparation. These are media tools; Muse Spark remains the repair model. Direct MP4: https://racelab-tang-vu.tang-vu.chatgpt.site/racelab-demo.mp4
 
 Use the public player URL if the field accepts it. If validation requires a particular video provider, satisfy that actual requirement before submitting; do not treat the placeholder as proof that the current URL is accepted. No YouTube upload has been performed.
 

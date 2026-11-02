@@ -1,40 +1,55 @@
 # Current evidence demo
 
-Open `http://127.0.0.1:4174/film.html` after `npm start`, or use the [public review player](https://racelab-tang-vu.tang-vu.chatgpt.site). The current 179.904-second film combines four actual Microsoft Edge interaction clips with four application stills. It has generic Microsoft Zira narration, English captions and eight chapter controls. Preparation and model waiting are omitted; the movie is edited, not a continuous end-to-end live investigation.
+Watch the [public three-minute player](https://racelab-tang-vu.tang-vu.chatgpt.site), or open `http://127.0.0.1:4174/film.html` after `npm start`. The November 2 film is 179.904 seconds, 1920x1080 at 30 fps. Four new Edge interaction clips and four stills are framed with close-ups, quiet motion, original graphics and a restrained synthesized sound bed. Xiaomi MiMo's built-in English Mia voice replaces the earlier Zira narration. No voice cloning is used.
 
-| Start | Scene                                                                                                |
-| ----- | ---------------------------------------------------------------------------------------------------- |
-| 00:00 | Original failure → checked retained Meta candidate within twenty seconds; concise attribution        |
-| 00:20 | Verified source, real SQLite and original adapter boundary                                           |
-| 00:42 | Interactive committed-state process trace                                                            |
-| 01:06 | Retained public hypothesis, failed probe, candidate diff and independent checks                      |
-| 01:31 | Meta lifecycle candidate and separate authored controls: contention, commit interruption and renewal |
-| 01:55 | OpenMusic healthy checks and airules new-contract failures                                           |
-| 02:17 | All 12 attempted comparison arms, disclosed post-hoc continuation and retained failures              |
-| 02:40 | Public recorded exploration and keyless local reproduction                                           |
+| Start | Scene                                                                                           |
+| ----- | ----------------------------------------------------------------------------------------------- |
+| 00:00 | A passing test, a missing job, the original failure and checked repair; event/input attribution |
+| 00:20 | Pinned source, a real worker and a database that survives its exit                              |
+| 00:42 | The committed trace and the explicit sixty-second recovery contract                             |
+| 01:06 | Meta's hypothesis, executed crash probe, candidate source and independent checks                |
+| 01:31 | Challenge recovery with contention, renewal and stale ownership                                 |
+| 01:55 | Additional source controls and retained failures                                                |
+| 02:17 | Every attempted comparison arm and the disclosed continuation                                   |
+| 02:40 | Inspect online, recompute locally, export and challenge the regression                          |
 
-The [explorer](https://racelab-tang-vu.tang-vu.chatgpt.site/evidence.html) displays recorded evidence; it does not run SQLite remotely. The local workbench recomputes the unchanged original Meta proposal. [Evaluation](evaluation.md) distinguishes original/added contracts, authored controls, the original stopped study and disclosed continuation, and code validation from human feedback.
+The public explorer displays retained evidence. It does not execute SQLite or call a model. The local workbench re-executes the unchanged original Meta proposal. The film is edited; preparation and model waiting are omitted. Camera crops and graphic summaries do not alter source, verdicts or receipts. The bounded adapters do not establish whole-application correctness or external-delivery guarantees.
 
-## Source and authorship
+## Speech and captions
 
-`demo/racelab-storyboard.json` contains the exact transcript, timings and disclosures. `demo/racelab-render-manifest.json` binds geometry, decoded frames, media/source/narration hashes and the unchanged original investigation. `docs/evidence-shots/sources.json` identifies actual Edge captures, viewport, raw recording hashes and preparation trim offsets. WebM clips are real UI interactions converted to 30 fps; PNGs are actual application screenshots. No generated UI mockups or fabricated receipts are used.
+The media workflow uses official [MiMo TTS](https://mimo.mi.com/docs/en-US/quick-start/usage-guide/audio/speech-synthesis-v2.5) and [MiMo ASR](https://mimo.mi.com/docs/en-US/quick-start/usage-guide/audio/Speech-Recognition). The repair model remains Meta Muse Spark. Only the public narration text and synthesized audio go to MiMo; application credentials, the Meta ledger and private source are not sent.
 
-The opening identifies new RaceLab work by Tang Vu and pre-existing TEND/event infrastructure. The original retained Muse Spark claim candidate is model work. The authored lifecycle control stays separate from new Meta feedback candidates passing all ten conditions. All12 planned arms are now attempted once across amended study and a disclosed post-hoc continuation; original output-cap/invalid-SQL failures remain, with no general superiority claim. English subtitles are timed approximately by narrated word groups, not a manually aligned verbatim audio transcription.
+Each selected speech beat was synthesized and transcribed separately. The complete final audio mix also passed an ASR review. `demo/racelab-speech.json` retains the selected texts, unedited ASR output, audio hashes and caption bounds. Captions retain authored spelling of names such as TEND and airules; ASR's proper-name differences and occasional list-prefix artifacts remain visible in the raw transcript. Times come from actual trimmed speech clips, normalization and bounded tempo adjustment, not fabricated provider word timestamps or uniform word spacing. This is phrase-level alignment, not a claim of phoneme-perfect forced alignment.
 
-Three earlier movies are byte-preserved, including `public/archive/racelab-evidence-partial-demo.mp4` from before the continuation. The two earlier sources are: `public/archive/racelab-store-demo.mp4` and `public/archive/racelab-tend-demo.mp4`, with captions/posters and matching storyboard/render/SRT files in `demo/archive/`. Their original captures remain in `docs/racelab-shots/` and `docs/tend-shots/`.
+The final mix measures approximately -16.34 LUFS integrated and -3.94 dBTP using FFmpeg loudness analysis. The bed is generated from elementary oscillators by the renderer, with no sampled commercial music. Media iterations are separate from frozen repair experiments; they do not rerun, replace or select repair outcomes. MiMo's separate media credential and request records remain private, with no automatic transport retry.
 
-## Reproduce and verify
+## Provenance and archives
 
-`npm run check:browser` checks the keyless local workbench, actual downloads/import, themes, recorded A/B and media. `npm run check:evidence` checks recorded trace controls, missing original conditions, integrity rejection and the complete planned evaluation matrix at 1440, 768, 390 and 320 pixels. Both use fresh installed Microsoft Edge contexts and block paid endpoints. Mobile checks are viewport emulation, not physical phones.
+`demo/racelab-storyboard.json` and `demo/racelab-film-v4.json` retain the script and editorial plan. `demo/racelab-render-manifest.json` binds final video, source captures, narration, camera crops, dimensions and decoded frames. New source clips/stills and their registry are in `docs/film-shots/`, captured in fresh keyless Edge contexts at 1440x900 with paid endpoints blocked. No generated application mockups or invented execution evidence are used.
 
-On this Windows capture machine, with the local server running:
+All four earlier movies are byte-preserved:
+
+- `public/archive/racelab-evidence-zira-demo.mp4`: the full comparison film immediately before this MiMo rebuild; exact metadata/captions/poster are `demo/archive/evidence-zira-*`, with unchanged sources in `docs/evidence-shots/`.
+- `public/archive/racelab-evidence-partial-demo.mp4`: the film before the disclosed continuation.
+- `public/archive/racelab-tend-demo.mp4`: the earlier TEND stills film.
+- `public/archive/racelab-store-demo.mp4`: the original store experiment film.
+
+The opening credits new RaceLab work by Tang Vu and earlier TEND/event inputs. Authored lifecycle controls remain separate from Meta candidates. All twelve planned comparison arms were attempted once across the stopped amended study and disclosed post-hoc continuation. Original setup, truncation and invalid-SQL failures remain. This small collection is not a general superiority result or human-feedback study.
+
+## Verify and rebuild
+
+`npm run check:film` verifies the current movie, selected speech/caption bounds, source hashes, original investigation and all four archives without network or model calls. `npm run check:browser` checks actual local playback, all eight chapters and the keyless workbench. `npm run check:evidence` checks the recorded explorer/evaluation. These default checks do not regenerate media or make paid requests.
+
+Rebuilding is a separate media-production action. It requires installed FFmpeg, Python with Pillow, and the npm development dependencies. On this Windows capture machine:
 
 ```powershell
-node scripts/capture-demo.mjs
-node scripts/narrate-demo.mjs .racelab/film-evidence
-$env:RACELAB_FFMPEG_DIR = 'D:\Apps\FFmpeg-9.0.2\bin'
-node scripts/render-demo.mjs .racelab/film-evidence
+$env:RACELAB_BASE_URL = 'http://127.0.0.1:4188'
+node scripts/capture-film-v4.mjs
+# Explicit MiMo operation; provide a separate key via environment or hidden stdin.
+node scripts/narrate-mimo.mjs --live --out=.racelab/film-mimo-fresh
+# Review every retained ASR transcript before choosing the speech file.
+python scripts/render-film-v4.py --speech .racelab/film-mimo-fresh/speech.json
 npm.cmd run check:film
 ```
 
-The capture helper currently identifies this machine's FFmpeg directory; adapt it for a different machine. Playwright captures the actual application in fresh contexts and blocks paid endpoints. Raw recordings, WAVs, intermediate media and local font stay ignored. Source clips/stills and their registry are retained in the repository. Context shutdown can append final frames; trim offsets use measured action start rather than total file duration. The renderer checks source hashes, 30 fps motion, narration tempo (at most 1.16x), final video dimensions/timing/audio/subtitle tracks before promotion. The checker verifies all three historical archives too. No competition submission or LAN deployment is part of this workflow.
+The currently selected speech takes remain in ignored local storage; no key, private request ledger, raw WAV collection or installed font is bundled. Captions use measured clip boundaries. A fresh synthesis is nondeterministic and needs review; do not claim that it recreates identical audio bytes. The legacy `render-demo.mjs` is retained for archived storyboards and refuses the current v4 format. No competition submission or LAN deployment is part of media preparation.

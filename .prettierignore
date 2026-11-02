@@ -16,3 +16,5 @@ public/recordings/comparison-accounting-review.json
 public/recordings/comparison-continuation.json
 public/recordings/comparison-summary-pre-continuation.json
 demo/comparison-continuation-protocol.json
+# Preserve exact pre-MiMo film metadata, captions and poster.
+demo/archive/evidence-zira-*
