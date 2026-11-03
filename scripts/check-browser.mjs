@@ -223,7 +223,7 @@ try {
       }
     }
     // Store experiments remain accessible from the main workbench.
-    await page.locator('a[href="/store#workspace"]').first().click();
+    await page.locator('a[href="/store#workspace"]').last().click();
     assert.equal(new URL(page.url()).pathname, "/store");
     await page.waitForFunction(
       () => document.querySelector("#source")?.value?.length > 0,
