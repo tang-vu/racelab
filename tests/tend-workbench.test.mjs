@@ -13,6 +13,7 @@ import * as evidence from "../public/evidence-view.js";
 import * as view from "../public/tend-view.js";
 import * as investigation from "../public/investigation-view.js";
 import * as motionData from "../public/motion-data.js";
+import * as project from "../public/method-project.js";
 const root = fileURLToPath(new URL("../", import.meta.url));
 const sourcePath = join(root, `.racelab/sources/tend-${TEND.commit}.ts`);
 let prepared = true;
@@ -96,6 +97,7 @@ test(
     window.__view = view;
     window.__investigation = investigation;
     window.__motionData = motionData;
+    window.__project = project;
     window.matchMedia = () => ({ matches: false, addEventListener() {} });
     const downloads = [];
     window.Blob = Blob;
@@ -121,9 +123,9 @@ test(
     );
     const script = (
       await readFile(join(root, "public/tend.js"), "utf8")
-    ).replace(/^import[^\n]*\r?\n/gm, "");
+    ).replace(/^import[\s\S]*?from\s+"[^"\n]+";\r?\n/gm, "");
     await window.eval(
-      `(async()=>{const{highlightSource}=window.__evidence;const{frameFor,eventText,methodDiff}=window.__view;const{renderInvestigation}=window.__investigation;\n${script}\n})()`,
+      `(async()=>{const{highlightSource}=window.__evidence;const{frameFor,eventText,methodDiff}=window.__view;const{renderInvestigation}=window.__investigation;const{extractClaimMethod,blankMethod,PROJECT_KEY}=window.__project;\n${script}\n})()`,
     );
     const click = async (id) => {
       assert.equal($(id).disabled, false, id + " available");

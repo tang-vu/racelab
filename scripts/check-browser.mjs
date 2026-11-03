@@ -83,10 +83,10 @@ try {
     context.setDefaultTimeout(60_000);
     await context.route("**/*", (route) => {
       const url = new URL(route.request().url());
-      if (url.pathname.endsWith("/agent")) report.paidAttempts++;
-      return url.origin === base && !url.pathname.endsWith("/agent")
-        ? route.continue()
-        : route.abort();
+      const paid =
+        url.pathname.endsWith("/agent") || url.pathname === "/api/live/repair";
+      if (paid) report.paidAttempts++;
+      return url.origin === base && !paid ? route.continue() : route.abort();
     });
     const page = (currentPage = await context.newPage());
     page.on("pageerror", (error) => report.errors.push(error.message));

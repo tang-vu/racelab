@@ -1,6 +1,11 @@
 import { highlightSource } from "./evidence-view.js";
 import { frameFor, eventText, methodDiff } from "./tend-view.js";
 import { renderInvestigation } from "./investigation-view.js";
+import {
+  extractClaimMethod,
+  blankMethod,
+  PROJECT_KEY,
+} from "./method-project.js";
 
 const $ = (id) => document.getElementById(id);
 const esc = (value) =>
@@ -20,6 +25,7 @@ const state = {
   step: 0,
   busy: false,
   configured: false,
+  live: null,
   recorded: false,
   original: new Map(),
   playing: null,
@@ -58,11 +64,21 @@ function controls() {
   $("native-candidate").disabled = disabled || !state.report?.best;
   $("native-recorded").disabled = disabled || !state.recorded;
   $("native-agent").disabled = disabled || !state.configured;
+  $("project-live").disabled = disabled || !state.configured;
   $("native-export").disabled = disabled || !state.report;
   $("native-diff").disabled = disabled || !state.report?.best;
   $("native-play").disabled = disabled || !state.run?.trace.length;
   $("native-scrubber").disabled = disabled || !state.run;
   $("native-source").readOnly = state.busy || state.version === "candidate";
+  for (const id of [
+    "project-new",
+    "project-file",
+    "project-save",
+    "project-list",
+    "project-draft",
+    "project-recover",
+  ])
+    $(id).disabled = disabled;
 }
 async function perform(message, action) {
   if (state.busy) return;
@@ -106,7 +122,7 @@ function code() {
       ? "Read-only candidate / B"
       : state.source === state.input?.source
         ? "Verified repository input / A"
-        : "Edited repository method / A";
+        : "Your method / A";
   $("native-source-hash").textContent =
     state.version === "candidate"
       ? state.report?.best.sourceHash.slice(0, 12)
@@ -264,6 +280,9 @@ function invalidate() {
 $("native-source").addEventListener("input", () => {
   if (state.version !== "original") return;
   state.source = $("native-source").value;
+  try {
+    sessionStorage.setItem("racelab-method-draft", state.source);
+  } catch {}
   invalidate();
   code();
 });
@@ -327,21 +346,30 @@ $("native-agent").addEventListener("click", () =>
     verification();
     $("native-events").replaceChildren();
     $("native-log-count").textContent = "00";
-    const response = await fetch("/api/workloads/tend/agent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ source: state.source }),
-    });
+    const response = await fetch(
+      state.live ? "/api/live/repair" : "/api/workloads/tend/agent",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ source: state.source }),
+      },
+    );
     if (!response.ok) {
       const result = await response.json();
       throw new Error(
         result.error ?? "The Meta investigation could not start.",
       );
     }
+    const jobId = response.headers.get("X-RaceLab-Job-Id");
+    if (jobId) {
+      sessionStorage.setItem("racelab-last-live-job", jobId);
+      $("project-recover").hidden = false;
+    }
     const reader = response.body.getReader(),
       decoder = new TextDecoder();
     let buffer = "",
       complete = false;
+    let streamError = "";
     while (true) {
       const next = await reader.read();
       buffer += decoder.decode(next.value, { stream: !next.done });
@@ -351,6 +379,8 @@ $("native-agent").addEventListener("click", () =>
         buffer = buffer.slice(end + 2);
         if (!block.startsWith("data: ")) continue;
         const item = JSON.parse(block.slice(6));
+        if (item.type === "error")
+          streamError = item.message ?? "The live repair could not complete.";
         if (item.message) event(item.message);
         if (item.type === "baseline") {
           $("normal-verdict").textContent = item.run.verdict.passed
@@ -361,14 +391,17 @@ $("native-agent").addEventListener("click", () =>
         if (item.type === "complete") {
           accept(item.result);
           complete = true;
+          if (item.result.error) event(item.result.error);
         }
       }
       if (next.done) break;
     }
     if (!complete)
       throw new Error(
-        "Stream interrupted. Check the retained run before starting another paid investigation.",
+        streamError ||
+          "Stream interrupted. Use Recover last AI run before starting another investigation.",
       );
+    if (state.live) await refreshLive();
   }),
 );
 $("native-verification").addEventListener("click", (event) => {
@@ -462,6 +495,190 @@ $("native-import-confirm").addEventListener("click", () =>
     $("native-import-dialog").close();
   }),
 );
+function applyLive(live) {
+  state.live = live;
+  state.configured = Boolean(live.enabled);
+  $("native-agent").hidden = false;
+  $("project-live").hidden = false;
+  $("project-live-note").hidden = false;
+  $("project-live-note").textContent =
+    `${live.reason} Meta Llama 4 Scout · up to 6 turns. Starting sends this method to Meta via Cloudflare.`;
+  $("native-agent").textContent = "Run a new Meta Llama 4 repair ↗";
+  $("native-live-refresh").hidden = false;
+  const guide = $("native-agent").closest("details");
+  guide.open = true;
+  guide.querySelector("summary").innerHTML =
+    "New AI repair / your source <span>+</span>";
+  $("native-agent-note").textContent =
+    `${live.reason} Your method and synthetic execution feedback are sent to Meta Llama 4 Scout via Cloudflare when you start. Up to 6 model turns and 2 candidate proposals. Live reports are available to this browser for 24 hours. Recorded Muse Spark repairs remain separate.`;
+  $("native-connection").textContent = live.enabled
+    ? "Live Meta Llama 4 · real SQLite checks"
+    : "Online lab · live preview unavailable";
+  controls();
+}
+async function refreshLive() {
+  if (state.live) applyLive(await api("/api/live/status"));
+}
+$("native-live-refresh").addEventListener("click", () =>
+  perform("Checking live repair availability…", refreshLive),
+);
+$("project-live").addEventListener("click", () => $("native-agent").click());
+
+function storedProjects() {
+  try {
+    const value = JSON.parse(localStorage.getItem(PROJECT_KEY) ?? "[]");
+    return Array.isArray(value) ? value.slice(0, 4) : [];
+  } catch {
+    return [];
+  }
+}
+function listProjects() {
+  const select = $("project-list");
+  select.replaceChildren(new Option("Choose a saved project", ""));
+  for (const p of storedProjects())
+    if (typeof p.id === "string" && typeof p.name === "string")
+      select.append(new Option(p.name.slice(0, 80), p.id));
+}
+async function recheckProject(report, retained) {
+  const checked = await api("/api/workloads/tend/replay", { report });
+  // Only the browser-owned server record can establish live model attribution.
+  // Downloaded/local JSON alone is always treated as an unverified import.
+  if (
+    retained?.origin === "live_meta" &&
+    retained.runId === report.runId &&
+    retained.startingSourceHash === checked.startingSourceHash
+  ) {
+    for (const key of [
+      "model",
+      "provider",
+      "protocol",
+      "origin",
+      "turns",
+      "events",
+      "summary",
+      "error",
+    ])
+      if (retained[key] !== undefined) checked[key] = retained[key];
+    checked.recordedRequests = retained.requests;
+    checked.recordedCostUsd = retained.costUsd;
+  }
+  return checked;
+}
+function setMethod(source) {
+  state.version = "original";
+  state.source = source;
+  invalidate();
+  code();
+  sessionStorage.setItem("racelab-method-draft", source);
+  $("project-draft").hidden = false;
+}
+$("project-new").addEventListener("click", () => {
+  if (state.busy) return;
+  setMethod(blankMethod);
+  $("project-name").value = "Untitled recovery method";
+  $("project-note").textContent =
+    "New method. Implement it or ask Meta to propose a method against the fixed contract.";
+});
+$("project-file").addEventListener("click", () =>
+  $("project-file-input").click(),
+);
+$("project-file-input").addEventListener("change", async () => {
+  const file = $("project-file-input").files?.[0];
+  if (!file || state.busy) return;
+  try {
+    if (file.size > 150000)
+      throw new Error("Choose a source file smaller than 150KB.");
+    setMethod(extractClaimMethod(await file.text()));
+    $("project-name").value = file.name.replace(/\.[^.]+$/, "").slice(0, 80);
+    $("project-note").textContent =
+      `Imported ${file.name}. No model request has been made.`;
+  } catch (error) {
+    status(error.message, true);
+  } finally {
+    $("project-file-input").value = "";
+  }
+});
+$("project-draft").addEventListener("click", () => {
+  if (state.busy) return;
+  const draft = sessionStorage.getItem("racelab-method-draft");
+  if (draft) setMethod(draft);
+});
+$("project-save").addEventListener("click", () => {
+  if (state.busy) return;
+  try {
+    const name =
+      $("project-name").value.trim().slice(0, 80) || "Untitled method";
+    const item = {
+      id: String(Date.now()),
+      name,
+      source: state.source,
+      report: state.report,
+      savedAt: new Date().toISOString(),
+    };
+    const items = [
+      item,
+      ...storedProjects().filter((p) => p.name !== name),
+    ].slice(0, 4);
+    const text = JSON.stringify(items);
+    if (text.length > 2500000)
+      throw new Error(
+        "These reports exceed browser storage. Export a regression file instead.",
+      );
+    localStorage.setItem(PROJECT_KEY, text);
+    listProjects();
+    $("project-list").value = item.id;
+    $("project-note").textContent =
+      "Saved in this browser. Opening it will recompute saved evidence.";
+  } catch (error) {
+    status(error.message, true);
+  }
+});
+$("project-list").addEventListener("change", () =>
+  perform("Opening your project and recomputing its evidence…", async () => {
+    const item = storedProjects().find((p) => p.id === $("project-list").value);
+    if (!item) return;
+    setMethod(extractClaimMethod(item.source));
+    $("project-name").value = item.name;
+    if (item.report && item.report.startingSource === state.source) {
+      let retained;
+      if (state.live && /^[a-f0-9-]{36}$/.test(item.report.runId ?? "")) {
+        try {
+          const run = await api("/api/live/jobs/" + item.report.runId);
+          if (run.report?.startingSourceHash === item.report.startingSourceHash)
+            retained = run.report;
+        } catch {
+          /* Saved source remains usable after server report expiry. */
+        }
+      }
+      accept(await recheckProject(retained ?? item.report, retained));
+    } else await execute();
+    $("project-note").textContent =
+      "Project opened. Displayed evidence was executed again.";
+  }),
+);
+$("project-recover").addEventListener("click", () =>
+  perform(
+    "Recovering the last live run without another model call…",
+    async () => {
+      const id = sessionStorage.getItem("racelab-last-live-job");
+      if (!id) return;
+      const result = await api("/api/live/jobs/" + encodeURIComponent(id));
+      if (result.status === "running")
+        throw new Error(
+          "That run is still finishing. Wait briefly and recover it again.",
+        );
+      if (!result.report?.startingSource)
+        throw new Error(
+          result.report?.error ??
+            "No executable report was retained for this run.",
+        );
+      accept(await recheckProject(result.report, result.report));
+      $("project-note").textContent =
+        "Recovered and re-executed. No new model calls.";
+    },
+  ),
+);
+
 try {
   const [input, connection] = await Promise.all([
     api("/api/workloads/tend"),
@@ -489,7 +706,10 @@ try {
     )
     .join("");
   $("native-condition").value = "crash-restart";
-  if (connection.mode === "public-recheck") {
+  if (connection.liveRepair) {
+    state.live = connection.liveRepair;
+    applyLive(connection.liveRepair);
+  } else if (connection.mode === "public-recheck") {
     $("native-investigation").querySelector("p").textContent =
       "Choose Check Meta repair to inspect the retained hypotheses, tool requests, source diff and fresh execution results.";
     $("native-agent").hidden = true;
@@ -504,6 +724,11 @@ try {
       "New investigation: up to 6 model turns and 2 patches. The displayed method and synthetic execution feedback go to Meta. Existing app budget limits apply. Recorded rechecks make no new model calls.";
   }
   code();
+  listProjects();
+  $("project-draft").hidden = !sessionStorage.getItem("racelab-method-draft");
+  $("project-recover").hidden = !sessionStorage.getItem(
+    "racelab-last-live-job",
+  );
   await perform(
     "Checking the pinned method before and after interruption…",
     async () => {

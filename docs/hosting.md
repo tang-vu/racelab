@@ -4,7 +4,7 @@ The public judge edition at **https://racelab.tangvu.dev/tend.html** runs the ac
 
 `racelab.tangvu.dev` is a Worker Custom Domain with Cloudflare-managed DNS and HTTPS. The original `racelab-judge.8ndwvxvrgt.workers.dev` alias remains functional. Each public host accepts only requests from its own origin. The Worker normalizes validated backend requests to the stable runner host, preserving the existing container allowlist without rebuilding or restarting it. Tests cover both aliases, cross-origin rejection and preservation of imported regression bodies.
 
-Judges can run the pinned TEND original, kill the claimant, re-execute the retained Meta candidate against ten conditions, edit the supported method and export/reopen a regression. The store workbench also executes its supported handlers. New model investigations stay in private installations. Retained candidates are model outputs from the disclosed studies; a recheck makes no new model calls.
+Judges can run the pinned TEND original, kill the claimant, re-execute the retained Meta candidate against ten conditions, and bring a new supported method for a live Meta Llama 4 Scout repair. Browser project saves, private run recovery and regression import/export complete the [MVP workflow](live-mvp.md). The store workbench also executes its supported handlers. Retained Muse Spark candidates remain the outputs of the disclosed studies; rechecking them makes no new model calls.
 
 ## Cloudflare deployment
 
@@ -16,7 +16,9 @@ The build uses the root `Dockerfile`, an unprivileged user, production dependenc
 
 The manual image workflow needs fresh, short-lived registry credentials for each publication. It does not deploy automatically on pushes. An already-published image can be reused for a Worker-only update with `cf deploy --containers-rollout none`. The retained Render Blueprint is an optional alternative and is not the active host.
 
-Cloudflare Containers is a [metered product on Workers Paid](https://developers.cloudflare.com/containers/platform/pricing/), with included CPU/memory/disk allowances. The instance and idle limits bound scaling, not total account spend. Deployment used the existing authenticated account; no subscription-change command was issued. Experiment SQLite files are disposable, reports are downloaded to the visitor's device and private projects are not stored by this edition.
+Cloudflare Containers is a [metered product on Workers Paid](https://developers.cloudflare.com/containers/platform/pricing/), with included CPU/memory/disk allowances. The instance and idle limits bound scaling, not total account spend. Deployment used the existing authenticated account; no subscription-change command was issued. Experiment SQLite files are disposable. Project saves stay in the browser; the separate LiveRepair Durable Object retains cookie-protected live reports for up to 24 hours and stores its inference accounting persistently.
+
+The Worker uses a native `AI` binding for [Meta Llama 4 Scout](https://developers.cloudflare.com/workers-ai/models/llama-4-scout-17b-16e-instruct/). `LIVE` points to `LiveRepair` in the same Worker, always named `allocated-live-scout-v1`. Its fixed allocation `racelab-public-scout-20261103` is backed by an idempotent USD 2 reservation in the existing local canonical ledger, made with `node scripts/reserve-live-budget.mjs --reserve`. Do not delete or rename the Durable Object or reset its state to obtain more budget. Never upload the shared key or historical ledger. Unknown provider usage stops further live inference and retains a conservative debit; there is no automatic model retry.
 
 ## Optional Render deployment
 
@@ -28,7 +30,7 @@ Render's Free services [sleep after 15 minutes without inbound traffic and resta
 
 ## Isolation
 
-`RACELAB_JUDGE_MODE=1` skips `.env.local` entirely and refuses an environment with a nonempty `MODEL_API_KEY` or `RACELAB_LEDGER_DIR`. No ledger is opened or initialized; `/api/status` returns `budget: null`. Both new-investigation endpoints return `PUBLIC_RECHECK_ONLY` before running model code. The Docker build context is an allowlist and excludes private configuration, caches, ledgers, Git history and development tools.
+`RACELAB_JUDGE_MODE=1` skips `.env.local` entirely and refuses an environment with a nonempty `MODEL_API_KEY` or `RACELAB_LEDGER_DIR`. No historical ledger is opened or initialized in the container; `/api/status` returns `budget: null` for that runner. Its legacy investigation endpoints remain disabled. `/api/live/repair` executes separately in the Worker, using native AI authorization and its own durable allocation; `/api/status.liveRepair` reports its availability without exposing accounting history. The Docker build context is an allowlist and excludes private configuration, caches, ledgers, Git history and development tools.
 
 The public service retains the host/origin checks, request size limits, one-experiment-at-a-time guard, bounded source and report validation, QuickJS memory/instruction limits and worker timeouts. Candidate code has no Node imports, filesystem access or networking. TEND SQL is restricted to disposable fixture tables and each worker receives an empty environment. This is a bounded laboratory, not a general code hosting service or a proof of production correctness.
 
@@ -36,8 +38,8 @@ Do not mount the developer's `.racelab`, shared ledger or `.env.local` into a de
 
 ## Verify before sharing
 
-1. `/healthz` must return HTTP 200. `/api/status` must show `mode: public-recheck`, `runner: hosted`, `configured: false`, `accessRequired: false` and `budget: null`.
+1. `/healthz` must return HTTP 200. `/api/status` must show the keyless runner's `mode: public-recheck`, `runner: hosted`, `configured: false`, `accessRequired: false` and `budget: null`, alongside a separate `liveRepair` availability object for Scout.
 2. Open `/tend.html` anonymously: normal **PASS**, interrupted original **FAIL**. Choose **Check Meta repair**: candidate **10/10**. Inspect the stale-owner rejection and distinct process IDs.
 3. Download the regression and open that actual file again. Results must be recomputed, with imported attribution marked unverified. Try an edited source and confirm stale results clear.
 4. Verify desktop/phone layout and the store lab. Confirm both `/agent` endpoints reject calls, private paths are 404 and cross-origin requests are rejected.
-5. Only after those checks, add the real executable URL to the public review page and submission copy. Keep the video/evidence Site available as a separate review route.
+5. For a new live integration check only when needed, explicitly opt in to `scripts/check-live-mvp.mjs`. It makes one new investigation, retains its protocol and report, and checks fresh file input, actual candidate verification, browser projects, recovery, export/import and private report ownership. Default browser checks block this paid endpoint.

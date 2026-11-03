@@ -80,6 +80,58 @@
         class="native-lab"
         aria-label="Repository recovery experiment"
       >
+        <section class="method-project" aria-label="Your method workspace">
+          <div>
+            <span class="section-kicker">YOUR METHOD / LIVE META REPAIR</span>
+            <h2>Bring a method.<br />Keep the proof.</h2>
+            <p>
+              Paste or import a <code>claimNextDue</code> method, then
+              investigate it with Meta and re-execute the proposed source. The
+              fixed job/SQLite contract below defines the supported scope.
+            </p>
+          </div>
+          <div class="project-actions">
+            <label
+              >Project name<input
+                id="project-name"
+                maxlength="80"
+                value="My recovery method"
+                autocomplete="off"
+            /></label>
+            <div class="project-buttons">
+              <button id="project-new" class="text-button">Start blank</button
+              ><button id="project-file" class="text-button">
+                Import .ts / .js</button
+              ><button id="project-save" class="text-button">
+                Save project</button
+              ><button id="project-draft" class="text-button" hidden>
+                Restore draft
+              </button>
+            </div>
+            <button id="project-live" class="button ink" disabled hidden>
+              Run new AI repair &#8599;
+            </button>
+            <p id="project-live-note" hidden></p>
+            <input
+              id="project-file-input"
+              type="file"
+              accept=".ts,.js,.mjs,.txt"
+              hidden
+            />
+            <label
+              >Saved in this browser<select id="project-list">
+                <option value="">Choose a saved project</option>
+              </select></label
+            >
+            <p id="project-note" role="status">
+              Project saves stay in this browser. Export a regression to take
+              the executed evidence with you.
+            </p>
+            <button id="project-recover" class="text-button" hidden>
+              Recover last AI run
+            </button>
+          </div>
+        </section>
         <div class="native-lab-heading">
           <div>
             <span class="section-kicker">01 / THE METHOD</span>
@@ -273,6 +325,9 @@
           </p>
           <button id="native-agent" class="button ink" disabled>
             Investigate this method with Meta &#8599;
+          </button>
+          <button id="native-live-refresh" class="text-button" hidden>
+            Refresh live availability
           </button>
         </details>
         <details id="native-log">

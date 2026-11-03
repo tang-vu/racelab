@@ -12,7 +12,10 @@ export function investigationEntries(report) {
     if (!probe || typeof probe !== "object") continue;
     const run = probe.run;
     entries.push({
-      title: "Probe · probe_recovery",
+      title:
+        report.protocol === "bounded-json-actions-v1"
+          ? "Probe · executed JSON action"
+          : "Probe · probe_recovery",
       text: string(probe.hypothesis),
       request: JSON.stringify(
         { condition: run?.condition, hypothesis: probe.hypothesis },
@@ -36,7 +39,7 @@ export function investigationEntries(report) {
     if (!patch || typeof patch !== "object") continue;
     const result = patch.verification;
     entries.push({
-      title: `Candidate ${index + 1} · test_claim_patch`,
+      title: `Candidate ${index + 1} · ${report.protocol === "bounded-json-actions-v1" ? "executed JSON action" : "test_claim_patch"}`,
       text: string(patch.explanation),
       request:
         typeof patch.source === "string" &&
@@ -60,6 +63,16 @@ export function investigationEntries(report) {
         : "Independent checks were not retained.",
     });
   }
+  if (report.protocol === "bounded-json-actions-v1")
+    for (const turn of list(report.turns).slice(0, 6)) {
+      if (turn?.rejected && turn?.action?.action === "patch")
+        entries.push({
+          title: "Rejected candidate · JSON action",
+          text: string(turn.action.explanation),
+          request: string(turn.action.source).slice(0, 12000),
+          feedback: string(turn.rejected),
+        });
+    }
   return entries;
 }
 
@@ -83,12 +96,14 @@ export function renderInvestigation(
     "p",
     unverified
       ? "Imported artifact · model attribution unverified."
-      : `${string(report.model)} · ${recorded ? "recorded execution" : "independently re-executed locally"}.`,
+      : `${string(report.model)} · ${report.origin === "live_meta" ? (report.recomputed ? "server-retained live investigation · re-executed" : "new live model investigation") : recorded ? "recorded execution" : "independently re-executed"}.`,
   );
   add(
     container,
     "p",
-    "Retained public hypotheses, request fields and executed checks. The original recording does not contain a complete raw model transcript. No hidden reasoning is shown.",
+    report.origin === "live_meta"
+      ? "Fresh model JSON actions and independent execution feedback. Saved Muse Spark studies remain separate. No hidden reasoning is shown."
+      : "Retained public hypotheses, request fields and executed checks. The original recording does not contain a complete raw model transcript. No hidden reasoning is shown.",
   );
   const entries = investigationEntries(report);
   if (!entries.length)

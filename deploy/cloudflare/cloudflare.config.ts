@@ -23,12 +23,18 @@ export default defineConfig({
     previewUrls: false,
     assets: { runWorkerFirst: true, htmlHandling: "none" },
     exports: {
+      LiveRepair: exports.durableObject({ storage: "sqlite" }),
       RaceLabRunner: exports.durableObject({
         storage: "sqlite",
         container: runner,
       }),
     },
     env: {
+      AI: bindings.ai(),
+      LIVE: bindings.durableObject({
+        worker: "racelab-judge",
+        exportName: "LiveRepair",
+      }),
       PUBLIC_ORIGIN: bindings.text("https://racelab.tangvu.dev"),
       ASSETS: bindings.assets(),
       RUNNER: bindings.durableObject({

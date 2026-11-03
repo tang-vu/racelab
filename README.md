@@ -4,7 +4,9 @@
 
 **[Run the online lab](https://racelab.tangvu.dev/tend.html)** · **[Watch the public three-minute demo](https://racelab-tang-vu.tang-vu.chatgpt.site)** · **[Source and setup](https://github.com/tang-vu/racelab)** · [Submission form answers](docs/submission-form.md)
 
-The online lab runs the actual Node/SQLite workbench on Cloudflare Containers, with no API key or sign-in needed for original execution, retained Meta repair checks and regression import/export. The separate public review page hosts the video and an **[interactive recorded evidence explorer](https://racelab-tang-vu.tang-vu.chatgpt.site/evidence.html)**: A/B source, conditions, process trace, public Meta hypothesis/probe/diff and actual/expected checks. **[Evaluation and limits](https://racelab-tang-vu.tang-vu.chatgpt.site/evaluation.html)** includes additional owned repositories, deeper lifecycle controls and every planned comparison arm. Static replay displays saved results; the online lab recomputes them.
+The online MVP accepts a pasted or imported `claimNextDue` method, runs a fresh **Meta Llama 4 Scout** investigation, and checks the generated source against ten real SQLite/process conditions. No visitor API key or sign-in is needed. Save projects in this browser, recover a server-retained run for 24 hours, and export/reopen executable regressions. [Supported contract, privacy and live preview limits](docs/live-mvp.md).
+
+The separate public review page hosts the video and an **[interactive recorded evidence explorer](https://racelab-tang-vu.tang-vu.chatgpt.site/evidence.html)**: A/B source, conditions, process trace, public Meta hypothesis/probe/diff and actual/expected checks. **[Evaluation and limits](https://racelab-tang-vu.tang-vu.chatgpt.site/evaluation.html)** includes additional owned repositories, deeper lifecycle controls and every planned comparison arm. Those retained studies use **Muse Spark 1.3**. Static replay displays saved results; the online lab recomputes them. The live Scout preview is separate from the original studies.
 
 **New: [a real repository recovery experiment](docs/tend.md).** A pinned TypeScript method from TEND claims a job in real disposable SQLite. RaceLab kills the worker after the claim commits and starts another process on the same file. The original method leaves the job claimed; a retained Meta repair passes ten declared recovery conditions. Open **http://127.0.0.1:4174/tend.html** to inspect the source, process receipts, A/B, stale-owner rejection and replayable regression export.
 
@@ -31,7 +33,7 @@ Local execution, recorded Meta replay and report import/export work without an A
 
 The local extract uses the existing accounting ledger through an ignored `RACELAB_LEDGER_DIR` setting, preserving earlier spend and reservations. No ledger records are bundled. Code and dependencies are independent of the earlier checkout. For a fresh installation the default private data directory is `.racelab/`; if an external ledger is configured, it must exist and validate. File locking protects shared budget transactions. App accounting is not the provider account balance.
 
-The [public judge deployment](docs/hosting.md) runs the same Node/SQLite checks on Cloudflare without loading local credentials or any accounting ledger. The container sleeps after inactivity and restarts on a new request; a cold visit can take longer. New paid model investigations remain available in private installations.
+The [public judge deployment](docs/hosting.md) runs the same Node/SQLite checks on Cloudflare without loading local credentials or the historical accounting ledger. A separate Worker AI binding and durable budget power new Scout repairs. The container sleeps after inactivity and restarts on a new request; a cold visit can take longer. The simulated-store workbench's private Muse Spark endpoints remain disabled on the public host.
 
 ## Try the experiment
 
@@ -70,6 +72,8 @@ npm run check:local # with the local server running
 ```
 
 Tests and these default checks make no model calls. The recording script's explicit `--live --case=...` option makes paid requests and refuses to overwrite retained investigations. Public repository and video preparation are separate from competition submission; no entry is submitted automatically. See the [submission checklist](docs/submission-checklist.md).
+
+`scripts/check-live-mvp.mjs` is a separate, explicitly opted-in paid integration check. It exercises fresh file input, live generation, project reopening, recovery, regression export/import and report ownership. It refuses to overwrite its retained protocol. It is excluded from CI and the default offline checks.
 
 The browser check uses a fresh headless Edge context, blocks paid endpoints and external page requests, verifies unchanged accounting and writes review screenshots to ignored `.racelab/browser-review/`. It covers desktop, tablet, phone and narrow-phone viewports, A/B, the ten-condition replay, actual file export/import, edits, theme, playback and reduced motion. Mobile viewport checks are emulation, not physical-device tests.
 
