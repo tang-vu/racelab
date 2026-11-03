@@ -1,5 +1,6 @@
 import { Container } from "@cloudflare/containers";
 import { RUNNER_ORIGIN, requestForRunner, trustedRequest } from "./origin";
+import { serveAssetVideo } from "./asset-video";
 export { LiveRepair } from "./live-repair";
 
 function liveRequest(request: Request, path?: string) {
@@ -107,12 +108,13 @@ export default {
         { status: 403 },
       );
     }
-    if (
-      url.pathname.startsWith("/api/") ||
-      url.pathname === "/healthz" ||
-      url.pathname.endsWith(".mp4")
-    ) {
-      // Static Assets ignores Range; Node serves MP4 byte ranges for real seeks.
+    if (url.pathname.endsWith(".mp4"))
+      return serveAssetVideo(
+        request,
+        (r) => env.ASSETS.fetch(r),
+        env.VIDEO_BYTES[url.pathname],
+      );
+    if (url.pathname.startsWith("/api/") || url.pathname === "/healthz") {
       // One named instance enforces the backend's bounded experiment lock.
       const forwarded = requestForRunner(request);
       return env.RUNNER.getByName("public-lab").fetch(forwarded);

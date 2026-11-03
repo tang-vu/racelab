@@ -1,0 +1,152 @@
+{
+  "format": "racelab-editorial-film-v5",
+  "title": "RaceLab — give the repair a test it can fail",
+  "owner": "Tang Vu",
+  "durationSeconds": 180,
+  "voice": "Mia",
+  "ttsModel": "mimo-v2.5-tts",
+  "asrModel": "mimo-v2.5-asr",
+  "style": "Natural conversational English, confident and clear, with a brisk pace. Read the exact text without adding words.",
+  "scenes": [
+    {
+      "id": "01-result",
+      "seconds": 20,
+      "chapter": "A passing test. A missing job.",
+      "heading": "It passed.\nThen the worker died.",
+      "eyebrow": "01 / THE FAILURE",
+      "accent": "#ff946d",
+      "metric": "0 → 1",
+      "metricLabel": "local completions / original → checked candidate",
+      "source": "01-result.webm",
+      "kind": "browser",
+      "beats": [
+        "Your tests pass. Then a worker dies, and a job never comes back.",
+        "Race Lab reproduces the failure and checks a Meta-generated repair.",
+        "Built by Tang Vu during this hackathon, using earlier TEND source and event infrastructure."
+      ]
+    },
+    {
+      "id": "02-source",
+      "seconds": 22,
+      "chapter": "Run the real source",
+      "heading": "A process stops.\nThe database stays.",
+      "eyebrow": "02 / REAL SOURCE, REAL SQLITE",
+      "accent": "#b5adff",
+      "metric": "COMMIT",
+      "metricLabel": "the claim persists after the worker exits",
+      "source": "02-source.png",
+      "kind": "ui",
+      "beats": [
+        "This is a real TypeScript method from a pinned public repository.",
+        "It runs against a real, disposable database, inside a separate worker process.",
+        "Claim the job. Commit the row. Stop the worker.",
+        "The database survives. The original method leaves the job claimed."
+      ]
+    },
+    {
+      "id": "03-process",
+      "seconds": 24,
+      "chapter": "Follow the committed state",
+      "heading": "Watch the state.\nFind the missing recovery.",
+      "eyebrow": "03 / REPLAY THE EXECUTION",
+      "accent": "#ff946d",
+      "metric": "60 s",
+      "metricLabel": "explicit recovery lease / controlled clock",
+      "source": "03-process.webm",
+      "kind": "browser",
+      "beats": [
+        "Now start a replacement worker on the same database.",
+        "The trace shows exactly what committed, and when the old process exited.",
+        "The original misses the claimed row.",
+        "The repair reclaims it after the declared sixty-second lease, without changing its payload."
+      ]
+    },
+    {
+      "id": "04-investigation",
+      "seconds": 25,
+      "chapter": "Meta proposes. Code checks.",
+      "heading": "A hypothesis. A probe.\nA repair that must run.",
+      "eyebrow": "04 / MUSE SPARK + EXECUTED FEEDBACK",
+      "accent": "#b5adff",
+      "metric": "2 calls",
+      "metricLabel": "retained original investigation / one candidate",
+      "source": "04-investigation.webm",
+      "kind": "browser",
+      "beats": [
+        "Meta's model sees the source and the contract, then chooses a crash probe.",
+        "The tool returns an actual failure.",
+        "Next, Meta writes a candidate method; independent code executes and scores it.",
+        "Open the hypothesis, feedback and diff. The model never awards itself a pass."
+      ]
+    },
+    {
+      "id": "05-lifecycle",
+      "seconds": 24,
+      "chapter": "Challenge the repair",
+      "heading": "Recover the job.\nRespect the owner.",
+      "eyebrow": "05 / MAKE THE REPAIR EARN IT",
+      "accent": "#c7ed8a",
+      "metric": "10 / 10",
+      "metricLabel": "conditions / each of two feedback lifecycle candidates",
+      "source": "05-lifecycle.png",
+      "kind": "ui",
+      "beats": [
+        "But recovering one job is only half the story.",
+        "A worker may still be alive. Or it may return with an old token.",
+        "The lifecycle adapter tests contention, interruption, renewal and stale ownership.",
+        "Both feedback candidates pass all ten conditions, with guards inside their source."
+      ]
+    },
+    {
+      "id": "06-live-muse",
+      "seconds": 24,
+      "chapter": "Bring a method. Run Muse Spark.",
+      "heading": "Your method.\nA new Muse repair.",
+      "eyebrow": "06 / LIVE PUBLIC MVP",
+      "accent": "#ff946d",
+      "metric": "LIVE",
+      "metricLabel": "Meta Model API / muse-spark-1.3",
+      "source": "06-live-muse.webm",
+      "kind": "browser",
+      "beats": [
+        "Now bring your own claim method to Race Lab online. No installation or API key needed.",
+        "Import this file. Its thirty-second lease can steal a live worker’s job.",
+        "Muse Spark investigates the new input, receives executed feedback, and writes a new repair."
+      ]
+    },
+    {
+      "id": "07-keep-proof",
+      "seconds": 21,
+      "chapter": "Check the new source. Keep the proof.",
+      "heading": "A fresh proposal.\nTen real checks.",
+      "eyebrow": "07 / INDEPENDENT VERIFICATION",
+      "accent": "#b5adff",
+      "metric": "10 / 10",
+      "metricLabel": "new Muse candidate / fixed SQLite conditions",
+      "source": "07-keep-proof.webm",
+      "kind": "browser",
+      "beats": [
+        "The independent runner checks the proposed source against all ten conditions.",
+        "Inspect the source difference and the failure that led to it.",
+        "Save the project and export the regression. Opening it executes the checks again."
+      ]
+    },
+    {
+      "id": "08-online",
+      "seconds": 20,
+      "chapter": "Try the MVP on the homepage",
+      "heading": "Bring code.\nLeave with proof.",
+      "eyebrow": "08 / RACELAB.TANGVU.DEV",
+      "accent": "#d5e795",
+      "metric": "racelab.tangvu.dev",
+      "metricLabel": "Open the homepage. No visitor key or install.",
+      "source": "08-online.webm",
+      "kind": "browser",
+      "beats": [
+        "The MVP runs on Cloudflare, at race lab dot tang vu dot dev.",
+        "Recover a private run or reopen your saved project without another model call.",
+        "One supported job contract. Finite checks. No claim of whole-application correctness."
+      ]
+    }
+  ]
+}

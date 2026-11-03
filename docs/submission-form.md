@@ -28,7 +28,7 @@ The demo runs a pinned TypeScript method from the public TEND repository on real
 
 Developers can compare A/B source, scrub process/SQL traces, inspect actual versus expected checks, and export a regression or method diff. Import runs the checks again instead of trusting saved PASS flags. The real Node/SQLite workbench is publicly runnable without installation, a model key or sign-in: https://racelab.tangvu.dev/ . A separate recorded explorer retains the original study artifacts.
 
-The public MVP also accepts a new pasted/imported claim method and runs Meta Llama 4 Scout through Cloudflare Workers AI. Developers can save a project in the browser, recover a private run for up to 24 hours, and re-execute its candidate. This bounded live preview is separate from the original Muse Spark studies; it supports the fixed job/SQLite contract rather than arbitrary repositories.
+The public MVP also accepts a new pasted/imported claim method and runs Meta Muse Spark 1.3 through Meta Model API. Developers can save a project in the browser, recover a private run for up to 24 hours, and re-execute its candidate. This bounded live preview is separate from the original Muse Spark studies; it supports the fixed job/SQLite contract rather than arbitrary repositories.
 
 Tang Vu built the lab, adapters, Meta workflow and interface during the event, reusing earlier event transport/accounting infrastructure. TEND is an existing source input. These bounded experiments do not establish whole-application correctness or general repair performance.
 
@@ -40,7 +40,7 @@ https://github.com/tang-vu/racelab
 
 https://racelab-tang-vu.tang-vu.chatgpt.site
 
-This public page plays the current 179.904-second film with English captions and eight chapters. The current narration uses Xiaomi MiMo TTS; MiMo ASR checks the speech and caption preparation. These are media tools; the film's repairs use Muse Spark, while the later public live preview uses Meta Llama 4 Scout. Direct MP4: https://racelab-tang-vu.tang-vu.chatgpt.site/racelab-demo.mp4
+This public page plays the current 179.904-second film with English captions and eight chapters. The current narration uses Xiaomi MiMo TTS; MiMo ASR checks the speech and caption preparation. These are media tools; the film's repairs use Muse Spark, while the later public live preview uses Meta Muse Spark 1.3. Direct MP4: https://racelab-tang-vu.tang-vu.chatgpt.site/racelab-demo.mp4
 
 Use the public player URL if the field accepts it. If validation requires a particular video provider, satisfy that actual requirement before submitting; do not treat the placeholder as proof that the current URL is accepted. No YouTube upload has been performed.
 
@@ -48,7 +48,7 @@ Use the public player URL if the field accepts it. If validation requires a part
 
 RaceLab integrates Muse Spark 1.3 through Meta Model API as its investigation and repair model. It receives source code, an explicit acceptance contract and executed observations. Bounded tools let it probe the original execution and propose replacement source. RaceLab executes that source in QuickJS, with controlled store scheduling or a real SQLite/process adapter, and returns independent check results for revision.
 
-The public MVP adds Meta Llama 4 Scout through a native Cloudflare Workers AI binding. It produces new bounded JSON actions for the supplied method; RaceLab executes the probes and checks candidate source against the same ten conditions. This JSON action protocol is identified separately from Muse Spark's native tool calls. The shared Meta API key and historical accounting ledger are not deployed.
+The public MVP calls Muse Spark1.3 through a server-side Meta Model API transport, with the user-authorized key in an encrypted Cloudflare Worker Secret. Candidate code and visitors cannot access it; the historical ledger is never deployed. It produces new bounded JSON actions for the supplied method; RaceLab executes the probes and checks candidate source against the same ten conditions. This JSON action protocol is identified separately from the original study's native tool calls.
 
 The original TEND investigation retained one failed crash probe and one Meta candidate, using two requests. The candidate passes ten declared recovery conditions. A separate comparison retains every attempted arm, including truncation and invalid SQL: feedback passes all held-out checks in 6/6 arms, direct repair in 4/6. Seven arms were a disclosed post-hoc continuation; the small correlated collection does not establish general superiority. Replay re-executes retained proposals without new model calls. Muse Code is not claimed as a project dependency or as the tool that built the application.
 
@@ -60,7 +60,7 @@ The model supplies hypotheses and repairs; independent code decides whether they
 
 ## Provide feedback from your experience using partner technologies. Fireworks, Modal, Baseten
 
-We did not use Fireworks, Modal or Baseten in this project. The retained studies use Meta Model API directly, and the public live preview uses Meta Llama 4 Scout through Cloudflare Workers AI. We have no project-specific feedback on the three named partner technologies to report.
+We did not use Fireworks, Modal or Baseten in this project. The retained studies use Meta Model API directly, and the public live preview uses Meta Muse Spark 1.3 through Meta Model API. We have no project-specific feedback on the three named partner technologies to report.
 
 ## How likely are you to build with Meta Model API?
 

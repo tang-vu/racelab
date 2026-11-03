@@ -50,8 +50,8 @@ const allocation = await ledger.transaction((state) => {
     reservedMicros: LIVE_CAP_MICROS,
     chargedMicros: 0,
     createdAt: new Date().toISOString(),
-    provider: "Cloudflare Workers AI",
-    model: "Meta Llama 4 Scout",
+    provider: "Meta Model API",
+    model: "Muse Spark 1.3",
   });
   return {
     label: LIVE_ALLOCATION,

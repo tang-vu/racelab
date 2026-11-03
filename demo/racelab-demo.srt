@@ -83,49 +83,43 @@ Both feedback candidates pass all ten conditions, with guards inside
 their source.
 
 20
-00:01:55,550 --> 00:01:59,279
-A good experiment needs controls, not just a green badge.
+00:01:55,550 --> 00:02:01,100
+Now bring your own claim method to Race Lab online. No installation or
+API key needed.
 
 21
-00:01:59,459 --> 00:02:04,305
-Unchanged OpenMusic code passes fourteen bounded checks.
+00:02:01,280 --> 00:02:06,347
+Import this file. Its thirty-second lease can steal a live worker’s job.
 
 22
-00:02:04,485 --> 00:02:11,746
-The air rules diff function meets six of eight checks. It fails two
-under our added line-edit contract.
+00:02:06,527 --> 00:02:12,332
+Muse Spark investigates the new input, receives executed feedback, and
+writes a new repair.
 
 23
-00:02:11,926 --> 00:02:16,187
-These are source adapters, not full application runs or human feedback.
+00:02:19,550 --> 00:02:24,065
+The independent runner checks the proposed source against all ten
+conditions.
 
 24
-00:02:17,550 --> 00:02:21,304
-We also compared direct repair with repair using executed feedback.
+00:02:24,245 --> 00:02:27,809
+Inspect the source difference and the failure that led to it.
 
 25
-00:02:21,484 --> 00:02:26,492
-Across twelve attempts, feedback passes six of six; direct, four of six.
+00:02:27,989 --> 00:02:32,728
+Save the project and export the regression. Opening it executes the
+checks again.
 
 26
-00:02:26,672 --> 00:02:30,153
-Failures include truncation and an invented SQL column.
+00:02:40,550 --> 00:02:45,492
+The MVP runs on Cloudflare, at race lab dot tang vu dot dev.
 
 27
-00:02:30,333 --> 00:02:39,171
-Seven previously unrun attempts were collected later, under a separately
-frozen continuation. This small study proves no general superiority.
+00:02:45,672 --> 00:02:51,709
+Recover a private run or reopen your saved project without another model
+call.
 
 28
-00:02:40,550 --> 00:02:45,736
-Inspect the evidence online. Recompute the source locally, without a
-model key.
-
-29
-00:02:45,916 --> 00:02:51,244
-Switch methods. Scrub the trace. Export a regression, then import it and
-check again.
-
-30
-00:02:51,424 --> 00:02:56,093
-RaceLab: don't trust the patch. Give it a test it can fail.
+00:02:51,889 --> 00:02:57,614
+One supported job contract. Finite checks. No claim of whole-application
+correctness.

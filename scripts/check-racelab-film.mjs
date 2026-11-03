@@ -70,7 +70,39 @@ assert.deepEqual(
     return start;
   }),
 );
-assert.equal(sources.paidAttempts, 0);
+assert.equal(sources.paidAttempts, 1);
+assert.equal(sources.liveInvestigation.model, "muse-spark-1.3");
+assert.equal(sources.liveInvestigation.provider, "Meta Model API");
+assert.equal(sources.liveInvestigation.checked, 10);
+assert.equal(sources.liveInvestigation.passed, true);
+assert.equal(
+  await hash(sources.liveInvestigation.publicReport),
+  sources.liveInvestigation.publicReportSha256,
+);
+const mvp = JSON.parse(await read(sources.liveInvestigation.publicReport));
+assert.equal(mvp.model, "muse-spark-1.3");
+assert.equal(mvp.requests, mvp.turns.length);
+assert.equal(mvp.best.verification.passed, true);
+assert.equal(mvp.best.verification.tested, 10);
+assert.equal(
+  createHash("sha256").update(mvp.startingSource).digest("hex"),
+  mvp.startingSourceHash,
+);
+assert.equal(
+  createHash("sha256").update(mvp.best.source).digest("hex"),
+  mvp.best.sourceHash,
+);
+const mimoArchive = JSON.parse(
+  await read("demo/archive/evidence-mimo-render-manifest.json"),
+);
+assert.equal(
+  await hash("public/archive/racelab-evidence-mimo-demo.mp4"),
+  mimoArchive.videoSha256,
+);
+assert.equal(
+  mimoArchive.videoSha256,
+  "ee97760f19cd462e2d745e384ebf46804850af52d2ddbfabd3d67b49c0deda98",
+);
 assert.equal(sources.passed, true);
 assert.deepEqual(sources.errors, []);
 assert.deepEqual(sources.viewport, { width: 1440, height: 900 });
@@ -166,5 +198,5 @@ for (const [index, scene] of speech.scenes.entries())
     story.scenes[index].narration,
   );
 console.log(
-  "RaceLab film verified: actual Edge clips/stills, MiMo TTS/ASR, measured caption bounds, retained investigation, chapters and all four preserved earlier films.",
+  "RaceLab film verified: fresh Muse Spark MVP evidence, actual Edge clips/stills, MiMo TTS/ASR, measured captions, eight chapters and all five preserved earlier films.",
 );

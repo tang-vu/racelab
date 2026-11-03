@@ -109,7 +109,7 @@
           "seconds": 2.156708,
           "audioSha256": "f3ff93caa35df83a9393da1ece5f6211829e4556d7667114fceab2a389724036",
           "captionStartSeconds": 51.09516666666667,
-          "captionEndSeconds": 53.25020833333334
+          "captionEndSeconds": 53.25020833333333
         },
         {
           "id": "03-process-4",
@@ -191,7 +191,7 @@
           "seconds": 5.81525,
           "audioSha256": "1adffaa00596728ecdfc78c5d70868c91ea4fd058b42844e05a2a3b7de59c36f",
           "captionStartSeconds": 100.89283333333333,
-          "captionEndSeconds": 106.70120833333333
+          "captionEndSeconds": 106.70120833333334
         },
         {
           "id": "05-lifecycle-4",
@@ -205,116 +205,98 @@
       ]
     },
     {
-      "id": "06-repositories",
+      "id": "06-live-muse",
       "beats": [
         {
-          "id": "06-repositories-1",
-          "text": "A good experiment needs controls, not just a green badge.",
-          "asrTranscript": " A good experiment needs controls, not just a green badge.",
-          "seconds": 4.162208,
-          "audioSha256": "a23093ff158a80c7a462e33910b08433476681a090f6be00206f46e5ed6570ec",
+          "id": "06-live-muse-1",
+          "text": "Now bring your own claim method to Race Lab online. No installation or API key needed.",
+          "asrTranscript": "Now bring your own claim method to RaceLab Online. No installation or API key needed.",
+          "seconds": 5.553542,
+          "audioSha256": "7a5717513204271f15f6fd74a2ef46e909195081de5d1110bf2339fdd7e15ee0",
           "captionStartSeconds": 115.55,
-          "captionEndSeconds": 119.27895833333334
+          "captionEndSeconds": 121.099625
         },
         {
-          "id": "06-repositories-2",
-          "text": "Unchanged OpenMusic code passes fourteen bounded checks.",
-          "asrTranscript": " unchanged OpenMusic code passes in fourteen bounded checks.",
-          "seconds": 5.427292,
-          "audioSha256": "5d68f96f5ad263483e8e14a3d63f129802aaf7d32fd48dad185340a16e593995",
-          "captionStartSeconds": 119.45895833333333,
-          "captionEndSeconds": 124.30541666666666
+          "id": "06-live-muse-2",
+          "text": "Import this file. Its thirty-second lease can steal a live worker’s job.",
+          "asrTranscript": " Import this file. Its 30-second lease can steal a live worker's job.",
+          "seconds": 5.071042,
+          "audioSha256": "b4381b70d6429e5210d55f069ced2ae7a785a683d921959e52bf4003ae025d68",
+          "captionStartSeconds": 121.279625,
+          "captionEndSeconds": 126.347
         },
         {
-          "id": "06-repositories-3",
-          "text": "The air rules diff function meets six of eight checks. It fails two under our added line-edit contract.",
-          "asrTranscript": "1. The air rules defunction meets six of eight checks. It fails two under our added line edit contract.",
-          "seconds": 8.131417,
-          "audioSha256": "6da41aea6a404a7f804c6d83641f1ab8f428e53aaf66c259c74e79620303c932",
-          "captionStartSeconds": 124.48541666666667,
-          "captionEndSeconds": 131.74575
-        },
-        {
-          "id": "06-repositories-4",
-          "text": "These are source adapters, not full application runs or human feedback.",
-          "asrTranscript": "These are source adapters, not full application runs or human feedback.",
-          "seconds": 4.768833,
-          "audioSha256": "81d4f8da709e353bdefc7b7aa7f68cfa23edd39b98e35925ba9182327d21f34b",
-          "captionStartSeconds": 131.92575,
-          "captionEndSeconds": 136.18745833333332
+          "id": "06-live-muse-3",
+          "text": "Muse Spark investigates the new input, receives executed feedback, and writes a new repair.",
+          "asrTranscript": "10. MuseSpark investigates the new input, receives executed feedback, and writes a new repair.",
+          "seconds": 5.807208,
+          "audioSha256": "12aed69dfc53656a23168d2164eaa9c3de797d1a38531c52217480b40fa2c00e",
+          "captionStartSeconds": 126.527,
+          "captionEndSeconds": 132.33154166666668
         }
       ]
     },
     {
-      "id": "07-comparison",
+      "id": "07-keep-proof",
       "beats": [
         {
-          "id": "07-comparison-1",
-          "text": "We also compared direct repair with repair using executed feedback.",
-          "asrTranscript": "2. We also compared direct repair with repair using executed feedback.",
-          "seconds": 4.207083,
-          "audioSha256": "59df4e175c32f6f039e9f77767e8a09d3acfc12a5d427af25ee22656da9f6765",
-          "captionStartSeconds": 137.55,
-          "captionEndSeconds": 141.304
+          "id": "07-keep-proof-1",
+          "text": "The independent runner checks the proposed source against all ten conditions.",
+          "asrTranscript": "10. The independent runner checks the proposed source against all ten conditions.",
+          "seconds": 4.51675,
+          "audioSha256": "1faef55c20831a31c00592f49922c7f6f1801da2d100a13f8043cac9921b7a12",
+          "captionStartSeconds": 139.55,
+          "captionEndSeconds": 144.065125
         },
         {
-          "id": "07-comparison-2",
-          "text": "Across twelve attempts, feedback passes six of six; direct, four of six.",
-          "asrTranscript": " Across twelve attempts, feedback passes six of six, direct four of six.",
-          "seconds": 5.595542,
-          "audioSha256": "13935d66327223629c2465987e624c18c7b0991d742b9de5f44b2868c15bc5fe",
-          "captionStartSeconds": 141.484,
-          "captionEndSeconds": 146.49154166666668
+          "id": "07-keep-proof-2",
+          "text": "Inspect the source difference and the failure that led to it.",
+          "asrTranscript": " Inspect the source difference and the failure that led to it.",
+          "seconds": 3.572833,
+          "audioSha256": "b69bff153823f1cfb83e8b69f295ed08b6e8bc6cb853aa7bb5e71e4dcd265a84",
+          "captionStartSeconds": 144.245125,
+          "captionEndSeconds": 147.80945833333334
         },
         {
-          "id": "07-comparison-3",
-          "text": "Failures include truncation and an invented SQL column.",
-          "asrTranscript": " failures include truncation and an invented SQL column.",
-          "seconds": 3.904708,
-          "audioSha256": "18ac48de99ed1d017c0abcc6671cab3d531ffb08dacf4f46b78697ccd05c555e",
-          "captionStartSeconds": 146.67154166666666,
-          "captionEndSeconds": 150.15337499999998
-        },
-        {
-          "id": "07-comparison-4",
-          "text": "Seven previously unrun attempts were collected later, under a separately frozen continuation. This small study proves no general superiority.",
-          "asrTranscript": "7 previously unrun attempts were collected later under a separately frozen continuation. This small study proves no general superiority.",
-          "seconds": 9.906958,
-          "audioSha256": "8b4d11599bc9b38a74ec83b0ea9aa5a9d9a6fd28b527e7565bb7db47ef79ba17",
-          "captionStartSeconds": 150.333375,
-          "captionEndSeconds": 159.171
+          "id": "07-keep-proof-3",
+          "text": "Save the project and export the regression. Opening it executes the checks again.",
+          "asrTranscript": "Save the project and export the regression. Opening it executes the checks again.",
+          "seconds": 4.745792,
+          "audioSha256": "67742336bca02f9cf637bb4b23fdf4cfe21085d18a2f659f80fd828e8f08d91b",
+          "captionStartSeconds": 147.98945833333335,
+          "captionEndSeconds": 152.72841666666667
         }
       ]
     },
     {
-      "id": "08-explore",
+      "id": "08-online",
       "beats": [
         {
-          "id": "08-explore-1",
-          "text": "Inspect the evidence online. Recompute the source locally, without a model key.",
-          "asrTranscript": " Inspect the evidence online. Recompute the source locally without a model key.",
-          "seconds": 5.193083,
-          "audioSha256": "a889e4648457c382bd158e73b617ba549f1508bdbe7d50aa14ae6d9c7e267930",
+          "id": "08-online-1",
+          "text": "The MVP runs on Cloudflare, at race lab dot tang vu dot dev.",
+          "asrTranscript": " The MVP runs on Cloudflare at racelab.tongvu.dev.",
+          "seconds": 4.946083,
+          "audioSha256": "fd5f7aa4e2e8236e09e856d9ebe9b38f2b4605a1481e0379faeede1d20b151ff",
           "captionStartSeconds": 160.55,
-          "captionEndSeconds": 165.73554166666668
+          "captionEndSeconds": 165.492125
         },
         {
-          "id": "08-explore-2",
-          "text": "Switch methods. Scrub the trace. Export a regression, then import it and check again.",
-          "asrTranscript": " Switch methods. Scrub the trace. Export a regression, then import it, and check again.",
-          "seconds": 5.333417,
-          "audioSha256": "49098b09bbcdf367be984111c18fe5c58e6b0512f4ecde357f13ee0465cefda6",
-          "captionStartSeconds": 165.91554166666666,
-          "captionEndSeconds": 171.24404166666665
+          "id": "08-online-2",
+          "text": "Recover a private run or reopen your saved project without another model call.",
+          "asrTranscript": " Recover a private run or reopen your saved project without another model call.",
+          "seconds": 6.043208,
+          "audioSha256": "0e12aecde0af5d79dfeeed780ddd5add73f690a415e3c614f81da521f321b6f9",
+          "captionStartSeconds": 165.672125,
+          "captionEndSeconds": 171.70858333333334
         },
         {
-          "id": "08-explore-3",
-          "text": "RaceLab: don't trust the patch. Give it a test it can fail.",
-          "asrTranscript": "Race Lab, don't trust the patch. Give it a test, it can fail.",
-          "seconds": 4.671875,
-          "audioSha256": "c70228b766f9d3a6a139189128d4d118709095caa60e290ded69411a8d4d02c3",
-          "captionStartSeconds": 171.42404166666665,
-          "captionEndSeconds": 176.09279166666664
+          "id": "08-online-3",
+          "text": "One supported job contract. Finite checks. No claim of whole-application correctness.",
+          "asrTranscript": "1 supported job contract, finite checks, no claim of whole application correctness.",
+          "seconds": 5.733042,
+          "audioSha256": "8ea6d31d09dc193f96ebed81c436a4fb6680cff899c493acc2ceac4715ad6dfa",
+          "captionStartSeconds": 171.88858333333334,
+          "captionEndSeconds": 177.61416666666668
         }
       ]
     }
@@ -323,7 +305,8 @@
   "finalMixedAudioReview": {
     "format": "racelab-final-mix-asr-v1",
     "model": "mimo-v2.5-asr",
-    "audioSha256": "61e4c2dd46a447f194208681802ae8f40843ffa268db223a9ea4e6acee572819",
-    "transcript": "1. Your tests pass. Then a worker dies and a job never comes back. RaceLab reproduces the failure and checks a meta-generated repair built by Tang Vu during this hackathon using earlier Ten source and event infrastructure. This is a real TypeScript method from a pinned public repository. It runs against a real disposable database inside a separate worker process. Claim the job, commit the row, stop the worker. The database survives. The original method leaves the job claimed. Now start a replacement worker on the same database. The trace shows exactly what committed, and when the old process exited. The original misses the claimed row. The repair reclaims it after the declared sixty-second lease, without changing its payload. Meta's model sees the source and the contract, then chooses a crash probe. The tool returns an actual failure. Next, Meta writes a candidate method. Independent code executes and scores it. Open the hypothesis, feedback, and diff. The model never awards itself a pass. But recovering one job is only half the story. A worker may still be alive. Or it may return with an old token. The life cycle adapter tests contention, interruption, renewal, and stale ownership. Both feedback candidates pass all ten conditions, with guards inside their source. A good experiment needs controls, not just a green badge. Unchanged OpenMusic code passes in fourteen bounded checks. The error rules diff function meets six of eight checks. It fails two under our added line edit contract. These are source adapters, not full application runs or human feedback. We also compare direct repair with repair using executed feedback. Across twelve attempts, feedback passes six of six, direct four of six. Failures include truncation and an invented SQL column. Seven previously unrun attempts were collected later under a separately frozen continuation. This small study proves no general superiority. Inspect the evidence online. Recompute the source locally without a model key. Switch methods. Scrub the trace. Export a regression, then import it and check again. RaceLab, don't trust the patch. Give it a test. It can fail."
+    "audioSha256": "f12d377457f2bf6acd15461c9cb152f61bbd33bc6a651df70f0c7fe196009bb3",
+    "transcript": "1. Your tests pass. Then a worker dies and a job never comes back. RaceLab reproduces the failure and checks a meta-generated repair built by Tang Vu during this hackathon using earlier Ten source and event infrastructure. This is a real TypeScript method from a pinned public repository. It runs against a real disposable database inside a separate worker process. Claim the job, commit the row, stop the worker. The database survives. The original method leaves the job claimed. Now start a replacement worker on the same database. The trace shows exactly what committed, and when the old process exited. The original misses the claimed row. The repair reclaims it after the declared sixty-second lease, without changing its payload. Meta's model sees the source and the contract, then chooses a crash probe. The tool returns an actual failure. Next, Meta writes a candidate method. Independent code executes and scores it. Open the hypothesis, feedback, and diff. The model never awards itself a pass. But recovering one job is only half the story. A worker may still be alive. Or it may return with an old token. The life cycle adapter tests contention, interruption, renewal, and stale ownership. Both feedback candidates pass all ten conditions, with guards inside their source. Now bring your own claim method to RaceLab online. No installation or API key needed. Import this file. Its thirty-second lease can steal a live worker's job. MuseSpark investigates the new input, receives executed feedback, and writes a new repair. The independent runner checks the proposed source against all ten conditions. Inspect the source difference and the failure that led to it. Save the project and export the regression. Opening it executes the checks again. The MVP runs on Cloudflare at racelab.tangvoo.dev. Recover a private run, or reopen your saved project. Without another model call. One supported job contract. Finite checks. No claim of whole application correctness.",
+    "videoSha256": "6e344b399583070a412fbf4ba534cef7cdd815a18bf12f625d6104957a948067"
   }
 }

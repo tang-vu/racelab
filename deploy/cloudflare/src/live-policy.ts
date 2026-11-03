@@ -1,13 +1,18 @@
-export const LIVE_MODEL = "@cf/meta/llama-4-scout-17b-16e-instruct";
+export const LIVE_MODEL = "muse-spark-1.3";
+// Historical allocation identity: preserve its existing charges and storage.
 export const LIVE_ALLOCATION = "racelab-public-scout-20261103";
 export const LIVE_CAP_MICROS = 2_000_000;
 export const LIVE_MAX_TURNS = 6;
-export const LIVE_MAX_OUTPUT = 3072;
+export const LIVE_MAX_OUTPUT = 4096;
+const LEGACY_SCOUT_RESERVATION = 37982;
+const PREVIOUS_MUSE_RESERVATION = 1328128;
+// The entire text-only request is capped at 100,000 UTF-8 bytes. Reserve
+// 131,072 input tokens, including generous protocol/schema overhead.
 export const LIVE_RESERVATION_MICROS = Math.ceil(
-  131_000 * 0.27 + LIVE_MAX_OUTPUT * 0.85,
+  131_072 * 1.25 + LIVE_MAX_OUTPUT * 4.25,
 );
 
-type Reservation = { id: string; micros: number; at: number };
+type Reservation = { id: string; micros: number; at: number; model?: string };
 export type LiveBudgetState = {
   version: 1;
   allocation: string;
@@ -17,6 +22,7 @@ export type LiveBudgetState = {
   blocked: string | null;
   active: { id: string; expires: number } | null;
   pending: Reservation[];
+  reviews?: { id: string; at: number; chargedMicros: number; reason: string }[];
   rates: {
     client: string;
     hour: number;
@@ -54,7 +60,13 @@ export function checkBudget(state: LiveBudgetState) {
       (r) =>
         typeof r.id !== "string" ||
         !Number.isSafeInteger(r.micros) ||
-        r.micros !== LIVE_RESERVATION_MICROS,
+        !(
+          (r.model === LIVE_MODEL &&
+            [LIVE_RESERVATION_MICROS, PREVIOUS_MUSE_RESERVATION].includes(
+              r.micros,
+            )) ||
+          (r.model === undefined && r.micros === LEGACY_SCOUT_RESERVATION)
+        ),
     ) ||
     state.pending.reduce((sum, r) => sum + r.micros, 0) !== state.held
   )
@@ -63,13 +75,50 @@ export function checkBudget(state: LiveBudgetState) {
     );
 }
 
+export function reviewLiveCharge(
+  state: LiveBudgetState,
+  id: string,
+  reason: string,
+  now: number,
+) {
+  checkBudget(state);
+  if (!state.blocked || state.pending.length || state.held || state.active)
+    throw new Error("Only a settled, blocked charge can be reviewed.");
+  if (
+    !id ||
+    reason.trim().length < 20 ||
+    reason.length > 1000 ||
+    state.reviews?.some((r) => r.id === id)
+  )
+    throw new Error("A unique review and explicit reason are required.");
+  state.reviews = [
+    ...(state.reviews ?? []),
+    { id, at: now, chargedMicros: state.spent, reason },
+  ];
+  state.blocked = null; // Every charged cent remains debited; no cap/identity reset.
+}
+
 export function availability(
   state: LiveBudgetState,
   client: string,
   now: number,
 ) {
   checkBudget(state);
+  if (state.active && state.active.expires <= now) {
+    for (const pending of state.pending) state.spent += pending.micros;
+    if (state.pending.length)
+      state.blocked =
+        "A model request was interrupted. Live repair is paused for cost review.";
+    state.pending = [];
+    state.held = 0;
+    state.active = null;
+  }
   if (state.blocked) return { enabled: false, reason: state.blocked };
+  if (state.active && state.active.expires > now)
+    return {
+      enabled: false,
+      reason: "Another live repair is running. Try again shortly.",
+    };
   if (state.spent + state.held + LIVE_RESERVATION_MICROS > state.cap)
     return {
       enabled: false,
@@ -84,11 +133,6 @@ export function availability(
       enabled: false,
       reason:
         "Your live repair preview limit has been reached. Try again later; execution and recorded rechecks still work.",
-    };
-  if (state.active && state.active.expires > now)
-    return {
-      enabled: false,
-      reason: "Another live repair is running. Try again shortly.",
     };
   return { enabled: true, reason: "Ready for a new Meta repair." };
 }
@@ -148,7 +192,12 @@ export function reserveLiveCall(
     );
   if (state.pending.some((r) => r.id === id))
     throw new Error("Duplicate model reservation.");
-  state.pending.push({ id, micros: LIVE_RESERVATION_MICROS, at: now });
+  state.pending.push({
+    id,
+    micros: LIVE_RESERVATION_MICROS,
+    at: now,
+    model: LIVE_MODEL,
+  });
   state.held += LIVE_RESERVATION_MICROS;
 }
 
@@ -169,8 +218,12 @@ export function settleLiveCall(
     (u?.prompt_tokens ?? -1) >= 0 &&
     Number.isSafeInteger(u?.completion_tokens) &&
     (u?.completion_tokens ?? -1) >= 0;
+  const legacy = entry.model === undefined;
   const cost = known
-    ? Math.ceil(u!.prompt_tokens! * 0.27 + u!.completion_tokens! * 0.85)
+    ? Math.ceil(
+        u!.prompt_tokens! * (legacy ? 0.27 : 1.25) +
+          u!.completion_tokens! * (legacy ? 0.85 : 4.25),
+      )
     : entry.micros;
   state.spent += cost;
   state.held -= entry.micros;

@@ -1,17 +1,17 @@
 {
-  "format": "racelab-demo-v4",
+  "format": "racelab-demo-v5",
   "title": "RaceLab — give the repair a test it can fail",
   "owner": "Tang Vu",
   "durationSeconds": 180,
-  "sourceDirectory": "docs/film-shots",
+  "sourceDirectory": "docs/mvp-film-shots",
   "recording": "public/recordings/tend-claims.json",
   "recordingSha256": "91e2b1ffc0d4ac3940d537b5a7552f15977905743a3480eadfcc8b090480baee",
   "disclosures": [
     "Actual Edge interaction clips and stills with editorial crops, original graphic framing and synthesized sound bed; preparation omitted",
-    "Recorded public evidence; keyless local workbench independently recomputes source",
+    "Scenes 1-5 retain Muse Spark study evidence; scenes 6-8 capture one new live Muse Spark 1.3 investigation on the public Cloudflare MVP; model waiting omitted",
     "Generic Xiaomi MiMo TTS Mia voice, no voice cloning; separate MiMo ASR checks; captions use measured speech-beat boundaries rather than provider word timestamps",
     "Real disposable SQLite and finite controlled process sequences; no whole-application or external delivery guarantee",
-    "Small correlated comparison with a disclosed post-hoc continuation; no general AI superiority claim",
+    "New film integration is separate from frozen comparison studies and failed recording attempts; no general repair-rate or human-impact claim",
     "Tang Vu built RaceLab during the event; TEND and earlier event infrastructure are pre-existing inputs"
   ],
   "scenes": [
@@ -110,60 +110,58 @@
       "narration": "But recovering one job is only half the story. A worker may still be alive. Or it may return with an old token. The lifecycle adapter tests contention, interruption, renewal and stale ownership. Both feedback candidates pass all ten conditions, with guards inside their source."
     },
     {
-      "id": "06-repositories",
-      "seconds": 22,
-      "chapter": "Controls and retained failures",
-      "heading": "Keep the control.\nKeep the failure.",
-      "eyebrow": "06 / BROADER INPUTS, BOUNDED CLAIMS",
-      "accent": "#c7ed8a",
-      "metric": "14 / 14 · 6 / 8",
-      "metricLabel": "OpenMusic checks / airules added-contract checks",
-      "source": "06-repositories.png",
-      "kind": "ui",
-      "beats": [
-        "A good experiment needs controls, not just a green badge.",
-        "Unchanged OpenMusic code passes fourteen bounded checks.",
-        "The air rules diff function meets six of eight checks. It fails two under our added line-edit contract.",
-        "These are source adapters, not full application runs or human feedback."
-      ],
-      "narration": "A good experiment needs controls, not just a green badge. Unchanged OpenMusic code passes fourteen bounded checks. The air rules diff function meets six of eight checks. It fails two under our added line-edit contract. These are source adapters, not full application runs or human feedback."
-    },
-    {
-      "id": "07-comparison",
-      "seconds": 23,
-      "chapter": "Measure the feedback",
-      "heading": "Measure it.\nKeep every attempt.",
-      "eyebrow": "07 / DIRECT REPAIR VS EXECUTED FEEDBACK",
-      "accent": "#b5adff",
-      "metric": "6 / 6 vs 4 / 6",
-      "metricLabel": "complete-arm held-out passes / small correlated collection",
-      "source": "07-comparison.png",
-      "kind": "ui",
-      "beats": [
-        "We also compared direct repair with repair using executed feedback.",
-        "Across twelve attempts, feedback passes six of six; direct, four of six.",
-        "Failures include truncation and an invented SQL column.",
-        "Seven previously unrun attempts were collected later, under a separately frozen continuation. This small study proves no general superiority."
-      ],
-      "narration": "We also compared direct repair with repair using executed feedback. Across twelve attempts, feedback passes six of six; direct, four of six. Failures include truncation and an invented SQL column. Seven previously unrun attempts were collected later, under a separately frozen continuation. This small study proves no general superiority."
-    },
-    {
-      "id": "08-explore",
-      "seconds": 20,
-      "chapter": "Inspect online. Recompute locally.",
-      "heading": "Don't trust the patch.\nGive it a test it can fail.",
-      "eyebrow": "08 / RACELAB BY TANG VU",
-      "accent": "#c7ed8a",
-      "metric": "REPLAY IT",
-      "metricLabel": "public evidence / keyless local execution",
-      "source": "08-explore.webm",
+      "id": "06-live-muse",
+      "seconds": 24,
+      "chapter": "Bring a method. Run Muse Spark.",
+      "heading": "Your method.\nA new Muse repair.",
+      "eyebrow": "06 / LIVE PUBLIC MVP",
+      "accent": "#ff946d",
+      "metric": "LIVE",
+      "metricLabel": "Meta Model API / muse-spark-1.3",
+      "source": "06-live-muse.webm",
       "kind": "browser",
       "beats": [
-        "Inspect the evidence online. Recompute the source locally, without a model key.",
-        "Switch methods. Scrub the trace. Export a regression, then import it and check again.",
-        "RaceLab: don't trust the patch. Give it a test it can fail."
+        "Now bring your own claim method to Race Lab online. No installation or API key needed.",
+        "Import this file. Its thirty-second lease can steal a live worker’s job.",
+        "Muse Spark investigates the new input, receives executed feedback, and writes a new repair."
       ],
-      "narration": "Inspect the evidence online. Recompute the source locally, without a model key. Switch methods. Scrub the trace. Export a regression, then import it and check again. RaceLab: don't trust the patch. Give it a test it can fail."
+      "narration": "Now bring your own claim method to Race Lab online. No installation or API key needed. Import this file. Its thirty-second lease can steal a live worker’s job. Muse Spark investigates the new input, receives executed feedback, and writes a new repair."
+    },
+    {
+      "id": "07-keep-proof",
+      "seconds": 21,
+      "chapter": "Check the new source. Keep the proof.",
+      "heading": "A fresh proposal.\nTen real checks.",
+      "eyebrow": "07 / INDEPENDENT VERIFICATION",
+      "accent": "#b5adff",
+      "metric": "10 / 10",
+      "metricLabel": "new Muse candidate / fixed SQLite conditions",
+      "source": "07-keep-proof.webm",
+      "kind": "browser",
+      "beats": [
+        "The independent runner checks the proposed source against all ten conditions.",
+        "Inspect the source difference and the failure that led to it.",
+        "Save the project and export the regression. Opening it executes the checks again."
+      ],
+      "narration": "The independent runner checks the proposed source against all ten conditions. Inspect the source difference and the failure that led to it. Save the project and export the regression. Opening it executes the checks again."
+    },
+    {
+      "id": "08-online",
+      "seconds": 20,
+      "chapter": "Try the MVP on the homepage",
+      "heading": "Bring code.\nLeave with proof.",
+      "eyebrow": "08 / RACELAB.TANGVU.DEV",
+      "accent": "#d5e795",
+      "metric": "racelab.tangvu.dev",
+      "metricLabel": "Open the homepage. No visitor key or install.",
+      "source": "08-online.webm",
+      "kind": "browser",
+      "beats": [
+        "The MVP runs on Cloudflare, at race lab dot tang vu dot dev.",
+        "Recover a private run or reopen your saved project without another model call.",
+        "One supported job contract. Finite checks. No claim of whole-application correctness."
+      ],
+      "narration": "The MVP runs on Cloudflare, at race lab dot tang vu dot dev. Recover a private run or reopen your saved project without another model call. One supported job contract. Finite checks. No claim of whole-application correctness."
     }
   ]
 }

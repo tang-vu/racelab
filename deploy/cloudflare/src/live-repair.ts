@@ -1,13 +1,13 @@
 import { DurableObject } from "cloudflare:workers";
 import {
   LIVE_MODEL,
-  LIVE_MAX_OUTPUT,
   LIVE_ALLOCATION,
   newLiveBudget,
   availability,
   beginLiveJob,
   reserveLiveCall,
   settleLiveCall,
+  reviewLiveCharge,
   type LiveBudgetState,
 } from "./live-policy";
 import {
@@ -17,6 +17,7 @@ import {
   type LiveMessage,
 } from "./live-agent";
 import { RUNNER_ORIGIN, requestForRunner } from "./origin";
+import { requestMuse, museReply, museBody } from "./live-meta";
 
 type Data = Record<string, any>;
 const json = (value: unknown, status = 200) =>
@@ -91,6 +92,82 @@ export class LiveRepair extends DurableObject<Cloudflare.Env> {
   }
   async fetch(request: Request) {
     const path = new URL(request.url).pathname;
+    if (path === "/api/live/ops") {
+      const token =
+        request.headers.get("authorization")?.replace(/^Bearer /, "") ?? "";
+      if (
+        !token ||
+        (await hashSource(token)) !==
+          (await hashSource(this.env.MODEL_API_KEY ?? ""))
+      )
+        return json({ error: "Not found." }, 404);
+      if (request.method === "GET") {
+        if (new URL(request.url).searchParams.get("probe") === "models") {
+          try {
+            const r = await fetch("https://api.meta.ai/v1/models", {
+              headers: { Authorization: `Bearer ${this.env.MODEL_API_KEY}` },
+              redirect: "manual",
+            });
+            let data: Data = {};
+            try {
+              data = (await r.json()) as Data;
+            } catch {}
+            return json({
+              status: r.status,
+              contentType: r.headers.get("content-type"),
+              museAvailable: (data.data ?? []).some(
+                (m: Data) => m.id === LIVE_MODEL,
+              ),
+              errorCode: data.error?.code ?? null,
+            });
+          } catch (error) {
+            return json({
+              exception: (error as Error).name,
+              message: String((error as Error).message)
+                .replaceAll(this.env.MODEL_API_KEY, "[redacted]")
+                .slice(0, 400),
+            });
+          }
+        }
+        const state = this.budget((s) => ({
+          allocation: s.allocation,
+          spent: s.spent,
+          held: s.held,
+          blocked: s.blocked,
+          pending: s.pending,
+          active: s.active,
+          reviews: s.reviews ?? [],
+        }));
+        const recent = this.ctx.storage.sql
+          .exec(
+            "SELECT id,status,report FROM live_jobs ORDER BY expires DESC LIMIT 3",
+          )
+          .toArray()
+          .map((row) => ({
+            id: row.id,
+            status: row.status,
+            error: row.report
+              ? (JSON.parse(String(row.report)).error ?? null)
+              : null,
+          }));
+        return json({ state, recent });
+      }
+      if (request.method === "POST") {
+        const body = (await request.json()) as Data;
+        if (body.action !== "review-conservative-charge")
+          return json({ error: "Unknown operation." }, 400);
+        this.budget((s) =>
+          reviewLiveCharge(
+            s,
+            String(body.id ?? ""),
+            String(body.reason ?? ""),
+            Date.now(),
+          ),
+        );
+        return json({ reviewed: true, chargedCentsPreserved: true });
+      }
+      return json({ error: "Not found." }, 404);
+    }
     const owner = await this.identity(
       "owner:" + (request.headers.get("x-racelab-owner") ?? ""),
     );
@@ -105,12 +182,18 @@ export class LiveRepair extends DurableObject<Cloudflare.Env> {
       const state = this.budget((s) => availability(s, client, Date.now()));
       return json({
         ...state,
+        ...(!this.env.MODEL_API_KEY
+          ? {
+              enabled: false,
+              reason: "Muse Spark is not configured on the backend.",
+            }
+          : {}),
         model: LIVE_MODEL,
         workload: "tend-claims",
         allocation: LIVE_ALLOCATION,
         limits: { turns: 6, patches: 2, sourceCharacters: 12000 },
         sourcePolicy:
-          "Source and synthetic execution feedback go to Meta via Cloudflare. Reports are available to this browser for 24 hours.",
+          "Source and synthetic execution feedback go to Muse Spark through Meta Model API. Reports are available to this browser for 24 hours.",
       });
     }
     if (
@@ -139,6 +222,8 @@ export class LiveRepair extends DurableObject<Cloudflare.Env> {
         throw new Error("The request is too large.");
       const input = JSON.parse(raw);
       validateLiveSource(input.source);
+      if (!this.env.MODEL_API_KEY)
+        throw new Error("Muse Spark is not configured on the backend.");
       const ready = this.budget((s) => availability(s, client, Date.now()));
       if (!ready.enabled) throw new Error(ready.reason);
       const id = crypto.randomUUID();
@@ -196,8 +281,8 @@ export class LiveRepair extends DurableObject<Cloudflare.Env> {
                     "The browser disconnected before another model request.",
                   );
                 if (
-                  new TextEncoder().encode(JSON.stringify(messages)).length >
-                  100000
+                  new TextEncoder().encode(JSON.stringify(museBody(messages)))
+                    .length > 100000
                 )
                   throw new Error(
                     "The bounded model context is full. Export this run to inspect it.",
@@ -208,12 +293,10 @@ export class LiveRepair extends DurableObject<Cloudflare.Env> {
                 );
                 let settled = false;
                 try {
-                  const result = (await this.env.AI.run(LIVE_MODEL, {
+                  const result = await requestMuse(
+                    this.env.MODEL_API_KEY,
                     messages,
-                    max_tokens: LIVE_MAX_OUTPUT,
-                    temperature: 0.1,
-                    response_format: { type: "json_object" },
-                  })) as Data;
+                  );
                   const charge = this.budget((s) =>
                     settleLiveCall(s, receiptId, result.usage),
                   );
@@ -222,14 +305,7 @@ export class LiveRepair extends DurableObject<Cloudflare.Env> {
                     throw new Error(
                       "Provider usage was unavailable. Live repair is paused for cost review.",
                     );
-                  const text =
-                    typeof result.response === "string"
-                      ? result.response
-                      : JSON.stringify(result.response);
-                  if (typeof text !== "string" || text.length > 30000)
-                    throw new Error(
-                      "The model returned an unsupported response.",
-                    );
+                  const text = museReply(result);
                   return {
                     text,
                     usage: result.usage,
@@ -242,7 +318,7 @@ export class LiveRepair extends DurableObject<Cloudflare.Env> {
                   throw new Error(
                     settled
                       ? String((error as Error).message)
-                      : "The model request did not complete. Live repair is paused for usage review; no automatic retry was made.",
+                      : `${/^Meta returned HTTP \d{3}\./.test(String((error as Error).message)) ? (error as Error).message : "The model request did not complete."} Live repair is paused for usage review; no automatic retry was made.`,
                   );
                 }
               },

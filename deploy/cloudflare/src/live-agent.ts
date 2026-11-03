@@ -1,4 +1,5 @@
 import { LIVE_MODEL, LIVE_MAX_TURNS } from "./live-policy.ts";
+import { museBody } from "./live-meta.ts";
 
 type Data = Record<string, any>;
 export type LiveMessage = {
@@ -80,7 +81,7 @@ export async function investigateLive(
     startingSourceHash: sourceHash,
     editedInput: source !== bundle.source,
     model: LIVE_MODEL,
-    provider: "Cloudflare Workers AI",
+    provider: "Meta Model API",
     protocol: "bounded-json-actions-v1",
     origin: "live_meta",
     baseline,
@@ -93,7 +94,7 @@ export async function investigateLive(
     best: null,
     outcome: "incomplete",
     scope:
-      "Fresh Meta Llama 4 Scout proposals, executed against ten fixed SQLite/process conditions. The pinned TEND schema/mapper and fixed completion guard remain adapter instrumentation. This does not execute a full repository or prove production correctness.",
+      "Fresh Meta Muse Spark proposals, executed against ten fixed SQLite/process conditions. The pinned TEND schema/mapper and fixed completion guard remain adapter instrumentation. This does not execute a full repository or prove production correctness.",
   };
   const publish = async (event: Data) => {
     const item = { ...event, sequence: record.events.length + 1 };
@@ -113,7 +114,7 @@ export async function investigateLive(
   const messages: LiveMessage[] = [
     {
       role: "system",
-      content: `You are RaceLab's method repair agent. Return ONLY one JSON object per turn. The application executes your proposed actions and returns independent observations. Never claim a result without executed evidence.
+      content: `You are RaceLab's method repair agent. Return ONLY one JSON object per turn matching the response schema; use empty strings for fields unrelated to the chosen action. The application executes your proposed actions and returns independent observations. Never claim a result without executed evidence.
 The user's TypeScript method runs in a bounded QuickJS guest backed by real disposable Node SQLite and isolated worker processes. The TEND application is not loaded. Only this claimNextDue method is editable. database.prepare(sql).get/all/run and database.transaction(fn) are available. followUpFromRow(row) is the existing schema mapper. No Node APIs, imports, external calls, timers or dependencies. SELECT/UPDATE on follow_ups only; 24 statements per invocation. Keep the method signature and return shape.
 Database columns on follow_ups: id, incident_id, due_at, purpose, status, attempt_count, last_error, idempotency_key, claimed_at, created_at, completed_at. All date columns use ISO strings. There is NO generation column: attempt_count IS the durable claim generation. Use this.database, as in the supplied method.
 Immutable recovery contract: scheduled/retrying rows are eligible if due_at <= now. A claimed row is eligible ONLY when due AND claimed_at is non-null and <= now minus 60000 milliseconds (60 seconds, NOT 10 minutes), including equality. Fresh claims, future and completed rows stay untouched. Update only status, claimed_at and attempt_count on the eligible selected row. Status becomes claimed, claimed_at equals the supplied clock, attempt_count increments exactly once. Return that persisted row through followUpFromRow. Preserve payloads, unrelated rows and transaction atomicity. A fixed fixture completion guard rejects stale generations outside your method.
@@ -141,17 +142,13 @@ CONDITIONS: ${JSON.stringify(conditions)}`,
         );
       await publish({
         type: "model",
-        message: `Meta Llama 4 Scout is examining the executed feedback (${turn + 1}/${LIVE_MAX_TURNS}).`,
+        message: `Meta Muse Spark is examining the executed feedback (${turn + 1}/${LIVE_MAX_TURNS}).`,
       });
       const response = await runtime.chat(messages);
       record.requests++;
       record.costUsd += response.costUsd;
       const retained: Data = {
-        request: {
-          model: LIVE_MODEL,
-          messages: messages.map((m) => ({ ...m })),
-          response_format: { type: "json_object" },
-        },
+        request: museBody(messages.map((m) => ({ ...m }))),
         assistant: { role: "assistant", content: response.text },
         usage: response.usage,
         costUsd: response.costUsd,

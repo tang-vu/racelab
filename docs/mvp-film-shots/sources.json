@@ -1,0 +1,172 @@
+{
+  "format": "racelab-browser-capture-v3",
+  "browser": "156.0.4314.58",
+  "capturedAt": "2026-11-03T14:06:45.983Z",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "sources": {
+    "01-result": {
+      "type": "app-recording",
+      "method": "Playwright video / fresh Microsoft Edge context / actual UI interactions; trimmed preparation, 30 fps conversion",
+      "url": "http://127.0.0.1:4188/evidence.html",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "6b101fa1170e51d418e0341dbe72520cfd1b12918cee2023c6a52d6565178382",
+      "rawSha256": "2bbc3a4a34536b1dbfcff68682fd66f29d05215aae478133c8fb0921bb44d741",
+      "trimStartSeconds": 0.824,
+      "rawDurationSeconds": 24.08,
+      "recordedSeconds": 20
+    },
+    "02-source": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4188/tend.html",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "3337e90f4d6cfe9dafed30d41484ff5e98dc1f8b3231a0b3cb90ab014d736e3b"
+    },
+    "03-process": {
+      "type": "app-recording",
+      "method": "Playwright video / fresh Microsoft Edge context / actual UI interactions; trimmed preparation, 30 fps conversion",
+      "url": "http://127.0.0.1:4188/evidence.html",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "5b1b8ebd2c397645809ba9b27369b6d0865475e0eb223dfa5c78abd748988bb3",
+      "rawSha256": "b5b6117fc7f0fa3b34b345d2782f75d4fbb14c31726c65bdcedf552101c6513c",
+      "trimStartSeconds": 0.478,
+      "rawDurationSeconds": 29,
+      "recordedSeconds": 24
+    },
+    "04-investigation": {
+      "type": "app-recording",
+      "method": "Playwright video / fresh Microsoft Edge context / actual UI interactions; trimmed preparation, 30 fps conversion",
+      "url": "http://127.0.0.1:4188/evidence.html",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "05e2e79b844dd6fbde246c3ea7710d8c55a36e5a420aabe5a30e1a5381c2bf89",
+      "rawSha256": "844d8d4c9dad59f13a7bf023a9ca33aa53082cf1e58c5e1c41d6301800d1214c",
+      "trimStartSeconds": 0.489,
+      "rawDurationSeconds": 31.68,
+      "recordedSeconds": 25
+    },
+    "05-lifecycle": {
+      "type": "app-screenshot",
+      "method": "Playwright / fresh Microsoft Edge context / actual local application",
+      "url": "http://127.0.0.1:4188/evaluation.html",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "0014879f8a0e83ca4ac2a5a6a6d3d2baffb13ec588e3354ea65c960017fd7525"
+    },
+    "06-live-muse": {
+      "type": "app-recording",
+      "method": "Playwright video / fresh Microsoft Edge context / actual public Cloudflare UI; preparation and model waiting removed by documented cuts; 30 fps conversion",
+      "url": "https://racelab.tangvu.dev/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "e58ad085a0a1b0b12ebc6e4a9e83af38083fa3bc9dcd8cde2a3a80802a918cff",
+      "rawSha256": "95a2577e122dc766d5e51ffb758c9800875e6072adcc067daf3ad1bdda37210d",
+      "segments": [
+        {
+          "startSeconds": 15,
+          "seconds": 6
+        },
+        {
+          "startSeconds": 35,
+          "seconds": 8
+        },
+        {
+          "startSeconds": 107.58495464324952,
+          "seconds": 10
+        }
+      ],
+      "recordedSeconds": 24,
+      "model": "muse-spark-1.3"
+    },
+    "07-keep-proof": {
+      "type": "app-recording",
+      "method": "Playwright video / fresh Microsoft Edge context / actual public Cloudflare UI; preparation and model waiting removed by documented cuts; 30 fps conversion",
+      "url": "https://racelab.tangvu.dev/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "2e1f23623de8ac88d24eb84ae76e0862d6d29fd94b301979b35f5860354d226e",
+      "rawSha256": "95a2577e122dc766d5e51ffb758c9800875e6072adcc067daf3ad1bdda37210d",
+      "segments": [
+        {
+          "startSeconds": 108.68495464324951,
+          "seconds": 6
+        },
+        {
+          "startSeconds": 132.6849546432495,
+          "seconds": 4
+        },
+        {
+          "startSeconds": 124.68495464324951,
+          "seconds": 11
+        }
+      ],
+      "recordedSeconds": 21,
+      "model": "muse-spark-1.3"
+    },
+    "08-online": {
+      "type": "app-recording",
+      "method": "Playwright video / fresh Microsoft Edge context / actual public Cloudflare UI; preparation and model waiting removed by documented cuts; 30 fps conversion",
+      "url": "https://racelab.tangvu.dev/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "79bd127f5bd6eea0029256c7700ed52ad86a718b67b39155811a62b6b5149ca1",
+      "rawSha256": "e127ccb7802a52e6d0f975ce9d4f94b1e4c59da99e4384d079e939baf101ae21",
+      "segments": [
+        {
+          "startSeconds": 7.154999999999999,
+          "seconds": 6
+        },
+        {
+          "startSeconds": 95.592,
+          "seconds": 14
+        }
+      ],
+      "recordedSeconds": 20,
+      "model": "Imported regression; attribution unverified, verdicts independently recomputed"
+    }
+  },
+  "paidAttempts": 1,
+  "errors": [],
+  "passed": true,
+  "paidAttemptScope": "One included live Muse Spark capture; pre-inference runtime/camera failures are retained privately and are outside the frozen studies.",
+  "liveInvestigation": {
+    "model": "muse-spark-1.3",
+    "provider": "Meta Model API",
+    "sourceHash": "29ed23ffd869f5f6c267891af5d27d48aa59bf2115a713fb3ac9d5c5ba7e5baf",
+    "candidateHash": "7e09076c267a345fc5cbec85585b443c1acd89340f3c6e5d9f538f4d482dcb7a",
+    "requests": 3,
+    "probes": 1,
+    "acceptedCandidates": 1,
+    "rejectedActions": 1,
+    "checked": 10,
+    "passed": true,
+    "runId": "cf50f5e1-e598-4577-922f-d4c434af04aa",
+    "rawReportSha256": "35aa9f391252caaab04e8218c15d77b133b83819ea2e1d65d349f5ac03dfae3e",
+    "scope": "One authored public MVP integration/capture. A malformed JSON action was rejected and retained before the accepted proposal. Not a repair-rate benchmark or a replacement for frozen studies.",
+    "publicReport": "public/recordings/mvp-live-muse.json",
+    "publicReportSha256": "19519b8a92395c045a6d75f69614a59ade85853788f0f166aa72f0c03c7ff275"
+  },
+  "retainedSceneCaptureAt": "2026-11-02T12:26:28.672Z"
+}

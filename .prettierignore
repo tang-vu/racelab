@@ -6,6 +6,8 @@ captures/
 package-lock.json
 # Retain the exact bytes of the one live repository-workload investigation.
 public/recordings/tend-claims.json
+public/recordings/mvp-live-muse.json
+demo/mvp-film-input.ts
 public/recordings/comparison-study.json
 public/recordings/repository-validation.json
 public/recordings/lifecycle-validation.json
@@ -19,3 +21,4 @@ public/recordings/comparison-summary-pre-continuation.json
 demo/comparison-continuation-protocol.json
 # Preserve exact pre-MiMo film metadata, captions and poster.
 demo/archive/evidence-zira-*
+demo/archive/evidence-mimo-*

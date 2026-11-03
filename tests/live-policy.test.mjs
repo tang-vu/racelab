@@ -7,6 +7,7 @@ import {
   reserveLiveCall,
   settleLiveCall,
   LIVE_RESERVATION_MICROS,
+  reviewLiveCharge,
 } from "../deploy/cloudflare/src/live-policy.ts";
 
 test("sponsored live repair accounting survives reconstruction and never overspends its allocation", () => {
@@ -25,12 +26,38 @@ test("sponsored live repair accounting survives reconstruction and never overspe
   });
   assert.equal(settled.known, true);
   assert.equal(restored.held, 0);
-  assert.equal(restored.spent, 695);
+  assert.equal(restored.spent, 3375);
   assert.throws(() => settleLiveCall(restored, "call", {}), /Unknown/);
   restored.spent = restored.cap;
   assert.throws(
     () => reserveLiveCall(restored, "over", 1003, "job"),
     /exceeded/,
+  );
+});
+
+test("an explicit conservative review retains the full uncertain charge and cap", () => {
+  const state = newLiveBudget();
+  state.spent = 1336050;
+  state.blocked = "A model charge needs review.";
+  reviewLiveCharge(
+    state,
+    "review-1",
+    "Browser closed its stream during the first recording; retain the entire worst-case charge.",
+    1,
+  );
+  assert.equal(state.spent, 1336050);
+  assert.equal(state.cap, 2000000);
+  assert.equal(state.reviews[0].chargedMicros, 1336050);
+  assert.equal(availability(state, "client", 2).enabled, true);
+  assert.throws(
+    () =>
+      reviewLiveCharge(
+        state,
+        "review-1",
+        "duplicate operation should fail closed",
+        3,
+      ),
+    /settled/,
   );
 });
 
@@ -77,4 +104,23 @@ test("preview quotas cannot be bypassed by a new browser session on the same cli
     () => availability(invalid, "client", 3600001),
     /cannot be verified/,
   );
+});
+
+test("changing provider preserves the existing allocation, Scout charges and pending receipts", () => {
+  const state = newLiveBudget();
+  state.spent = 7922;
+  state.active = { id: "legacy", expires: 100000 };
+  state.held = 37982;
+  state.pending = [{ id: "legacy-call", micros: 37982, at: 0 }];
+  const restored = JSON.parse(JSON.stringify(state));
+  const charge = settleLiveCall(restored, "legacy-call", {
+    prompt_tokens: 1000,
+    completion_tokens: 500,
+  });
+  assert.equal(charge.costMicros, 695);
+  assert.equal(restored.spent, 8617);
+  assert.equal(restored.allocation, "racelab-public-scout-20261103");
+  reserveLiveCall(restored, "muse-call", 10, "legacy");
+  assert.equal(restored.pending[0].model, "muse-spark-1.3");
+  assert.equal(restored.held, LIVE_RESERVATION_MICROS);
 });

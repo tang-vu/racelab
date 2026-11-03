@@ -41,6 +41,10 @@ async function api(path, body) {
         }
       : undefined,
   );
+  if (!response.headers.get("Content-Type")?.includes("application/json"))
+    throw new Error(
+      `The runner is temporarily unavailable (HTTP ${response.status}). Try the check again; your source is still here.`,
+    );
   const result = await response.json();
   if (!response.ok)
     throw new Error(result.error ?? "The experiment could not finish.");
@@ -502,17 +506,17 @@ function applyLive(live) {
   $("project-live").hidden = false;
   $("project-live-note").hidden = false;
   $("project-live-note").textContent =
-    `${live.reason} Meta Llama 4 Scout · up to 6 turns. Starting sends this method to Meta via Cloudflare.`;
-  $("native-agent").textContent = "Run a new Meta Llama 4 repair ↗";
+    `${live.reason} Meta Muse Spark · up to 6 turns. Starting sends this method to Meta via Cloudflare.`;
+  $("native-agent").textContent = "Run a new Meta Muse Spark repair ↗";
   $("native-live-refresh").hidden = false;
   const guide = $("native-agent").closest("details");
   guide.open = true;
   guide.querySelector("summary").innerHTML =
     "New AI repair / your source <span>+</span>";
   $("native-agent-note").textContent =
-    `${live.reason} Your method and synthetic execution feedback are sent to Meta Llama 4 Scout via Cloudflare when you start. Up to 6 model turns and 2 candidate proposals. Live reports are available to this browser for 24 hours. Recorded Muse Spark repairs remain separate.`;
+    `${live.reason} Your method and synthetic execution feedback are sent to Meta Muse Spark via Cloudflare when you start. Up to 6 model turns and 2 candidate proposals. Live reports are available to this browser for 24 hours. Recorded Muse Spark repairs remain separate.`;
   $("native-connection").textContent = live.enabled
-    ? "Live Meta Llama 4 · real SQLite checks"
+    ? "Live Meta Muse Spark · real SQLite checks"
     : "Online lab · live preview unavailable";
   controls();
 }
