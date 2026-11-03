@@ -1,4 +1,5 @@
 import { Container } from "@cloudflare/containers";
+import { RUNNER_ORIGIN, requestForRunner, trustedRequest } from "./origin";
 
 export class RaceLabRunner extends Container<Cloudflare.Env> {
   defaultPort = 4174;
@@ -8,7 +9,7 @@ export class RaceLabRunner extends Container<Cloudflare.Env> {
   envVars = {
     HOST: "0.0.0.0",
     PORT: "4174",
-    RACELAB_PUBLIC_ORIGIN: this.env.PUBLIC_ORIGIN,
+    RACELAB_PUBLIC_ORIGIN: RUNNER_ORIGIN,
     RACELAB_JUDGE_MODE: "1",
   };
 }
@@ -16,14 +17,7 @@ export class RaceLabRunner extends Container<Cloudflare.Env> {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (
-      url.origin !== env.PUBLIC_ORIGIN ||
-      (request.headers.has("origin") &&
-        request.headers.get("origin") !== env.PUBLIC_ORIGIN) ||
-      (request.method !== "GET" &&
-        request.method !== "HEAD" &&
-        request.headers.get("sec-fetch-site") === "cross-site")
-    ) {
+    if (!trustedRequest(request, env.PUBLIC_ORIGIN)) {
       return Response.json(
         { error: "This origin or host is not allowed." },
         { status: 403 },
@@ -49,8 +43,7 @@ export default {
     ) {
       // Static Assets ignores Range; Node serves MP4 byte ranges for real seeks.
       // One named instance enforces the backend's bounded experiment lock.
-      const forwarded = new Request(request);
-      forwarded.headers.delete("cf-container-target-port");
+      const forwarded = requestForRunner(request);
       return env.RUNNER.getByName("public-lab").fetch(forwarded);
     }
     const assetUrl = new URL(request.url);

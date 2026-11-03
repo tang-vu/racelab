@@ -1,6 +1,6 @@
 # Submission readiness
 
-**Executable hosting update, November 2:** the [online lab](https://racelab-judge.8ndwvxvrgt.workers.dev/tend.html) executes the real Node/SQLite workbench on Cloudflare. Anonymous A/B, ten-condition Meta repair rechecks, regression export/import and four viewport sizes pass. It needs no model key or sign-in and opens no ledger. The video/review Site links directly to it. [Hosting setup and checks](hosting.md).
+**Executable hosting update, November 3:** the [online lab](https://racelab.tangvu.dev/tend.html) executes the real Node/SQLite workbench on Cloudflare, now on its own HTTPS subdomain. Anonymous A/B, ten-condition Meta repair rechecks, regression export/import and four viewport sizes pass. It needs no model key or sign-in and opens no ledger. The video/review Site links directly to it. [Hosting setup and checks](hosting.md).
 
 **November 2 preflight:** the engineering and evidence package is ready for final form review. A new anonymous clone of `ffe47b0` passed fresh installation, pinned-source preparation, 48/48 tests and every offline check. The representative still needs to review personal answers, confirm the form accepts the video URL, accept acknowledgments if appropriate, and submit. [Answers for the actual supplied form](submission-form.md).
 

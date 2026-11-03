@@ -19,6 +19,7 @@ export default defineConfig({
     compatibilityDate: "2026-10-23",
     entrypoint,
     workersDev: true,
+    domains: ["racelab.tangvu.dev"],
     previewUrls: false,
     assets: { runWorkerFirst: true, htmlHandling: "none" },
     exports: {
@@ -28,9 +29,7 @@ export default defineConfig({
       }),
     },
     env: {
-      PUBLIC_ORIGIN: bindings.text(
-        "https://racelab-judge.8ndwvxvrgt.workers.dev",
-      ),
+      PUBLIC_ORIGIN: bindings.text("https://racelab.tangvu.dev"),
       ASSETS: bindings.assets(),
       RUNNER: bindings.durableObject({
         worker: "racelab-judge",

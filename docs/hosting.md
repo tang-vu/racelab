@@ -1,6 +1,8 @@
 # Public executable workbench
 
-The public judge edition at **https://racelab-judge.8ndwvxvrgt.workers.dev/tend.html** runs the actual Node/SQLite harness on Cloudflare Containers. It is separate from the static video/evidence Site. The complete application, film and recorded explorers are also available under the Cloudflare Worker origin.
+The public judge edition at **https://racelab.tangvu.dev/tend.html** runs the actual Node/SQLite harness on Cloudflare Containers. It is separate from the static video/evidence Site. The complete application, film and recorded explorers are also available under the same origin.
+
+`racelab.tangvu.dev` is a Worker Custom Domain with Cloudflare-managed DNS and HTTPS. The original `racelab-judge.8ndwvxvrgt.workers.dev` alias remains functional. Each public host accepts only requests from its own origin. The Worker normalizes validated backend requests to the stable runner host, preserving the existing container allowlist without rebuilding or restarting it. Tests cover both aliases, cross-origin rejection and preservation of imported regression bodies.
 
 Judges can run the pinned TEND original, kill the claimant, re-execute the retained Meta candidate against ten conditions, edit the supported method and export/reopen a regression. The store workbench also executes its supported handlers. New model investigations stay in private installations. Retained candidates are model outputs from the disclosed studies; a recheck makes no new model calls.
 
