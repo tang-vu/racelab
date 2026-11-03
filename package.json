@@ -2,8 +2,9 @@
   "name": "racelab",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "type": "module",
-  "description": "Reproduce asynchronous store races and independently check Meta-generated repairs.",
+  "description": "Reproduce asynchronous failures and independently check Muse Spark code repairs.",
   "engines": {
     "node": "^24.15.0 || >=26.0.0"
   },

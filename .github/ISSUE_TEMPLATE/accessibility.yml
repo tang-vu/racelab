@@ -1,0 +1,33 @@
+name: Accessibility barrier
+description: Report a barrier to using the interface or understanding its evidence.
+title: "[Accessibility] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        See our [accessibility statement](https://github.com/tang-vu/racelab/blob/main/ACCESSIBILITY.md).
+        Do not include medical information, credentials or private source. Assistive-technology details are optional.
+  - type: input
+    id: page
+    attributes:
+      label: Page or feature
+    validations:
+      required: true
+  - type: textarea
+    id: barrier
+    attributes:
+      label: Task and barrier
+      description: What were you trying to do, and what prevented you from completing it?
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser, OS and input method
+      description: If comfortable, include screen reader/version, keyboard, zoom or motion settings.
+  - type: textarea
+    id: improvement
+    attributes:
+      label: Expected behavior or helpful alternative
+    validations:
+      required: true

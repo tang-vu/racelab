@@ -1,5 +1,7 @@
 # Third-party components
 
+RaceLab's original code is licensed under [MIT](LICENSE), copyright 2026 Tang Vu. The components, inputs and services below retain their own licenses and terms. In particular, the project license does not grant rights to upstream source where no license was found.
+
 RaceLab uses [quickjs-emscripten 0.32.0](https://github.com/justjake/quickjs-emscripten), by Jake Teton-Landis and contributors, under MIT. It packages QuickJS by Fabrice Bellard and Charlie Gordon, also MIT, as WebAssembly. The pinned npm packages contain their licenses. The runtime supplies the interpreter; RaceLab supplies the controlled store, schedules, contracts, experiment tools and interface.
 
 Meta provides Muse Spark through its Model API. The existing chat integration and budget code were built during the same event for Tang Vu's earlier prototype; [source provenance](docs/provenance.md) identifies that reuse.
@@ -20,4 +22,4 @@ The user selected [Bearplus](https://bear.plus/) and its project sites as visual
 
 The current film uses Xiaomi MiMo's `mimo-v2.5-tts` model with its built-in English Mia voice and `mimo-v2.5-asr` for media-production speech checks. No person's voice is cloned. MiMo supplies the speech models; the application's repair investigations continue to use Meta Muse Spark. [Official TTS documentation](https://mimo.mi.com/docs/en-US/quick-start/usage-guide/audio/speech-synthesis-v2.5) and [ASR documentation](https://mimo.mi.com/docs/en-US/quick-start/usage-guide/audio/Speech-Recognition) identify the service. Credentials, raw voice takes and private usage records are not distributed.
 
-The recording workflow uses separately installed FFmpeg and Pillow (the Python Imaging Library fork) for encoding and original text/graphic framing. Segoe UI is read from the recording machine for rasterized text; its font files and the tools' binaries are not distributed. The quiet sound bed is synthesized from elementary oscillators by the project renderer, without sampled music. Four earlier films remain archived, including the previous generic Microsoft Zira narration film. No Three.js, Mediabunny or Meta SAM parser is bundled or required.
+The recording workflow uses separately installed FFmpeg and Pillow (the Python Imaging Library fork) for encoding and original text/graphic framing. Segoe UI is read from the recording machine for rasterized text; its font files and the tools' binaries are not distributed. The quiet sound bed is synthesized from elementary oscillators by the project renderer, without sampled music. Five earlier films remain archived, including the previous generic Microsoft Zira narration film. No Three.js, Mediabunny or Meta SAM parser is bundled or required.

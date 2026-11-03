@@ -1,0 +1,52 @@
+name: Bug report
+description: Report a reproducible failure in the workbench, runner or recorded evidence.
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For vulnerabilities, use [private security reporting](https://github.com/tang-vu/racelab/security/advisories/new).
+        Remove keys, cookies, private source and personal data. Do not attach `.env.local`, `.racelab/` or usage ledgers.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where did it happen?
+      options:
+        - Public MVP
+        - Local workbench
+        - Store experiments
+        - Video or recorded evidence
+        - Documentation or setup
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser/OS, URL or commit, and Node version if running locally.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Use a minimal synthetic example and identify the source or condition involved.
+      placeholder: |
+        1. Open...
+        2. Select...
+        3. Observe...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include sanitized error text or screenshots if useful.
+    validations:
+      required: true

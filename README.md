@@ -1,10 +1,18 @@
 # RaceLab
 
-**It passes alone. It breaks together.** Execute JavaScript handlers under controlled concurrent store operations. Let Meta propose the failing overlap and a source repair. Check the repair against an independent acceptance contract and additional inputs.
+**AI proposes the repair. Execution checks the fix.** Reproduce asynchronous failures, let Muse Spark investigate and propose replacement source, and check the repair against an independent execution contract.
 
 **[Run the online lab](https://racelab.tangvu.dev/)** · **[Watch the three-minute demo on YouTube](https://youtu.be/cBR_6Pzx0W4)** · **[Source and setup](https://github.com/tang-vu/racelab)** · [Submission form answers](docs/submission-form.md)
 
 The online MVP accepts a pasted or imported `claimNextDue` method, runs a fresh **Meta Muse Spark 1.3** investigation, and checks the generated source against ten real SQLite/process conditions. No visitor API key or sign-in is needed. Save projects in this browser, recover a server-retained run for 24 hours, and export/reopen executable regressions. [Supported contract, privacy and live preview limits](docs/live-mvp.md).
+
+## Try the public MVP
+
+1. Open **[racelab.tangvu.dev](https://racelab.tangvu.dev/)** and run the original method to inspect its failing recovery condition.
+2. Use the retained Muse repair for a check without new inference, or paste/import a supported method and choose **Run new AI repair** for a fresh Muse Spark investigation within the shared preview limits.
+3. Compare original A with candidate B, inspect the ten conditions and process/SQL receipts, then export a regression. Reopening it executes the checks again.
+
+The runner may take longer on a cold start. Fresh inference has a small shared allocation and rate limits; retained checks and regression reopening remain available without a model call. Do not paste secrets or source you are not authorized to send to Meta.
 
 The separate public review page hosts the video and an **[interactive recorded evidence explorer](https://racelab-tang-vu.tang-vu.chatgpt.site/evidence.html)**: A/B source, conditions, process trace, public Meta hypothesis/probe/diff and actual/expected checks. **[Evaluation and limits](https://racelab-tang-vu.tang-vu.chatgpt.site/evaluation.html)** includes additional owned repositories, deeper lifecycle controls and every planned comparison arm. Those retained studies use **Muse Spark 1.3**. Static replay displays saved results; the online lab recomputes them. The live Muse Spark preview is separate from the original studies.
 
@@ -49,7 +57,7 @@ The three store experiments use the third-party QuickJS/WebAssembly runtime and 
 
 **[Watch the three-minute demo](public/racelab-demo.mp4)** · [Architecture and evidence](docs/racelab.md) · [Submission draft](docs/racelab-submission.md) · [Third-party notices](THIRD_PARTY_NOTICES.md)
 
-The current three-minute video shows failure and a checked repair within its first twenty seconds, then committed-state tracing and lifecycle controls. Its final65seconds show a new public MVP input, actual Muse Spark1.3 repair,10/10 checks, browser project saves and regression reopening. Xiaomi MiMo Mia narration, ASR-checked captions and an original synthesized sound bed accompany real Edge clips/stills with fixed editorial crops. [Capture/rebuild notes](docs/demo.md) identify retained and new footage. All five earlier films are byte-preserved in `public/archive/`.
+The current three-minute video shows failure and a checked repair within its first twenty seconds, then committed-state tracing and lifecycle controls. Its final 65 seconds show a new public MVP input, actual Muse Spark 1.3 repair, 10/10 checks, browser project saves and regression reopening. Xiaomi MiMo Mia narration, ASR-checked captions and an original synthesized sound bed accompany real Edge clips/stills with fixed editorial crops. [Capture/rebuild notes](docs/demo.md) identify retained and new footage. All five earlier films are byte-preserved in `public/archive/`.
 
 **[Expanded evaluation](docs/evaluation.md):** a separate real-process lifecycle adapter covers contention, interruption before/after commit, renewal and candidate-internal ownership guards. Two Meta feedback candidates each pass all ten conditions; the authored control stays separate. Pinned OpenMusic code passes 14 checks; unchanged airules meets 6/8 under the added line-edit contract. All12 planned comparison arms were attempted once across the amended study and a disclosed post-hoc continuation: feedback 6/6 complete-arm held-out passes, direct 4/6. The original truncation, invalid SQL and failed setup remain. This small collection does not establish general superiority or human productivity.
 
@@ -78,3 +86,11 @@ Tests and these default checks make no model calls. The recording script's expli
 The browser check uses a fresh headless Edge context, blocks paid endpoints and external page requests, verifies unchanged accounting and writes review screenshots to ignored `.racelab/browser-review/`. It covers desktop, tablet, phone and narrow-phone viewports, A/B, the ten-condition replay, actual file export/import, edits, theme, playback and reduced motion. Mobile viewport checks are emulation, not physical-device tests.
 
 For the TEND workload, run `npm run prepare:tend` once before offline verification. It downloads the exact public source revision into ignored local storage and verifies its Git blob hash. The app also prepares this input on its first visit when missing. Thereafter the workload and its recording replay without network or model calls. A downloaded regression runs with `npm run evaluate:tend -- --report="path/to/racelab-tend-regression.json"`. [Scope, protocol, artifacts and verification](docs/tend.md).
+
+## Contributing and support
+
+See [contributing](CONTRIBUTING.md) for setup and verification, the [code of conduct](CODE_OF_CONDUCT.md) for project participation, and [accessibility](ACCESSIBILITY.md) for supported environments and known barriers. Use the [issue templates](https://github.com/tang-vu/racelab/issues/new/choose) for bugs, feature requests and accessibility reports. Report vulnerabilities through the [security policy](SECURITY.md).
+
+## License
+
+RaceLab's original code is available under the [MIT License](LICENSE), copyright 2026 Tang Vu. Third-party code, fonts, source inputs and services retain their own licenses and terms; see [third-party notices](THIRD_PARTY_NOTICES.md) and [source provenance](docs/provenance.md). The project license does not relicense Meta's models, third-party services or source inputs with separate terms.

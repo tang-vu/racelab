@@ -1,0 +1,28 @@
+name: Feature request
+description: Suggest a workflow improvement or a supported new capability.
+title: "[Feature] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the developer problem and how success could be checked. Avoid private code or credentials.
+        Current scope: one pinned job/SQLite contract plus the separate controlled store experiments.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Describe the user, task and current obstacle.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Include an example and how we could independently verify it works.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and scope
+      description: Any workarounds, tradeoffs or boundaries worth considering?
