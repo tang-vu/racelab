@@ -26,6 +26,8 @@ const state = {
 let statusTimer;
 
 function status(message, error = false) {
+  $("import-error").textContent =
+    error && $("import-dialog").open ? message : "";
   clearTimeout(statusTimer);
   $("status").textContent = message;
   $("status").classList.toggle("error", error);
@@ -84,6 +86,7 @@ function setBusy(busy) {
 
 async function perform(label, work) {
   if (state.busy) return;
+  const focused = document.activeElement;
   stopPlayback();
   setBusy(true);
   status(label);
@@ -94,6 +97,12 @@ async function perform(label, work) {
     status(error.message, true);
   } finally {
     setBusy(false);
+    if (
+      document.activeElement === document.body &&
+      focused?.isConnected &&
+      !focused.disabled
+    )
+      focused.focus({ preventScroll: true });
     clearTimeout(statusTimer);
     statusTimer = setTimeout(() => {
       $("status").textContent = "";
@@ -241,7 +250,7 @@ function renderTimeline() {
             : typeof event.result === "object"
               ? "{...}"
               : String(event.result);
-      return `<g class="event-node" role="button" tabindex="0" data-step="${event.step}" aria-label="Step ${event.step}, request ${String.fromCharCode(65 + event.actor)}, ${escape(event.method)} ${escape(event.key)}"><text x="${x}" y="24" text-anchor="middle" fill="${selected ? "#eeeeee" : "#898989"}" font-size="10" font-family="Consolas,monospace">${String(event.step).padStart(2, "0")}</text>${selected ? `<line class="current-line" x1="${x}" y1="34" x2="${x}" y2="${height - 15}"/>` : ""}<rect class="event-box" x="${x - 31}" y="${y - 17}" width="62" height="34" rx="8" fill="${selected ? color : shared && past ? "#382c28" : "#242424"}" stroke="${past ? color : "#494949"}" stroke-width="${selected ? 1.5 : 1}"/><text x="${x}" y="${y + 4}" text-anchor="middle" fill="${selected ? "#1c1c1c" : past ? color : "#8a8a8a"}" font-size="10" font-family="Consolas,monospace">${escape(label)}</text><text x="${x}" y="${y + 34}" text-anchor="middle" fill="#b0b0b0" font-size="10" font-family="Consolas,monospace">${escape(event.key.slice(0, 13))}</text><text x="${x}" y="${y + 49}" text-anchor="middle" fill="${past ? color : "#888888"}" font-size="9" font-family="Consolas,monospace">${escape(result.slice(0, 16))}</text></g>`;
+      return `<g class="event-node" role="button" tabindex="0" data-step="${event.step}" aria-label="${String(event.step).padStart(2, "0")} ${escape(label)} ${escape(event.key.slice(0, 13))} ${escape(result.slice(0, 16))}. Request ${String.fromCharCode(65 + event.actor)}"><g aria-hidden="true"><text x="${x}" y="24" text-anchor="middle" fill="${selected ? "#eeeeee" : "#898989"}" font-size="10" font-family="Consolas,monospace">${String(event.step).padStart(2, "0")} </text>${selected ? `<line class="current-line" x1="${x}" y1="34" x2="${x}" y2="${height - 15}"/>` : ""}<rect class="event-box" x="${x - 31}" y="${y - 17}" width="62" height="34" rx="8" fill="${selected ? color : shared && past ? "#382c28" : "#242424"}" stroke="${past ? color : "#494949"}" stroke-width="${selected ? 1.5 : 1}"/><text x="${x}" y="${y + 4}" text-anchor="middle" fill="${selected ? "#1c1c1c" : past ? color : "#8a8a8a"}" font-size="10" font-family="Consolas,monospace">${escape(label)} </text><text x="${x}" y="${y + 34}" text-anchor="middle" fill="#b0b0b0" font-size="10" font-family="Consolas,monospace">${escape(event.key.slice(0, 13))} </text><text x="${x}" y="${y + 49}" text-anchor="middle" fill="${past ? color : "#888888"}" font-size="9" font-family="Consolas,monospace">${escape(result.slice(0, 16))}</text></g></g>`;
     })
     .join("");
   $("timeline").innerHTML =
@@ -679,9 +688,14 @@ function viewCandidate() {
 $("candidate-tab").addEventListener("click", viewCandidate);
 function chooseStep(step) {
   if (!state.run) return;
+  const focusedStep = document.activeElement?.dataset?.step;
   state.step = Math.max(0, Math.min(state.run.trace.length, Number(step)));
   renderTimeline();
   renderState();
+  if (focusedStep)
+    $("timeline")
+      .querySelector(`[data-step="${focusedStep}"]`)
+      ?.focus({ preventScroll: true });
 }
 function followStep(step) {
   const node = $("timeline").querySelector(`[data-step="${step}"]`);

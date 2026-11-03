@@ -1,0 +1,39 @@
+name: Judge readiness
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Check monitoring window
+        id: window
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$(date -u +%s)" -ge "$(date -u -d '2026-11-10T00:00:00Z' +%s)" ]; then
+            echo "expired=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "expired=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: End scheduled monitoring after judging
+        if: steps.window.outputs.expired == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow disable judge-readiness.yml --repo "$GITHUB_REPOSITORY"
+          echo "Scheduled monitoring has ended. The workflow can still be enabled and run manually." >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        if: steps.window.outputs.expired != 'true'
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        if: steps.window.outputs.expired != 'true'
+        with:
+          node-version: "24"
+      - name: Check public review links and model availability
+        if: steps.window.outputs.expired != 'true'
+        run: node scripts/check-judge-readiness.mjs

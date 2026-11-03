@@ -75,6 +75,7 @@ npm run evaluate:comparison:continuation
 npm run check:film
 npm run check:browser # optional: installed Microsoft Edge and a running local server
 npm run check:evidence # recorded explorer/evaluation, same browser requirement
+npm run check:accessibility # keyboard/axe/accessible-tree review; same browser requirement
 npm run format:check
 npm run check:local # with the local server running
 ```
@@ -90,6 +91,8 @@ For the TEND workload, run `npm run prepare:tend` once before offline verificati
 ## Contributing and support
 
 See [contributing](CONTRIBUTING.md) for setup and verification, the [code of conduct](CODE_OF_CONDUCT.md) for project participation, and [accessibility](ACCESSIBILITY.md) for supported environments and known barriers. Use the [issue templates](https://github.com/tang-vu/racelab/issues/new/choose) for bugs, feature requests and accessibility reports. Report vulnerabilities through the [security policy](SECURITY.md).
+
+[Judge readiness checks](docs/judge-readiness.md) verify the public review links, video range serving and Muse availability without making model requests. The temporary GitHub Actions schedule runs every six hours during judging and disables itself after November 10, 2026 at 00:00 UTC.
 
 ## License
 

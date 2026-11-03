@@ -12,6 +12,8 @@ The additional owned public inputs are pinned in `demo/repository-inputs.json`. 
 
 Prettier 3.9.10 is a development dependency under MIT, used for formatting. Its npm package includes its license.
 
+[axe-core 4.14.0](https://github.com/dequelabs/axe-core) is a development dependency under MPL-2.0, used for automated accessibility checks with the installed Edge browser. Its npm package includes its license. It is not loaded by the public application or used as a substitute for native screen-reader testing.
+
 [playwright-core 1.64.1](https://github.com/microsoft/playwright) is a development dependency under Apache-2.0, used for local browser checks and captures with an installed Microsoft Edge. It is not shipped to the application browser. Its npm package includes its license and notices. Microsoft Edge and browser binaries are not distributed.
 
 [jsdom 30.1.3](https://github.com/jsdom/jsdom) is a development dependency under MIT, used to exercise the actual workbench HTML and JavaScript against a keyless local test server. It is not shipped to the browser and does not provide visual rendering or screenshot verification.

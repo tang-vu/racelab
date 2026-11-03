@@ -14,13 +14,15 @@ RaceLab aims to make its source comparisons, execution evidence and repair check
 
 Actual-browser checks have used Microsoft Edge on Windows at 1440, 768, 390 and 320 CSS-pixel viewport widths, including reduced motion and both themes. Mobile widths are browser emulation, not physical-device certification. The workbench requires JavaScript and a modern browser with WebAssembly support. Live execution requires a network connection; browser project saves require local storage.
 
-Other browser/OS combinations may work but have not received the same verification. Automated DOM and browser checks cover selected interactions; they are not a comprehensive accessibility audit. No WCAG conformance level or screen-reader compatibility certification is claimed.
+On November 3, the focused keyboard review covered the skip link, project naming/save, original/candidate tabs, source access, trace activation and an import dialog with errors, focus containment, Escape and focus return. Thirteen axe scans of the MVP, store experiments, recorded explorer, film and evaluation pages, including both themes and additional candidate/dialog states, returned zero automated violations. Chromium's accessibility tree exposed named source tabs, a labeled panel/editor and a persistent result status. [Repeat the review](docs/judge-readiness.md).
+
+Other browser/OS combinations may work but have not received the same verification. Automated DOM, axe and browser checks cover selected interactions; they are not a comprehensive accessibility audit. No WCAG conformance level or screen-reader compatibility certification is claimed.
 
 ## Known limitations
 
 - Dense code, SQL and process traces can require scrolling within their own panes on narrow screens. The visual trace is accompanied by textual events and checks.
-- A full keyboard-only and screen-reader audit, including dynamic announcements, dialogs and source-pane navigation, remains outstanding.
-- Contrast and zoom behavior have not undergone an exhaustive accessibility audit.
+- Native screen-reader speech and navigation with NVDA, Narrator or VoiceOver have not been verified. Accessibility-tree checks do not establish that those combinations work correctly.
+- Keyboard verification covers the documented workflows; broader assistive-technology testing remains welcome. Contrast checks cover the scanned states, and zoom behavior has not undergone an exhaustive audit.
 - The interface and current demo captions are in English. Narration is synthetic; the caption files provide a text alternative.
 
 ## Report a barrier

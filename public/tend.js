@@ -54,6 +54,8 @@ function status(message, error = false) {
   $("native-status").textContent = message;
   $("native-status").classList.toggle("error", error);
   $("native-status").hidden = !message;
+  $("native-import-error").textContent =
+    error && $("native-import-dialog").open ? message : "";
 }
 function controls() {
   const disabled = state.busy || !state.input;
@@ -86,6 +88,8 @@ function controls() {
 }
 async function perform(message, action) {
   if (state.busy) return;
+  const focused = document.activeElement;
+  $("native-result-status").textContent = "";
   stopPlayback();
   state.busy = true;
   document.body.classList.add("busy");
@@ -94,12 +98,22 @@ async function perform(message, action) {
   try {
     await action();
     status("");
+    const checks = state.run?.verdict.checks ?? [];
+    $("native-result-status").textContent = checks.length
+      ? `${state.version === "candidate" ? "Meta repair B" : "Original A"}: ${state.run.verdict.passed ? "PASS" : "FAIL"}. ${checks.filter((item) => item.passed).length} of ${checks.length} execution checks passed.`
+      : "Action completed.";
   } catch (error) {
     status(error.message, true);
   } finally {
     state.busy = false;
     document.body.classList.remove("busy");
     controls();
+    if (
+      document.activeElement === document.body &&
+      focused?.isConnected &&
+      !focused.disabled
+    )
+      focused.focus({ preventScroll: true });
   }
 }
 function code() {
@@ -189,14 +203,19 @@ function render() {
       )
       .join("") ?? "";
   const scroll = $("native-trace").scrollTop;
+  const focusedStep = document.activeElement?.dataset?.nativeStep;
   $("native-trace").innerHTML =
     state.run?.trace
       .map(
         (event) =>
-          `<button data-native-step="${event.step}" class="${event.step === state.step ? "selected " : ""}${["process-start", "process-killed", "claim-result", "completion"].includes(event.kind) ? "important" : ""}" aria-label="Step ${event.step}: ${esc(eventText(event))}"><span>${String(event.step).padStart(2, "0")}</span><span>${esc(eventText(event))}</span></button>`,
+          `<button data-native-step="${event.step}" class="${event.step === state.step ? "selected " : ""}${["process-start", "process-killed", "claim-result", "completion"].includes(event.kind) ? "important" : ""}"><span>${String(event.step).padStart(2, "0")}</span><span>${esc(eventText(event))}</span></button>`,
       )
       .join("") ?? "";
   $("native-trace").scrollTop = scroll;
+  if (focusedStep)
+    $("native-trace")
+      .querySelector(`[data-native-step="${focusedStep}"]`)
+      ?.focus({ preventScroll: true });
   controls();
 }
 function show(run) {

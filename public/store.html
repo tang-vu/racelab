@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="/racelab.css" />
     <link rel="stylesheet" href="/motion.css" />
     <link rel="stylesheet" href="/tend.css" />
+    <link rel="stylesheet" href="/accessibility.css" />
   </head>
   <body>
     <a class="skip-link" href="#workspace">Skip to the working lab</a>
@@ -279,18 +280,27 @@
         >
       </div>
     </section>
-    <p class="section-kicker" style="padding: 0 5vw">
+    <p
+      class="section-kicker"
+      style="padding: 0 5vw"
+      role="navigation"
+      aria-label="Recorded evidence links"
+    >
       <a href="/evidence.html">Explore recorded evidence ↗</a> ·
       <a href="/evaluation.html">Evaluation and limits ↗</a>
     </p>
-    <section class="experiment-intro" id="experiments">
+    <section
+      class="experiment-intro"
+      id="experiments"
+      aria-labelledby="experiments-title"
+    >
       <span class="section-kicker">THE EXPERIMENTS / 01 - 03</span>
-      <h2 data-reveal>Choose what<br />breaks first.</h2>
+      <h2 id="experiments-title" data-reveal>Choose what<br />breaks first.</h2>
       <p>
         Three authored cases. Real JavaScript.<br />The same inputs, rearranged.
       </p>
     </section>
-    <div class="case-navigation">
+    <div class="case-navigation" role="navigation" aria-label="Store cases">
       <div id="case-list" class="case-list" aria-label="Example handlers"></div>
     </div>
     <main id="workspace">
@@ -354,18 +364,7 @@
             <span class="eyebrow">01 / THE HANDLER</span
             ><span class="file-name" id="case-title">reservation.js</span
             ><span class="language">JS</span>
-          </div>
-          <div class="source-tabs" role="tablist" aria-label="Source version">
-            <button id="original-tab" role="tab" aria-selected="true">
-              Original <span>A</span></button
-            ><button
-              id="candidate-tab"
-              role="tab"
-              aria-selected="false"
-              disabled
-            >
-              Meta repair <span>B</span></button
-            ><button
+            <button
               id="reset-source"
               title="Restore the authored source"
               class="reset-source"
@@ -373,7 +372,31 @@
               Reset &#8634;
             </button>
           </div>
-          <div class="editor">
+          <div class="source-tabs" role="tablist" aria-label="Source version">
+            <button
+              id="original-tab"
+              role="tab"
+              aria-selected="true"
+              aria-controls="store-editor"
+            >
+              Original <span>A</span></button
+            ><button
+              id="candidate-tab"
+              role="tab"
+              aria-selected="false"
+              aria-controls="store-editor"
+              tabindex="-1"
+              disabled
+            >
+              Meta repair <span>B</span>
+            </button>
+          </div>
+          <div
+            class="editor"
+            id="store-editor"
+            role="tabpanel"
+            aria-labelledby="original-tab"
+          >
             <pre id="line-numbers" aria-hidden="true"></pre>
             <div class="code-surface">
               <pre id="source-highlight" aria-hidden="true"></pre>
@@ -568,7 +591,7 @@
     <div id="status" class="status-bar" role="status" aria-live="polite">
       Preparing the experiment...
     </div>
-    <dialog id="about-dialog">
+    <dialog id="about-dialog" aria-labelledby="about-title">
       <button
         class="dialog-close"
         data-close="about-dialog"
@@ -577,7 +600,7 @@
         ×
       </button>
       <p class="eyebrow">WHAT THIS LAB ESTABLISHES</p>
-      <h2>Every green result has a boundary.</h2>
+      <h2 id="about-title">Every green result has a boundary.</h2>
       <p>
         RaceLab executes the submitted JavaScript handler in isolated
         QuickJS/WebAssembly. It controls the order of asynchronous operations
@@ -620,7 +643,11 @@
         from Tang Vu's earlier hackathon prototype, LiveWorld.
       </p>
     </dialog>
-    <dialog id="import-dialog">
+    <dialog
+      id="import-dialog"
+      aria-labelledby="import-title"
+      aria-describedby="import-description"
+    >
       <button
         class="dialog-close"
         data-close="import-dialog"
@@ -629,11 +656,12 @@
         ×
       </button>
       <p class="eyebrow">OPEN A PORTABLE EXPERIMENT</p>
-      <h2>Recompute, then inspect.</h2>
-      <p>
+      <h2 id="import-title">Recompute, then inspect.</h2>
+      <p id="import-description">
         Choose an exported JSON report or paste it below. Imported pass flags
         are discarded. Imported model attribution remains unverified.
       </p>
+      <p id="import-error" role="alert"></p>
       <input
         id="import-file"
         type="file"
@@ -651,5 +679,6 @@
     </dialog>
     <script type="module" src="/experience.js"></script>
     <script type="module" src="/racelab.js"></script>
+    <script type="module" src="/accessibility.js"></script>
   </body>
 </html>

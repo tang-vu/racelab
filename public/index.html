@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="/motion.css" />
     <link rel="stylesheet" href="/tend.css" />
     <link rel="stylesheet" href="/investigation.css" />
+    <link rel="stylesheet" href="/accessibility.css" />
   </head>
   <body class="native-page">
     <a class="skip-link" href="#tend-lab">Skip to the repository experiment</a>
@@ -147,26 +148,39 @@
             <div class="source-heading">
               <span class="file-name">store.ts / claimNextDue</span
               ><span class="language">TS</span>
+              <button id="native-reset" class="reset-source">
+                Reset &#8634;
+              </button>
             </div>
             <div
               class="source-tabs"
               role="tablist"
               aria-label="Repository method version"
             >
-              <button id="native-original" role="tab" aria-selected="true">
+              <button
+                id="native-original"
+                role="tab"
+                aria-selected="true"
+                aria-controls="native-editor"
+              >
                 Original <span>A</span></button
               ><button
                 id="native-candidate"
                 role="tab"
                 aria-selected="false"
+                aria-controls="native-editor"
+                tabindex="-1"
                 disabled
               >
-                Meta repair <span>B</span></button
-              ><button id="native-reset" class="reset-source">
-                Reset &#8634;
+                Meta repair <span>B</span>
               </button>
             </div>
-            <div class="editor">
+            <div
+              class="editor"
+              id="native-editor"
+              role="tabpanel"
+              aria-labelledby="native-original"
+            >
               <pre id="native-lines" aria-hidden="true"></pre>
               <div class="code-surface">
                 <pre id="native-highlight" aria-hidden="true"></pre>
@@ -365,7 +379,17 @@
       </footer>
     </main>
     <p id="native-status" class="status-bar" role="status" hidden></p>
-    <dialog id="native-import-dialog">
+    <p
+      id="native-result-status"
+      class="sr-only"
+      role="status"
+      aria-atomic="true"
+    ></p>
+    <dialog
+      id="native-import-dialog"
+      aria-labelledby="native-import-title"
+      aria-describedby="native-import-description"
+    >
       <button
         class="dialog-close"
         id="native-import-close"
@@ -374,11 +398,12 @@
         &#215;
       </button>
       <p class="section-kicker">OPEN A REPOSITORY REGRESSION</p>
-      <h2>Execute it again.</h2>
-      <p>
+      <h2 id="native-import-title">Execute it again.</h2>
+      <p id="native-import-description">
         The original pin, source, processes and checks will be verified again.
         Imported model attribution is unverified.
       </p>
+      <p id="native-import-error" role="alert"></p>
       <input
         id="native-import-file"
         type="file"
@@ -396,5 +421,6 @@
     </dialog>
     <script type="module" src="/experience.js"></script>
     <script type="module" src="/tend.js"></script>
+    <script type="module" src="/accessibility.js"></script>
   </body>
 </html>

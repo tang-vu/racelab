@@ -1,0 +1,169 @@
+/* Shared readable text and focus treatment; the light/dark layouts stay intact. */
+:root {
+  --muted: #626262;
+  --accessible-muted: #626262;
+}
+:root[data-theme="dark"] {
+  --muted: #b8b8b8;
+  --accessible-muted: #b8b8b8;
+}
+:root
+  :is(
+    .section-kicker,
+    .eyebrow,
+    .source-footer,
+    footer,
+    .contract > summary,
+    .file-name,
+    .reset-source,
+    #native-clock,
+    #case-title,
+    #line-numbers,
+    #native-lines,
+    #recorded-note,
+    #scope-footer,
+    #experiment-log > summary,
+    #event-count,
+    .artifact-bar p span
+  ) {
+  color: var(--accessible-muted);
+}
+:root
+  :is(
+    .cover-title em,
+    .native-intro h1 span,
+    .native-evidence h2 span,
+    .repository-feature h2 span,
+    .closing-note h2 em
+  ) {
+  color: var(--accessible-muted);
+}
+:root :is(.board-read-a > span, .board-read-a > small) {
+  color: #594337;
+}
+:root :is(.board-read-b > span, .board-read-b > small) {
+  color: #414b70;
+}
+:root .stage-repair-button > small {
+  color: #555;
+}
+:root .native-trace button > span:first-child {
+  color: #aaa;
+}
+:root .native-checks summary {
+  color: #526443;
+}
+:root .native-checks .failed summary {
+  color: #925039;
+}
+:root .badge.fail {
+  color: #8c432d;
+  background: #fae7df;
+}
+:root[data-theme="dark"] .badge.fail {
+  color: #ffd3c1;
+  background: #482b21;
+}
+:root[data-theme="dark"] :is(.native-checks summary, .check-card summary) {
+  color: #c2d9ae;
+}
+:root[data-theme="dark"]
+  :is(.native-checks .failed summary, .check-card.failed summary) {
+  color: #ffb49d;
+}
+:root[data-theme="dark"]
+  :is(
+    .board-heading,
+    #story-key,
+    #story-impact-label,
+    #story-caption,
+    #story-verdict
+  ) {
+  color: #bbb;
+}
+:root[data-theme="dark"]
+  :is(.stage-heading .eyebrow, .local-label, #observation-label) {
+  color: #aaa;
+}
+:root #sculpture-outcome {
+  color: #4a4a4a;
+}
+:root
+  :is(button, a, input, textarea, select, summary, [tabindex]):focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+  scroll-margin-block: 100px 24px;
+}
+:root .source-tabs {
+  position: relative;
+}
+:root .source-heading .reset-source {
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  padding: 8px;
+  font-size: 11px;
+}
+:root
+  :is(
+    .case-button:not(.selected) > span:first-child,
+    .case-button:not(.selected) small,
+    #case-index,
+    #experiment-headline > span,
+    .store-api > summary,
+    #state-step,
+    .state-entry > span,
+    .state-entry > strong
+  ) {
+  color: var(--accessible-muted);
+}
+:root .board-memory > small {
+  color: #626262;
+}
+:root
+  :is(
+    .native-stage-top .section-kicker,
+    .stage-heading .eyebrow,
+    .local-label,
+    #observation-label
+  ) {
+  color: #aaa;
+}
+:root[data-theme="dark"] .explorer .failed summary {
+  color: #ffb49d;
+}
+:root #tend-lab .native-stage-top .section-kicker,
+:root #workspace .stage-heading .eyebrow {
+  color: #aaa;
+}
+:root[data-theme="dark"] .board-memory > small {
+  color: #bbb;
+}
+:root #native-verification button strong {
+  color: #526443;
+}
+:root #serial-verdict {
+  color: #526443;
+}
+:root #race-verdict {
+  color: #925039;
+}
+:root :is(#checks-count, .changed > small, #native-original, #original-tab) {
+  color: var(--accessible-muted);
+}
+:root[data-theme="dark"]
+  :is(#native-verification button strong, #serial-verdict) {
+  color: #c2d9ae;
+}
+:root[data-theme="dark"] #race-verdict {
+  color: #ffb49d;
+}
+:root
+  :is(
+    .worker-object > span,
+    .worker-connector > small,
+    .stage-repair-button > small
+  ) {
+  font-size: 8px;
+  line-height: 1.6;
+}

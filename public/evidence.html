@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/racelab.css" />
     <link rel="stylesheet" href="/motion.css" />
     <link rel="stylesheet" href="/evidence.css" />
+    <link rel="stylesheet" href="/accessibility.css" />
   </head>
   <body>
     <a class="skip-evidence" href="#explorer">Skip to evidence</a>
@@ -52,9 +53,20 @@
       <section class="explorer-workbench" aria-label="Recorded execution">
         <div class="explorer-toolbar">
           <div role="tablist" aria-label="Method version">
-            <button role="tab" id="version-a" aria-selected="true">
+            <button
+              role="tab"
+              id="version-a"
+              aria-selected="true"
+              aria-controls="evidence-source-panel"
+            >
               A / Original</button
-            ><button role="tab" id="version-b" aria-selected="false">
+            ><button
+              role="tab"
+              id="version-b"
+              aria-selected="false"
+              aria-controls="evidence-source-panel"
+              tabindex="-1"
+            >
               B / Meta candidate
             </button>
           </div>
@@ -69,7 +81,12 @@
           aria-label="Candidate condition results"
         ></div>
         <div class="explorer-grid">
-          <section class="explorer-source">
+          <section
+            class="explorer-source"
+            id="evidence-source-panel"
+            role="tabpanel"
+            aria-labelledby="version-a"
+          >
             <h2 id="evidence-source-title">Pinned method / A</h2>
             <pre
               id="evidence-source"
@@ -158,6 +175,7 @@
       </section>
     </main>
     <script type="module" src="/evidence.js"></script>
+    <script type="module" src="/accessibility.js"></script>
     <script src="/theme.js"></script>
   </body>
 </html>
