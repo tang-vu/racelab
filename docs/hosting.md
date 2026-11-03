@@ -1,6 +1,8 @@
 # Public executable workbench
 
-The public judge edition at **https://racelab.tangvu.dev/tend.html** runs the actual Node/SQLite harness on Cloudflare Containers. It is separate from the static video/evidence Site. The complete application, film and recorded explorers are also available under the same origin.
+The public judge edition at **https://racelab.tangvu.dev/** runs the actual Node/SQLite harness on Cloudflare Containers. It is separate from the static video/evidence Site. The complete application, film and recorded explorers are also available under the same origin.
+
+The live repair MVP is the homepage at `/`, served directly with HTTP 200. Store experiments are at `/store`; the film is at `/film.html`. Old `/tend.html` links redirect permanently to `/`, preserving the query string and browser fragment. `/index.html` also redirects to the canonical homepage. Cloudflare and local Node routing use the same public paths.
 
 `racelab.tangvu.dev` is a Worker Custom Domain with Cloudflare-managed DNS and HTTPS. The original `racelab-judge.8ndwvxvrgt.workers.dev` alias remains functional. Each public host accepts only requests from its own origin. The Worker normalizes validated backend requests to the stable runner host, preserving the existing container allowlist without rebuilding or restarting it. Tests cover both aliases, cross-origin rejection and preservation of imported regression bodies.
 
@@ -24,7 +26,7 @@ The Worker uses a native `AI` binding for [Meta Llama 4 Scout](https://developer
 
 Use [Deploy to Render](https://render.com/deploy?repo=https://github.com/tang-vu/racelab), or connect Render and deploy this repository's `render.yaml`. The Blueprint selects one **Free Docker web service**, Singapore, `/healthz` and manual deployments. No database service, paid disk, API key, access code or accounting ledger is required. Review the selected Free plan before creating the service; do not upgrade or add billing implicitly.
 
-The image installs production dependencies, downloads the pinned public TEND input during its build and verifies its Git blob hash. It starts as the unprivileged `node` user. `RENDER_EXTERNAL_URL` supplies the allowed HTTPS origin and Render's `PORT` is respected. After deployment, use the service's actual URL followed by `/tend.html`; never invent the hostname from the service name.
+The image installs production dependencies, downloads the pinned public TEND input during its build and verifies its Git blob hash. It starts as the unprivileged `node` user. `RENDER_EXTERNAL_URL` supplies the allowed HTTPS origin and Render's `PORT` is respected. After deployment, use the service's actual homepage URL; never invent the hostname from the service name.
 
 Render's Free services [sleep after 15 minutes without inbound traffic and restart on the next request](https://render.com/docs/free). The first visit can take about a minute. SQLite files are disposable per experiment; [the ephemeral host filesystem](https://render.com/docs/web-services#ephemeral-filesystem) is sufficient. Downloads stay on the judge's device. This edition does not store private projects or provide uptime guarantees.
 
@@ -39,7 +41,7 @@ Do not mount the developer's `.racelab`, shared ledger or `.env.local` into a de
 ## Verify before sharing
 
 1. `/healthz` must return HTTP 200. `/api/status` must show the keyless runner's `mode: public-recheck`, `runner: hosted`, `configured: false`, `accessRequired: false` and `budget: null`, alongside a separate `liveRepair` availability object for Scout.
-2. Open `/tend.html` anonymously: normal **PASS**, interrupted original **FAIL**. Choose **Check Meta repair**: candidate **10/10**. Inspect the stale-owner rejection and distinct process IDs.
+2. Open `/` anonymously: normal **PASS**, interrupted original **FAIL**. Choose **Check Meta repair**: candidate **10/10**. Inspect the stale-owner rejection and distinct process IDs. Follow **Store experiments** and confirm `/store` opens; an old `/tend.html` link must redirect home.
 3. Download the regression and open that actual file again. Results must be recomputed, with imported attribution marked unverified. Try an edited source and confirm stale results clear.
 4. Verify desktop/phone layout and the store lab. Confirm both `/agent` endpoints reject calls, private paths are 404 and cross-origin requests are rejected.
 5. For a new live integration check only when needed, explicitly opt in to `scripts/check-live-mvp.mjs`. It makes one new investigation, retains its protocol and report, and checks fresh file input, actual candidate verification, browser projects, recovery, export/import and private report ownership. Default browser checks block this paid endpoint.

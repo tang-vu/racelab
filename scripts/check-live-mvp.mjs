@@ -68,7 +68,7 @@ const settled = async () => {
   );
 };
 try {
-  await page.goto(base + "/tend.html", { waitUntil: "networkidle" });
+  await page.goto(base + "/", { waitUntil: "networkidle" });
   await settled();
   assert.equal(await page.locator("#project-live").isEnabled(), true);
   await page.locator("#project-file-input").setInputFiles({

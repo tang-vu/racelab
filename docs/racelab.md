@@ -44,7 +44,7 @@ Related work: [Antithesis deterministic simulation testing](https://antithesis.c
 
 ## Local operation
 
-`start-racelab.cmd` preserves private configuration and starts port 4174. `/` opens the experience and store workbench; `/tend.html` is the repository recovery workbench; `/film.html` is the current TEND demo player. Run `npm run prepare:tend` once to cache the verified public input before offline tests. The [public review Site](https://racelab-tang-vu.tang-vu.chatgpt.site) hosts video/evidence and reproduction links; it does not deploy the Node/SQLite backend. No purchase, competition submission or organizer message is performed automatically. `scripts/serve-keyless.mjs` starts an isolated keyless QA server on 4176 without changing the real ledger.
+`start-racelab.cmd` preserves private configuration and starts port 4174. `/` opens the method repair MVP; `/store` opens the experience and store workbench; `/film.html` is the current TEND demo player. Old `/tend.html` links redirect home. Run `npm run prepare:tend` once to cache the verified public input before offline tests. The [public review Site](https://racelab-tang-vu.tang-vu.chatgpt.site) hosts video/evidence and reproduction links; it does not deploy the Node/SQLite backend. No purchase, competition submission or organizer message is performed automatically. `scripts/serve-keyless.mjs` starts an isolated keyless QA server on 4176 without changing the real ledger.
 
 ## Demo artifact
 

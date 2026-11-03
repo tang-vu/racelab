@@ -2,17 +2,17 @@
 
 **It passes alone. It breaks together.** Execute JavaScript handlers under controlled concurrent store operations. Let Meta propose the failing overlap and a source repair. Check the repair against an independent acceptance contract and additional inputs.
 
-**[Run the online lab](https://racelab.tangvu.dev/tend.html)** · **[Watch the public three-minute demo](https://racelab-tang-vu.tang-vu.chatgpt.site)** · **[Source and setup](https://github.com/tang-vu/racelab)** · [Submission form answers](docs/submission-form.md)
+**[Run the online lab](https://racelab.tangvu.dev/)** · **[Watch the public three-minute demo](https://racelab-tang-vu.tang-vu.chatgpt.site)** · **[Source and setup](https://github.com/tang-vu/racelab)** · [Submission form answers](docs/submission-form.md)
 
 The online MVP accepts a pasted or imported `claimNextDue` method, runs a fresh **Meta Llama 4 Scout** investigation, and checks the generated source against ten real SQLite/process conditions. No visitor API key or sign-in is needed. Save projects in this browser, recover a server-retained run for 24 hours, and export/reopen executable regressions. [Supported contract, privacy and live preview limits](docs/live-mvp.md).
 
 The separate public review page hosts the video and an **[interactive recorded evidence explorer](https://racelab-tang-vu.tang-vu.chatgpt.site/evidence.html)**: A/B source, conditions, process trace, public Meta hypothesis/probe/diff and actual/expected checks. **[Evaluation and limits](https://racelab-tang-vu.tang-vu.chatgpt.site/evaluation.html)** includes additional owned repositories, deeper lifecycle controls and every planned comparison arm. Those retained studies use **Muse Spark 1.3**. Static replay displays saved results; the online lab recomputes them. The live Scout preview is separate from the original studies.
 
-**New: [a real repository recovery experiment](docs/tend.md).** A pinned TypeScript method from TEND claims a job in real disposable SQLite. RaceLab kills the worker after the claim commits and starts another process on the same file. The original method leaves the job claimed; a retained Meta repair passes ten declared recovery conditions. Open **http://127.0.0.1:4174/tend.html** to inspect the source, process receipts, A/B, stale-owner rejection and replayable regression export.
+**New: [a real repository recovery experiment](docs/tend.md).** A pinned TypeScript method from TEND claims a job in real disposable SQLite. RaceLab kills the worker after the claim commits and starts another process on the same file. The original method leaves the job claimed; a retained Meta repair passes ten declared recovery conditions. Open **http://127.0.0.1:4174/** to inspect the source, process receipts, A/B, stale-owner rejection and replayable regression export.
 
 This is the standalone RaceLab repository. It contains the workbench, runner, Meta chat integration, accounting, tests and demo. LiveWorld, Kept, tabletop simulation, segmentation and their dependencies are excluded. [Source provenance](docs/provenance.md) identifies the reused event infrastructure.
 
-The interface opens with a moving shared-memory sculpture and a three-chapter scroll replay, followed by the working concurrency lab: editable source, a live trace stage and a checked repair. The sculpture and replay use actual execution frames. **Run the real case** opens TEND; **Open the lab** skips to the store workbench. Light/dark themes, a motion pause control and reduced-motion support are included. [Interface walkthrough and design references](docs/interface.md).
+The homepage opens the live method repair MVP. **Store experiments** opens `/store`, with the shared-memory sculpture, three-chapter scroll replay and working concurrency lab. The sculpture and replay use actual execution frames. Light/dark themes, a motion pause control and reduced-motion support are included. [Interface walkthrough and design references](docs/interface.md).
 
 ![Current TEND recovery workbench](docs/tend-shots/04-candidate.png)
 

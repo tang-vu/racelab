@@ -20,7 +20,10 @@ const request = async (path, body) => {
 const before = await request("/api/status");
 const page = await fetch(base + "/");
 assert.equal(page.status, 200);
-assert.match(await page.text(), /It passes alone/);
+assert.match(await page.text(), /id="project-live"/);
+const store = await fetch(base + "/store");
+assert.equal(store.status, 200);
+assert.match(await store.text(), /It passes alone/);
 const fixtures = await request("/api/racelab/fixtures");
 assert.equal(fixtures.length, 3);
 for (const fixture of fixtures) {

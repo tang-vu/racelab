@@ -76,8 +76,8 @@ test(
       errors = [];
     const console = new VirtualConsole();
     console.on("jsdomError", (error) => errors.push(error.message));
-    dom = new JSDOM(await (await fetch(base + "/tend.html")).text(), {
-      url: base + "/tend.html",
+    dom = new JSDOM(await (await fetch(base + "/")).text(), {
+      url: base + "/",
       runScripts: "outside-only",
       pretendToBeVisual: true,
       virtualConsole: console,

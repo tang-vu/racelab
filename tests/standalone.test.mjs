@@ -76,7 +76,19 @@ test("Standalone server serves RaceLab at root and excludes old apps and private
   const page = await fetch(base);
   const html = await page.text();
   assert.equal(page.status, 200);
-  assert.match(html, /It passes alone/);
+  assert.match(html, /id="project-live"/);
+  assert.match(html, /live repair workbench/);
+  const store = await fetch(base + "/store");
+  assert.equal(store.status, 200);
+  assert.match(await store.text(), /It passes alone/);
+  for (const method of ["GET", "HEAD"]) {
+    const legacy = await fetch(base + "/tend.html?from=old-link", {
+      method,
+      redirect: "manual",
+    });
+    assert.equal(legacy.status, 308);
+    assert.equal(legacy.headers.get("location"), "/?from=old-link");
+  }
   assert.doesNotMatch(html, /Earlier LiveWorld|\/racelab\/racelab.css/);
   for (const path of [
     "/kept/",

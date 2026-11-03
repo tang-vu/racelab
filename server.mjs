@@ -321,11 +321,25 @@ const server = createServer(async (req, res) => {
     }
     if (req.method !== "GET" && req.method !== "HEAD")
       return json(res, 405, { error: "Method not allowed." });
+    const canonical = ["/tend.html", "/index.html", "/racelab/"].includes(
+      url.pathname,
+    )
+      ? "/"
+      : ["/store.html", "/store/"].includes(url.pathname)
+        ? "/store"
+        : null;
+    if (canonical) {
+      res.writeHead(308, { Location: canonical + url.search });
+      res.end();
+      return;
+    }
     const directory = join(root, "public");
     const relative =
-      url.pathname === "/" || url.pathname === "/racelab/"
+      url.pathname === "/"
         ? "index.html"
-        : decodeURIComponent(url.pathname).replace(/^\//, "");
+        : url.pathname === "/store"
+          ? "store.html"
+          : decodeURIComponent(url.pathname).replace(/^\//, "");
     const file = resolve(directory, relative);
     if (!file.startsWith(directory + sep) || !mime[extname(file)])
       return json(res, 404, { error: "Not found." });

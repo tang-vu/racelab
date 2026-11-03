@@ -1,6 +1,6 @@
 # Live method repair MVP
 
-Open **https://racelab.tangvu.dev/tend.html**. Paste a method in Original A, import a `.ts`/`.js` file containing `claimNextDue`, or choose **Start blank**. **Run new AI repair** sends that source to Meta Llama 4 Scout through Cloudflare Workers AI. The model chooses a probe, receives actual execution feedback, and proposes replacement source. RaceLab executes each accepted candidate against all ten independent conditions. No saved repair is substituted for a failed model run.
+Open **https://racelab.tangvu.dev/**. Paste a method in Original A, import a `.ts`/`.js` file containing `claimNextDue`, or choose **Start blank**. **Run new AI repair** sends that source to Meta Llama 4 Scout through Cloudflare Workers AI. The model chooses a probe, receives actual execution feedback, and proposes replacement source. RaceLab executes each accepted candidate against all ten independent conditions. No saved repair is substituted for a failed model run.
 
 Inspect the failed probe, A/B method, condition matrix, process receipts and method diff. **Save project** keeps source and evidence in this browser; reopening recomputes it. **Recover last AI run** fetches this browser's server-retained report and executes it again without another model call. **Export regression** produces a portable report; imports discard saved verdicts and recompute them. Arbitrary imported files cannot establish model attribution. A matching browser-owned server record can retain its live model attribution after rechecking.
 

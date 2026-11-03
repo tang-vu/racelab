@@ -57,12 +57,12 @@ test("The actual workbench walks from overlap to inspected repair and recomputed
   });
   await once(child.stdout, "data", { signal: AbortSignal.timeout(15000) });
   const base = `http://127.0.0.1:${port}`;
-  const html = await (await fetch(base)).text();
+  const html = await (await fetch(base + "/store")).text();
   const errors = [];
   const console = new VirtualConsole();
   console.on("jsdomError", (error) => errors.push(error.message));
   dom = new JSDOM(html, {
-    url: base,
+    url: base + "/store",
     runScripts: "outside-only",
     pretendToBeVisual: true,
     virtualConsole: console,

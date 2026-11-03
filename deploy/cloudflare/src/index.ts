@@ -61,6 +61,20 @@ export default {
         { status: 403 },
       );
     }
+    if (request.method === "GET" || request.method === "HEAD") {
+      const canonical = ["/tend.html", "/index.html", "/racelab/"].includes(
+        url.pathname,
+      )
+        ? "/"
+        : ["/store.html", "/store/"].includes(url.pathname)
+          ? "/store"
+          : null;
+      if (canonical)
+        return Response.redirect(
+          new URL(canonical + url.search, url).href,
+          308,
+        );
+    }
     if (url.pathname.startsWith("/api/live/")) {
       const live = liveRequest(request);
       const response = await env.LIVE.getByName(
@@ -87,7 +101,7 @@ export default {
       return Response.json(
         {
           error:
-            "This legacy endpoint is disabled. Use the live Meta repair workspace at /tend.html for a new supported method investigation.",
+            "This legacy endpoint is disabled. Use the live Meta repair workspace at / for a new supported method investigation.",
           code: "PUBLIC_RECHECK_ONLY",
         },
         { status: 403 },
@@ -105,6 +119,7 @@ export default {
     }
     const assetUrl = new URL(request.url);
     if (url.pathname === "/") assetUrl.pathname = "/index.html";
+    if (url.pathname === "/store") assetUrl.pathname = "/store.html";
     const upstream = await env.ASSETS.fetch(new Request(assetUrl, request));
     const response = new Response(upstream.body, upstream);
     response.headers.set("X-Content-Type-Options", "nosniff");

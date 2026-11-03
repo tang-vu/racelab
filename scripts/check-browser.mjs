@@ -90,7 +90,8 @@ try {
     });
     const page = (currentPage = await context.newPage());
     page.on("pageerror", (error) => report.errors.push(error.message));
-    await page.goto(base + "/tend.html");
+    await page.goto(base + "/");
+    assert.equal(new URL(page.url()).pathname, "/");
     await page.waitForFunction(
       () => document.querySelector("#stop-verdict")?.textContent === "FAIL",
     );
@@ -221,8 +222,9 @@ try {
         await click(page, "#native-play");
       }
     }
-    // Review the redesigned landing page in the same clean browser, too.
-    await page.goto(base + "/");
+    // Store experiments remain accessible from the main workbench.
+    await page.locator('a[href="/store#workspace"]').first().click();
+    assert.equal(new URL(page.url()).pathname, "/store");
     await page.waitForFunction(
       () => document.querySelector("#source")?.value?.length > 0,
     );

@@ -46,7 +46,7 @@ npm run prepare:tend
 npm start
 ```
 
-Open `http://127.0.0.1:4174/tend.html`. The page executes the original normal and interrupted conditions locally. **Check Meta repair** recomputes the retained source against all ten conditions and opens B. Select any matrix condition, return to original A, scrub process/transaction receipts, and expand actual/expected checks. Editing clears stale results. A recorded recheck refuses to replace edited source.
+Open `http://127.0.0.1:4174/`. The page executes the original normal and interrupted conditions locally. **Check Meta repair** recomputes the retained source against all ten conditions and opens B. Select any matrix condition, return to original A, scrub process/transaction receipts, and expand actual/expected checks. Editing clears stale results. A recorded recheck refuses to replace edited source.
 
 **Export regression** downloads source, condition identifiers and execution evidence as JSON. **Open report** discards supplied verdicts, traces and process IDs and recomputes them, with imported model attribution marked unverified. To rerun an export from the command line:
 
