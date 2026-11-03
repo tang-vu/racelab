@@ -2,7 +2,7 @@
 
 **It passes alone. It breaks together.** Execute JavaScript handlers under controlled concurrent store operations. Let Meta propose the failing overlap and a source repair. Check the repair against an independent acceptance contract and additional inputs.
 
-**[Run the online lab](https://racelab.tangvu.dev/)** · **[Watch the public three-minute demo](https://racelab-tang-vu.tang-vu.chatgpt.site)** · **[Source and setup](https://github.com/tang-vu/racelab)** · [Submission form answers](docs/submission-form.md)
+**[Run the online lab](https://racelab.tangvu.dev/)** · **[Watch the three-minute demo on YouTube](https://youtu.be/cBR_6Pzx0W4)** · **[Source and setup](https://github.com/tang-vu/racelab)** · [Submission form answers](docs/submission-form.md)
 
 The online MVP accepts a pasted or imported `claimNextDue` method, runs a fresh **Meta Muse Spark 1.3** investigation, and checks the generated source against ten real SQLite/process conditions. No visitor API key or sign-in is needed. Save projects in this browser, recover a server-retained run for 24 hours, and export/reopen executable regressions. [Supported contract, privacy and live preview limits](docs/live-mvp.md).
 

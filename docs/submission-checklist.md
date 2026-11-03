@@ -1,5 +1,7 @@
 # Submission readiness
 
+**YouTube link supplied November 3:** use **https://youtu.be/cBR_6Pzx0W4** in the three-minute video field. Anonymous YouTube metadata returns the expected title and playability `OK` (reported 180 seconds). The review player and original source movie remain available. This is not confirmation that the entry has been submitted.
+
 **MVP update, November 3:** the [online lab](https://racelab.tangvu.dev/) accepts new method/file input and runs fresh Meta Muse Spark 1.3 repairs through Cloudflare. A real input-to-repair UI check passed 10/10 conditions, project reopening, private run recovery and regression export/import. The initial protocol check's invalid proposals remain retained; these checks do not extend the frozen Muse Spark benchmark. No visitor model key or sign-in is needed. Historical credentials/accounting remain local; a separate fixed USD 2 durable allocation funds inference. [Scope and limits](live-mvp.md), [hosting setup](hosting.md).
 
 **November 2 preflight:** the engineering and evidence package is ready for final form review. A new anonymous clone of `ffe47b0` passed fresh installation, pinned-source preparation, 48/48 tests and every offline check. The representative still needs to review personal answers, confirm the form accepts the video URL, accept acknowledgments if appropriate, and submit. [Answers for the actual supplied form](submission-form.md).

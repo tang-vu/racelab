@@ -38,11 +38,11 @@ https://github.com/tang-vu/racelab
 
 ## 3-Minute Demo Video
 
-https://racelab-tang-vu.tang-vu.chatgpt.site
+https://youtu.be/cBR_6Pzx0W4
 
-This public page plays the current 179.904-second film with English captions and eight chapters. The current narration uses Xiaomi MiMo TTS; MiMo ASR checks the speech and caption preparation. These are media tools; the film's repairs use Muse Spark, while the later public live preview uses Meta Muse Spark 1.3. Direct MP4: https://racelab-tang-vu.tang-vu.chatgpt.site/racelab-demo.mp4
+The author supplied this YouTube upload on November 3. Anonymous metadata returns the expected RaceLab title and playability `OK`; YouTube reports 180 seconds, rounded from the 179.904-second source film. Repairs use Muse Spark; MiMo TTS/ASR supplies narration and caption review. The [review player](https://racelab-tang-vu.tang-vu.chatgpt.site) and [direct MP4](https://racelab.tangvu.dev/racelab-demo.mp4) remain available.
 
-Use the public player URL if the field accepts it. If validation requires a particular video provider, satisfy that actual requirement before submitting; do not treat the placeholder as proof that the current URL is accepted. No YouTube upload has been performed.
+Use the YouTube URL above in the required video field. This update records the author's upload and prepares the entry copy; it does not submit the competition entry or accept acknowledgments.
 
 ## Describe your use of Meta products to build the submitted project
 

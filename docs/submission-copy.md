@@ -10,7 +10,7 @@ RaceLab
 
 https://racelab.tangvu.dev/
 
-The Cloudflare-hosted workbench re-executes the real Node/SQLite experiments, retained Meta candidate and imported regressions without an API key or sign-in. The video/review page remains https://racelab-tang-vu.tang-vu.chatgpt.site . New model investigations are available in a private installation.
+The Cloudflare MVP accepts a new supported method, calls Muse Spark 1.3 through Meta Model API and checks its proposed repair with real SQLite/process execution. It needs no visitor API key or sign-in. Retained repairs and imported regressions also execute again. Video: https://youtu.be/cBR_6Pzx0W4 . The separate review/evidence page remains https://racelab-tang-vu.tang-vu.chatgpt.site .
 
 ## One-line pitch
 
@@ -64,12 +64,13 @@ The TEND adapter executes one verified method, not the full application. RaceLab
 
 The three store studies execute authored JavaScript handlers against a simulated asynchronous store. Their retained candidates pass 11 schedules / 4 inputs, 29 / 4 and 11 / 4 respectively. Simple scheduling baselines also expose the original failures.
 
-The video combines actual Microsoft Edge UI interaction clips with stills, Xiaomi MiMo synthetic English narration and ASR-checked captions; preparation and model waiting are omitted. Failure and the checked retained repair appear within twenty seconds. Its opening identifies new work, reused event infrastructure and the existing TEND input. All four previous movies are preserved.
+The video combines real Edge interaction clips/stills, MiMo synthetic English narration and ASR-checked captions. Preparation/model waiting are omitted. The first twenty seconds show failure and a checked repair; the final 65 seconds show new input, fresh Muse Spark 1.3 generation, 10/10 checks, save/export and regression reopening. Existing TEND/event inputs are credited. All five previous films are preserved.
 
 ## Submission links
 
 - Public source: https://github.com/tang-vu/racelab
-- Public video/review: https://racelab-tang-vu.tang-vu.chatgpt.site
+- Three-minute YouTube video: https://youtu.be/cBR_6Pzx0W4
+- Review and recorded evidence: https://racelab-tang-vu.tang-vu.chatgpt.site
 - Direct MP4: https://racelab-tang-vu.tang-vu.chatgpt.site/racelab-demo.mp4
 - Exact experiment and limits: https://github.com/tang-vu/racelab/blob/main/docs/tend.md
 - Video provenance: https://github.com/tang-vu/racelab/blob/main/docs/demo.md

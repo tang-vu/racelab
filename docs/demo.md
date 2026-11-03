@@ -1,6 +1,6 @@
 # Current Muse Spark MVP film
 
-Watch **https://racelab.tangvu.dev/film.html** or the [public review player](https://racelab-tang-vu.tang-vu.chatgpt.site). The November3 film is179.904seconds,1920×1080 at30fps. Its first115seconds retain the earlier Muse evidence; the last65seconds show the public MVP on its homepage. Six actual Edge interaction clips and two retained stills use fixed editorial crops, original graphic framing and a quiet synthesized sound bed. There is no slow camera zoom or pan; scrolling and UI changes are genuine interactions.
+Watch [the YouTube upload](https://youtu.be/cBR_6Pzx0W4), **https://racelab.tangvu.dev/film.html**, or the [public review player](https://racelab-tang-vu.tang-vu.chatgpt.site). The November3 film is179.904seconds,1920×1080 at30fps. Its first115seconds retain the earlier Muse evidence; the last65seconds show the public MVP on its homepage. Six actual Edge interaction clips and two retained stills use fixed editorial crops, original graphic framing and a quiet synthesized sound bed. There is no slow camera zoom or pan; scrolling and UI changes are genuine interactions.
 
 | Start | Scene                                                          |
 | ----- | -------------------------------------------------------------- |
