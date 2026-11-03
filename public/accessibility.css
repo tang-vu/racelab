@@ -167,3 +167,10 @@
   font-size: 8px;
   line-height: 1.6;
 }
+:root #native-live-refresh {
+  min-height: 32px;
+  padding-block: 8px;
+}
+:root #workspace .live-options > summary {
+  color: var(--accessible-muted);
+}
