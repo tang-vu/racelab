@@ -1,7 +1,4 @@
 /* Original RaceLab visual and motion system. Reference principles: Bearplus. */
-@view-transition {
-  navigation: auto;
-}
 :root {
   --paper: #fff;
   --ink: #0d0d0d;
