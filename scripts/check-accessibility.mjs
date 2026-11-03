@@ -25,6 +25,18 @@ const report = {
 };
 const browser = await chromium.launch({ channel: "msedge", headless: true });
 async function scan(page, name) {
+  await page.evaluate(async () => {
+    await Promise.all(
+      document
+        .getAnimations()
+        .filter(
+          (a) =>
+            a.playState === "running" &&
+            a.effect?.getComputedTiming().iterations !== Infinity,
+        )
+        .map((a) => a.finished.catch(() => {})),
+    );
+  });
   if (!(await page.evaluate(() => Boolean(window.axe))))
     await page.addScriptTag({ content: axe });
   const result = await page.evaluate(() =>

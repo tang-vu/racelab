@@ -174,3 +174,6 @@
 :root #workspace .live-options > summary {
   color: var(--accessible-muted);
 }
+:root :is(#native-import-dialog, #import-dialog, #about-dialog) p {
+  color: var(--accessible-muted);
+}
